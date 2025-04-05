@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+
+const vaporeonSprite = 'https://img.pokemondb.net/sprites/ruby-sapphire/normal/vaporeon.png'; // Vaporeon sprite URL
+
+const Game = () => {
+const [playerPos, setPlayerPos] = useState({ x: 1, y: 1 });
+const [dungeon, setDungeon] = useState([]);
+const [stairs, setStairs] = useState({ x: 0, y: 0 });
+
+useEffect(() => {
+  generateDungeon();
+  const handleKeyDown = (e) => {
+    let newX = playerPos.x;
+    let newY = playerPos.y;
+
+    switch (e.key) {
+      case 'w':
+        newY -= 1; // Move up
+        break;
+      case 's':
+        newY += 1; // Move down
+        break;
+      case 'a':
+        newX -= 1; // Move left
+        break;
+      case 'd':
+        newX += 1; // Move right
+        break;
+      default:
+        return; // Exit if the key is not recognized
+    }
+
+    // Update the player's position without any conditions
+    setPlayerPos({ x: newX, y: newY });
+
+    // Check if the player has found the stairs
+    if (newX === stairs.x && newY === stairs.y) {
+      alert('You found the stairs! Level up!');
+      generateDungeon(); // Generate new dungeon for next level
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [playerPos]); // Include playerPos in the dependency array
+
+const generateDungeon = () => {
+  const newDungeon = Array.from({ length: 10 }, () => Array(10).fill(' ')); // Reduced size for better visibility
+  const stairX = Math.floor(Math.random() * 10);
+  const stairY = Math.floor(Math.random() * 10);
+  newDungeon[stairY][stairX] = 'S';
+  setDungeon(newDungeon);
+  setStairs({ x: stairX, y: stairY });
+};
+
+return (
+  <div className="game-area">
+    {dungeon.map((row, rowIndex) => (
+      <div key={rowIndex} className="dungeon-row flex">
+        {row.map((cell, colIndex) => (
+          <div key={colIndex} className="dungeon-cell relative w-10 h-10 border border-gray-300">
+            {playerPos.x === colIndex && playerPos.y === rowIndex ? (
+              <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite absolute w-full h-full" />
+            ) : (
+              cell === 'S' && <div className="stair">🪜</div>
+            )}
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+);
+};
+
+export default Game;
