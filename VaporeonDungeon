@@ -1,78 +1,122 @@
-import React, { useEffect, useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dungeon Game</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <style>
+      .game-area {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 20px;
+      }
+      .dungeon-row {
+          display: flex;
+      }
+      .dungeon-cell {
+          width: 30px;
+          height: 30px;
+          border: 1px solid gray;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .player-sprite {
+          width: 100%;
+          height: 100%;
+      }
+      .stair {
+          font-size: 20px;
+      }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+      const vaporeonSprite = 'https://img.pokemondb.net/sprites/ruby-sapphire/normal/vaporeon.png';
 
-const vaporeonSprite = 'https://img.pokemondb.net/sprites/ruby-sapphire/normal/vaporeon.png'; // Vaporeon sprite URL
+      const Game = () => {
+          const [playerPos, setPlayerPos] = React.useState({ x: 1, y: 1 });
+          const [dungeon, setDungeon] = React.useState([]);
+          const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 
-const Game = () => {
-const [playerPos, setPlayerPos] = useState({ x: 1, y: 1 });
-const [dungeon, setDungeon] = useState([]);
-const [stairs, setStairs] = useState({ x: 0, y: 0 });
+          React.useEffect(() => {
+              generateDungeon(); // Call once when the component mounts
+          }, []); // Empty dependency array to ensure it runs only once
 
-useEffect(() => {
-  generateDungeon();
-  const handleKeyDown = (e) => {
-    let newX = playerPos.x;
-    let newY = playerPos.y;
+          React.useEffect(() => {
+              const handleKeyDown = (e) => {
+                  let newX = playerPos.x;
+                  let newY = playerPos.y;
 
-    switch (e.key) {
-      case 'w':
-        newY -= 1; // Move up
-        break;
-      case 's':
-        newY += 1; // Move down
-        break;
-      case 'a':
-        newX -= 1; // Move left
-        break;
-      case 'd':
-        newX += 1; // Move right
-        break;
-      default:
-        return; // Exit if the key is not recognized
-    }
+                  switch (e.key) {
+                      case 'w':
+                          newY -= 1; // Move up
+                          break;
+                      case 's':
+                          newY += 1; // Move down
+                          break;
+                      case 'a':
+                          newX -= 1; // Move left
+                          break;
+                      case 'd':
+                          newX += 1; // Move right
+                          break;
+                      default:
+                          return; // Exit if the key is not recognized
+                  }
 
-    // Update the player's position without any conditions
-    setPlayerPos({ x: newX, y: newY });
+                  // Update the player's position without any conditions
+                  setPlayerPos({ x: newX, y: newY });
 
-    // Check if the player has found the stairs
-    if (newX === stairs.x && newY === stairs.y) {
-      alert('You found the stairs! Level up!');
-      generateDungeon(); // Generate new dungeon for next level
-    }
-  };
+                  // Check if the player has found the stairs
+                  if (newX === stairs.x && newY === stairs.y) {
+                      alert('You found the stairs! Level up!');
+                      generateDungeon(); // Generate new dungeon for next level
+                  }
+              };
 
-  window.addEventListener('keydown', handleKeyDown);
+              window.addEventListener('keydown', handleKeyDown);
 
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [playerPos]); // Include playerPos in the dependency array
+              return () => {
+                  window.removeEventListener('keydown', handleKeyDown);
+              };
+          }, [playerPos, stairs]); // Include playerPos in the dependency array
 
-const generateDungeon = () => {
-  const newDungeon = Array.from({ length: 10 }, () => Array(10).fill(' ')); // Reduced size for better visibility
-  const stairX = Math.floor(Math.random() * 10);
-  const stairY = Math.floor(Math.random() * 10);
-  newDungeon[stairY][stairX] = 'S';
-  setDungeon(newDungeon);
-  setStairs({ x: stairX, y: stairY });
-};
+          const generateDungeon = () => {
+              const newDungeon = Array.from({ length: 30 }, () => Array(30).fill(' ')); // Expanded size to 30x30
+              const stairX = Math.floor(Math.random() * 30);
+              const stairY = Math.floor(Math.random() * 30);
+              newDungeon[stairY][stairX] = 'S';
+              setDungeon(newDungeon);
+              setStairs({ x: stairX, y: stairY });
+          };
 
-return (
-  <div className="game-area">
-    {dungeon.map((row, rowIndex) => (
-      <div key={rowIndex} className="dungeon-row flex">
-        {row.map((cell, colIndex) => (
-          <div key={colIndex} className="dungeon-cell relative w-10 h-10 border border-gray-300">
-            {playerPos.x === colIndex && playerPos.y === rowIndex ? (
-              <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite absolute w-full h-full" />
-            ) : (
-              cell === 'S' && <div className="stair">🪜</div>
-            )}
-          </div>
-        ))}
-      </div>
-    ))}
-  </div>
-);
-};
+          return (
+              <div className="game-area">
+                  {dungeon.map((row, rowIndex) => (
+                      <div key={rowIndex} className="dungeon-row">
+                          {row.map((cell, colIndex) => (
+                              <div key={colIndex} className="dungeon-cell">
+                                  {playerPos.x === colIndex && playerPos.y === rowIndex ? (
+                                      <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite" />
+                                  ) : (
+                                      cell === 'S' && <div className="stair">🪜</div>
+                                  )}
+                              </div>
+                          ))}
+                      </div>
+                  ))}
+              </div>
+          );
+      };
 
-export default Game;
+      ReactDOM.render(<Game />, document.getElementById('root'));
+  </script>
+</body>
+</html>
