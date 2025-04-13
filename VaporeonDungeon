@@ -1,53 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dungeon Game</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-  <style>
-      .game-area {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-top: 20px;
-      }
-      .dungeon-row {
-          display: flex;
-      }
-      .dungeon-cell {
-          width: 30px;
-          height: 30px;
-          border: 1px solid gray;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      }
-      .player-sprite {
-          width: 100%;
-          height: 100%;
-      }
-      .stair {
-          font-size: 20px;
-      }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
-      const vaporeonSprite = 'https://img.pokemondb.net/sprites/ruby-sapphire/normal/vaporeon.png';
+const vaporeonSprite = 'https://img.pokemondb.net/sprites/ruby-sapphire/normal/vaporeon.png'; // Vaporeon sprite URL
 
       const Game = () => {
-          const [playerPos, setPlayerPos] = React.useState({ x: 1, y: 1 });
+          const [playerPos, setPlayerPos] = React.useState({ x: 10, y: 10 });
           const [dungeon, setDungeon] = React.useState([]);
           const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
+          const [floor, setFloor] = React.useState(1);
+          const [zoomLevel, setZoomLevel] = React.useState(1);
 
           React.useEffect(() => {
-              generateDungeon(); // Call once when the component mounts
-          }, []); // Empty dependency array to ensure it runs only once
+              generateDungeon();
+          }, [floor]);
 
           React.useEffect(() => {
               const handleKeyDown = (e) => {
@@ -56,28 +18,30 @@
 
                   switch (e.key) {
                       case 'w':
-                          newY -= 1; // Move up
+                          newY -= 1;
                           break;
                       case 's':
-                          newY += 1; // Move down
+                          newY += 1;
                           break;
                       case 'a':
-                          newX -= 1; // Move left
+                          newX -= 1;
                           break;
                       case 'd':
-                          newX += 1; // Move right
+                          newX += 1;
                           break;
                       default:
-                          return; // Exit if the key is not recognized
+                          return;
                   }
 
-                  // Update the player's position without any conditions
-                  setPlayerPos({ x: newX, y: newY });
+                  // Check for collision with walls
+if (newY >= 0 && newY < 20 && newX >= 0 && newX < 20 && dungeon[newY][newX] !== 'W') {
+    setPlayerPos({ x: newX, y: newY });
+}
 
-                  // Check if the player has found the stairs
+
                   if (newX === stairs.x && newY === stairs.y) {
                       alert('You found the stairs! Level up!');
-                      generateDungeon(); // Generate new dungeon for next level
+                      setFloor((prevFloor) => prevFloor + 1);
                   }
               };
 
@@ -86,37 +50,92 @@
               return () => {
                   window.removeEventListener('keydown', handleKeyDown);
               };
-          }, [playerPos, stairs]); // Include playerPos in the dependency array
+          }, [playerPos, stairs]);
 
-          const generateDungeon = () => {
-              const newDungeon = Array.from({ length: 30 }, () => Array(30).fill(' ')); // Expanded size to 30x30
-              const stairX = Math.floor(Math.random() * 30);
-              const stairY = Math.floor(Math.random() * 30);
-              newDungeon[stairY][stairX] = 'S';
-              setDungeon(newDungeon);
-              setStairs({ x: stairX, y: stairY });
+    const generateDungeon = () => {
+    const newDungeon = Array.from({ length: 20 }, () => Array(20).fill(' '));
+    const stairX = Math.floor(Math.random() * 18) + 1; // Keep stairs within bounds
+    const stairY = Math.floor(Math.random() * 18) + 1; // Keep stairs within bounds
+    newDungeon[stairY][stairX] = 'S';
+
+    // Create walls around the dungeon
+    for (let i = 0; i < 20; i++) {
+        newDungeon[0][i] = 'W'; // Top wall
+        newDungeon[19][i] = 'W'; // Bottom wall
+        newDungeon[i][0] = 'W'; // Left wall
+        newDungeon[i][19] = 'W'; // Right wall
+    }
+
+    let playerX, playerY;
+    do {
+        playerX = Math.floor(Math.random() * 18) + 1; // Keep player within bounds
+        playerY = Math.floor(Math.random() * 18) + 1; // Keep player within bounds
+    } while (playerX === stairX && playerY === stairY);
+
+    setStairs({ x: stairX, y: stairY });
+    setPlayerPos({ x: playerX, y: playerY });
+    setDungeon(newDungeon);
+};
+
+
+          const handleFullscreen = () => {
+              const element = document.documentElement;
+              if (element.requestFullscreen) {
+                  element.requestFullscreen();
+              } else if (element.mozRequestFullScreen) {
+                  element.mozRequestFullScreen();
+              } else if (element.webkitRequestFullscreen) {
+                  element.webkitRequestFullscreen();
+              } else if (element.msRequestFullscreen) {
+                  element.msRequestFullscreen();
+              }
+          };
+
+          const centerCamera = () => {
+              const offsetX = (10 - playerPos.x + 5) * 40 + 20;
+              const offsetY = (10 - playerPos.y - 5) * 40 + 20;
+              return `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
+          };
+
+          const zoomIn = () => {
+              setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 2));
+          };
+
+          const zoomOut = () => {
+              setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 1));
           };
 
           return (
-              <div className="game-area">
-                  {dungeon.map((row, rowIndex) => (
-                      <div key={rowIndex} className="dungeon-row">
-                          {row.map((cell, colIndex) => (
-                              <div key={colIndex} className="dungeon-cell">
-                                  {playerPos.x === colIndex && playerPos.y === rowIndex ? (
-                                      <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite" />
-                                  ) : (
-                                      cell === 'S' && <div className="stair">🪜</div>
-                                  )}
+              <div className="game-area p-4">
+                  <button onClick={handleFullscreen} className="p-2 bg-blue-500 text-white rounded mb-4">
+                      Go Fullscreen
+                  </button>
+                  <button onClick={zoomIn} className="p-2 bg-green-500 text-white rounded mb-4">
+                      Zoom In
+                  </button>
+                  <button onClick={zoomOut} className="p-2 bg-red-500 text-white rounded mb-4">
+                      Zoom Out
+                  </button>
+                  <div className="dungeon-container">
+                      <div className="dungeon" style={{ transform: centerCamera() }}>
+                          {dungeon.map((row, rowIndex) => (
+                              <div key={rowIndex} className="dungeon-row flex">
+                                  {row.map((cell, colIndex) => (
+                                      <div key={colIndex} className="dungeon-cell relative w-10 h-10 border border-gray-300">
+                                          {playerPos.x === colIndex && playerPos.y === rowIndex ? (
+                                              <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite absolute w-full h-full" />
+                                          ) : (
+                                              cell === 'S' && <div className="stair absolute w-full h-full flex items-center justify-center"><span className="text-3xl">🪜</span></div>
+                                          )}
+                                      </div>
+                                  ))}
                               </div>
                           ))}
                       </div>
-                  ))}
+                  </div>
               </div>
           );
       };
 
       ReactDOM.render(<Game />, document.getElementById('root'));
-  </script>
-</body>
-</html>
+  
