@@ -234,7 +234,8 @@ return (
       <img src={cell} alt="Floor" className="floor absolute" />
     )}
     {cell === 'S' && (
-      <img src="https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/main/Stairs.png" alt="Stairs" className="stair absolute" />
+      <div className="stair absolute w-full h-full flex items-center justify-center">
+                                             <span className="text-3xl">🪜</span>
     )}
     {playerPos.x === colIndex && playerPos.y === rowIndex && (
       <img src={vaporeonSprite} alt="Vaporeon" className="player-sprite absolute w-full h-full" />
