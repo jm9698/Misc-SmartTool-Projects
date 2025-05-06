@@ -142,8 +142,33 @@ if (roomType === 0) { // Open Room
         newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
     }
 } else if (roomType === 1) { // Alternate Room
-    newDungeon[1][1] = 'W'; // Example wall placement for Alternate Room
-    newDungeon[1][2] = 'W'; // Example wall placement for Alternate Room
+    newDungeon[15][1] = 'W'; // wall placement for Alternate Room
+    newDungeon[15][2] = 'W';
+    newDungeon[15][3] = 'W';
+    newDungeon[15][4] = 'W';
+    newDungeon[15][5] = 'W';
+    newDungeon[15][6] = 'W';
+    newDungeon[15][7] = 'W';
+    newDungeon[15][8] = 'W';
+    newDungeon[15][9] = 'W';
+    newDungeon[15][10] = 'W';
+    newDungeon[15][11] = 'W';
+    newDungeon[15][12] = 'W';
+    newDungeon[15][13] = 'W';
+    newDungeon[15][16] = 'W';
+    newDungeon[15][17] = 'W';
+    newDungeon[15][18] = 'W';
+    newDungeon[15][19] = 'W';
+    newDungeon[15][20] = 'W';
+    newDungeon[15][21] = 'W';
+    newDungeon[15][22] = 'W'; 
+    newDungeon[15][23] = 'W';
+    newDungeon[15][24] = 'W';
+    newDungeon[15][25] = 'W';
+    newDungeon[15][26] = 'W';
+    newDungeon[15][27] = 'W';
+    newDungeon[15][28] = 'W';
+    newDungeon[15][29] = 'W';
     for (let col = 3; col < 29; col++) {
         newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
     }
