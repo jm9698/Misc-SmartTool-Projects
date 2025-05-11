@@ -133,13 +133,14 @@ const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
 const [cameraTransform, setCameraTransform] = React.useState('');
-const [centerY, setCenterY] = React.useState(0); // Initialize centerY
 const [spriteIndex, setSpriteIndex] = React.useState(0); // Index for idle animation
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
 const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
 const [isShiftPressed, setIsShiftPressed] = React.useState(false); // State to track Shift key
+const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
+const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
 
 React.useEffect(() => {
 generateDungeon();
@@ -149,36 +150,41 @@ React.useEffect(() => {
 const handleKeyDown = (e) => {
 if (e.key === 'Shift') {
 setIsShiftPressed(true); // Set Shift pressed state to true
+setShowIndicators(prev => !prev); // show indicators
 }
+
 let newX = playerPos.x;
 let newY = playerPos.y;
 
 switch (e.key) {
 case 'w':
-newY -= 1;
+if (!isShiftPressed) newY -= 1; // Move up unless Shift is pressed
 setLastDirection('up');
 break;
 case 's':
-newY += 1;
+if (!isShiftPressed) newY += 1; // Move down unless Shift is pressed
 setLastDirection('down');
 break;
 case 'a':
-newX -= 1;
+if (!isShiftPressed) newX -= 1; // Move left unless Shift is pressed
 setLastDirection('left');
 break;
 case 'd':
-newX += 1;
+if (!isShiftPressed) newX += 1; // Move right unless Shift is pressed
 setLastDirection('right');
 break;
 case 'Escape': // Escape key to toggle pause
 setIsPaused(prev => !prev);
+break;
+case 'Shift': // Shift key to toggle aim mode
+setIsAiming(prev => !prev);
 return;
 default:
 return;
 }
 
-// Check for collision with walls only if not paused
-if (!isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W') {
+// Check for collision with walls only if not paused and not holding Shift
+if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !isShiftPressed) {
 setPlayerPos({ x: newX, y: newY });
 updateCamera(newX, newY);
 }
@@ -201,7 +207,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused]); // Add isPaused to dependencies
+}, [playerPos, stairs, dungeon, isPaused, isShiftPressed]); // Add isShiftPressed to dependencies
 
 React.useEffect(() => {
 const interval = setInterval(() => {
@@ -297,116 +303,115 @@ let y = playerPos.y;
 
 for (let i = 0; i < 30; i++) { // Extend infinitely until hitting a wall
 if (direction === 'up' && y - i >= 0) {
-    if (dungeon[y - i][x] === 'W') break; // Stop if it hits a wall
-    lineCoords.push({ x: x, y: y - i });
+if (dungeon[y - i][x] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x, y: y - i });
 } else if (direction === 'down' && y + i < 30) {
-    if (dungeon[y + i][x] === 'W') break; // Stop if it hits a wall
-    lineCoords.push({ x: x, y: y + i });
+if (dungeon[y + i][x] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x, y: y + i });
 } else if (direction === 'left' && x - i >= 0) {
-    if (dungeon[y][x - i] === 'W') break; // Stop if it hits a wall
-    lineCoords.push({ x: x - i, y: y });
+if (dungeon[y][x - i] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x - i, y: y });
 } else if (direction === 'right' && x + i < 30) {
-    if (dungeon[y][x + i] === 'W') break; // Stop if it hits a wall
-    lineCoords.push({ x: x + i, y: y });
+if (dungeon[y][x + i] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x + i, y: y });
 }
 }
 return lineCoords;
 };
 
-const lineCoordinates = isShiftPressed ? getLineCoordinates(lastDirection) : [];
+const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
 
 return (
 <div className="game-area p-4">
 <div className="counter">Floor: {floor}</div>
 <div className="dungeon-container">
-<div className="dungeon" style={{ transform: cameraTransform }}>
-{dungeon.map((row, rowIndex) => (
-<div key={rowIndex} className="dungeon-row flex">
-  {row.map((cell, colIndex) => {
-      let wallSprite;
+  <div className="dungeon" style={{ transform: cameraTransform }}>
+    {dungeon.map((row, rowIndex) => (
+      <div key={rowIndex} className="dungeon-row flex">
+        {row.map((cell, colIndex) => {
+          let wallSprite;
 
-      // Determine sprite based on position
-      if (cell === 'W') {
-          if (rowIndex === 0 && colIndex === 0) {
+          // Determine sprite based on position
+          if (cell === 'W') {
+            if (rowIndex === 0 && colIndex === 0) {
               wallSprite = cornerSpriteTopLeft; // Updated to new top left corner sprite
-          } else if (rowIndex === 0 && colIndex === 29) {
+            } else if (rowIndex === 0 && colIndex === 29) {
               wallSprite = cornerSpriteTopRight; // Updated to new top right corner sprite
-          } else if (rowIndex === 29 && colIndex === 0) {
+            } else if (rowIndex === 29 && colIndex === 0) {
               wallSprite = cornerSpriteBottomLeft; // Updated to new bottom left corner sprite
-          } else if (rowIndex === 29 && colIndex === 29) {
+            } else if (rowIndex === 29 && colIndex === 29) {
               wallSprite = cornerSpriteBottomRight; // Use bottom right corner sprite
-          } else if (rowIndex === 0) {
-              wallSprite = wallSpriteUp
-wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
-        } else if (rowIndex === 29) {
-            wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
-        } else if (colIndex === 0) {
-            wallSprite = wallSpriteLeft; // Left border wall
-        } else if (colIndex === 29) {
-            wallSprite = wallSpriteRight; // Right border wall
-        } else {
-            wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
+            } else if (rowIndex === 0) {
+              wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
+            } else if (rowIndex === 29) {
+              wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
+            } else if (colIndex === 0) {
+              wallSprite = wallSpriteLeft; // Use wallSpriteLeft for left walls
+                          } else if (colIndex === 29) {
+                wallSprite = wallSpriteRight; // Right border wall
+              } else {
+                wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
+              }
             }
-        }
 
-        const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
+            const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
 
-        return (
-            <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible ? 'red-border' : ''}`}>
+            return (
+              <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
                 {cell === 'W' ? (
-                    <img src={wallSprite} alt="Wall" className="wall absolute" />
+                  <img src={wallSprite} alt="Wall" className="wall absolute" />
                 ) : (
-                    <img src={cell} alt="Floor" className="floor absolute" />
+                  <img src={cell} alt="Floor" className="floor absolute" />
                 )}
                 {cell === 'S' && (
-                    <img src={stairSprite} alt="Stairs" className="stair absolute" />
+                  <img src={stairSprite} alt="Stairs" className="stair absolute" />
                 )}
                 {playerPos.x === colIndex && playerPos.y === rowIndex && (
-                    <img src={lastDirection === 'left' ? vaporeonLeftSprites[spriteIndex] : lastDirection === 'right' ? vaporeonRightSprites[spriteIndex] : lastDirection === 'up' ? vaporeonUpSprites[spriteIndex] : vaporeonSprites[spriteIndex]} alt="Vaporeon" className="player-sprite absolute" />
+                  <img src={lastDirection === 'left' ? vaporeonLeftSprites[spriteIndex] : lastDirection === 'right' ? vaporeonRightSprites[spriteIndex] : lastDirection === 'up' ? vaporeonUpSprites[spriteIndex] : vaporeonSprites[spriteIndex]} alt="Vaporeon" className="player-sprite absolute" />
                 )}
-            </div>
-        );
-    })}
-</div>
-))}
-</div>
-{isPaused && !showOptions && !showMoves && ( // Show main menu when paused
-<div className="menu">
-    <h2 className="text-white text-lg">Paused</h2>
-    <div className="flex">
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
-        <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
-</div>
-)}
-{isPaused && showOptions && ( // Show options menu when options are clicked
-<div className="menu options-menu">
-    <h2 className="text-white text-lg">Options</h2>
-    <label>
-        <input type="checkbox" /> Checkbox 1
-    </label>
-    <label>
-        <input type="checkbox" /> Checkbox 2
-    </label>
-    <label>
-        <input type="checkbox" /> Checkbox 3
-    </label>
-    <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
-</div>
-)}
-{isPaused && showMoves && ( // Show moves menu when Moves is clicked
-<div className="menu moves-menu">
-    <h2 className="text-white text-lg">Moves</h2>
-    <p className="text-white">Water Pulse - 10/10 PP</p>
-    <p className="text-white">Aqua Tail - 15/15 PP</p>
-    <p className="text-white">Acid Armor - 30/30 PP</p>
-    <p className="text-white">Refresh - 10/10 PP</p>
-    <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
-</div>
-)}
-</div>
+    {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
+      <div className="menu">
+        <h2 className="text-white text-lg">Paused</h2>
+        <div className="flex">
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+          <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+        </div>
+      </div>
+    )}
+    {isPaused && showOptions && ( // Show options menu when options are clicked
+      <div className="menu options-menu">
+        <h2 className="text-white text-lg">Options</h2>
+        <label>
+          <input type="checkbox" /> Checkbox 1
+        </label>
+        <label>
+          <input type="checkbox" /> Checkbox 2
+        </label>
+        <label>
+          <input type="checkbox" /> Checkbox 3
+        </label>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
+      </div>
+    )}
+    {isPaused && showMoves && ( // Show moves menu when Moves is clicked
+      <div className="menu moves-menu">
+        <h2 className="text-white text-lg">Moves</h2>
+        <p className="text-white">Water Pulse - 10/10 PP</p>
+        <p className="text-white">Aqua Tail - 15/15 PP</p>
+        <p className="text-white">Acid Armor - 30/30 PP</p>
+        <p className="text-white">Refresh - 10/10 PP</p>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
+      </div>
+    )}
+  </div>
 </div>
 );
 };
