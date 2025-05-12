@@ -101,11 +101,12 @@ const vaporeonUpSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png'
 ];
 const vaporeonDownWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD2.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD3.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD4.png'
-];
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png'
+]
+
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -164,23 +165,25 @@ let newY = playerPos.y;
 
 switch (e.key) {
 case 'w':
-if (!isShiftPressed) newY -= 1; // Move up unless Shift is pressed
+if (!isAiming) newY -= 1; // Move up unless Shift is pressed
 setLastDirection('up');
 break;
 case 's':
-if (!isShiftPressed) newY += 1; // Move down unless Shift is pressed
+if (!isAiming){ 
+newY += 1; // Move down unless Shift is pressed
 setIsWalking(true);
-setLastDirection('down');
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
+}
+setLastDirection('down');
 break;
 case 'a':
-if (!isShiftPressed) newX -= 1; // Move left unless Shift is pressed
+if (!isAiming) newX -= 1; // Move left unless Shift is pressed
 setLastDirection('left');
 break;
 case 'd':
-if (!isShiftPressed) newX += 1; // Move right unless Shift is pressed
+if (!isAiming) newX += 1; // Move right unless Shift is pressed
 setLastDirection('right');
 break;
 case 'Escape': // Escape key to toggle pause
@@ -220,22 +223,22 @@ window.removeEventListener('keyup', handleKeyUp);
 }, [playerPos, stairs, dungeon, isPaused, isShiftPressed]); // Add isShiftPressed to dependencies
 
 React.useEffect(() => {
-  const interval = setInterval(() => {
-    if (!isPaused && !isWalking) { // Update idle only if not paused or walking
-      if (lastDirection === 'left') {
-        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftSprites.length);
-      } else if (lastDirection === 'right') {
-        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
-      } else if (lastDirection === 'up') {
-        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
-      } else {
-        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
-      }
-    } else if (!isPaused && isWalking) { // Update walk if not paused but walking
-      setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+const interval = setInterval(() => {
+  if (!isPaused && !isWalking) { // Update idle only if not paused or walking
+    if (lastDirection === 'left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftSprites.length);
+    } else if (lastDirection === 'right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
+    } else if (lastDirection === 'up') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
+    } else {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
     }
-  }, 500); // Change sprite every 500ms
-  return () => clearInterval(interval);
+  } else if (!isPaused && isWalking) { // Update walk if not paused but walking
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+  }
+}, 500); // Change sprite every 500ms
+return () => clearInterval(interval);
 }, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
 
 
@@ -346,95 +349,109 @@ return (
 <div className="game-area p-4">
 <div className="counter">Floor: {floor}</div>
 <div className="dungeon-container">
-  <div className="dungeon" style={{ transform: cameraTransform }}>
-    {dungeon.map((row, rowIndex) => (
-      <div key={rowIndex} className="dungeon-row flex">
-        {row.map((cell, colIndex) => {
-          let wallSprite;
+<div className="dungeon" style={{ transform: cameraTransform }}>
+  {dungeon.map((row, rowIndex) => (
+    <div key={rowIndex} className="dungeon-row flex">
+      {row.map((cell, colIndex) => {
+        let wallSprite;
 
-          // Determine sprite based on position
-          if (cell === 'W') {
-            if (rowIndex === 0 && colIndex === 0) {
-              wallSprite = cornerSpriteTopLeft; // Updated to new top left corner sprite
-            } else if (rowIndex === 0 && colIndex === 29) {
-              wallSprite = cornerSpriteTopRight; // Updated to new top right corner sprite
-            } else if (rowIndex === 29 && colIndex === 0) {
-              wallSprite = cornerSpriteBottomLeft; // Updated to new bottom left corner sprite
-            } else if (rowIndex === 29 && colIndex === 29) {
-              wallSprite = cornerSpriteBottomRight; // Use bottom right corner sprite
-            } else if (rowIndex === 0) {
-              wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
-            } else if (rowIndex === 29) {
-              wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
-            } else if (colIndex === 0) {
-              wallSprite = wallSpriteLeft; // Use wallSpriteLeft for left walls
-                          } else if (colIndex === 29) {
-                wallSprite = wallSpriteRight; // Right border wall
-              } else {
-                wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
-              }
+        // Determine sprite based on position
+        if (cell === 'W') {
+          if (rowIndex === 0 && colIndex === 0) {
+            wallSprite = cornerSpriteTopLeft; // Updated to new top left corner sprite
+          } else if (rowIndex === 0 && colIndex === 29) {
+            wallSprite = cornerSpriteTopRight; // Updated to new top right corner sprite
+          } else if (rowIndex === 29 && colIndex === 0) {
+            wallSprite = cornerSpriteBottomLeft; // Updated to new bottom left corner sprite
+          } else if (rowIndex === 29 && colIndex === 29) {
+            wallSprite = cornerSpriteBottomRight; // Use bottom right corner sprite
+          } else if (rowIndex === 0) {
+            wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
+          } else if (rowIndex === 29) {
+            wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
+          } else if (colIndex === 0) {
+            wallSprite = wallSpriteLeft; // Use wallSpriteLeft for left walls
+                        } else if (colIndex === 29) {
+              wallSprite = wallSpriteRight; // Right border wall
+            } else {
+              wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
             }
+          }
 
-            const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
+          const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
 
-            return (
-              <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
-                {cell === 'W' ? (
-                  <img src={wallSprite} alt="Wall" className="wall absolute" />
-                ) : (
-                  <img src={cell} alt="Floor" className="floor absolute" />
-                )}
-                {cell === 'S' && (
-                  <img src={stairSprite} alt="Stairs" className="stair absolute" />
-                )}
-//*
-                {playerPos.x === colIndex && playerPos.y === rowIndex && (
-                  <img src={lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] : vaporeonSprites[idleSpriteIndex]} alt="Vaporeon" className="player-sprite absolute" />
-                )}
-//*
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-    {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
-      <div className="menu">
-        <h2 className="text-white text-lg">Paused</h2>
-        <div className="flex">
-          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
-          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
-          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
-          <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
-        </div>
+          return (
+            <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
+              {cell === 'W' ? (
+                <img src={wallSprite} alt="Wall" className="wall absolute" />
+              ) : (
+                <img src={cell} alt="Floor" className="floor absolute" />
+              )}
+              {cell === 'S' && (
+                <img src={stairSprite} alt="Stairs" className="stair absolute" />
+              )}
+              {playerPos.x === colIndex && playerPos.y === rowIndex && (
+                <img 
+                  src={
+                      isWalking 
+                         ? (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex] 
+                          : vaporeonSprites[idleSpriteIndex])
+                          : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex] 
+                          : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
+                  }
+                  alt="Vaporeon" 
+                  className="player-sprite absolute" 
+              />
+              )}
+            </div>
+          );
+        })}
       </div>
-    )}
-    {isPaused && showOptions && ( // Show options menu when options are clicked
-      <div className="menu options-menu">
-        <h2 className="text-white text-lg">Options</h2>
-        <label>
-          <input type="checkbox" /> Checkbox 1
-        </label>
-        <label>
-          <input type="checkbox" /> Checkbox 2
-        </label>
-        <label>
-          <input type="checkbox" /> Checkbox 3
-        </label>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
-      </div>
-    )}
-    {isPaused && showMoves && ( // Show moves menu when Moves is clicked
-      <div className="menu moves-menu">
-        <h2 className="text-white text-lg">Moves</h2>
-        <p className="text-white">Water Pulse - 10/10 PP</p>
-        <p className="text-white">Aqua Tail - 15/15 PP</p>
-        <p className="text-white">Acid Armor - 30/30 PP</p>
-        <p className="text-white">Refresh - 10/10 PP</p>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
-      </div>
-    )}
+    ))}
   </div>
+  {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
+    <div className="menu">
+      <h2 className="text-white text-lg">Paused</h2>
+      <div className="flex">
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+        <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+      </div>
+    </div>
+  )}
+  {isPaused && showOptions && ( // Show options menu when options are clicked
+    <div className="menu options-menu">
+      <h2 className="text-white text-lg">Options</h2>
+      <label>
+        <input type="checkbox" /> Checkbox 1
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 2
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 3
+      </label>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
+    </div>
+  )}
+  {isPaused && showMoves && ( // Show moves menu when Moves is clicked
+    <div className="menu moves-menu">
+      <h2 className="text-white text-lg">Moves</h2>
+      <p className="text-white">Water Pulse - 10/10 PP</p>
+      <p className="text-white">Aqua Tail - 15/15 PP</p>
+      <p className="text-white">Acid Armor - 30/30 PP</p>
+      <p className="text-white">Refresh - 10/10 PP</p>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
+    </div>
+  )}
+</div>
 </div>
 );
 };
