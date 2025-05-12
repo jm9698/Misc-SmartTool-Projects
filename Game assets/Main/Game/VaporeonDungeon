@@ -100,7 +100,12 @@ const vaporeonUpSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png'
 ];
-
+const vaporeonDownWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD2.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD3.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimnewtestD4.png'
+];
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -133,7 +138,8 @@ const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
 const [cameraTransform, setCameraTransform] = React.useState('');
-const [spriteIndex, setSpriteIndex] = React.useState(0); // Index for idle animation
+const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
+const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
@@ -141,7 +147,7 @@ const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
 const [isShiftPressed, setIsShiftPressed] = React.useState(false); // State to track Shift key
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
-
+const [isWalking, setIsWalking] = React.useState(false); // State to track walking
 React.useEffect(() => {
 generateDungeon();
 }, [floor]);
@@ -163,7 +169,11 @@ setLastDirection('up');
 break;
 case 's':
 if (!isShiftPressed) newY += 1; // Move down unless Shift is pressed
+setIsWalking(true);
 setLastDirection('down');
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 break;
 case 'a':
 if (!isShiftPressed) newX -= 1; // Move left unless Shift is pressed
@@ -210,13 +220,24 @@ window.removeEventListener('keyup', handleKeyUp);
 }, [playerPos, stairs, dungeon, isPaused, isShiftPressed]); // Add isShiftPressed to dependencies
 
 React.useEffect(() => {
-const interval = setInterval(() => {
-if (!isPaused) { // Update sprite only if not paused
-setSpriteIndex((prevIndex) => (prevIndex + 1) % (lastDirection === 'left' ? vaporeonLeftSprites.length : lastDirection === 'right' ? vaporeonRightSprites.length : lastDirection === 'up' ? vaporeonUpSprites.length : vaporeonSprites.length));
-}
-}, 500); // Change sprite every 500ms
-return () => clearInterval(interval);
-}, [lastDirection, isPaused]); // Add isPaused to dependencies
+  const interval = setInterval(() => {
+    if (!isPaused && !isWalking) { // Update idle only if not paused or walking
+      if (lastDirection === 'left') {
+        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftSprites.length);
+      } else if (lastDirection === 'right') {
+        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
+      } else if (lastDirection === 'up') {
+        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
+      } else {
+        setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
+      }
+    } else if (!isPaused && isWalking) { // Update walk if not paused but walking
+      setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+    }
+  }, 500); // Change sprite every 500ms
+  return () => clearInterval(interval);
+}, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
+
 
 const generateDungeon = () => {
 const newDungeon = Array.from({ length: 30 }, () => Array(30).fill(' '));
@@ -366,9 +387,11 @@ return (
                 {cell === 'S' && (
                   <img src={stairSprite} alt="Stairs" className="stair absolute" />
                 )}
+//*
                 {playerPos.x === colIndex && playerPos.y === rowIndex && (
-                  <img src={lastDirection === 'left' ? vaporeonLeftSprites[spriteIndex] : lastDirection === 'right' ? vaporeonRightSprites[spriteIndex] : lastDirection === 'up' ? vaporeonUpSprites[spriteIndex] : vaporeonSprites[spriteIndex]} alt="Vaporeon" className="player-sprite absolute" />
+                  <img src={lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] : vaporeonSprites[idleSpriteIndex]} alt="Vaporeon" className="player-sprite absolute" />
                 )}
+//*
               </div>
             );
           })}
