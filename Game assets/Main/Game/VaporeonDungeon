@@ -241,7 +241,7 @@ setLastDirection('down-left');
 else if (!isAiming && !inDiagonalMode){ newX -= 1; // Move left unless Shift is pressed
 setLastDirection('left');
 }
-else if (!isAiming && isSPressed && isDPressed){
+else if (!isAiming && isSPressed && isAPressed){
 newY +=1;
 newX -=1;
 setLastDirection('down-left');
@@ -301,16 +301,18 @@ if (e.key === 'Shift') {
 setIsShiftPressed(false); // Set Shift pressed state to false
 }
 else if (e.key === 'w') {
-setIsWPressed(false)
+setTimeout(() => {
+setIsWPressed(false);
+}, 50);
 }
 else if (e.key === 'a') {
-setIsAPressed(false)
+setIsAPressed(false);
 }
 else if (e.key === 's') {
-setIsSPressed(false)
+setIsSPressed(false);
 }
 else if (e.key === 'd') {
-setIsDPressed(false)
+setIsDPressed(false);
 }
 };
 
@@ -511,6 +513,10 @@ return (
                           : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
                           : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
                           : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex] 
+                          : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex] 
                           : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
                   }
                   alt="Vaporeon" 
