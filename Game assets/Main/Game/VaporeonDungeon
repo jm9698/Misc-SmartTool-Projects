@@ -232,15 +232,42 @@ setLastDirection('down-right');
 break;
 case 'a':
 setIsAPressed(true);
-if (!isAiming && !inDiagonalMode) newX -= 1; // Move left unless Shift is pressed
+if (isAiming){
 setLastDirection('left');
+}
+else if (isAiming && isAPressed && isSPressed){
+setLastDirection('down-left');
+}
+else if (!isAiming && !inDiagonalMode){ newX -= 1; // Move left unless Shift is pressed
+setLastDirection('left');
+}
+else if (!isAiming && isSPressed && isDPressed){
+newY +=1;
+newX -=1;
+setLastDirection('down-left');
+}
 break;
 case 'd':
 setIsDPressed(true);
-if (!isAiming && !inDiagonalMode) newX += 1; // Move right unless Shift is pressed
+if (isAiming){
 setLastDirection('right');
+}
+else if (isAiming && isDPressed && isWPressed){
+setLastDirection('up-right');
+}
+else if (!isAiming && !inDiagonalMode){ newX += 1; // Move right unless Shift is pressed
+setLastDirection('right');
+}
+else if (!isAiming && isDPressed && isWPressed){
+newY -=1;
+newX +=1;
+setLastDirection('up-right');
+}
 break;
 case 'x': // x to toggle diagonal mode
+if (isAiming){
+setIsAiming(false);
+}
 setInDiagonalMode(prev => !prev);
 setShowIndicators2(prev => !prev); // show indicators
 break;
@@ -248,6 +275,9 @@ case 'Escape': // Escape key to toggle pause
 setIsPaused(prev => !prev);
 break;
 case 'Shift': // Shift key to toggle aim mode
+if (inDiagonalMode){
+setInDiagonalMode(false);
+}
 setIsAiming(prev => !prev);
 return;
 default:
@@ -261,7 +291,7 @@ updateCamera(newX, newY);
 }
 
 if (newX === stairs.x && newY === stairs.y) {
-alert('You found the stairs! Level up!');
+alert('You found the stairs! Onward!');
 setFloor((prevFloor) => prevFloor + 1);
 }
 };
@@ -301,6 +331,14 @@ const interval = setInterval(() => {
       setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
     } else if (lastDirection === 'up') {
       setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
+    } else if (lastDirection === 'up-left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftSprites.length);
+    } else if (lastDirection === 'up-right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightSprites.length);
+    } else if (lastDirection === 'down-left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftSprites.length);
+    } else if (lastDirection === 'down-right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightSprites.length)
     } else {
       setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
     }
