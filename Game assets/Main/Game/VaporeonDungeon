@@ -129,10 +129,52 @@ const vaporeonDownWalkSprites = [
 ]
 
 const vaporeonUpWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png'
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png'
+]
+
+const vaporeonLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png'
+]
+
+const vaporeonRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png'
+]
+
+const vaporeonUpLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png'
+]
+
+const vaporeonUpRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png'
+]
+
+const vaporeonDownLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png'
+]
+
+const vaporeonDownRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png'
 ]
 
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
@@ -207,11 +249,19 @@ else if (isAiming && isWPressed && isAPressed){
 setLastDirection('up-left');
 }
 else if (!isAiming && !inDiagonalMode){ newY -= 1; // Move up unless Shift is pressed
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up');
 }
 else if (!isAiming && isWPressed && isAPressed){
 newY -=1;
 newX -=1;
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up-left');
 }
 break;
@@ -234,6 +284,10 @@ setLastDirection('down');
 else if (!isAiming && isSPressed && isDPressed){
 newY +=1;
 newX +=1;
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('down-right');
 }
 break;
@@ -246,11 +300,19 @@ else if (isAiming && isAPressed && isSPressed){
 setLastDirection('down-left');
 }
 else if (!isAiming && !inDiagonalMode){ newX -= 1; // Move left unless Shift is pressed
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('left');
 }
 else if (!isAiming && isSPressed && isAPressed){
 newY +=1;
 newX -=1;
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('down-left');
 }
 break;
@@ -263,11 +325,19 @@ else if (isAiming && isDPressed && isWPressed){
 setLastDirection('up-right');
 }
 else if (!isAiming && !inDiagonalMode){ newX += 1; // Move right unless Shift is pressed
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('right');
 }
 else if (!isAiming && isDPressed && isWPressed){
 newY -=1;
 newX +=1;
+setIsWalking(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up-right');
 }
 break;
@@ -313,13 +383,19 @@ setIsWPressed(false);
 }, 50);
 }
 else if (e.key === 'a') {
+setTimeout(() => {
 setIsAPressed(false);
+}, 50);
 }
 else if (e.key === 's') {
+setTimeout(() => {
 setIsSPressed(false);
+}, 50);
 }
 else if (e.key === 'd') {
+setTimeout(() => {
 setIsDPressed(false);
+}, 50);
 }
 };
 
@@ -352,7 +428,23 @@ const interval = setInterval(() => {
       setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
     }
   } else if (!isPaused && isWalking) { // Update walk if not paused but walking
+    if (lastDirection === 'down') {
     setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+  } else if (lastDirection === 'up') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpWalkSprites.length);
+  } else if (lastDirection === 'left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftWalkSprites.length);
+  } else if (lastDirection === 'right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightWalkSprites.length);
+  } else if (lastDirection === 'up-left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftWalkSprites.length);
+  } else if (lastDirection === 'up-right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightWalkSprites.length);
+  } else if (lastDirection === 'down-left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftWalkSprites.length);
+  } else if (lastDirection === 'down-right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightWalkSprites.length);
+  }
   }
 }, 500); // Change sprite every 500ms
 return () => clearInterval(interval);
@@ -511,10 +603,14 @@ return (
                 <img 
                   src={
                       isWalking 
-                         ? (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
-                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
-                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
-                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex] 
+                         ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
                           : vaporeonSprites[idleSpriteIndex])
                           : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
                           : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
