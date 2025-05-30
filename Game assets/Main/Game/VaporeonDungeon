@@ -81,9 +81,9 @@ border-image: linear-gradient(to right, red, transparent) 1;
 <body>
 <div id="root"></div>
 <script type="text/babel">
-import { frames } from 'frameExports.js'
-console.log (frames.characters.vaporeon.idle.down.frame1);
-/*
+//import { frames } from 'frameExports.js'
+//console.log (frames.characters.vaporeon.idle.down.frame1);
+
 const vaporeonSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png'
@@ -179,7 +179,7 @@ const vaporeonDownRightWalkSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png'
 ]
-*/
+
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -199,11 +199,33 @@ const roomCases = {
 0: "Open Room",
 1: "Alternate Room"
 };
-
+const corridorTypes = {
+    straight: { length: 5, width: 1 },
+    curved: { length: 5, width: 1 },
+    zigzag: { length: 5, width: 1 },
+    // Add more types as needed
+};
+const dungeonTypes = {
+    small: { size: 10, roomCount: 5 },
+    medium: { size: 20, roomCount: 10 },
+    large: { size: 30, roomCount: 15 },
+    // Add more types as needed
+};
 const getRandomRoom = () => {
 const randomIndex = Math.floor(Math.random() * Object.keys(roomCases).length);
 return randomIndex;
+console.log(randomIndex);
 };
+const getRandomCorridor = () => {
+const randomCorridorIndex = Math.floor(Math.random() * Object.keys(corridorTypes).length);
+return randomCorridorIndex;
+console.log(randomCorridorIndex);
+}
+const getDungeonType = () => {
+const randomDungeonIndex = Math.floor(Math.random() * Object.keys(dungeonTypes).length);
+return randomDungeonIndex;
+console.log(randomDungeonIndex);
+}
 
 const Game = () => {
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
