@@ -1,0 +1,31 @@
+{
+  "name": "VaporeonDungeon",
+  "version": "1.0.0",
+  "description": "A package to download frame data for VaporeonDungeon.",
+  "main": "Misc-SmartTool-Projects/Game assets/Main/Game/Exports/frameExports",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "download-data": "node download.js"
+  },
+  "keywords": [
+    "game",
+    "frame-data",
+    "download",
+    "npm"
+  ],
+  "author": "Jm9698",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jm9698/Misc-Smart-Tool-Projects"
+  },
+  "bugs": {
+    "url": "https://github.com/jm9698/Misc-Smart-Tool-Projects/issues"
+  },
+  "homepage": "https://github.com/jm9698/Misc-Smart-Tool-Projects#readme"
+}
