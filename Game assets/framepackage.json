@@ -17,15 +17,26 @@
   "author": "Jm9698",
   "license": "MIT",
   "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+  "webpack": "^5.0.0",
+  "webpack-cli":
+    "^5.0.0",
+    "babel-loader":
+    "^9.0.0",
+    "@babel/core":
+    "^7.0.0",
+    "@babel/preset-react":
+    "^7.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jm9698/Misc-Smart-Tool-Projects"
+    "url": "https://github.com/jm9698/Misc-SmartTool-Projects"
   },
   "bugs": {
-    "url": "https://github.com/jm9698/Misc-Smart-Tool-Projects/issues"
+    "url": "https://github.com/jm9698/Misc-SmartTool-Projects/issues"
   },
   "homepage": "https://github.com/jm9698/Misc-Smart-Tool-Projects#readme"
 }
