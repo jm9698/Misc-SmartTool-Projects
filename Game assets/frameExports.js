@@ -6,7 +6,7 @@
  * @description Exports frame images for the game.
  * @example
  * import { frames } from './frameExports';
- * console.log(frames.frame1); // Access the first frame
+ *console.log(frames.frame1); // Access the first frame
  */
 
 export const frames = {
@@ -99,3 +99,4 @@ frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/h
 }
 }
 }
+console.log(frames.characters.vaporeon.idle.down.frame1); // Access the first frame

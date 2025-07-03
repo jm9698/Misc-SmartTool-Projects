@@ -4,8 +4,8 @@
   "description": "A package to download frame data for VaporeonDungeon.",
   "main": "frameExports.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"No tests specified\" && exit 0",
+    "start": "node frameExports.js",
+    "test": "node index.js",
     "download-data": "node download.js"
   },
   "keywords": [
@@ -20,6 +20,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
+  "type":"module",
   "devDependencies": {
   "webpack": "^5.0.0",
   "webpack-cli":
