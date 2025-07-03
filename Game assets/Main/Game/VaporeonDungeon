@@ -698,8 +698,13 @@ return (
 );
 };
 
-// Render the Game component
-ReactDOM.render(<Game />, document.getElementById('root'));
+const MemoizedGame = React.memo(Game);
+
+// Render the memoized component
+ReactDOM.render(
+  <MemoizedGame />, // Use the memoized component as a JSX element
+  document.getElementById('root')
+);
 </script>
 </body>
 </html>
