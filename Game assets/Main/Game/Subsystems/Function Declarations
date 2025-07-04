@@ -1,1 +1,38 @@
-//code here
+//214-218
+
+const getRandomRoom = () => {
+const randomIndex = Math.floor(Math.random() * Object.keys(roomCases).length);
+return randomIndex;
+console.log(randomIndex);
+};
+const getRandomCorridor = () => {
+const randomCorridorIndex = Math.floor(Math.random() * Object.keys(corridorTypes).length);
+return randomCorridorIndex;
+console.log(randomCorridorIndex);
+}
+const getDungeonType = () => {
+const randomDungeonIndex = Math.floor(Math.random() * Object.keys(dungeonTypes).length);
+return randomDungeonIndex;
+console.log(randomDungeonIndex);
+}
+
+//479-483
+
+const generateDungeon = () => {
+const newDungeon = Array.from({ length: 30 }, () => Array(30).fill(' '));
+
+// Get random room type
+const roomType = getRandomRoom();
+//551-560
+
+const updateCamera = (x, y) => {
+const offsetX = (15 - x + 1) * 40 + 20;
+const offsetY = (15 - y - 8.5) * 40 + 20;
+setCameraTransform(`translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`);
+};
+
+const getLineCoordinates = (direction) => {
+const lineCoords = [];
+let x = playerPos.x;
+let y = playerPos.y;
+//
