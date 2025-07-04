@@ -1,1 +1,157 @@
-//code here
+//87-213
+
+const vaporeonSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png'
+];
+
+const vaporeonLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png'
+];
+
+const vaporeonRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png'
+];
+
+const vaporeonUpSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png'
+];
+
+const vaporeonDownLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png'
+];
+
+const vaporeonDownRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png'
+];
+
+const vaporeonUpLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png'
+];
+
+const vaporeonUpRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png'
+];
+
+const vaporeonDownWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png'
+]
+
+const vaporeonUpWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png'
+]
+
+const vaporeonLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png'
+]
+
+const vaporeonRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png'
+]
+
+const vaporeonUpLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png'
+]
+
+const vaporeonUpRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png'
+]
+
+const vaporeonDownLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png'
+]
+
+const vaporeonDownRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png'
+]
+
+const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
+const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
+const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
+const wallSpriteDown = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet186d.png';
+const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet000tl.png'; // Updated to new top left corner sprite
+const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
+const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
+const cornerSpriteBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png';
+const floorSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet116%233.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
+];
+const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
+const roomCases = {
+0: "Open Room",
+1: "Alternate Room"
+};
+const corridorTypes = {
+    straight: { length: 5, width: 1 },
+    curved: { length: 5, width: 1 },
+    zigzag: { length: 5, width: 1 },
+    // Add more types as needed
+};
+const dungeonTypes = {
+    small: { size: 10, roomCount: 5 },
+    medium: { size: 20, roomCount: 10 },
+    large: { size: 30, roomCount: 15 },
+    // Add more types as needed
+};
+//230-252
+
+const Game = () => {
+const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
+const [dungeon, setDungeon] = React.useState([]);
+const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
+const [floor, setFloor] = React.useState(1);
+const [zoomLevel, setZoomLevel] = React.useState(1);
+const [cameraTransform, setCameraTransform] = React.useState('');
+const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
+const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
+const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
+const [isPaused, setIsPaused] = React.useState(false); // New paused state
+const [showOptions, setShowOptions] = React.useState(false); // State for options menu
+const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
+const [isShiftPressed, setIsShiftPressed] = React.useState(false); // State to track Shift key
+const [isWPressed, setIsWPressed] = React.useState(false); // State to track W key
+const [isAPressed, setIsAPressed] = React.useState(false); // State to track A key
+const [isSPressed, setIsSPressed] = React.useState(false); // State to track S key
+const [isDPressed, setIsDPressed] = React.useState(false); // State to track D key
+const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
+const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
+const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
+const [showIndicators2, setShowIndicators2] = React.useState(false); // State to track indicator visibility
+const [isWalking, setIsWalking] = React.useState(false); // State to track walking
+//701
+
+const MemoizedGame = React.memo(Game);
