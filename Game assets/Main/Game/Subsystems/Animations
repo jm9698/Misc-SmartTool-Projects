@@ -1,3 +1,89 @@
+*//In beta
+
+// 1. Create refs to hold the latest values
+const lastDirectionRef = React.useRef(lastDirection);
+const isPausedRef = React.useRef(isPaused);
+const isWalkingRef = React.useRef(isWalking);
+
+React.useEffect(() => {
+  lastDirectionRef.current = lastDirection;
+  isPausedRef.current = isPaused;
+  isWalkingRef.current = isWalking;
+}, [lastDirection, isPaused, isWalking]);
+
+// 2. Reset indices when direction/walking changes
+React.useEffect(() => {
+  setIdleSpriteIndex(0);
+  setWalkSpriteIndex(0);
+}, [lastDirection, isWalking]);
+
+// 3. Only start interval once, use refs inside
+React.useEffect(() => {
+  const interval = setInterval(() => {
+    if (!isPausedRef.current && !isWalkingRef.current) {
+      switch (lastDirectionRef.current) {
+        case 'left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
+          break;
+        case 'right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonRightSprites.length;
+          break;
+        case 'up':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpSprites.length);
+          break;
+        case 'down':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownSprites.length);
+          break;
+        case 'up-left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSprites.length);
+          break;
+        case 'up-right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSprites.length);
+          break;
+        case 'down-left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSprites.length);
+          break;
+        case 'down-right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSprites.length);
+          break;
+        default:
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+      }
+    } else if (!isPausedRef.current && isWalkingRef.current) {
+      switch (lastDirectionRef.current) {
+        case 'down':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
+          break;
+        case 'up':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpWalkSprites.length);
+          break;
+        case 'right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonRightWalkSprites.length);
+          break;
+        case 'left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonLeftWalkSprites.length);
+          break;
+        case 'up-left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftWalkSprites.length);
+          break;
+        case 'up-right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpRightWalkSprites.length);
+          break;
+        case 'down-left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftWalkSprites.length);
+          break;
+        case 'down-right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownRightWalkSprites.length);
+          break;
+        default:
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+      }
+    }
+  }, 500);
+
+  return () => clearInterval(interval);
+}, []); // empty dependency array
+
 //84-85
 
 //import { frames } from 'frameExports.js'
