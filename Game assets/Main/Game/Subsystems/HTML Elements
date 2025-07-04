@@ -1,1 +1,151 @@
-//code here
+//line1-83
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dungeon Game</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+body {
+background-color: black;
+}
+.wall {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.floor {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.stair {
+position: absolute;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 10;
+}
+.counter {
+position: absolute;
+top: 10px;
+right: 10px;
+color: white;
+font-size: 24px;
+font-weight: bold;
+z-index: 10;
+}
+.player-sprite {
+position: absolute;
+width: 100%;
+height: 100%;
+transition: background-image 0.5s ease-in-out;
+}
+.menu {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: rgba(0, 0, 0, 0.8);
+border: 2px solid white;
+border-radius: 8px;
+padding: 20px;
+z-index: 20;
+}
+.menu button {
+margin: 5px;
+}
+.options-menu {
+display: flex;
+flex-direction: column;
+}
+.options-menu label {
+color: white;
+}
+.moves-menu {
+display: flex;
+flex-direction: column;
+}
+.moves-menu p {
+color: white;
+}
+.red-border {
+border: 2px solid transparent;
+border-image: linear-gradient(to right, red, transparent) 1;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+//582-589
+
+return (
+<div className="game-area p-4">
+<div className="counter">Floor: {floor}</div>
+<div className="dungeon-container">
+<div className="dungeon" style={{ transform: cameraTransform }}>
+  {dungeon.map((row, rowIndex) => (
+    <div key={rowIndex} className="dungeon-row flex">
+      {row.map((cell, colIndex) => {
+
+//617-626
+
+return (
+            <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
+              {cell === 'W' ? (
+                <img src={wallSprite} alt="Wall" className="wall absolute" />
+              ) : (
+                <img src={cell} alt="Floor" className="floor absolute" />
+              )}
+              {cell === 'S' && (
+                <img src={stairSprite} alt="Stairs" className="stair absolute" />
+              )}
+//660-699
+
+  {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
+    <div className="menu">
+      <h2 className="text-white text-lg">Paused</h2>
+      <div className="flex">
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+        <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+      </div>
+    </div>
+  )}
+  {isPaused && showOptions && ( // Show options menu when options are clicked
+    <div className="menu options-menu">
+      <h2 className="text-white text-lg">Options</h2>
+      <label>
+        <input type="checkbox" /> Checkbox 1
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 2
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 3
+      </label>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
+    </div>
+  )}
+  {isPaused && showMoves && ( // Show moves menu when Moves is clicked
+    <div className="menu moves-menu">
+      <h2 className="text-white text-lg">Moves</h2>
+      <p className="text-white">Water Pulse - 10/10 PP</p>
+      <p className="text-white">Aqua Tail - 15/15 PP</p>
+      <p className="text-white">Acid Armor - 30/30 PP</p>
+      <p className="text-white">Refresh - 10/10 PP</p>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
+    </div>
+  )}
+</div>
+</div>
+);
+};
