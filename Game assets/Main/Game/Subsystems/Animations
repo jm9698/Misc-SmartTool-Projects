@@ -1,1 +1,75 @@
-//code here
+//84-85
+
+//import { frames } from 'frameExports.js'
+//console.log (frames.characters.vaporeon.idle.down.frame1);
+//435-476
+
+React.useEffect(() => {
+const interval = setInterval(() => {
+  if (!isPaused && !isWalking) { // Update idle only if not paused or walking
+    if (lastDirection === 'left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftSprites.length);
+    } else if (lastDirection === 'right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
+    } else if (lastDirection === 'up') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
+    } else if (lastDirection === 'up-left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftSprites.length);
+    } else if (lastDirection === 'up-right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightSprites.length);
+    } else if (lastDirection === 'down-left') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftSprites.length);
+    } else if (lastDirection === 'down-right') {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightSprites.length)
+    } else {
+      setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
+    }
+  } else if (!isPaused && isWalking) { // Update walk if not paused but walking
+    if (lastDirection === 'down') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+  } else if (lastDirection === 'up') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpWalkSprites.length);
+  } else if (lastDirection === 'left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftWalkSprites.length);
+  } else if (lastDirection === 'right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightWalkSprites.length);
+  } else if (lastDirection === 'up-left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftWalkSprites.length);
+  } else if (lastDirection === 'up-right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightWalkSprites.length);
+  } else if (lastDirection === 'down-left') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftWalkSprites.length);
+  } else if (lastDirection === 'down-right') {
+    setWalkSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightWalkSprites.length);
+  }
+  }
+}, 500); // Change sprite every 500ms
+return () => clearInterval(interval);
+}, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
+//627-651
+
+              {playerPos.x === colIndex && playerPos.y === rowIndex && (
+                <img 
+                  src={
+                      isWalking 
+                         ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
+                          : vaporeonSprites[idleSpriteIndex])
+                          : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex] 
+                          : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex] 
+                          : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
+                  }
+                  alt="Vaporeon" 
+                  className="player-sprite absolute" 
