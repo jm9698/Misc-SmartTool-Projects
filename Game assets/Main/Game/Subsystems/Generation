@@ -1,1 +1,92 @@
-//code here
+//485-533
+
+// Create walls around the dungeon
+for (let i = 0; i < 30; i++) {
+newDungeon[0][i] = 'W'; // Top wall
+newDungeon[29][i] = 'W'; // Bottom wall
+newDungeon[i][0] = 'W'; // Left wall
+newDungeon[i][29] = 'W'; // Right wall
+}
+
+// Generate walls based on room type
+if (roomType === 0) { // Open Room
+for (let col = 1; col < 29; col++) {
+newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
+}
+} else if (roomType === 1) { // Alternate Room
+newDungeon[15][1] = 'W'; // wall placement for Alternate Room
+newDungeon[15][2] = 'W';
+newDungeon[15][3] = 'W';
+newDungeon[15][4] = 'W';
+newDungeon[15][5] = 'W';
+newDungeon[15][6] = 'W';
+newDungeon[15][7] = 'W';
+newDungeon[15][8] = 'W';
+newDungeon[15][9] = 'W';
+newDungeon[15][10] = 'W';
+newDungeon[15][11] = 'W';
+newDungeon[15][12] = 'W';
+newDungeon[15][13] = 'W';
+newDungeon[15][16] = 'W';
+newDungeon[15][17] = 'W';
+newDungeon[15][18] = 'W';
+newDungeon[15][19] = 'W';
+newDungeon[15][20] = 'W';
+newDungeon[15][21] = 'W';
+newDungeon[15][22] = 'W'; 
+newDungeon[15][23] = 'W';
+newDungeon[15][24] = 'W';
+newDungeon[15][25] = 'W';
+newDungeon[15][26] = 'W';
+newDungeon[15][27] = 'W';
+newDungeon[15][28] = 'W';
+for (let col = 3; col < 29; col++) {
+newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
+}
+}
+
+// Randomly generate stairs position
+const stairX = Math.floor(Math.random() * 28) + 1; // Random x position within bounds
+const stairY = Math.floor(Math.random() * 28) + 1; // Random y position within bounds
+newDungeon[stairY][stairX] = 'S'; // Set stairs in the dungeon
+
+//539-549
+
+while (playerX === stairX && playerY === stairY);
+
+setStairs({ x: stairX, y: stairY });
+setPlayerPos({ x: playerX, y: playerY });
+setDungeon(newDungeon.map(row => row.map(cell => (cell === ' ' ? getRandomFloorTile() : cell))));
+updateCamera(playerX, playerY);
+};
+
+const getRandomFloorTile = () => {
+return floorSprites[Math.floor(Math.random() * floorSprites.length)];
+};
+//590-613
+
+let wallSprite;
+
+        // Determine sprite based on position
+        if (cell === 'W') {
+          if (rowIndex === 0 && colIndex === 0) {
+            wallSprite = cornerSpriteTopLeft; // Updated to new top left corner sprite
+          } else if (rowIndex === 0 && colIndex === 29) {
+            wallSprite = cornerSpriteTopRight; // Updated to new top right corner sprite
+          } else if (rowIndex === 29 && colIndex === 0) {
+            wallSprite = cornerSpriteBottomLeft; // Updated to new bottom left corner sprite
+          } else if (rowIndex === 29 && colIndex === 29) {
+            wallSprite = cornerSpriteBottomRight; // Use bottom right corner sprite
+          } else if (rowIndex === 0) {
+            wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
+          } else if (rowIndex === 29) {
+            wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
+          } else if (colIndex === 0) {
+            wallSprite = wallSpriteLeft; // Use wallSpriteLeft for left walls
+                        } else if (colIndex === 29) {
+              wallSprite = wallSpriteRight; // Right border wall
+            } else {
+              wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
+            }
+          }
+//
