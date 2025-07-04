@@ -84,6 +84,54 @@ React.useEffect(() => {
   return () => clearInterval(interval);
 }, []); // empty dependency array
 
+if (vaporeonSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonSprites.length);
+}
+else if(vaporeonLeftSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftSprites.length);
+}
+else if(vaporeonRightSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightSprites.length);
+}
+else if(vaporeonUpSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpSprites.length);
+}
+else if(vaporeonUpLeftSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftSprites.length);
+}
+else if(vaporeonUpRightSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightSprites.length);
+}
+else if(vaporeonDownLeftSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftSprites.length);
+}
+else if(vaporeonDownRightSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightSprites.length);
+}
+else if(vaporeonDownWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownWalkSprites.length);
+}
+else if(vaporeonUpWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpWalkSprites.length);
+}
+else if(vaporeonLeftWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonLeftWalkSprites.length);
+}
+else if(vaporeonRightWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonRightWalkSprites.length);
+}
+else if(vaporeonUpLeftWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpLeftWalkSprites.length);
+}
+else if(vaporeonUpRightWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonUpRightWalkSprites.length);
+}
+else if(vaporeonDownRightWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownRightWalkSprites.length);
+}
+else if(vaporeonDownLeftWalkSprites.length > 0) {
+  setIdleSpriteIndex((prevIndex) => (prevIndex + 1) % vaporeonDownLeftWalkSprites.length);
+}
 //84-85
 
 //import { frames } from 'frameExports.js'
