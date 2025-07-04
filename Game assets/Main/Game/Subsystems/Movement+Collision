@@ -1,1 +1,39 @@
-//code here
+//264-265
+
+let newX = playerPos.x;
+let newY = playerPos.y;
+
+//389-399
+
+// Check for collision with walls only if not paused and not holding Shift
+if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !isShiftPressed) {
+setPlayerPos({ x: newX, y: newY });
+updateCamera(newX, newY);
+}
+
+if (newX === stairs.x && newY === stairs.y) {
+alert('You found the stairs! Onward!');
+setFloor((prevFloor) => prevFloor + 1);
+}
+};
+//535-545
+
+let playerX, playerY;
+do {
+playerX = Math.floor(Math.random() * 28) + 1; // Keep player within bounds
+playerY = Math.floor(Math.random() * 28) + 1; // Keep player within bounds
+} while (playerX === stairX && playerY === stairY);
+
+setStairs({ x: stairX, y: stairY });
+setPlayerPos({ x: playerX, y: playerY });
+setDungeon(newDungeon.map(row => row.map(cell => (cell === ' ' ? getRandomFloorTile() : cell))));
+updateCamera(playerX, playerY);
+};
+//551-555
+
+const updateCamera = (x, y) => {
+const offsetX = (15 - x + 1) * 40 + 20;
+const offsetY = (15 - y - 8.5) * 40 + 20;
+setCameraTransform(`translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`);
+};
+//
