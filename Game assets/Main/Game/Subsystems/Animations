@@ -352,7 +352,7 @@ setLastDirection('left');
 else if (isAiming && isAPressed && isSPressed){
 setLastDirection('down-left');
 }
-else if (!isAiming && !inDiagonalMode && !isAPressed){ newX -= 1; // Move left unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !isAHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
 setIsAHeld(true);
 setTimeout(() => {
@@ -388,7 +388,7 @@ setIsWalking(false);
 }, 3000);
 setLastDirection('right');
 }
-else if (!isAiming && isDPressed && isWPressed && !isDPressed && !isWHeld){
+else if (!isAiming && isDPressed && isWPressed && !isDHeld && !isWHeld){
 newY -=1;
 newX +=1;
 setIsWalking(true);
@@ -446,7 +446,7 @@ else if (e.key === 'a') {
 setTimeout(() => {
 setIsAPressed(false);
 }, 50);
-setisAHeld(false);
+setIsAHeld(false);
 }
 else if (e.key === 's') {
 setTimeout(() => {
@@ -458,7 +458,7 @@ else if (e.key === 'd') {
 setTimeout(() => {
 setIsDPressed(false);
 }, 50);
-setIsDHeld(true);
+setIsDHeld(false);
 }
 };
 
@@ -761,7 +761,7 @@ return (
 const MemoizedGame = React.memo(Game);
 
 // Render the memoized component
-//ReactDOM.render(
+ReactDOM.render(
   <MemoizedGame />, // Use the memoized component as a JSX element
   document.getElementById('root')
 );
