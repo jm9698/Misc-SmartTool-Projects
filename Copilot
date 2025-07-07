@@ -240,15 +240,11 @@ const [lastDirection, setLastDirection] = React.useState('down'); // Default dir
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
 const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
-const [isShiftPressed, setIsShiftPressed] = React.useState(false); // State to track Shift key
-const [isWPressed, setIsWPressed] = React.useState(false); // State to track W key
-const [isAPressed, setIsAPressed] = React.useState(false); // State to track A key
-const [isSPressed, setIsSPressed] = React.useState(false); // State to track S key
-const [isDPressed, setIsDPressed] = React.useState(false); // State to track D key
-const [isWHeld, setIsWHeld] = React.useState(false);
-const [isAHeld, setIsAHeld] = React.useState(false);
-const [isSHeld, setIsSHeld] = React.useState(false);
-const [isDHeld, setIsDHeld] = React.useState(false);
+const [keyState, setKeyState] = React.useState({
+  w: false, a: false, s: false, d: false,
+  wHeld: false, aHeld: false, sHeld: false, dHeld: false,
+  shift: false
+});
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -277,7 +273,7 @@ generateDungeon();
 React.useEffect(() => {
 const handleKeyDown = (e) => {
 if (e.key === 'Shift') {
-setIsShiftPressed(true); // Set Shift pressed state to true
+setKeyStateShift(true); // Set Shift pressed state to true
 setShowIndicators(prev => !prev); // show indicators
 }
 
@@ -286,28 +282,28 @@ let newY = playerPos.y;
 
 switch (e.key) {
 case 'w':
-if (!isWPressed) {
-setIsWPressed(true);
+if (!keyStateW) {
+setKeyStateW(true);
 if (isAiming){
 setLastDirection('up');
 }}
-else if (isAiming && isWPressed && isAPressed){
+else if (isAiming && keyStateW && keyStateA){
 setLastDirection('up-left');
 }
-else if (!isAiming && !inDiagonalMode && !isWHeld){ newY -= 1; // Move up unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyStateW){ newY -= 1; // Move up unless Shift is pressed
 setIsWalking(true);
-setIsWHeld(true);
+setKeyStateWHeld(true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('up');
 }
-else if (!isAiming && isWPressed && isAPressed && !isWHeld && !isAHeld){
+else if (!isAiming && keyStateW && keyStateA && !keyStateWHeld && !keyStateAHeld){
 newY -=1;
 newX -=1;
 setIsWalking(true);
-setIsWHeld(true);
-setIsAHeld(true);
+setkeyStateWHeld(true);
+setkeyStateAHeld(true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
@@ -315,11 +311,11 @@ setLastDirection('up-left');
 }
 break;
 case 's':
-setIsSPressed(true);
+setKeyStateS(true);
 if (isAiming){
 setLastDirection('down');
 }
-else if (isAiming && isSPressed && isDPressed){
+else if (isAiming && keyStateS && keyStateD){
 setLastDirection('down-right');
 }
 else if (!isAiming && !inDiagonalMode && !isSHeld){ 
@@ -433,7 +429,7 @@ setFloor((prevFloor) => prevFloor + 1);
 
 const handleKeyUp = (e) => {
 if (e.key === 'Shift') {
-setIsShiftPressed(false); // Set Shift pressed state to false
+setKeyStateShift(false); // Set Shift pressed state to false
 }
 else if (e.key === 'w') {
 setTimeout(() => {
