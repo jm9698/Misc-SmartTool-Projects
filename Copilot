@@ -1,1 +1,786 @@
-//enter beta code here
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dungeon Game</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+body {
+background-color: black;
+}
+.wall {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.floor {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.stair {
+position: absolute;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 10;
+}
+.counter {
+position: absolute;
+top: 10px;
+right: 10px;
+color: white;
+font-size: 24px;
+font-weight: bold;
+z-index: 10;
+}
+.player-sprite {
+position: absolute;
+width: 100%;
+height: 100%;
+transition: background-image 0.5s ease-in-out;
+}
+.menu {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: rgba(0, 0, 0, 0.8);
+border: 2px solid white;
+border-radius: 8px;
+padding: 20px;
+z-index: 20;
+}
+.menu button {
+margin: 5px;
+}
+.options-menu {
+display: flex;
+flex-direction: column;
+}
+.options-menu label {
+color: white;
+}
+.moves-menu {
+display: flex;
+flex-direction: column;
+}
+.moves-menu p {
+color: white;
+}
+.red-border {
+border: 2px solid transparent;
+border-image: linear-gradient(to right, red, transparent) 1;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+//import { frames } from 'frameExports.js'
+//console.log (frames.characters.vaporeon.idle.down.frame1);
+
+const vaporeonSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png'
+];
+
+const vaporeonLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png'
+];
+
+const vaporeonRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png'
+];
+
+const vaporeonUpSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png'
+];
+
+const vaporeonDownLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png'
+];
+
+const vaporeonDownRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png'
+];
+
+const vaporeonUpLeftSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png'
+];
+
+const vaporeonUpRightSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png'
+];
+
+const vaporeonDownWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png'
+]
+
+const vaporeonUpWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png'
+]
+
+const vaporeonLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png'
+]
+
+const vaporeonRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png'
+]
+
+const vaporeonUpLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png'
+]
+
+const vaporeonUpRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png'
+]
+
+const vaporeonDownLeftWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png'
+]
+
+const vaporeonDownRightWalkSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png'
+]
+
+const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
+const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
+const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
+const wallSpriteDown = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet186d.png';
+const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet000tl.png'; // Updated to new top left corner sprite
+const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
+const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
+const cornerSpriteBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png';
+const floorSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet116%233.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
+];
+const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
+const roomCases = {
+0: "Open Room",
+1: "Alternate Room"
+};
+const corridorTypes = {
+    straight: { length: 5, width: 1 },
+    curved: { length: 5, width: 1 },
+    zigzag: { length: 5, width: 1 },
+    // Add more types as needed
+};
+const dungeonTypes = {
+    small: { size: 10, roomCount: 5 },
+    medium: { size: 20, roomCount: 10 },
+    large: { size: 30, roomCount: 15 },
+    // Add more types as needed
+};
+const getRandomRoom = () => {
+const randomIndex = Math.floor(Math.random() * Object.keys(roomCases).length);
+return randomIndex;
+console.log(randomIndex);
+};
+const getRandomCorridor = () => {
+const randomCorridorIndex = Math.floor(Math.random() * Object.keys(corridorTypes).length);
+return randomCorridorIndex;
+console.log(randomCorridorIndex);
+}
+const getDungeonType = () => {
+const randomDungeonIndex = Math.floor(Math.random() * Object.keys(dungeonTypes).length);
+return randomDungeonIndex;
+console.log(randomDungeonIndex);
+}
+
+const Game = () => {
+const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
+const [dungeon, setDungeon] = React.useState([]);
+const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
+const [floor, setFloor] = React.useState(1);
+const [zoomLevel, setZoomLevel] = React.useState(1);
+const [cameraTransform, setCameraTransform] = React.useState('');
+const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
+const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
+const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
+const [isPaused, setIsPaused] = React.useState(false); // New paused state
+const [showOptions, setShowOptions] = React.useState(false); // State for options menu
+const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
+const [isShiftPressed, setIsShiftPressed] = React.useState(false); // State to track Shift key
+const [isWPressed, setIsWPressed] = React.useState(false); // State to track W key
+const [isAPressed, setIsAPressed] = React.useState(false); // State to track A key
+const [isSPressed, setIsSPressed] = React.useState(false); // State to track S key
+const [isDPressed, setIsDPressed] = React.useState(false); // State to track D key
+const [isWHeld, setIsWHeld] = React.useState(false);
+const [isAHeld, setIsAHeld] = React.useState(false);
+const [isSHeld, setIsSHeld] = React.useState(false);
+const [isDHeld, setIsDHeld] = React.useState(false);
+const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
+const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
+const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
+const [showIndicators2, setShowIndicators2] = React.useState(false); // State to track indicator visibility
+const [isWalking, setIsWalking] = React.useState(false); // State to track walking
+//*
+const lastDirectionRef = React.useRef(lastDirection);
+const isPausedRef = React.useRef(isPaused);
+const isWalkingRef = React.useRef(isWalking);
+
+React.useEffect(() => {
+  lastDirectionRef.current = lastDirection;
+  isPausedRef.current = isPaused;
+  isWalkingRef.current = isWalking;
+}, [lastDirection, isPaused, isWalking]);
+
+React.useEffect(() => {
+  setIdleSpriteIndex(0);
+  setWalkSpriteIndex(0);
+}, [lastDirection, isWalking]);
+//*
+React.useEffect(() => {
+generateDungeon();
+}, [floor]);
+
+React.useEffect(() => {
+const handleKeyDown = (e) => {
+if (e.key === 'Shift') {
+setIsShiftPressed(true); // Set Shift pressed state to true
+setShowIndicators(prev => !prev); // show indicators
+}
+
+let newX = playerPos.x;
+let newY = playerPos.y;
+
+switch (e.key) {
+case 'w':
+if (!isWPressed) {
+setIsWPressed(true);
+if (isAiming){
+setLastDirection('up');
+}}
+else if (isAiming && isWPressed && isAPressed){
+setLastDirection('up-left');
+}
+else if (!isAiming && !inDiagonalMode && !isWHeld){ newY -= 1; // Move up unless Shift is pressed
+setIsWalking(true);
+setIsWHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('up');
+}
+else if (!isAiming && isWPressed && isAPressed && !isWHeld && !isAHeld){
+newY -=1;
+newX -=1;
+setIsWalking(true);
+setIsWHeld(true);
+setIsAHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('up-left');
+}
+break;
+case 's':
+setIsSPressed(true);
+if (isAiming){
+setLastDirection('down');
+}
+else if (isAiming && isSPressed && isDPressed){
+setLastDirection('down-right');
+}
+else if (!isAiming && !inDiagonalMode && !isSHeld){ 
+newY += 1; // Move down unless Shift is pressed
+setIsWalking(true);
+setIsSHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('down');
+}
+else if (!isAiming && isSPressed && isDPressed && !isSHeld && !isDHeld){
+newY +=1;
+newX +=1;
+setIsWalking(true);
+setIsSHeld(true);
+setIsWHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('down-right');
+}
+break;
+case 'a':
+setIsAPressed(true);
+if (isAiming){
+setLastDirection('left');
+}
+else if (isAiming && isAPressed && isSPressed){
+setLastDirection('down-left');
+}
+else if (!isAiming && !inDiagonalMode && !isAHeld){ newX -= 1; // Move left unless Shift is pressed
+setIsWalking(true);
+setIsAHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('left');
+}
+else if (!isAiming && isSPressed && isAPressed && !isSHeld &&!isAHeld){
+newY +=1;
+newX -=1;
+setIsWalking(true);
+setIsSHeld(true);
+setIsAHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('down-left');
+}
+break;
+case 'd':
+setIsDPressed(true);
+if (isAiming){
+setLastDirection('right');
+}
+else if (isAiming && isDPressed && isWPressed){
+setLastDirection('up-right');
+}
+else if (!isAiming && !inDiagonalMode && !isDHeld){ newX += 1; // Move right unless Shift is pressed
+setIsWalking(true);
+setIsDHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('right');
+}
+else if (!isAiming && isDPressed && isWPressed && !isDHeld && !isWHeld){
+newY -=1;
+newX +=1;
+setIsWalking(true);
+setIsDHeld(true);
+setIsWHeld(true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('up-right');
+}
+break;
+case 'x': // x to toggle diagonal mode
+if (isAiming){
+setIsAiming(false);
+}
+setInDiagonalMode(prev => !prev);
+setShowIndicators2(prev => !prev); // show indicators
+break;
+case 'Escape': // Escape key to toggle pause
+setIsPaused(prev => !prev);
+break;
+case 'Shift': // Shift key to toggle aim mode
+if (inDiagonalMode){
+setInDiagonalMode(false);
+}
+setIsAiming(prev => !prev);
+return;
+default:
+return;
+}
+
+// Check for collision with walls only if not paused and not holding Shift
+if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !isShiftPressed) {
+setPlayerPos({ x: newX, y: newY });
+updateCamera(newX, newY);
+}
+
+if (newX === stairs.x && newY === stairs.y) {
+alert('You found the stairs! Onward!');
+setFloor((prevFloor) => prevFloor + 1);
+}
+};
+
+const handleKeyUp = (e) => {
+if (e.key === 'Shift') {
+setIsShiftPressed(false); // Set Shift pressed state to false
+}
+else if (e.key === 'w') {
+setTimeout(() => {
+setIsWPressed(false);
+}, 50);
+setIsWHeld(false);
+}
+else if (e.key === 'a') {
+setTimeout(() => {
+setIsAPressed(false);
+}, 50);
+setIsAHeld(false);
+}
+else if (e.key === 's') {
+setTimeout(() => {
+setIsSPressed(false);
+}, 50);
+setIsSHeld(false);
+}
+else if (e.key === 'd') {
+setTimeout(() => {
+setIsDPressed(false);
+}, 50);
+setIsDHeld(false);
+}
+};
+
+window.addEventListener('keydown', handleKeyDown);
+window.addEventListener('keyup', handleKeyUp);
+return () => {
+window.removeEventListener('keydown', handleKeyDown);
+window.removeEventListener('keyup', handleKeyUp);
+};
+}, [playerPos, stairs, dungeon, isPaused, isShiftPressed]); // Add isShiftPressed to dependencies
+
+React.useEffect(() => {
+  const interval = setInterval(() => {
+    if (!isPausedRef.current && !isWalkingRef.current) {
+      switch (lastDirectionRef.current) {
+        case 'left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
+          break;
+        case 'right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonRightSprites.length);
+          break;
+        case 'up':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpSprites.length);
+          break;
+        case 'down':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+          break;
+        case 'up-left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSprites.length);
+          break;
+        case 'up-right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSprites.length);
+          break;
+        case 'down-left':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSprites.length);
+          break;
+        case 'down-right':
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSprites.length);
+          break;
+        default:
+          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+      }
+    } else if (!isPausedRef.current && isWalkingRef.current) {
+      switch (lastDirectionRef.current) {
+        case 'down':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
+          break;
+        case 'up':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpWalkSprites.length);
+          break;
+        case 'right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonRightWalkSprites.length);
+          break;
+        case 'left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonLeftWalkSprites.length);
+          break;
+        case 'up-left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftWalkSprites.length);
+          break;
+        case 'up-right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpRightWalkSprites.length);
+          break;
+        case 'down-left':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftWalkSprites.length);
+          break;
+        case 'down-right':
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownRightWalkSprites.length);
+          break;
+        default:
+          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+      }
+    }
+  }, 500);
+return () => clearInterval(interval);
+}, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
+
+const generateProceduralDungeon = (width, height) => {
+const proceduralDungeon = Array.from({length:height}, () => Array(width).fill(''));
+for (let x = 0; x < width; x++){
+    proceduralDungeon[0][x] = 'W';
+    proceduralDungeon[height - 1][x] = 'W';
+}
+for (let y = 0; y < height; y++){
+    proceduralDungeon[0][y] = 'W'
+    proceduralDungeon[y][width - 1] = 'W'
+}
+const roomType = getRandomRoom();
+if (roomType === 0) { // Open Room
+for (let col = 1; col < 29; col++) {
+proceduralDungeon[1][col] = getRandomFloorTile();
+}
+}
+}
+const generateDungeon = () => {
+const newDungeon = Array.from({ length: 30 }, () => Array(30).fill(' '));
+
+// Get random room type
+const roomType = getRandomRoom();
+
+// Create walls around the dungeon
+for (let i = 0; i < 30; i++) {
+newDungeon[0][i] = 'W'; // Top wall
+newDungeon[29][i] = 'W'; // Bottom wall
+newDungeon[i][0] = 'W'; // Left wall
+newDungeon[i][29] = 'W'; // Right wall
+}
+
+// Generate walls based on room type
+if (roomType === 0) { // Open Room
+for (let col = 1; col < 29; col++) {
+newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
+}
+} else if (roomType === 1) { // Alternate Room
+newDungeon[15][1] = 'W'; // wall placement for Alternate Room
+newDungeon[15][2] = 'W';
+newDungeon[15][3] = 'W';
+newDungeon[15][4] = 'W';
+newDungeon[15][5] = 'W';
+newDungeon[15][6] = 'W';
+newDungeon[15][7] = 'W';
+newDungeon[15][8] = 'W';
+newDungeon[15][9] = 'W';
+newDungeon[15][10] = 'W';
+newDungeon[15][11] = 'W';
+newDungeon[15][12] = 'W';
+newDungeon[15][13] = 'W';
+newDungeon[15][16] = 'W';
+newDungeon[15][17] = 'W';
+newDungeon[15][18] = 'W';
+newDungeon[15][19] = 'W';
+newDungeon[15][20] = 'W';
+newDungeon[15][21] = 'W';
+newDungeon[15][22] = 'W'; 
+newDungeon[15][23] = 'W';
+newDungeon[15][24] = 'W';
+newDungeon[15][25] = 'W';
+newDungeon[15][26] = 'W';
+newDungeon[15][27] = 'W';
+newDungeon[15][28] = 'W';
+for (let col = 3; col < 29; col++) {
+newDungeon[1][col] = getRandomFloorTile(); // Center row as floor tiles
+}
+}
+
+// Randomly generate stairs position
+const stairX = Math.floor(Math.random() * 28) + 1; // Random x position within bounds
+const stairY = Math.floor(Math.random() * 28) + 1; // Random y position within bounds
+newDungeon[stairY][stairX] = 'S'; // Set stairs in the dungeon
+
+let playerX, playerY;
+do {
+playerX = Math.floor(Math.random() * 28) + 1; // Keep player within bounds
+playerY = Math.floor(Math.random() * 28) + 1; // Keep player within bounds
+} while (playerX === stairX && playerY === stairY);
+
+setStairs({ x: stairX, y: stairY });
+setPlayerPos({ x: playerX, y: playerY });
+generateProceduralDungeon(70, 50);
+setDungeon(newDungeon.map(row => row.map(cell => (cell === ' ' ? getRandomFloorTile() : cell))));
+updateCamera(playerX, playerY);
+};
+
+const getRandomFloorTile = () => {
+return floorSprites[Math.floor(Math.random() * floorSprites.length)];
+};
+
+const updateCamera = (x, y) => {
+const offsetX = (15 - x + 1) * 40 + 20;
+const offsetY = (15 - y - 8.5) * 40 + 20;
+setCameraTransform(`translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`);
+};
+
+const getLineCoordinates = (direction) => {
+const lineCoords = [];
+let x = playerPos.x;
+let y = playerPos.y;
+
+for (let i = 0; i < 30; i++) { // Extend infinitely until hitting a wall
+if (direction === 'up' && y - i >= 0) {
+if (dungeon[y - i][x] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x, y: y - i });
+} else if (direction === 'down' && y + i < 30) {
+if (dungeon[y + i][x] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x, y: y + i });
+} else if (direction === 'left' && x - i >= 0) {
+if (dungeon[y][x - i] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x - i, y: y });
+} else if (direction === 'right' && x + i < 30) {
+if (dungeon[y][x + i] === 'W') break; // Stop if it hits a wall
+lineCoords.push({ x: x + i, y: y });
+}
+}
+return lineCoords;
+};
+
+const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
+
+return (
+<div className="game-area p-4">
+<div className="counter">Floor: {floor}</div>
+<div className="dungeon-container">
+<div className="dungeon" style={{ transform: cameraTransform }}>
+  {dungeon.map((row, rowIndex) => (
+    <div key={rowIndex} className="dungeon-row flex">
+      {row.map((cell, colIndex) => {
+        let wallSprite;
+
+        // Determine sprite based on position
+        if (cell === 'W') {
+          if (rowIndex === 0 && colIndex === 0) {
+            wallSprite = cornerSpriteTopLeft; // Updated to new top left corner sprite
+          } else if (rowIndex === 0 && colIndex === 29) {
+            wallSprite = cornerSpriteTopRight; // Updated to new top right corner sprite
+          } else if (rowIndex === 29 && colIndex === 0) {
+            wallSprite = cornerSpriteBottomLeft; // Updated to new bottom left corner sprite
+          } else if (rowIndex === 29 && colIndex === 29) {
+            wallSprite = cornerSpriteBottomRight; // Use bottom right corner sprite
+          } else if (rowIndex === 0) {
+            wallSprite = wallSpriteUp; // Use wallSpriteUp for top walls
+          } else if (rowIndex === 29) {
+            wallSprite = wallSpriteDown; // Use wallSpriteDown for bottom wall
+          } else if (colIndex === 0) {
+            wallSprite = wallSpriteLeft; // Use wallSpriteLeft for left walls
+                        } else if (colIndex === 29) {
+              wallSprite = wallSpriteRight; // Right border wall
+            } else {
+              wallSprite = wallSpriteUp; // Use wallSpriteUp for center walls
+            }
+          }
+
+          const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
+
+          return (
+            <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
+              {cell === 'W' ? (
+                <img src={wallSprite} alt="Wall" className="wall absolute" />
+              ) : (
+                <img src={cell} alt="Floor" className="floor absolute" />
+              )}
+              {cell === 'S' && (
+                <img src={stairSprite} alt="Stairs" className="stair absolute" />
+              )}
+              {playerPos.x === colIndex && playerPos.y === rowIndex && (
+                <img 
+                  src={
+                      isWalking 
+                         ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
+                          : vaporeonSprites[idleSpriteIndex])
+                          : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
+                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
+                          : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex] 
+                          : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
+                          : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
+                          : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex] 
+                          : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex] 
+                          : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
+                  }
+                  alt="Vaporeon" 
+                  className="player-sprite absolute" 
+              />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+  {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
+    <div className="menu">
+      <h2 className="text-white text-lg">Paused</h2>
+      <div className="flex">
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+        <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+      </div>
+    </div>
+  )}
+  {isPaused && showOptions && ( // Show options menu when options are clicked
+    <div className="menu options-menu">
+      <h2 className="text-white text-lg">Options</h2>
+      <label>
+        <input type="checkbox" /> Checkbox 1
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 2
+      </label>
+      <label>
+        <input type="checkbox" /> Checkbox 3
+      </label>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
+    </div>
+  )}
+  {isPaused && showMoves && ( // Show moves menu when Moves is clicked
+    <div className="menu moves-menu">
+      <h2 className="text-white text-lg">Moves</h2>
+      <p className="text-white">Water Pulse - 10/10 PP</p>
+      <p className="text-white">Aqua Tail - 15/15 PP</p>
+      <p className="text-white">Acid Armor - 30/30 PP</p>
+      <p className="text-white">Refresh - 10/10 PP</p>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
+    </div>
+  )}
+</div>
+</div>
+);
+};
+
+const MemoizedGame = React.memo(Game);
+
+// Render the memoized component
+ReactDOM.render(
+  <MemoizedGame />, // Use the memoized component as a JSX element
+  document.getElementById('root')
+  );
+</script>
+</body>
+</html>
