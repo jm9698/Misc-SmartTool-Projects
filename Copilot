@@ -245,6 +245,9 @@ const [keyState, setKeyState] = React.useState({
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
   shift: false
 });
+function updateKeyState(key, value) {
+  setKeyState(prev => ({ ...prev, [key]: value }));
+}
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -273,7 +276,7 @@ generateDungeon();
 React.useEffect(() => {
 const handleKeyDown = (e) => {
 if (e.key === 'Shift') {
-setKeyStateShift(true); // Set Shift pressed state to true
+updateKeyState('shift', true); // Set Shift pressed state to true
 setShowIndicators(prev => !prev); // show indicators
 }
 
@@ -282,28 +285,28 @@ let newY = playerPos.y;
 
 switch (e.key) {
 case 'w':
-if (!keyStateW) {
-setKeyStateW(true);
+if (!keyState.w) {
+updateKeyState('w', true);
 if (isAiming){
 setLastDirection('up');
 }}
-else if (isAiming && keyStateW && keyStateA){
+else if (isAiming && keyState.w && keyState.a){
 setLastDirection('up-left');
 }
-else if (!isAiming && !inDiagonalMode && !keyStateW){ newY -= 1; // Move up unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
 setIsWalking(true);
-setKeyStateWHeld(true);
+updateKeyState('wHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('up');
 }
-else if (!isAiming && keyStateW && keyStateA && !keyStateWHeld && !keyStateAHeld){
+else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
 newY -=1;
 newX -=1;
 setIsWalking(true);
-setkeyStateWHeld(true);
-setkeyStateAHeld(true);
+updateKeyState('wHeld', true);
+updateKeyState('aHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
@@ -311,28 +314,28 @@ setLastDirection('up-left');
 }
 break;
 case 's':
-setKeyStateS(true);
+updateKeyState('s', true);
 if (isAiming){
 setLastDirection('down');
 }
-else if (isAiming && keyStateS && keyStateD){
+else if (isAiming && keyState.s && keyState.d){
 setLastDirection('down-right');
 }
-else if (!isAiming && !inDiagonalMode && !keyStateSHeld){ 
+else if (!isAiming && !inDiagonalMode && !keyState.sHeld){ 
 newY += 1; // Move down unless Shift is pressed
 setIsWalking(true);
-setKeyStateSHeld(true);
+updateKeyState('sHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('down');
 }
-else if (!isAiming && keyStateS && keyStateD && !keyStateSHeld && !keyStateDHeld){
+else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
 newY +=1;
 newX +=1;
 setIsWalking(true);
-setKeyStateDHeld(true);
-setKeyStateSHeld(true);
+updateKeyState('dHeld', true);
+updateKeyState('sHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
@@ -340,27 +343,27 @@ setLastDirection('down-right');
 }
 break;
 case 'a':
-setKeyStateA(true);
+updateKeyState('a', true);
 if (isAiming){
 setLastDirection('left');
 }
-else if (isAiming && keyStateA && keyStateS){
+else if (isAiming && keyState.a && keyState.s){
 setLastDirection('down-left');
 }
-else if (!isAiming && !inDiagonalMode && !keyStateAHeld){ newX -= 1; // Move left unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyState.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
-setKeyStateAHeld(true);
+updateKeyState('aHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('left');
 }
-else if (!isAiming && keyStateS && keyStateA && !keyStateSHeld &&!keyStateAHeld){
+else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
 newY +=1;
 newX -=1;
 setIsWalking(true);
-setKeyStateSHeld(true);
-setKeyStateAHeld(true);
+updateKeyState('sHeld', true);
+updateKeyState('aHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
@@ -368,27 +371,27 @@ setLastDirection('down-left');
 }
 break;
 case 'd':
-setKeyStateD(true);
+updateKeyState('d', true);
 if (isAiming){
 setLastDirection('right');
 }
-else if (isAiming && keyStateD && keyStateW){
+else if (isAiming && keyState.d && keyState.w){
 setLastDirection('up-right');
 }
-else if (!isAiming && !inDiagonalMode && !keyStateDHeld){ newX += 1; // Move right unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyState.dHeld){ newX += 1; // Move right unless Shift is pressed
 setIsWalking(true);
-setKeyStateDHeld(true);
+updateKeyState('dHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('right');
 }
-else if (!isAiming && keyStateD && keyStateW && !keyStateDHeld && !keyStateWHeld){
+else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
 newY -=1;
 newX +=1;
 setIsWalking(true);
-setKeyStateDHeld(true);
-setKeyStateWHeld(true);
+updateKeyState('dHeld', true);
+updateKeyState('wHeld', true);
 setTimeout(() => {
 setIsWalking(false);
 }, 3000);
@@ -416,7 +419,7 @@ return;
 }
 
 // Check for collision with walls only if not paused and not holding Shift
-if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !keyStateShift) {
+if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !keyState.shift) {
 setPlayerPos({ x: newX, y: newY });
 updateCamera(newX, newY);
 }
@@ -429,31 +432,31 @@ setFloor((prevFloor) => prevFloor + 1);
 
 const handleKeyUp = (e) => {
 if (e.key === 'Shift') {
-setKeyStateShift(false); // Set Shift pressed state to false
+updateKeyState('shift', false); // Set Shift pressed state to false
 }
 else if (e.key === 'w') {
 setTimeout(() => {
-setKeyStateW(false);
+updateKeyState('w', false);
 }, 50);
-setKeyStateWHeld(false);
+updateKeyState('wHeld', false);
 }
 else if (e.key === 'a') {
 setTimeout(() => {
-setKeyStateA(false);
+updateKeyState('a', false);
 }, 50);
-setKeyStateAHeld(false);
+updateKeyState('aHeld', false);
 }
 else if (e.key === 's') {
 setTimeout(() => {
-setKeyStateS(false);
+updateKeyState('s', false);
 }, 50);
-setKeyStateSHeld(false);
+updateKeyState('sHeld', false);
 }
 else if (e.key === 'd') {
 setTimeout(() => {
-setKeyStateD(false);
+updateKeyState('d', false);
 }, 50);
-setKeyStateDHeld(false);
+updateKeyState('dHeld', false);
 }
 };
 
@@ -463,7 +466,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyStateShift]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift]); // Add isShiftPressed to dependencies
 
 React.useEffect(() => {
   const interval = setInterval(() => {
