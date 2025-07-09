@@ -195,14 +195,14 @@ const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
 ];
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
-const roomCases = {
-0: "Open Room",
-1: "Alternate Room"
-};
-
-
 const Game = () => {
+const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
+const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
+const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
+const [isWalking, setIsWalking] = React.useState(false);
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
+const height = 100
+const width = 100
 const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
   const rooms = [];
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
@@ -220,6 +220,9 @@ const [keyState, setKeyState] = React.useState({
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
   shift: false
 });
+const lastDirectionRef = React.useRef(lastDirection);
+const isPausedRef = React.useRef(isPaused);
+const isWalkingRef = React.useRef(isWalking);
 function updateKeyState(key, value) {
   setKeyState(prev => ({ ...prev, [key]: value }));
 }
@@ -265,15 +268,7 @@ function generateProceduralDungeon(width, height, options = {}) {
 const lastRoom = rooms[rooms.length - 1];
   if (lastRoom) dungeon[lastRoom.center.y][lastRoom.center.x] = 'S';
 const firstRoom = rooms[0] || { center: { x: Math.floor(width/2), y: Math.floor(height/2) } };
-
-const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
-const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
-const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
-const [isWalking, setIsWalking] = React.useState(false); // State to track walking
 //*
-const lastDirectionRef = React.useRef(lastDirection);
-const isPausedRef = React.useRef(isPaused);
-const isWalkingRef = React.useRef(isWalking);
 
 for (let i = 0; i < roomAttempts && rooms.length < maxRooms; i++) {
     const w = randInt(minRoomSize, maxRoomSize + 1);
