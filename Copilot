@@ -196,15 +196,14 @@ const floorSprites = [
 ];
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 const Game = () => {
+const [dungeon, setDungeon] = React.useState([]);
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
 const [isWalking, setIsWalking] = React.useState(false);
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
-const height = 100
-const width = 100
-const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
-  const rooms = [];
+const height = 30
+const width = 30
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
@@ -265,9 +264,8 @@ function generateProceduralDungeon(width, height, options = {}) {
     maxRoomSize = 8,
     maxRooms = 8
   } = options;
-const lastRoom = rooms[rooms.length - 1];
-  if (lastRoom) dungeon[lastRoom.center.y][lastRoom.center.x] = 'S';
-const firstRoom = rooms[0] || { center: { x: Math.floor(width/2), y: Math.floor(height/2) } };
+  const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
+  const rooms = [];
 //*
 
 for (let i = 0; i < roomAttempts && rooms.length < maxRooms; i++) {
@@ -284,16 +282,24 @@ if (rooms.every(room => !roomsOverlap(newRoom, room))) {
 for (let i = 1; i < rooms.length; i++) {
     carveCorridor(dungeon, rooms[i - 1].center, rooms[i].center);
   }
+
 for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       if (dungeon[y][x] === 'F') dungeon[y][x] = getRandomFloorTile();
     }
   }
+const lastRoom = rooms[rooms.length - 1];
+  if (lastRoom) dungeon[lastRoom.center.y][lastRoom.center.x] = 'S';
+const firstRoom = rooms[0] || { center: { x: Math.floor(width/2), y: Math.floor(height/2) } };
 return {
     dungeon,
     playerStart: { x: firstRoom.center.x, y: firstRoom.center.y }
   };
 }
+React.useEffect(() => {
+  generateDungeon();
+}, [floor]);
+
 React.useEffect(() => {
   lastDirectionRef.current = lastDirection;
   isPausedRef.current = isPaused;
