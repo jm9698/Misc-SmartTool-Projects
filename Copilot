@@ -271,7 +271,7 @@ const wallSpriteMap = {
   wall_isolated_down: wallSpriteLeft,
   wall_isolated_up: wallSpriteLeft,
   wall_isolated_right: wallSpriteUp,
-  wall_isolated_left: wallSpriteDown
+  wall_isolated_left: wallSpriteUp
   // ...etc...
 };
 function updateKeyState(key, value) {
@@ -311,9 +311,9 @@ function carveCorridor(dungeon, from, to) {
 }
 function generateProceduralDungeon(width, height, options = {}) {
   const {
-    roomAttempts = 30,
+    roomAttempts = 60,
     minRoomSize = 4,
-    maxRoomSize = 8,
+    maxRoomSize = 10,
     maxRooms = 8
   } = options;
   const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
