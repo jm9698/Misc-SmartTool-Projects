@@ -188,6 +188,12 @@ const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
 const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
 const cornerSpriteBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png';
+const enclosedWallSprites = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png'
+];
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
@@ -255,7 +261,7 @@ const wallSpriteMap = {
   wall_horizontal: wallSpriteUp,
   wall_horizontal_topcap: wallSpriteUp,
   wall_horizontal_bottomcap: wallSpriteUp,
-  wall_full: wallSpriteUp,//placeholder
+  wall_full: getRandomEnclosedWall() //placeholder
   // ...etc...
 };
 function updateKeyState(key, value) {
@@ -632,6 +638,9 @@ const generateDungeon = () => {
 
 const getRandomFloorTile = () => {
 return floorSprites[Math.floor(Math.random() * floorSprites.length)];
+};
+const getRandomEnclosedWall = () => {
+return enclosedWallSprites[Math.floor(Math.random() * enclosedWallSprites.length)];
 };
 
 const updateCamera = (x, y) => {
