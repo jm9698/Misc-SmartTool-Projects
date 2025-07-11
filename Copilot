@@ -188,12 +188,10 @@ const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
 const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
 const cornerSpriteBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png';
-const enclosedWallSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png'
-];
+const enclosedWallSprite1 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png';
+const enclosedWallSprite2 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png';
+const enclosedWallSprite3 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png';
+const enclosedWallSprite4 ='https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png';
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
@@ -248,6 +246,12 @@ if (!up && !left && right && down) return 'wall_corner_topleft';
     if (!up && !down && left && right) return 'wall_horizontal';
     if (up && !down && left && right) return 'wall_horizontal_topcap';
     if (!up && down && left && right) return 'wall_horizontal_bottomcap';
+    if (up && down && !left && right) return 'wall_left_vertical'
+    if (up && down && !right && left) return 'wall_right_vertical'
+    if (!up && down && !right && !left) return 'wall_isolated_down'
+    if (up && !down && !right && !left) return 'wall_isolated_up'
+    if (!up && !down && right && !left) return 'wall_isolated_right'
+    if (!up && !down && !right && left) return 'wall_isolated_left'
     
     // ...continue for other combinations...
    else return 'wall_full'; // fallback
@@ -258,10 +262,16 @@ const wallSpriteMap = {
   wall_corner_bottomleft: cornerSpriteBottomLeft,
   wall_corner_bottomright: cornerSpriteBottomRight,
   wall_vertical: wallSpriteLeft,
+  wall_left_vertical: wallSpriteLeft,
+  wall_right_vertical: wallSpriteRight,
   wall_horizontal: wallSpriteUp,
-  wall_horizontal_topcap: wallSpriteUp,
+  wall_horizontal_topcap: wallSpriteDown,
   wall_horizontal_bottomcap: wallSpriteUp,
-  wall_full: getRandomEnclosedWall() //placeholder
+  wall_full: enclosedWallSprite4, //placeholder
+  wall_isolated_down: wallSpriteLeft,
+  wall_isolated_up: wallSpriteLeft,
+  wall_isolated_right: wallSpriteUp,
+  wall_isolated_left: wallSpriteDown
   // ...etc...
 };
 function updateKeyState(key, value) {
@@ -638,9 +648,6 @@ const generateDungeon = () => {
 
 const getRandomFloorTile = () => {
 return floorSprites[Math.floor(Math.random() * floorSprites.length)];
-};
-const getRandomEnclosedWall = () => {
-return enclosedWallSprites[Math.floor(Math.random() * enclosedWallSprites.length)];
 };
 
 const updateCamera = (x, y) => {
