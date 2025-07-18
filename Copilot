@@ -758,7 +758,7 @@ return (
 <div className="game-area p-4">
 <div className="counter">Floor: {floor}</div>
 <div className="counter" style={{ right: '150px' }}>
-  <img src={currencySprite} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
+  <img src={Pokedollar} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
 </div>
 <div className="dungeon-container">
 <div className="dungeon" style={{ transform: cameraTransform }}>
@@ -766,6 +766,7 @@ return (
     <div key={rowIndex} className="dungeon-row flex">
       {row.map((cell, colIndex) => {
         let wallSprite;
+        const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
 
         // Determine sprite based on position
         if (cell === 'W') {
@@ -775,6 +776,7 @@ return (
           const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
 
           return (
+              
             <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
               {cell === 'W' ? (
                 <img src={wallSprite} alt="Wall" className="wall absolute" />
@@ -783,13 +785,18 @@ return (
               )}
               {cell === 'S' && (
                 <img src={stairSprite} alt="Stairs" className="stair absolute" />
-              )
-const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+              )}
+              {currencyHere && (
+        <img src={Pokedollar} alt="Currency" className="absolute w-full h-full" style={{ 
+            zIndex: 5, 
+            objectFit: 'contain',
+            width: '50%',
+            height: '50%',
+            left: '25%',
+            top: '25%',
+        }} />
+      )}
 
-// Render currency sprite if present
-{currencyHere && (
-  <img src={currencySprite} alt="Currency" className="absolute" style={{ zIndex: 5 }} />
-)}}
               {playerPos.x === colIndex && playerPos.y === rowIndex && (
                 <img 
                   src={
