@@ -203,6 +203,8 @@ const floorSprites = [
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 const Game = () => {
 const [dungeon, setDungeon] = React.useState([]);
+const [currencyTiles, setCurrencyTiles] = React.useState([]);
+const [currency, setCurrency] = React.useState(0);
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -311,6 +313,33 @@ function carveCorridor(dungeon, from, to) {
     y += y < to.y ? 1 : -1;
   }
 }
+function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5) {
+  let locations = [];
+  let height = dungeon.length;
+  let width = dungeon[0].length;
+
+  // Collect all floor tile positions
+  let floorPositions = [];
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S') {
+        floorPositions.push({ x, y });
+      }
+    }
+  }
+
+  // Shuffle and pick currencyCount locations
+  for (let i = 0; i < currencyCount && floorPositions.length > 0; i++) {
+    let idx = randInt(0, floorPositions.length);
+    let loc = floorPositions.splice(idx, 1)[0];
+    locations.push({
+      ...loc,
+      amount: randInt(minAmount, maxAmount + 1)
+    });
+  }
+
+  return locations;
+}
 function generateProceduralDungeon(width, height, options = {}) {
   const {
     roomAttempts = 60,
@@ -393,6 +422,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('up');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
 newY -=1;
@@ -404,6 +438,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('up-left');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 break;
 case 's':
@@ -422,6 +461,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('down');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
 newY +=1;
@@ -433,6 +477,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('down-right');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 break;
 case 'a':
@@ -450,6 +499,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('left');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
 newY +=1;
@@ -461,6 +515,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('down-left');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 break;
 case 'd':
@@ -478,6 +537,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('right');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
 newY -=1;
@@ -489,6 +553,11 @@ setTimeout(() => {
 setIsWalking(false);
 }, 3000);
 setLastDirection('up-right');
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+if (pickedCurrency) {
+  setCurrency(curr => curr + pickedCurrency.amount);
+  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 break;
 case 'x': // x to toggle diagonal mode
@@ -641,6 +710,8 @@ const generateDungeon = () => {
       }
     }
   }
+const currencyLocs = generateCurrencyTiles(newDungeon, 1, 10, 5); // 5 coins, value 1-10
+  setCurrencyTiles(currencyLocs);
 
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
@@ -686,6 +757,9 @@ const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
 return (
 <div className="game-area p-4">
 <div className="counter">Floor: {floor}</div>
+<div className="counter" style={{ right: '150px' }}>
+  <img src={currencySprite} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
+</div>
 <div className="dungeon-container">
 <div className="dungeon" style={{ transform: cameraTransform }}>
   {dungeon.map((row, rowIndex) => (
@@ -709,7 +783,13 @@ return (
               )}
               {cell === 'S' && (
                 <img src={stairSprite} alt="Stairs" className="stair absolute" />
-              )}
+              )
+const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+
+// Render currency sprite if present
+{currencyHere && (
+  <img src={currencySprite} alt="Currency" className="absolute" style={{ zIndex: 5 }} />
+)}}
               {playerPos.x === colIndex && playerPos.y === rowIndex && (
                 <img 
                   src={
