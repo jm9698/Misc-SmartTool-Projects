@@ -181,7 +181,8 @@ const vaporeonDownRightWalkSprites = [
 ]
 
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Pokedollar.png'; // Replace with your sprite URL
-const Reviverseed =
+const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
+
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -205,6 +206,7 @@ const Game = () => {
 const [dungeon, setDungeon] = React.useState([]);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
+const [itemTiles, setItemTiles] = React.useState([]);
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -314,7 +316,7 @@ function carveCorridor(dungeon, from, to) {
   }
 }
 function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5) {
-  let locations = [];
+  let cLocations = [];
   let height = dungeon.length;
   let width = dungeon[0].length;
 
@@ -332,13 +334,35 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
   for (let i = 0; i < currencyCount && floorPositions.length > 0; i++) {
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
-    locations.push({
+    cLocations.push({
       ...loc,
       amount: randInt(minAmount, maxAmount + 1)
     });
   }
 
-  return locations;
+  return cLocations;
+}
+function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = randInt(minCount, maxCount)) {
+  let iLocations = []
+  let height = dungeon.length;
+  let width = dungeon[0].length;
+  
+  let floorPositions = [];
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S') {
+        floorPositions.push({ x, y });
+      }
+    }
+  }
+  for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
+    let idx = randInt(0, floorPositions.length);
+    let loc = floorPositions.splice(idx, 1)[0];
+    iLocations.push({
+      ...loc
+    });
+  }
+  return iLocations;
 }
 function generateProceduralDungeon(width, height, options = {}) {
   const {
@@ -712,6 +736,8 @@ const generateDungeon = () => {
   }
 const currencyLocs = generateCurrencyTiles(newDungeon, 20, 80, 5); // 5 coins, value 20-80
   setCurrencyTiles(currencyLocs);
+const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // between 5 and 10 items spawn
+  setItemTiles(itemLocs);
 
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
@@ -767,7 +793,7 @@ return (
       {row.map((cell, colIndex) => {
         let wallSprite;
         const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
-
+        const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
         // Determine sprite based on position
         if (cell === 'W') {
           wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
@@ -795,6 +821,16 @@ return (
             left: '25%',
             top: '25%',
         }} />
+      )}
+      {itemHere && (
+      <img src={Reviverseed} alt="Seed_Yellow" className="absolute w-full h-full" style={{
+        zIndex: 5,
+        objectFit: 'contain',
+        width: '50%',
+        height: '50%',
+        left: '25%',
+        top: '25%',
+      }} />
       )}
 
               {playerPos.x === colIndex && playerPos.y === rowIndex && (
