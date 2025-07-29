@@ -83,6 +83,15 @@ border-image: linear-gradient(to right, red, transparent) 1;
 <script type="text/babel">
 //import { frames } from 'frameExports.js'
 //console.log (frames.characters.vaporeon.idle.down.frame1);
+const ITEM_DEFS = {
+  "Reviver Seed": {
+    name: "Reviver Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  },
+  // Example: "Potion": { name: "Potion", sprite: PotionSprite, stackSize: 5 }
+};
+const MAX_INVENTORY_SLOTS = 10;
 
 const vaporeonSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
@@ -207,6 +216,8 @@ const [dungeon, setDungeon] = React.useState([]);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
+const [inventory, setInventory] = React.useState([]);
+const [showToolbox, setShowToolbox] = React.useState(false);
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -364,6 +375,30 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   }
   return iLocations;
 }
+function addItemToInventory(itemName) {
+  const itemDef = ITEM_DEFS[itemName];
+  setInventory(prev => {
+    const idx = prev.findIndex(i => i.name === itemName);
+    if (idx > -1) {
+      if (prev[idx].count < itemDef.stackSize) {
+        const updated = [...prev];
+        updated[idx].count += 1;
+        return updated;
+      } else {
+        alert(`Cannot pick up more ${itemName}: stack is full!`);
+        return prev;
+      }
+    } else {
+      if (prev.length < MAX_INVENTORY_SLOTS) {
+        return [...prev, { ...itemDef, count: 1 }];
+      } else {
+        alert("Inventory full!");
+        return prev;
+      }
+    }
+  });
+}
+
 function generateProceduralDungeon(width, height, options = {}) {
   const {
     roomAttempts = 60,
@@ -451,6 +486,11 @@ if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
 newY -=1;
@@ -466,6 +506,11 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
 break;
@@ -490,6 +535,11 @@ if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
 newY +=1;
@@ -505,6 +555,11 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
 break;
@@ -528,6 +583,11 @@ if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
 newY +=1;
@@ -543,6 +603,11 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
 break;
@@ -566,6 +631,11 @@ if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
 newY -=1;
@@ -581,6 +651,11 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+}
+const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+if (itemHere) {
+  addItemToInventory("Reviver Seed");
+  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
 break;
@@ -866,17 +941,17 @@ return (
       </div>
     ))}
   </div>
-  {isPaused && !showOptions && !showMoves && ( // Show main menu when paused
-    <div className="menu">
-      <h2 className="text-white text-lg">Paused</h2>
-      <div className="flex">
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => { /* Handle Underneath */ }}>Underneath</button>
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
-        <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
-      </div>
+  {isPaused && !showOptions && !showMoves && !showToolbox && (
+  <div className="menu">
+    <h2 className="text-white text-lg">Paused</h2>
+    <div className="flex">
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(true)}>Toolbox</button>
+      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+      <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
     </div>
-  )}
+  </div>
+)}
   {isPaused && showOptions && ( // Show options menu when options are clicked
     <div className="menu options-menu">
       <h2 className="text-white text-lg">Options</h2>
@@ -902,6 +977,24 @@ return (
       <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
     </div>
   )}
+  {isPaused && showToolbox && (
+  <div className="menu">
+    <h2 className="text-white text-lg">Toolbox</h2>
+    {inventory.length === 0 ? (
+      <p className="text-white">No items in inventory.</p>
+    ) : (
+      <ul>
+        {inventory.map(item => (
+          <li key={item.name} className="text-white flex items-center mb-2">
+            <img src={item.sprite} alt={item.name} style={{ width: 32, marginRight: 8 }} />
+            {item.name}
+          </li>
+        ))}
+      </ul>
+    )}
+    <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
+  </div>
+)}
 </div>
 </div>
 );
