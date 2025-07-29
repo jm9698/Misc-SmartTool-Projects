@@ -83,6 +83,7 @@ border-image: linear-gradient(to right, red, transparent) 1;
 <script type="text/babel">
 //import { frames } from 'frameExports.js'
 //console.log (frames.characters.vaporeon.idle.down.frame1);
+const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
 const ITEM_DEFS = {
   "Reviver Seed": {
     name: "Reviver Seed",
@@ -190,7 +191,6 @@ const vaporeonDownRightWalkSprites = [
 ]
 
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Pokedollar.png'; // Replace with your sprite URL
-const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
 
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
