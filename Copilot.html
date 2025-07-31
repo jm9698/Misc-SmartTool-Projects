@@ -90,7 +90,31 @@ const ITEM_DEFS = {
     sprite: Reviverseed,
     stackSize: 1
   },
-  // Example: "Potion": { name: "Potion", sprite: PotionSprite, stackSize: 5 }
+  "Stun Seed": {
+    name: "Stun Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  },
+  "Tiny Reviver Seed": {
+    name: "Tiny Reviver Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  },
+  "Sleep Seed": {
+    name: "Sleep Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  }
+  ,"Warp Seed": {
+    name: "Warp Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  },
+  "Life Seed": {
+    name: "Life Seed",
+    sprite: Reviverseed,
+    stackSize: 1
+  }
 };
 const MAX_INVENTORY_SLOTS = 10;
 
@@ -366,11 +390,16 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
       }
     }
   }
+  const itemNames = Object.keys(ITEM_DEFS);
+
   for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
+    let itemName = itemNames[randInt(0, itemNames.length)];
     iLocations.push({
-      ...loc
+      ...loc,
+      name: itemName,
+      sprite: ITEM_DEFS[itemName].sprite
     });
   }
   return iLocations;
@@ -494,7 +523,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -515,7 +544,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -543,7 +572,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -564,7 +593,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -591,7 +620,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -612,7 +641,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -639,7 +668,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -660,7 +689,7 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
-  addItemToInventory("Reviver Seed");
+  addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
 }
 }
@@ -904,7 +933,7 @@ return (
         }} />
       )}
       {itemHere && (
-      <img src={Reviverseed} alt="Seed_Yellow" className="absolute w-full h-full" style={{
+      <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
         zIndex: 5,
         objectFit: 'contain',
         width: '50%',
