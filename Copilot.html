@@ -242,6 +242,7 @@ const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
 const [inventory, setInventory] = React.useState([]);
 const [showToolbox, setShowToolbox] = React.useState(false);
+const [actionLog, setActionLog] = React.useState([]); // [{msg, id}]
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
@@ -321,6 +322,14 @@ function updateKeyState(key, value) {
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+let logCounter = 0;
+function addLogMessage(msg) {
+  const id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+  setActionLog(logs => [...logs, { msg, id }]);
+  setTimeout(() => {
+    setActionLog(logs => logs.filter(entry => entry.id !== id));
+  }, 10000);
+}
 function makeRoom(x, y, w, h) {
   return { x, y, w, h, center: { x: Math.floor(x + w / 2), y: Math.floor(y + h / 2) } };
 }
@@ -398,7 +407,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
     let itemName = itemNames[randInt(0, itemNames.length)];
     iLocations.push({
       ...loc,
-      name: itemName,
+      itemName,
       sprite: ITEM_DEFS[itemName].sprite
     });
   }
@@ -520,11 +529,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
@@ -541,11 +552,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 break;
@@ -569,11 +582,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
@@ -590,11 +605,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 break;
@@ -617,11 +634,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
@@ -638,11 +657,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 break;
@@ -665,11 +686,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
@@ -686,11 +709,13 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
   setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
 }
 }
 break;
@@ -891,150 +916,172 @@ return lineCoords;
 const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
 
 return (
-<div className="game-area p-4">
-<div className="counter">Floor: {floor}</div>
-<div className="counter" style={{ right: '150px' }}>
-  <img src={Pokedollar} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
-</div>
-<div className="dungeon-container">
-<div className="dungeon" style={{ transform: cameraTransform }}>
-  {dungeon.map((row, rowIndex) => (
-    <div key={rowIndex} className="dungeon-row flex">
-      {row.map((cell, colIndex) => {
-        let wallSprite;
-        const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
-        const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
-        // Determine sprite based on position
-        if (cell === 'W') {
-          wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
-          }
-
-          const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
-
-          return (
-              
-            <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
-              {cell === 'W' ? (
-                <img src={wallSprite} alt="Wall" className="wall absolute" />
-              ) : (
-                <img src={cell} alt="Floor" className="floor absolute" />
-              )}
-              {cell === 'S' && (
-                <img src={stairSprite} alt="Stairs" className="stair absolute" />
-              )}
-              {currencyHere && (
-        <img src={Pokedollar} alt="Currency" className="absolute w-full h-full" style={{ 
-            zIndex: 5, 
-            objectFit: 'contain',
-            width: '50%',
-            height: '50%',
-            left: '25%',
-            top: '25%',
-        }} />
-      )}
-      {itemHere && (
-      <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
-        zIndex: 5,
-        objectFit: 'contain',
-        width: '50%',
-        height: '50%',
-        left: '25%',
-        top: '25%',
-      }} />
-      )}
-
-              {playerPos.x === colIndex && playerPos.y === rowIndex && (
-                <img 
-                  src={
-                      isWalking 
-                         ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex] 
-                          : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex] 
-                          : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex] 
-                          : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
-                          : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
-                          : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
-                          : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
-                          : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
-                          : vaporeonSprites[idleSpriteIndex])
-                          : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex] 
-                          : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex] 
-                          : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex] 
-                          : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex] 
-                          : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
-                          : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
-                          : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex] 
-                          : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex] 
-                          : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
-                  }
-                  alt="Vaporeon" 
-                  className="player-sprite absolute" 
-              />
-              )}
-            </div>
-          );
-        })}
+  <div>
+    <div className="game-area p-4">
+      <div className="counter">Floor: {floor}</div>
+      <div className="counter" style={{ right: '150px' }}>
+        <img src={Pokedollar} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
       </div>
-    ))}
-  </div>
-  {isPaused && !showOptions && !showMoves && !showToolbox && (
-  <div className="menu">
-    <h2 className="text-white text-lg">Paused</h2>
-    <div className="flex">
-      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
-      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(true)}>Toolbox</button>
-      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
-      <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
-    </div>
-  </div>
-)}
-  {isPaused && showOptions && ( // Show options menu when options are clicked
-    <div className="menu options-menu">
-      <h2 className="text-white text-lg">Options</h2>
-      <label>
-        <input type="checkbox" /> Checkbox 1
-      </label>
-      <label>
-        <input type="checkbox" /> Checkbox 2
-      </label>
-      <label>
-        <input type="checkbox" /> Checkbox 3
-      </label>
-      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
-    </div>
-  )}
-  {isPaused && showMoves && ( // Show moves menu when Moves is clicked
-    <div className="menu moves-menu">
-      <h2 className="text-white text-lg">Moves</h2>
-      <p className="text-white">Water Pulse - 10/10 PP</p>
-      <p className="text-white">Aqua Tail - 15/15 PP</p>
-      <p className="text-white">Acid Armor - 30/30 PP</p>
-      <p className="text-white">Refresh - 10/10 PP</p>
-      <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
-    </div>
-  )}
-  {isPaused && showToolbox && (
-  <div className="menu">
-    <h2 className="text-white text-lg">Toolbox</h2>
-    {inventory.length === 0 ? (
-      <p className="text-white">No items in inventory.</p>
-    ) : (
-      <ul>
-        {inventory.map((item, idx) => (
-          <li key={idx} className="text-white flex items-center mb-2">
-            <img src={item.sprite} alt={item.name} style={{ width: 32, marginRight: 8 }} />
-            {item.name} x{item.count}
-          </li>
-        ))}
-      </ul>
-    )}
-    <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
-  </div>
-)}
-</div>
-</div>
-);
-};
+      <div className="dungeon-container">
+        <div className="dungeon" style={{ transform: cameraTransform }}>
+          {dungeon.map((row, rowIndex) => (
+            <div key={rowIndex} className="dungeon-row flex">
+              {row.map((cell, colIndex) => {
+                let wallSprite;
+                const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                // Determine sprite based on position
+                if (cell === 'W') {
+                  wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
+                }
 
+                const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
+
+                return (
+                  <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
+                    {cell === 'W' ? (
+                      <img src={wallSprite} alt="Wall" className="wall absolute" />
+                    ) : (
+                      <img src={cell} alt="Floor" className="floor absolute" />
+                    )}
+                    {cell === 'S' && (
+                      <img src={stairSprite} alt="Stairs" className="stair absolute" />
+                    )}
+                    {currencyHere && (
+                      <img src={Pokedollar} alt="Currency" className="absolute w-full h-full" style={{
+                        zIndex: 5,
+                        objectFit: 'contain',
+                        width: '50%',
+                        height: '50%',
+                        left: '25%',
+                        top: '25%',
+                      }} />
+                    )}
+                    {itemHere && (
+                      <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
+                        zIndex: 5,
+                        objectFit: 'contain',
+                        width: '50%',
+                        height: '50%',
+                        left: '25%',
+                        top: '25%',
+                      }} />
+                    )}
+
+                    {playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={
+                          isWalking
+                            ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
+                              : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
+                              : vaporeonSprites[idleSpriteIndex])
+                            : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex]
+                              : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex]
+                              : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex]
+                              : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex]
+                              : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
+                              : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
+                              : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex]
+                              : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex]
+                              : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
+                        }
+                        alt="Vaporeon"
+                        className="player-sprite absolute"
+                      />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+        <div
+              style={{
+                position: 'absolute',
+                left: '50%',
+                bottom: '30px',
+                transform: 'translateX(-50%)',
+                width: '60%',
+                maxHeight: '120px',
+                background: 'rgba(30,30,30,0.5)',
+                color: 'white',
+                padding: '10px',
+                borderRadius: '8px',
+                overflowY: 'auto',
+                fontSize: '16px',
+                zIndex: 30,
+                pointerEvents: 'none',
+              }}
+            >
+              {actionLog.map(entry => (
+    <div key={entry.id}>{entry.msg}</div>
+  ))}
+        </div>
+      </div>
+    </div>
+    {isPaused && !showOptions && !showMoves && !showToolbox && (
+      <div className="menu">
+        <h2 className="text-white text-lg">Paused</h2>
+        <div className="flex">
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(true)}>Toolbox</button>
+          <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
+          <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
+        </div>
+      </div>
+    )}
+    {isPaused && showOptions && ( // Show options menu when options are clicked
+      <div className="menu options-menu">
+        <h2 className="text-white text-lg">Options</h2>
+        <label>
+          <input type="checkbox" /> Checkbox 1
+        </label>
+        <label>
+          <input type="checkbox" /> Checkbox 2
+        </label>
+        <label>
+          <input type="checkbox" /> Checkbox 3
+        </label>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
+      </div>
+    )}
+    {isPaused && showMoves && ( // Show moves menu when Moves is clicked
+      <div className="menu moves-menu">
+        <h2 className="text-white text-lg">Moves</h2>
+        <p className="text-white">Water Pulse - 10/10 PP</p>
+        <p className="text-white">Aqua Tail - 15/15 PP</p>
+        <p className="text-white">Acid Armor - 30/30 PP</p>
+        <p className="text-white">Refresh - 10/10 PP</p>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
+      </div>
+    )}
+    {isPaused && showToolbox && (
+      <div className="menu">
+        <h2 className="text-white text-lg">Toolbox</h2>
+        {inventory.length === 0 ? (
+          <p className="text-white">No items in inventory.</p>
+        ) : (
+          <ul>
+            {inventory.map((item, idx) => (
+              <li key={idx} className="text-white flex items-center mb-2">
+                <img src={item.sprite} alt={item.name} style={{ width: 32, marginRight: 8 }} />
+                {item.name} x{item.count}
+              </li>
+            ))}
+          </ul>
+        )}
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
+      </div>
+    )}
+  </div>
+);
+}
 const MemoizedGame = React.memo(Game);
 
 // Render the memoized component
