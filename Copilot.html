@@ -517,13 +517,6 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
-  
-  if (['w', 'a', 's', 'd'].includes(e.key)) {
-    if (walkCooldownRef.current) {
-      clearTimeout(walkCooldownRef.current);
-      walkCooldownRef.current = null;
-    }
-  }
 
 if (e.key === 'Shift') {
 updateKeyState('shift', true); // Set Shift pressed state to true
@@ -713,6 +706,20 @@ if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  console.log('walkCooldownRef cleared');
+      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
+      console.log(walkCooldownRef.current);
+      clearTimeout(walkCooldownRef.current);
+      walkCooldownRef.current = null;
+      console.log(walkCooldownRef.current);
+}
+if (keyState.dHeld) {
+      console.log('walkCooldownRef cleared');
+      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
+      console.log(walkCooldownRef.current);
+      clearTimeout(walkCooldownRef.current);
+      walkCooldownRef.current = null;
+      console.log(walkCooldownRef.current);
 }
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
@@ -735,6 +742,13 @@ if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+}
+if (walkCooldownRef.current) {
+      clearTimeout(walkCooldownRef.current);
+      walkCooldownRef.current = null;
+      console.log(walkCooldownRef.current);
+      console.log('walkCooldownRef cleared');
+      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
 }
 }
 break;
@@ -800,9 +814,9 @@ if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
 
 React.useEffect(() => {
   // If no movement keys are held, trigger walk cooldown
-  
-  if (!anyMovementKeyHeld(keyState)) {
+  if (!keyState.w && !keyState.a && !keyState.s && !keyState.d && !isPaused) {
     if (!walkCooldownRef.current) {
+      console.log('Starting walk cooldown');
       triggerWalkCooldown();
     }
   } else {
