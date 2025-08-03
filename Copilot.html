@@ -322,6 +322,16 @@ function updateKeyState(key, value) {
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+const walkCooldownRef = React.useRef(null);
+function triggerWalkCooldown() {
+  // Clear any existing cooldown
+  if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
+  setIsWalking(true);
+  walkCooldownRef.current = setTimeout(() => {
+    setIsWalking(false);
+    walkCooldownRef.current = null;
+  }, 1500); // 1500ms for 5 frames at 300ms/frame
+}
 let logCounter = 0;
 function addLogMessage(msg) {
   const id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
@@ -520,10 +530,8 @@ setLastDirection('up-left');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('wHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('up');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -542,11 +550,9 @@ else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.a
 newY -=1;
 newX -=1;
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('wHeld', true);
 updateKeyState('aHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('up-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -573,10 +579,8 @@ setLastDirection('down-right');
 else if (!isAiming && !inDiagonalMode && !keyState.sHeld){ 
 newY += 1; // Move down unless Shift is pressed
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('sHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('down');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -595,11 +599,9 @@ else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.d
 newY +=1;
 newX +=1;
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('dHeld', true);
 updateKeyState('sHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('down-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -625,10 +627,8 @@ setLastDirection('down-left');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('aHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -647,11 +647,9 @@ else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aH
 newY +=1;
 newX -=1;
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('sHeld', true);
 updateKeyState('aHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('down-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -677,10 +675,8 @@ setLastDirection('up-right');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.dHeld){ newX += 1; // Move right unless Shift is pressed
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('dHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -699,11 +695,9 @@ else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.w
 newY -=1;
 newX +=1;
 setIsWalking(true);
+triggerWalkCooldown();
 updateKeyState('dHeld', true);
 updateKeyState('wHeld', true);
-setTimeout(() => {
-setIsWalking(false);
-}, 3000);
 setLastDirection('up-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -756,28 +750,24 @@ if (e.key === 'Shift') {
 updateKeyState('shift', false); // Set Shift pressed state to false
 }
 else if (e.key === 'w') {
-setTimeout(() => {
 updateKeyState('w', false);
-}, 50);
 updateKeyState('wHeld', false);
+//triggerWalkCooldown()
 }
 else if (e.key === 'a') {
-setTimeout(() => {
 updateKeyState('a', false);
-}, 50);
 updateKeyState('aHeld', false);
+//triggerWalkCooldown();
 }
 else if (e.key === 's') {
-setTimeout(() => {
 updateKeyState('s', false);
-}, 50);
 updateKeyState('sHeld', false);
+//triggerWalkCooldown();
 }
 else if (e.key === 'd') {
-setTimeout(() => {
 updateKeyState('d', false);
-}, 50);
 updateKeyState('dHeld', false);
+//triggerWalkCooldown();
 }
 };
 
@@ -789,71 +779,80 @@ window.removeEventListener('keyup', handleKeyUp);
 };
 }, [playerPos, stairs, dungeon, isPaused, keyState.shift]); // Add isShiftPressed to dependencies
 
-React.useEffect(() => {
-  const interval = setInterval(() => {
-    if (!isPausedRef.current && !isWalkingRef.current) {
-      switch (lastDirectionRef.current) {
-        case 'left':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
-          break;
-        case 'right':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonRightSprites.length);
-          break;
-        case 'up':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpSprites.length);
-          break;
-        case 'down':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
-          break;
-        case 'up-left':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSprites.length);
-          break;
-        case 'up-right':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSprites.length);
-          break;
-        case 'down-left':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSprites.length);
-          break;
-        case 'down-right':
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSprites.length);
-          break;
-        default:
-          setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
-      }
-    } else if (!isPausedRef.current && isWalkingRef.current) {
-      switch (lastDirectionRef.current) {
-        case 'down':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
-          break;
-        case 'up':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpWalkSprites.length);
-          break;
-        case 'right':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonRightWalkSprites.length);
-          break;
-        case 'left':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonLeftWalkSprites.length);
-          break;
-        case 'up-left':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftWalkSprites.length);
-          break;
-        case 'up-right':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpRightWalkSprites.length);
-          break;
-        case 'down-left':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftWalkSprites.length);
-          break;
-        case 'down-right':
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownRightWalkSprites.length);
-          break;
-        default:
-          setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
-      }
-    }
-  }, 500);
-return () => clearInterval(interval);
-}, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
 
+const idleIntervalMs = 500; // Adjust as needed for idle animation speed
+const walkIntervalMs = 300; // Adjust as needed for walking animation speed
+
+React.useEffect(() => {
+  if (isWalking || isPaused) return;
+  const interval = setInterval(() => {
+    switch (lastDirectionRef.current) {
+      case 'left':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
+        break;
+      case 'right':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonRightSprites.length);
+        break;
+      case 'up':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpSprites.length);
+        break;
+      case 'down':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+        break;
+      case 'up-left':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSprites.length);
+        break;
+      case 'up-right':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSprites.length);
+        break;
+      case 'down-left':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSprites.length);
+        break;
+      case 'down-right':
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSprites.length);
+        break;
+      default:
+        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+    }
+  }, idleIntervalMs);
+  return () => clearInterval(interval);
+}, [isWalking, isPaused, lastDirection]);
+
+// Walking animation effect
+React.useEffect(() => {
+  if (!isWalking || isPaused) return;
+  const interval = setInterval(() => {
+    switch (lastDirectionRef.current) {
+      case 'down':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
+        break;
+      case 'up':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpWalkSprites.length);
+        break;
+      case 'right':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonRightWalkSprites.length);
+        break;
+      case 'left':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonLeftWalkSprites.length);
+        break;
+      case 'up-left':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftWalkSprites.length);
+        break;
+      case 'up-right':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpRightWalkSprites.length);
+        break;
+      case 'down-left':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftWalkSprites.length);
+        break;
+      case 'down-right':
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownRightWalkSprites.length);
+        break;
+      default:
+        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+    }
+  }, walkIntervalMs);
+  return () => clearInterval(interval);
+}, [isWalking, isPaused, lastDirection]);
 
 const generateDungeon = () => {
   const width = 30, height = 30;
