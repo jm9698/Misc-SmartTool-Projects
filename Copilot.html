@@ -359,23 +359,6 @@ function carveCorridor(dungeon, from, to) {
     y += y < to.y ? 1 : -1;
   }
 }
-
-function anyMovementKeyHeld(keyState) {
-  return keyState.w || keyState.a || keyState.s || keyState.d;
-}
-
-const walkCooldownRef = React.useRef(null);
-function triggerWalkCooldown() {
-  // Clear any existing cooldown
-  if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
-  // Set isWalking true for 600ms (2 frames at 300ms/frame)
-  setIsWalking(true);
-  walkCooldownRef.current = setTimeout(() => {
-    setIsWalking(false);
-    walkCooldownRef.current = null;
-  }, 600);
-}
-
 function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5) {
   let cLocations = [];
   let height = dungeon.length;
@@ -517,7 +500,6 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
-
 if (e.key === 'Shift') {
 updateKeyState('shift', true); // Set Shift pressed state to true
 setShowIndicators(prev => !prev); // show indicators
@@ -535,15 +517,13 @@ setLastDirection('up');
 }}
 else if (isAiming && keyState.w && keyState.a){
 setLastDirection('up-left');
-} if (!isAiming && !inDiagonalMode && !keyState.wHeld) {
-  console.log('isAiming:', isAiming, 'inDiagonalMode:', inDiagonalMode, 'keyState.wHeld:', keyState.wHeld);
-  newY -= 1; // Move up unless Shift is pressed
-  if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-    setIsWalking(true);
-    console.log('triggered');
-  }
+}
+else if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
+setIsWalking(true);
 updateKeyState('wHeld', true);
-
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -561,11 +541,12 @@ if (itemHere) {
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
 newY -=1;
 newX -=1;
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('wHeld', true);
 updateKeyState('aHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -591,10 +572,11 @@ setLastDirection('down-right');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.sHeld){ 
 newY += 1; // Move down unless Shift is pressed
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('sHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('down');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -612,11 +594,13 @@ if (itemHere) {
 else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
 newY +=1;
 newX +=1;
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('dHeld', true);
 updateKeyState('sHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
+setLastDirection('down-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
   setCurrency(curr => curr + pickedCurrency.amount);
@@ -640,10 +624,11 @@ else if (isAiming && keyState.a && keyState.s){
 setLastDirection('down-left');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.aHeld){ newX -= 1; // Move left unless Shift is pressed
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('aHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -661,11 +646,12 @@ if (itemHere) {
 else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
 newY +=1;
 newX -=1;
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('sHeld', true);
 updateKeyState('aHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('down-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -690,10 +676,11 @@ else if (isAiming && keyState.d && keyState.w){
 setLastDirection('up-right');
 }
 else if (!isAiming && !inDiagonalMode && !keyState.dHeld){ newX += 1; // Move right unless Shift is pressed
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('dHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -706,30 +693,17 @@ if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  console.log('walkCooldownRef cleared');
-      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
-      console.log(walkCooldownRef.current);
-      clearTimeout(walkCooldownRef.current);
-      walkCooldownRef.current = null;
-      console.log(walkCooldownRef.current);
-}
-if (keyState.dHeld) {
-      console.log('walkCooldownRef cleared');
-      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
-      console.log(walkCooldownRef.current);
-      clearTimeout(walkCooldownRef.current);
-      walkCooldownRef.current = null;
-      console.log(walkCooldownRef.current);
 }
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
 newY -=1;
 newX +=1;
-if (anyMovementKeyHeld({ ...keyState, [e.key]: true })) {
-      setIsWalking(true);
-    }
+setIsWalking(true);
 updateKeyState('dHeld', true);
 updateKeyState('wHeld', true);
+setTimeout(() => {
+setIsWalking(false);
+}, 3000);
 setLastDirection('up-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -742,13 +716,6 @@ if (itemHere) {
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-}
-if (walkCooldownRef.current) {
-      clearTimeout(walkCooldownRef.current);
-      walkCooldownRef.current = null;
-      console.log(walkCooldownRef.current);
-      console.log('walkCooldownRef cleared');
-      console.log('keyState.w', keyState.w, 'keyState.a', keyState.a, 'keyState.s', keyState.s, 'keyState.d', keyState.d);
 }
 }
 break;
@@ -785,23 +752,33 @@ setFloor((prevFloor) => prevFloor + 1);
 };
 
 const handleKeyUp = (e) => {
-  if (e.key === 'Shift') {
-    updateKeyState('shift', false);
-    console.log(keyState.shift);
-  } else if (e.key === 'w') {
-    updateKeyState('w', false);
-    updateKeyState('wHeld', false);
-    console.log(keyState.w);
-  } else if (e.key === 'a') {
-    updateKeyState('a', false);
-    updateKeyState('aHeld', false);
-  } else if (e.key === 's') {
-    updateKeyState('s', false);
-    updateKeyState('sHeld', false);
-  } else if (e.key === 'd') {
-    updateKeyState('d', false);
-    updateKeyState('dHeld', false);
-  }
+if (e.key === 'Shift') {
+updateKeyState('shift', false); // Set Shift pressed state to false
+}
+else if (e.key === 'w') {
+setTimeout(() => {
+updateKeyState('w', false);
+}, 50);
+updateKeyState('wHeld', false);
+}
+else if (e.key === 'a') {
+setTimeout(() => {
+updateKeyState('a', false);
+}, 50);
+updateKeyState('aHeld', false);
+}
+else if (e.key === 's') {
+setTimeout(() => {
+updateKeyState('s', false);
+}, 50);
+updateKeyState('sHeld', false);
+}
+else if (e.key === 'd') {
+setTimeout(() => {
+updateKeyState('d', false);
+}, 50);
+updateKeyState('dHeld', false);
+}
 };
 
 window.addEventListener('keydown', handleKeyDown);
@@ -809,34 +786,12 @@ window.addEventListener('keyup', handleKeyUp);
 return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
-if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
 };
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift]); // Add isShiftPressed to dependencies
 
 React.useEffect(() => {
-  // If no movement keys are held, trigger walk cooldown
-  if (!keyState.w && !keyState.a && !keyState.s && !keyState.d && !isPaused) {
-    if (!walkCooldownRef.current) {
-      console.log('Starting walk cooldown');
-      triggerWalkCooldown();
-    }
-  } else {
-    // If any movement key is held, cancel cooldown and ensure walking
-    if (walkCooldownRef.current) {
-      clearTimeout(walkCooldownRef.current);
-      walkCooldownRef.current = null;
-    }
-    setIsWalking(true);
-  }
-}, [keyState.w, keyState.a, keyState.s, keyState.d]);
-
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift, keyState]); // Add isShiftPressed to dependencies
-
-const idleIntervalMs = 500; // Adjust as needed for idle animation speed
-const walkIntervalMs = 300; // Adjust as needed for walking animation speed
-
-React.useEffect(() => {
-    if (isWalking || isPaused) return; // Only animate idle when not walking or paused
-      const interval = setInterval(() => {
+  const interval = setInterval(() => {
+    if (!isPausedRef.current && !isWalkingRef.current) {
       switch (lastDirectionRef.current) {
         case 'left':
           setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
@@ -865,13 +820,7 @@ React.useEffect(() => {
         default:
           setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
       }
-    }, idleIntervalMs);
-    return () => clearInterval(interval);
-    }, [isWalking, isPaused, lastDirection]);
-    
-    React.useEffect(() => {
-  if (!isWalking || isPaused) return; // Only animate walk when walking and not paused
-  const interval = setInterval(() => {
+    } else if (!isPausedRef.current && isWalkingRef.current) {
       switch (lastDirectionRef.current) {
         case 'down':
           setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
@@ -899,9 +848,10 @@ React.useEffect(() => {
           break;
         default:
           setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+      }
     }
-  }, walkIntervalMs);
-  return () => clearInterval(interval);
+  }, 500);
+return () => clearInterval(interval);
 }, [lastDirection, isPaused, isWalking]); // Add isWalking to dependencies
 
 
