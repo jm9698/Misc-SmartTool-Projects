@@ -228,6 +228,10 @@ const enclosedWallSprite1 = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const enclosedWallSprite2 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png';
 const enclosedWallSprite3 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png';
 const enclosedWallSprite4 ='https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png';
+//These are debug images to test the exp bar
+const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/Exp%20100%25%20Component.png';
+const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/Exp%200%25%20Component.png';
+//These are debug images to test the exp bar
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
@@ -237,11 +241,23 @@ const floorSprites = [
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 const Game = () => {
 const [dungeon, setDungeon] = React.useState([]);
+const [playerHP, setPlayerHP] = React.useState(100);
+const [maxPlayerHP, setMaxPlayerHP] = React.useState(100);
+const [playerAttack, setPlayerAttack] = React.useState(10);
+const [playerSpecialAttack, setPlayerSpecialAttack] = React.useState(20);
+const [playerDefense, setPlayerDefense] = React.useState(5);
+const [playerSpecialDefense, setPlayerSpecialDefense] = React.useState(10);
+const [playerSpeed, setPlayerSpeed] = React.useState(5);
+const [exp, setExp] = React.useState(0);
+const [maxExp, setMaxExp] = React.useState(100);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
 const [inventory, setInventory] = React.useState([]);
 const [showToolbox, setShowToolbox] = React.useState(false);
+const [checkBox1, setCheckBox1] = React.useState(false);
+const [checkBox2, setCheckBox2] = React.useState(false);
+const [checkBox3, setCheckBox3] = React.useState(false);
 const [actionLog, setActionLog] = React.useState([]); // [{msg, id}]
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
@@ -713,6 +729,9 @@ if (itemHere) {
 }
 }
 break;
+case 'e': // debug for exp
+setExp(prev => prev + 10);
+break;
 case 'x': // x to toggle diagonal mode
 if (isAiming){
 setIsAiming(false);
@@ -1022,6 +1041,11 @@ return (
     <div key={entry.id}>{entry.msg}</div>
   ))}
         </div>
+        <img src={
+          exp < 100 ? expBarComponent0
+          : exp >= 100 ? expBarComponent100
+          : null
+        } alt="Experience Bar" className="absolute" />
       </div>
     </div>
     {isPaused && !showOptions && !showMoves && !showToolbox && (
@@ -1039,13 +1063,13 @@ return (
       <div className="menu options-menu">
         <h2 className="text-white text-lg">Options</h2>
         <label>
-          <input type="checkbox" /> Checkbox 1
+          <input type="checkbox" checked={checkBox1} onChange={() => setCheckBox1(!checkBox1)} /> Checkbox 1
         </label>
         <label>
-          <input type="checkbox" /> Checkbox 2
+          <input type="checkbox" checked={checkBox2} onChange={() => setCheckBox2(!checkBox2)} /> Checkbox 2
         </label>
         <label>
-          <input type="checkbox" /> Checkbox 3
+          <input type="checkbox" checked={checkBox3} onChange={() => setCheckBox3(!checkBox3)} /> Checkbox 3
         </label>
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
       </div>
