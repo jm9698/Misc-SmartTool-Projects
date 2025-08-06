@@ -229,8 +229,8 @@ const enclosedWallSprite2 = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const enclosedWallSprite3 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png';
 const enclosedWallSprite4 ='https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png';
 //These are debug images to test the exp bar
-const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/Exp%20100%25%20Component.png';
-const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/Exp%200%25%20Component.png';
+const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar100%25.png';
+const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar0%25.png';
 //These are debug images to test the exp bar
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
@@ -1041,13 +1041,24 @@ return (
     <div key={entry.id}>{entry.msg}</div>
   ))}
         </div>
+      </div>
+        <div className="absolute top-0 left-0 w-full h-full flex items-left justify-left"
+           style={{
+            position: 'absolute',
+            transform: 'translateY(100%)',
+            width: '100%',
+            height: '50px',
+            marginTop: '50px',
+            opacity: '0.8',
+
+          }}>
         <img src={
           exp < 100 ? expBarComponent0
           : exp >= 100 ? expBarComponent100
           : null
         } alt="Experience Bar" className="absolute" />
+        </div>
       </div>
-    </div>
     {isPaused && !showOptions && !showMoves && !showToolbox && (
       <div className="menu">
         <h2 className="text-white text-lg">Paused</h2>
