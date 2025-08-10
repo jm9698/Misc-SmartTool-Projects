@@ -354,6 +354,7 @@ const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
 const [inventory, setInventory] = React.useState([]);
+const [inventoryFull, setInventoryFull] = React.useState(false);
 const [showToolbox, setShowToolbox] = React.useState(false);
 const [checkBox1, setCheckBox1] = React.useState(false);
 const [checkBox2, setCheckBox2] = React.useState(false);
@@ -561,9 +562,11 @@ function addItemToInventory(itemName) {
 
     // If no stack with space, create a new stack if there is room
     if (newInventory.length < MAX_INVENTORY_SLOTS) {
+      if (newInventory.length === MAX_INVENTORY_SLOTS - 1) {
+        setInventoryFull(true);
+      }
       return [...newInventory, { ...itemDef, count: 1 }];
-    } else {
-      alert("Inventory full!");
+    } else if (newInventory.length === MAX_INVENTORY_SLOTS && inventoryFull) {
       return prev;
     }
   });
@@ -657,9 +660,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
@@ -678,9 +686,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 break;
@@ -706,9 +719,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
@@ -727,9 +745,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 break;
@@ -754,9 +777,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
@@ -775,9 +803,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 break;
@@ -802,9 +835,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
@@ -823,9 +861,14 @@ if (pickedCurrency) {
 }
 const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
 if (itemHere) {
+  if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  }
+  else if (inventoryFull){
+    addLogMessage('Inventory full!');
+}
 }
 }
 break;
