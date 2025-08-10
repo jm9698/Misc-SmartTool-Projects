@@ -341,6 +341,7 @@ const floorSprites = [
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 const Game = () => {
 const [dungeon, setDungeon] = React.useState([]);
+const [level, setLevel] = React.useState(1);
 const [playerHP, setPlayerHP] = React.useState(100);
 const [maxPlayerHP, setMaxPlayerHP] = React.useState(100);
 const [playerAttack, setPlayerAttack] = React.useState(10);
@@ -376,6 +377,7 @@ const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for wa
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
+const [showStatus, setShowStatus] = React.useState(false); // State for status menu
 const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
 const [keyState, setKeyState] = React.useState({
   w: false, a: false, s: false, d: false,
@@ -571,7 +573,26 @@ function addItemToInventory(itemName) {
     }
   });
 }
-
+function increaseLevel(){
+  setLevel(prev => prev + 1);
+  setMaxPlayerHP(prev => prev + 10);
+  setPlayerHP(prev => Math.min(prev + 10, maxPlayerHP));
+  setPlayerAttack(prev => prev + 2);
+  setPlayerSpecialAttack(prev => prev + 3);
+  setPlayerDefense(prev => prev + 2);
+  setPlayerSpecialDefense(prev => prev + 3);
+  setPlayerSpeed(prev => prev + 1);
+  
+  // Increase maxExp based on level
+  const newMaxExp = Math.floor(100 * Math.pow(1.2, level - 1));
+  setMaxExp(newMaxExp);
+}
+if (exp >= maxExp) {
+  const overflow = exp - maxExp;
+  setExp(overflow);
+  increaseLevel();
+  console.log(`Level: ${level} reached!`);
+}
 function generateProceduralDungeon(width, height, options = {}) {
   const {
     roomAttempts = 60,
@@ -874,10 +895,8 @@ if (itemHere) {
 break;
 case 'e': // debug for exp
 if (exp < maxExp) {
-  setExp(prev => prev + 1);
-  addLogMessage(`Gained 1 EXP! Current EXP: ${exp + 1}`);
-} else {
-  addLogMessage(`Already at max EXP: ${maxExp}`);
+  setExp(prev => prev + 200); // Add 200 EXP for testing
+  addLogMessage(`Gained 200 EXP! Current EXP: ${exp + 200}`);
 }
 break;
 case 'x': // x to toggle diagonal mode
@@ -1201,7 +1220,7 @@ return (
 
           }}>
         <img src={
-          exp/maxExp === 0 ? expBarComponent0
+           0 <= exp/maxExp && exp/maxExp < 0.01 ? expBarComponent0
           : exp/maxExp === 1 ? expBarComponent100
           : 0.01 <= exp/maxExp && exp/maxExp < 0.02 ? expBarComponent1
           : 0.02 <= exp/maxExp && exp/maxExp < 0.03 ? expBarComponent2
@@ -1303,7 +1322,7 @@ return (
           : 0.98 <= exp/maxExp && exp/maxExp < 0.99 ? expBarComponent98
           : 0.99 <= exp/maxExp && exp/maxExp < 1 ? expBarComponent99
           : null
-        } alt="Experience Bar" className="absolute" />
+         } alt="Experience Bar" className="absolute" />
         </div>
         <div className="absolute top-0 left-0 w-full h-full flex items-left justify-left"
         style={{
@@ -1322,15 +1341,30 @@ return (
           <img src={vaporeonPortraitNormal} alt="Vaporeon Portrait" className="w-16 h-16" />
       </div>
       </div>
-    {isPaused && !showOptions && !showMoves && !showToolbox && (
+    {isPaused && !showOptions && !showMoves && !showToolbox && !showStatus && (
       <div className="menu">
         <h2 className="text-white text-lg">Paused</h2>
         <div className="flex">
+          <button className="bg-blue-500 text-white p-2 rounded mr-2" onClick={() => setShowStatus(true)}>Status</button>
           <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(true)}>Moves</button>
           <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(true)}>Toolbox</button>
           <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(true)}>Options</button>
           <button className="bg-red-500 text-white p-2 rounded" onClick={() => setIsPaused(false)}>Close</button>
         </div>
+      </div>
+    )}
+    {isPaused && showStatus && ( // Show status menu when Status is clicked
+      <div className="menu status-menu">
+        <h2 className="text-white text-lg">Status</h2>
+        <p className="text-white">Level: {level}</p>
+        <p className="text-white">HP: {playerHP}/{maxPlayerHP}</p>
+        <p className="text-white">EXP: {exp}/{maxExp}</p>
+        <p className="text-white">Attack: {playerAttack}</p>
+        <p className="text-white">Special Attack: {playerSpecialAttack}</p>
+        <p className="text-white">Speed: {playerSpeed}</p>
+        <p className="text-white">Special Defense: {playerSpecialDefense}</p>
+        <p className="text-white">Defense: {playerDefense}</p>
+        <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowStatus(false)}>Back</button>
       </div>
     )}
     {isPaused && showOptions && ( // Show options menu when options are clicked
