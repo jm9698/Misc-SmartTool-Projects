@@ -382,7 +382,7 @@ const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
 const [keyState, setKeyState] = React.useState({
   w: false, a: false, s: false, d: false,
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
-  shift: false, wA: false, wD: false, sA: false, sD: false,
+  shift: false
 });
 const lastDirectionRef = React.useRef(lastDirection);
 const isPausedRef = React.useRef(isPaused);
@@ -647,29 +647,16 @@ React.useEffect(() => {
   setWalkSpriteIndex(0);
 }, [lastDirection, isWalking]);
 //*
+
+React.useEffect(() => {
+const handleKeyDown = (e) => {
+if (e.key === 'Shift') {
+updateKeyState('shift', true); // Set Shift pressed state to true
+setShowIndicators(prev => !prev); // show indicators
+}
+
 let newX = playerPos.x;
 let newY = playerPos.y;
-
-if (keyState.w && keyState.a) {
-  updateKeyState('wA', true);
-  updateKeyState('w', false);
-  updateKeyState('a', false);
-  console.log('wA pressed');
-  console.log('movement trigger')
-    newY = prev => prev - 1; // Move up unless Shift is pressed
-    newX = prev => prev - 1; // Move left unless Shift is pressed
-    setIsWalking(true);
-    triggerWalkCooldown();
-    setLastDirection('up-left');
-}
-React.useEffect(() => {
-  const handleKeyDown = (e) => {
-    if (e.key === 'Shift') {
-      updateKeyState('shift', true); // Set Shift pressed state to true
-      setShowIndicators(prev => !prev); // show indicators
-    }
-
-
 
 switch (e.key) {
 case 'w':
@@ -681,11 +668,10 @@ setLastDirection('up');
 else if (isAiming && keyState.w && keyState.a){
 setLastDirection('up-left');
 }
-else if (!isAiming && !inDiagonalMode && !keyState.wHeld && !keyState.wA){ newY -= 1; // Move up unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
 setIsWalking(true);
 triggerWalkCooldown();
 updateKeyState('wHeld', true);
-console.log(keyState.a)
 setLastDirection('up');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -705,7 +691,6 @@ if (itemHere) {
 }
 }
 }
-/*
 else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
 newY -=1;
 newX -=1;
@@ -733,7 +718,6 @@ if (itemHere) {
 }
 }
 break;
-*/
 case 's':
 updateKeyState('s', true);
 if (isAiming){
@@ -801,7 +785,7 @@ setLastDirection('left');
 else if (isAiming && keyState.a && keyState.s){
 setLastDirection('down-left');
 }
-else if (!isAiming && !inDiagonalMode && !keyState.aHeld && !keyState.wA){ newX -= 1; // Move left unless Shift is pressed
+else if (!isAiming && !inDiagonalMode && !keyState.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
 triggerWalkCooldown();
 updateKeyState('aHeld', true);
@@ -933,7 +917,7 @@ setIsAiming(prev => !prev);
 return;
 default:
 return;
-  }
+}
 
 // Check for collision with walls only if not paused and not holding Shift
 if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !keyState.shift) {
@@ -950,12 +934,6 @@ setFloor((prevFloor) => prevFloor + 1);
 const handleKeyUp = (e) => {
 if (e.key === 'Shift') {
 updateKeyState('shift', false); // Set Shift pressed state to false
-}
-else if (e.key === 'wA') {
-console.log('wA released');
-updateKeyState('wA', false);
-updateKeyState('wHeld', false);
-updateKeyState('aHeld', false);
 }
 else if (e.key === 'w') {
 updateKeyState('w', false);
