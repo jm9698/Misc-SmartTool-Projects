@@ -380,9 +380,9 @@ const [showOptions, setShowOptions] = React.useState(false); // State for option
 const [showStatus, setShowStatus] = React.useState(false); // State for status menu
 const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
 const [keyState, setKeyState] = React.useState({
-  w: false, a: false, s: false, d: false,
+  w: false, a: false, s: false, d: false, q: false, e: false, z: false, c: false,
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
-  shift: false
+  shift: false, qHeld: false, eHeld: false, zHeld: false, cHeld: false
 });
 const lastDirectionRef = React.useRef(lastDirection);
 const isPausedRef = React.useRef(isPaused);
@@ -659,16 +659,15 @@ let newX = playerPos.x;
 let newY = playerPos.y;
 
 switch (e.key) {
+  //up
 case 'w':
 if (!keyState.w) {
 updateKeyState('w', true);
 if (isAiming){
 setLastDirection('up');
-}}
-else if (isAiming && keyState.w && keyState.a){
-setLastDirection('up-left');
 }
-else if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
+}
+if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
 setIsWalking(true);
 triggerWalkCooldown();
 updateKeyState('wHeld', true);
@@ -691,13 +690,22 @@ if (itemHere) {
 }
 }
 }
-else if (!isAiming && keyState.w && keyState.a && !keyState.wHeld && !keyState.aHeld){
+break;
+case 'q':
+//up left
+if (!keyState.q) {
+updateKeyState('q', true);
+}
+if (keyState.q && isAiming){
+  setLastDirection('up-left');
+}
+if (!isAiming && keyState.q && !keyState.qHeld){
+console.log('Moving up-left');
+updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
 setIsWalking(true);
 triggerWalkCooldown();
-updateKeyState('wHeld', true);
-updateKeyState('aHeld', true);
 setLastDirection('up-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -718,6 +726,7 @@ if (itemHere) {
 }
 }
 break;
+//down
 case 's':
 updateKeyState('s', true);
 if (isAiming){
@@ -750,13 +759,21 @@ if (itemHere) {
 }
 }
 }
-else if (!isAiming && keyState.s && keyState.d && !keyState.sHeld && !keyState.dHeld){
+break;
+case 'c':
+//down right
+if (!keyState.c) {
+  updateKeyState('c', true);
+}
+if (keyState.c && isAiming){
+  setLastDirection('down-right');
+}
+if (!isAiming && keyState.c && !keyState.cHeld){
+updateKeyState('cHeld', true);
 newY +=1;
 newX +=1;
 setIsWalking(true);
 triggerWalkCooldown();
-updateKeyState('dHeld', true);
-updateKeyState('sHeld', true);
 setLastDirection('down-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -777,6 +794,7 @@ if (itemHere) {
 }
 }
 break;
+//left
 case 'a':
 updateKeyState('a', true);
 if (isAiming){
@@ -808,13 +826,21 @@ if (itemHere) {
 }
 }
 }
-else if (!isAiming && keyState.s && keyState.a && !keyState.sHeld &&!keyState.aHeld){
+break;
+case 'z':
+if (!keyState.z) {
+  updateKeyState('z', true);
+}
+if (keyState.z && isAiming){
+setLastDirection('down-left');
+}
+//down left
+if (!isAiming && keyState.z && !keyState.zHeld){
+updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
 setIsWalking(true);
 triggerWalkCooldown();
-updateKeyState('sHeld', true);
-updateKeyState('aHeld', true);
 setLastDirection('down-left');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -835,6 +861,7 @@ if (itemHere) {
 }
 }
 break;
+//right
 case 'd':
 updateKeyState('d', true);
 if (isAiming){
@@ -866,13 +893,21 @@ if (itemHere) {
 }
 }
 }
-else if (!isAiming && keyState.d && keyState.w && !keyState.dHeld && !keyState.wHeld){
+break;
+case 'e':
+if (!keyState.e) {
+  updateKeyState('e', true);
+}
+if (isAiming && keyState.e){
+  setLastDirection('up-right');
+}
+//up right
+if (!isAiming && keyState.e && !keyState.eHeld){
+updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
 setIsWalking(true);
 triggerWalkCooldown();
-updateKeyState('dHeld', true);
-updateKeyState('wHeld', true);
 setLastDirection('up-right');
 const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
 if (pickedCurrency) {
@@ -893,7 +928,7 @@ if (itemHere) {
 }
 }
 break;
-case 'e': // debug for exp
+case 'p': // debug for exp
 if (exp < maxExp) {
   setExp(prev => prev + 200); // Add 200 EXP for testing
   addLogMessage(`Gained 200 EXP! Current EXP: ${exp + 200}`);
@@ -904,7 +939,6 @@ if (isAiming){
 setIsAiming(false);
 }
 setInDiagonalMode(prev => !prev);
-setShowIndicators2(prev => !prev); // show indicators
 break;
 case 'Escape': // Escape key to toggle pause
 setIsPaused(prev => !prev);
@@ -932,25 +966,37 @@ setFloor((prevFloor) => prevFloor + 1);
 };
 
 const handleKeyUp = (e) => {
+if (e.key === 'q'){
+updateKeyState('qHeld', false);
+}
+if (e.key === 'e'){
+updateKeyState('eHeld', false);
+}
+if (e.key === 'z'){
+updateKeyState('zHeld', false);
+}
+if (e.key === 'c'){
+updateKeyState('cHeld', false);
+}
 if (e.key === 'Shift') {
 updateKeyState('shift', false); // Set Shift pressed state to false
 }
-else if (e.key === 'w') {
+if (e.key === 'w') {
 updateKeyState('w', false);
 updateKeyState('wHeld', false);
 //triggerWalkCooldown()
 }
-else if (e.key === 'a') {
+if (e.key === 'a') {
 updateKeyState('a', false);
 updateKeyState('aHeld', false);
 //triggerWalkCooldown();
 }
-else if (e.key === 's') {
+if (e.key === 's') {
 updateKeyState('s', false);
 updateKeyState('sHeld', false);
 //triggerWalkCooldown();
 }
-else if (e.key === 'd') {
+if (e.key === 'd') {
 updateKeyState('d', false);
 updateKeyState('dHeld', false);
 //triggerWalkCooldown();
