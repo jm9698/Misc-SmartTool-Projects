@@ -370,8 +370,8 @@ const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whet
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
 const [isWalking, setIsWalking] = React.useState(false);
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
-const height = 30
-const width = 30
+const height = 60
+const width = 60
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
@@ -608,9 +608,9 @@ if (exp >= maxExp) {
 function generateProceduralDungeon(width, height, options = {}) {
   const {
     roomAttempts = 60,
-    minRoomSize = 4,
-    maxRoomSize = 10,
-    maxRooms = 8
+    minRoomSize = 5,
+    maxRoomSize = 5,
+    maxRooms = 3
   } = options;
   const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
   const rooms = [];
