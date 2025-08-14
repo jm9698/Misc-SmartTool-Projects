@@ -229,6 +229,10 @@ const enclosedWallSprite1 = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const enclosedWallSprite2 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png';
 const enclosedWallSprite3 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png';
 const enclosedWallSprite4 ='https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png';
+const innerCornerTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topright.png';
+const innerCornerTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png';
+const innerCornerBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png';
+const innerCornerBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png';
 //These are debug images to test the exp bar
 const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar100%25.png';
 const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar0%25.png';
@@ -413,7 +417,11 @@ if (!up && !left && right && down) return 'wall_corner_topleft';
     if (up && !down && !right && !left) return 'wall_isolated_up'
     if (!up && !down && right && !left) return 'wall_isolated_right'
     if (!up && !down && !right && left) return 'wall_isolated_left'
-    
+    if (up && down && left && right && !upLeft) return 'wall_inner_corner_topleft'
+    if (up && down && left && right && !upRight) return 'wall_inner_corner_topright'
+    if (up && down && left && right && !downLeft) return 'wall_inner_corner_bottomleft'
+    if (up && down && left && right && !downRight) return 'wall_inner_corner_bottomright'
+
     // ...continue for other combinations...
    else return 'wall_full'; // fallback
 }
@@ -432,7 +440,11 @@ const wallSpriteMap = {
   wall_isolated_down: wallSpriteLeft,
   wall_isolated_up: wallSpriteLeft,
   wall_isolated_right: wallSpriteUp,
-  wall_isolated_left: wallSpriteUp
+  wall_isolated_left: wallSpriteUp,
+  wall_inner_corner_topleft: innerCornerTopLeft,
+  wall_inner_corner_topright: innerCornerTopRight,
+  wall_inner_corner_bottomleft: innerCornerBottomLeft,
+  wall_inner_corner_bottomright: innerCornerBottomRight
   // ...etc...
 };
 function updateKeyState(key, value) {
