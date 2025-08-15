@@ -370,8 +370,12 @@ const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whet
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
 const [isWalking, setIsWalking] = React.useState(false);
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
-const height = 60
-const width = 60
+const minHeight = 60;
+const maxHeight = 70;
+const minWidth = 60;
+const maxWidth = 70;
+const height = randInt(minHeight, maxHeight + 1);
+const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
@@ -475,11 +479,12 @@ function makeRoom(x, y, w, h) {
   return { x, y, w, h, center: { x: Math.floor(x + w / 2), y: Math.floor(y + h / 2) } };
 }
 function roomsOverlap(a, b) {
+  const overlapBuffer = -2;
   return (
-    a.x < b.x + b.w &&
-    a.x + a.w > b.x &&
-    a.y < b.y + b.h &&
-    a.y + a.h > b.y
+    Math.abs(a.x + overlapBuffer) < Math.abs(b.x + b.w) &&
+    Math.abs(a.x + a.w) > Math.abs(b.x + overlapBuffer) &&
+    Math.abs(a.y + overlapBuffer) < Math.abs(b.y + b.h) &&
+    Math.abs(a.y + a.h) > Math.abs(b.y + overlapBuffer)
   );
 }
 function carveRoom(dungeon, room) {
@@ -607,21 +612,23 @@ if (exp >= maxExp) {
 }
 function generateProceduralDungeon(width, height, options = {}) {
   const {
-    roomAttempts = 60,
+    roomAttempts = 120,
     minRoomSize = 5,
-    maxRoomSize = 5,
-    maxRooms = 3
+    maxRoomSize = 8,
+    maxRooms = 8,
+    minRooms = 4
   } = options;
   const dungeon = Array.from({ length: height }, () => Array(width).fill('W'));
   const rooms = [];
 //*
 
-for (let i = 0; i < roomAttempts && rooms.length < maxRooms; i++) {
+for (let i = 0; i < roomAttempts && rooms.length < randInt(minRooms, maxRooms + 1); i++) {
     const w = randInt(minRoomSize, maxRoomSize + 1);
     const h = randInt(minRoomSize, maxRoomSize + 1);
-    const x = randInt(1, width - w - 1);
-    const y = randInt(1, height - h - 1);
+    const x = randInt(2, width - w - 2);
+    const y = randInt(2, height - h - 2);
     const newRoom = makeRoom(x, y, w, h);
+    console.log(roomAttempts)
 if (rooms.every(room => !roomsOverlap(newRoom, room))) {
       carveRoom(dungeon, newRoom);
       rooms.push(newRoom);
@@ -966,7 +973,7 @@ return;
 }
 
 // Check for collision with walls only if not paused and not holding Shift
-if (!isAiming && !isPaused && newY >= 0 && newY < 30 && newX >= 0 && newX < 30 && dungeon[newY][newX] !== 'W' && !keyState.shift) {
+if (!isAiming && !isPaused && newY >= 0 && newY < height && newX >= 0 && newX < width && dungeon[newY][newX] !== 'W' && !keyState.shift) {
 setPlayerPos({ x: newX, y: newY });
 updateCamera(newX, newY);
 }
@@ -1099,13 +1106,13 @@ React.useEffect(() => {
 }, [isWalking, isPaused, lastDirection]);
 
 const generateDungeon = () => {
-  const width = 30, height = 30;
-  const { dungeon: newDungeon, playerStart } = generateProceduralDungeon(width, height);
+  const stateWidth = width, stateHeight = height;
+  const { dungeon: newDungeon, playerStart } = generateProceduralDungeon(stateWidth, stateHeight);
 
   // Find stairs position
   let stairX = 0, stairY = 0;
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
+  for (let y = 0; y < stateHeight; y++) {
+    for (let x = 0; x < stateWidth; x++) {
       if (newDungeon[y][x] === 'S') {
         stairX = x;
         stairY = y;
@@ -1166,7 +1173,11 @@ return (
         <img src={Pokedollar} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
       </div>
       <div className="dungeon-container">
-        <div className="dungeon" style={{ transform: cameraTransform }}>
+        <div className="dungeon" style={{ 
+          transform: cameraTransform,
+          width: '7680px',
+          height: '7680px',
+        }}>
           {dungeon.map((row, rowIndex) => (
             <div key={rowIndex} className="dungeon-row flex">
               {row.map((cell, colIndex) => {
