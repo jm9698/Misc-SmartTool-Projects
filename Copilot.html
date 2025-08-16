@@ -358,6 +358,7 @@ const [maxExp, setMaxExp] = React.useState(100);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
+const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
 const [inventory, setInventory] = React.useState([]);
 const [inventoryFull, setInventoryFull] = React.useState(false);
 const [showToolbox, setShowToolbox] = React.useState(false);
@@ -702,6 +703,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -737,6 +739,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -771,6 +774,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -805,6 +809,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -838,6 +843,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -872,6 +878,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -905,6 +912,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -939,6 +947,7 @@ if (itemHere) {
   if (!inventoryFull){
   addItemToInventory(itemHere.itemName || "Reviver Seed");
   setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+  setItemSelected(itemHere.id);
   addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
   }
   else if (inventoryFull){
@@ -1462,11 +1471,24 @@ return (
       </div>
     )}
     {isPaused && showToolbox && (
-      <div className="menu">
+      <div className="menu"
+      style={{
+        margin: '10px',
+        borderColor: 'blue',
+        borderWidth: '4px',
+        borderStyle: 'solid',
+        display: 'grid',
+        gridTemplateRows: 'auto minmax(0, 1fr)',
+        minHeight: '50vh',
+        minWidth: '50vh',
+        opacity: '1',
+        zIndex: '9999'
+      }}>
         <h2 className="text-white text-lg">Toolbox</h2>
         {inventory.length === 0 ? (
           <p className="text-white">No items in inventory.</p>
         ) : (
+          
           <ul>
             {inventory.map((item, idx) => (
               <li key={idx} className="text-white flex items-center mb-2">
@@ -1475,7 +1497,23 @@ return (
               </li>
             ))}
           </ul>
+          
         )}
+        <div className="menu-triangle-indicator"
+        style={{
+          width: 0,
+          height: 0,
+          marginBottom: '60%',
+          marginLeft: '55%',
+          borderLeft: '10px solid transparent',
+          borderRight: '10px solid transparent',
+          borderBottom: '10px solid white',
+          animation: 'flicker 1s infinite',
+          rotate: itemSelected !== null? '270deg' : '0deg',
+          //transform: `translateX(${itemSelected - 32}px)`,
+          opacity: itemSelected !== null? 1 : 0
+        }}
+       />
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
       </div>
     )}
