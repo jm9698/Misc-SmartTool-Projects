@@ -336,6 +336,7 @@ const expBarComponent97 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTo
 const expBarComponent98 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar98%25.png';
 const expBarComponent99 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar99%25.png';
 //These are debug images to test the exp bar
+const itemSelector = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/itemSelector.png'
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
@@ -358,6 +359,7 @@ const [maxExp, setMaxExp] = React.useState(100);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
+const [itemOrder, setItemOrder] = React.useState(0);
 const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
 const [inventory, setInventory] = React.useState([]);
 const [inventoryFull, setInventoryFull] = React.useState(false);
@@ -579,7 +581,16 @@ function addItemToInventory(itemName) {
       updated[stackIndexes[0]].count += 1;
       return updated;
     }
-
+    if (inventory.length < 0){
+      setItemOrder(null)
+      console.log('No items in inventory');
+      console.log('itemOrder:', itemOrder);
+    }
+    else if (inventory.length >= 0){
+      setItemOrder(inventory.length + 1)
+      console.log('Item order set');
+      console.log('itemOrder:', itemOrder);
+    }
     // If no stack with space, create a new stack if there is room
     if (newInventory.length < MAX_INVENTORY_SLOTS) {
       if (newInventory.length === MAX_INVENTORY_SLOTS - 1) {
@@ -590,6 +601,12 @@ function addItemToInventory(itemName) {
       return prev;
     }
   });
+}
+function itemSelectUp(){
+  setItemOrder(prev => Math.max(prev - 1, 0));
+}
+function itemSelectDown(){
+  setItemOrder(prev => Math.min(prev + 1, inventory.length - 1));
 }
 function increaseLevel(){
   setLevel(prev => prev + 1);
@@ -681,6 +698,10 @@ let newY = playerPos.y;
 switch (e.key) {
   //up
 case 'w':
+if (showToolbox === true && itemOrder !== null) {
+  itemSelectUp();
+  console.log('Item selected up');
+}
 if (!keyState.w) {
 updateKeyState('w', true);
 if (isAiming){
@@ -751,6 +772,10 @@ break;
 //down
 case 's':
 updateKeyState('s', true);
+if (showToolbox === true) {
+  itemSelectDown();
+  console.log('Item selected down');
+}
 if (isAiming){
 setLastDirection('down');
 }
@@ -1482,7 +1507,7 @@ return (
         minHeight: '50vh',
         minWidth: '50vh',
         opacity: '1',
-        zIndex: '9999'
+        zIndex: '100'
       }}>
         <h2 className="text-white text-lg">Toolbox</h2>
         {inventory.length === 0 ? (
@@ -1499,21 +1524,19 @@ return (
           </ul>
           
         )}
-        <div className="menu-triangle-indicator"
-        style={{
-          width: 0,
-          height: 0,
-          marginBottom: '60%',
-          marginLeft: '55%',
-          borderLeft: '10px solid transparent',
-          borderRight: '10px solid transparent',
-          borderBottom: '10px solid white',
-          animation: 'flicker 1s infinite',
-          rotate: itemSelected !== null? '270deg' : '0deg',
-          //transform: `translateX(${itemSelected - 32}px)`,
-          opacity: itemSelected !== null? 1 : 0
-        }}
-       />
+        <div className="menu-itemSelector-top">
+          <img src={itemSelector} alt="Item Selector" style={{ 
+            width: 64, 
+            height: 64,
+            marginBottom: '100%',
+            marginLeft: '55%',
+            animation: 'flicker 1s infinite',
+            transform: itemOrder !== 0 ? `translateY(-52px)` : none, // itemOrder === 3 ? `translateY(0px)` : itemOrder === 5 ? `translateY(52px)` : itemOrder === 7 ? `translateY(104px)` : itemOrder === 9 ? `translateY(156px)` : 'none',
+            opacity: itemSelected !== null ? 1 : 0,
+            zIndex: itemSelected !== null ? 101 : 'auto'
+          }} />
+        </div>
+        
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
       </div>
     )}
