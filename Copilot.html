@@ -346,6 +346,7 @@ const floorSprites = [
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 const Game = () => {
 const [dungeon, setDungeon] = React.useState([]);
+const [timeElapsed, setTimeElapsed] = React.useState(0);
 const [level, setLevel] = React.useState(1);
 const [playerHP, setPlayerHP] = React.useState(100);
 const [maxPlayerHP, setMaxPlayerHP] = React.useState(100);
@@ -359,8 +360,11 @@ const [maxExp, setMaxExp] = React.useState(100);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
+const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
 const [itemOrder, setItemOrder] = React.useState(0);
+const [scrollItemOrder, setScrollItemOrder] = React.useState(0);
 const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
+const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
 const [inventoryFull, setInventoryFull] = React.useState(false);
 const [showToolbox, setShowToolbox] = React.useState(false);
@@ -582,14 +586,16 @@ function addItemToInventory(itemName) {
       return updated;
     }
     if (inventory.length < 0){
-      setItemOrder(null)
+      setNatItemOrder(0)
       console.log('No items in inventory');
       console.log('itemOrder:', itemOrder);
+      console.log('natItemOrder:', natItemOrder);
     }
     else if (inventory.length >= 0){
-      setItemOrder(inventory.length + 1)
+      setNatItemOrder(inventory.length)
       console.log('Item order set');
       console.log('itemOrder:', itemOrder);
+      console.log('natItemOrder:', natItemOrder);
     }
     // If no stack with space, create a new stack if there is room
     if (newInventory.length < MAX_INVENTORY_SLOTS) {
@@ -602,11 +608,27 @@ function addItemToInventory(itemName) {
     }
   });
 }
-function itemSelectUp(){
-  setItemOrder(prev => Math.max(prev - 1, 0));
-}
+
+// Flicker effect: toggle flickerFrame every 500ms if itemSelected is not null
+React.useEffect(() => {
+  if (itemSelected === null) return;
+  const interval = setInterval(() => {
+    setFlickerFrame(prev => (prev === 0 ? 1 : 0));
+  }, 500); // Flicker every 500ms
+  return () => clearInterval(interval);
+}, [itemSelected]);
+
 function itemSelectDown(){
-  setItemOrder(prev => Math.min(prev + 1, inventory.length - 1));
+  if (itemOrder < inventory.length - 1) {
+    setItemOrder(prev => (prev + 1));
+    setScrollItemOrder(itemOrder - (natItemOrder - 1));
+  }
+}
+function itemSelectUp(){
+  if (itemOrder > 0) {
+    setItemOrder(prev => (prev - 1));
+    setScrollItemOrder(itemOrder - (natItemOrder - 1));
+  }
 }
 function increaseLevel(){
   setLevel(prev => prev + 1);
@@ -698,10 +720,11 @@ let newY = playerPos.y;
 switch (e.key) {
   //up
 case 'w':
-if (showToolbox === true && itemOrder !== null) {
+//if (showToolbox === true && itemOrder !== null) {
   itemSelectUp();
   console.log('Item selected up');
-}
+ // return;
+//}
 if (!keyState.w) {
 updateKeyState('w', true);
 if (isAiming){
@@ -772,10 +795,11 @@ break;
 //down
 case 's':
 updateKeyState('s', true);
-if (showToolbox === true) {
+//if (showToolbox === true) {
   itemSelectDown();
   console.log('Item selected down');
-}
+  //return;
+//}
 if (isAiming){
 setLastDirection('down');
 }
@@ -1004,6 +1028,14 @@ setIsAiming(prev => !prev);
 return;
 default:
 return;
+break;
+case 'l':
+//quick log
+console.log('Current item order:', itemOrder);
+console.log('Natural item order:', natItemOrder);
+console.log('Scroll item order:', scrollItemOrder);
+console.log(inventory.length, 'items in inventory');
+  break;
 }
 
 // Check for collision with walls only if not paused and not holding Shift
@@ -1502,6 +1534,7 @@ return (
         borderColor: 'blue',
         borderWidth: '4px',
         borderStyle: 'solid',
+        backgroundColor: 'rgba(0, 0, 50, 0.8)',
         display: 'grid',
         gridTemplateRows: 'auto minmax(0, 1fr)',
         minHeight: '50vh',
@@ -1531,8 +1564,8 @@ return (
             marginBottom: '100%',
             marginLeft: '55%',
             animation: 'flicker 1s infinite',
-            transform: itemOrder !== 0 ? `translateY(-52px)` : none, // itemOrder === 3 ? `translateY(0px)` : itemOrder === 5 ? `translateY(52px)` : itemOrder === 7 ? `translateY(104px)` : itemOrder === 9 ? `translateY(156px)` : 'none',
-            opacity: itemSelected !== null ? 1 : 0,
+            transform: scrollItemOrder <= 0 ? `translateY(-52px)` : scrollItemOrder === 1 ? `translateY(0px)` : scrollItemOrder === 2 ? `translateY(52px)` : scrollItemOrder === 3 ? `translateY(104px)` : scrollItemOrder === 4 ? `translateY(156px)` : 'none',
+            opacity: itemSelected !== null && flickerFrame !== 0 ? 1 : 0,
             zIndex: itemSelected !== null ? 101 : 'auto'
           }} />
         </div>
