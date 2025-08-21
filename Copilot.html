@@ -569,6 +569,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
 function addItemToInventory(itemName) {
   const itemDef = ITEM_DEFS[itemName];
 
+  // Safely update item order inside inventory update logic
   setInventory(prev => {
     let newInventory = [...prev];
 
@@ -578,34 +579,29 @@ function addItemToInventory(itemName) {
       if (stack.name === itemName && stack.count < itemDef.stackSize) stackIndexes.push(idx);
     });
 
+    let updatedInventory;
     // Try to add to an existing stack
     if (stackIndexes.length) {
       // There is at least one stack with space
       const updated = [...newInventory];
       updated[stackIndexes[0]].count += 1;
-      return updated;
-    }
-    if (inventory.length < 0){
-      setNatItemOrder(0)
-      console.log('No items in inventory');
-      console.log('itemOrder:', itemOrder);
-      console.log('natItemOrder:', natItemOrder);
-    }
-    else if (inventory.length >= 0){
-      setNatItemOrder(inventory.length)
-      console.log('Item order set');
-      console.log('itemOrder:', itemOrder);
-      console.log('natItemOrder:', natItemOrder);
-    }
-    // If no stack with space, create a new stack if there is room
-    if (newInventory.length < MAX_INVENTORY_SLOTS) {
+      updatedInventory = updated;
+      // Do NOT increment item order when adding to existing stack
+    } else if (newInventory.length < MAX_INVENTORY_SLOTS) {
       if (newInventory.length === MAX_INVENTORY_SLOTS - 1) {
         setInventoryFull(true);
       }
-      return [...newInventory, { ...itemDef, count: 1 }];
+      updatedInventory = [...newInventory, { ...itemDef, count: 1 }];
+      // Increment item order ONLY when a new stack is created
+  setNatItemOrder(updatedInventory.length);
+  setItemOrder(updatedInventory.length);
+  console.log('Item order set to inventory length:', updatedInventory.length);
     } else if (newInventory.length === MAX_INVENTORY_SLOTS && inventoryFull) {
-      return prev;
+      updatedInventory = prev;
+    } else {
+      updatedInventory = newInventory;
     }
+    return updatedInventory;
   });
 }
 
@@ -619,17 +615,26 @@ React.useEffect(() => {
 }, [itemSelected]);
 
 function itemSelectDown(){
-  if (itemOrder < inventory.length - 1) {
+  if (itemOrder !== natItemOrder) {
     setItemOrder(prev => (prev + 1));
-    setScrollItemOrder(itemOrder - (natItemOrder - 1));
+    console.log('Item order increased to:', itemOrder);
+  }
+  else if (itemOrder === natItemOrder) {
+    setItemOrder(1);
+    console.log('Item order reset to 1');
   }
 }
 function itemSelectUp(){
-  if (itemOrder > 0) {
+  if (itemOrder > 1 && natItemOrder > 1) {
     setItemOrder(prev => (prev - 1));
-    setScrollItemOrder(itemOrder - (natItemOrder - 1));
+    console.log('Item order decreased to:', itemOrder);
+  }
+  else if (itemOrder === 1) {
+    setItemOrder(prev => natItemOrder);
+    console.log('Item order set to natural order:', natItemOrder);
   }
 }
+
 function increaseLevel(){
   setLevel(prev => prev + 1);
   setMaxPlayerHP(prev => prev + 10);
@@ -1010,12 +1015,6 @@ if (exp < maxExp) {
   setExp(prev => prev + 200); // Add 200 EXP for testing
   addLogMessage(`Gained 200 EXP! Current EXP: ${exp + 200}`);
 }
-break;
-case 'x': // x to toggle diagonal mode
-if (isAiming){
-setIsAiming(false);
-}
-setInDiagonalMode(prev => !prev);
 break;
 case 'Escape': // Escape key to toggle pause
 setIsPaused(prev => !prev);
@@ -1557,16 +1556,17 @@ return (
           </ul>
           
         )}
-        <div className="menu-itemSelector-top">
+        <div className="menu-itemSelector">
           <img src={itemSelector} alt="Item Selector" style={{ 
             width: 64, 
             height: 64,
-            marginBottom: '100%',
             marginLeft: '55%',
             animation: 'flicker 1s infinite',
-            transform: scrollItemOrder <= 0 ? `translateY(-52px)` : scrollItemOrder === 1 ? `translateY(0px)` : scrollItemOrder === 2 ? `translateY(52px)` : scrollItemOrder === 3 ? `translateY(104px)` : scrollItemOrder === 4 ? `translateY(156px)` : 'none',
+            transform: itemOrder <= 1 ? `none` : `translateY(${(itemOrder - 1) * 40}px)`,
             opacity: itemSelected !== null && flickerFrame !== 0 ? 1 : 0,
-            zIndex: itemSelected !== null ? 101 : 'auto'
+            zIndex: itemSelected !== null ? 101 : 'auto',
+            position: 'fixed',
+            top: '35px'
           }} />
         </div>
         
