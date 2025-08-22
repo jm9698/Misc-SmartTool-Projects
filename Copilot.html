@@ -595,7 +595,6 @@ function addItemToInventory(itemName) {
       // Increment item order ONLY when a new stack is created
   setNatItemOrder(updatedInventory.length);
   setItemOrder(updatedInventory.length);
-  console.log('Item order set to inventory length:', updatedInventory.length);
     } else if (newInventory.length === MAX_INVENTORY_SLOTS && inventoryFull) {
       updatedInventory = prev;
     } else {
@@ -614,24 +613,20 @@ React.useEffect(() => {
   return () => clearInterval(interval);
 }, [itemSelected]);
 
-function itemSelectDown(){
-  if (itemOrder !== natItemOrder) {
-    setItemOrder(prev => (prev + 1));
-    console.log('Item order increased to:', itemOrder);
-  }
-  else if (itemOrder === natItemOrder) {
-    setItemOrder(1);
-    console.log('Item order reset to 1');
+function itemSelectDown() {
+  if (natItemOrder > 1) {
+    let newOrder = itemOrder + 1;
+    if (newOrder > natItemOrder) newOrder = 1;
+    setItemOrder(newOrder);
+    console.log('Item order changed to:', newOrder);
   }
 }
-function itemSelectUp(){
-  if (itemOrder > 1 && natItemOrder > 1) {
-    setItemOrder(prev => (prev - 1));
-    console.log('Item order decreased to:', itemOrder);
-  }
-  else if (itemOrder === 1) {
-    setItemOrder(prev => natItemOrder);
-    console.log('Item order set to natural order:', natItemOrder);
+function itemSelectUp() {
+  if (natItemOrder > 1) {
+    let newOrder = itemOrder - 1;
+    if (newOrder < 1) newOrder = natItemOrder;
+    setItemOrder(newOrder);
+    console.log('Item order changed to:', newOrder);
   }
 }
 
@@ -714,53 +709,62 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
-if (e.key === 'Shift') {
-updateKeyState('shift', true); // Set Shift pressed state to true
-setShowIndicators(prev => !prev); // show indicators
-}
-
-let newX = playerPos.x;
-let newY = playerPos.y;
-
-switch (e.key) {
-  //up
-case 'w':
-//if (showToolbox === true && itemOrder !== null) {
-  itemSelectUp();
-  console.log('Item selected up');
- // return;
-//}
-if (!keyState.w) {
-updateKeyState('w', true);
-if (isAiming){
-setLastDirection('up');
-}
-}
-if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
-setIsWalking(true);
-triggerWalkCooldown();
-updateKeyState('wHeld', true);
-setLastDirection('up');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+  if (e.key === 'Shift') {
+    updateKeyState('shift', true); // Set Shift pressed state to true
+    setShowIndicators(prev => !prev); // show indicators
   }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
-}
-break;
+
+  let newX = playerPos.x;
+  let newY = playerPos.y;
+
+  // If toolbox is open, only handle item selection keys
+  if (showToolbox) {
+    if (e.key === 'w') {
+      itemSelectUp();
+      return;
+    }
+    if (e.key === 's') {
+      itemSelectDown();
+      return;
+    }
+    // Optionally handle other toolbox-specific keys here
+    return;
+  }
+
+  switch (e.key) {
+    //up
+    case 'w':
+      if (!keyState.w) {
+        updateKeyState('w', true);
+        if (isAiming){
+          setLastDirection('up');
+        }
+      }
+      if (!isAiming && !inDiagonalMode && !keyState.wHeld){ newY -= 1; // Move up unless Shift is pressed
+        setIsWalking(true);
+        triggerWalkCooldown();
+        updateKeyState('wHeld', true);
+        setLastDirection('up');
+        const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+        if (pickedCurrency) {
+          setCurrency(curr => curr + pickedCurrency.amount);
+          setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+          addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
+        }
+        const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+        if (itemHere) {
+          if (!inventoryFull){
+            addItemToInventory(itemHere.itemName || "Reviver Seed");
+            setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+            setItemSelected(itemHere.id);
+            addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+          }
+          else if (inventoryFull){
+            addLogMessage('Inventory full!');
+          }
+        }
+      }
+      break;
 case 'q':
 //up left
 if (!keyState.q) {
@@ -770,7 +774,6 @@ if (keyState.q && isAiming){
   setLastDirection('up-left');
 }
 if (!isAiming && keyState.q && !keyState.qHeld){
-console.log('Moving up-left');
 updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
@@ -800,11 +803,6 @@ break;
 //down
 case 's':
 updateKeyState('s', true);
-//if (showToolbox === true) {
-  itemSelectDown();
-  console.log('Item selected down');
-  //return;
-//}
 if (isAiming){
 setLastDirection('down');
 }
@@ -1032,7 +1030,6 @@ case 'l':
 //quick log
 console.log('Current item order:', itemOrder);
 console.log('Natural item order:', natItemOrder);
-console.log('Scroll item order:', scrollItemOrder);
 console.log(inventory.length, 'items in inventory');
   break;
 }
@@ -1093,7 +1090,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder]); // Add isShiftPressed to dependencies
 
 
 const idleIntervalMs = 500; // Adjust as needed for idle animation speed
