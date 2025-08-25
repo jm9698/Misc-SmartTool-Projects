@@ -81,6 +81,14 @@ border-image: linear-gradient(to right, red, transparent) 1;
 <body>
 <div id="root"></div>
 <script type="text/babel">
+// Utility to index inventory items with their definitions and positions
+const getInventoryIndex = (inventory, ITEM_DEFS) => {
+  return inventory.map((item, position) => ({
+    item,
+    itemDef: ITEM_DEFS[item.name],
+    position
+  }));
+};
 //import { frames } from 'frameExports.js'
 //console.log (frames.characters.vaporeon.idle.down.frame1);
 const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
@@ -362,8 +370,12 @@ const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
 const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
 const [itemOrder, setItemOrder] = React.useState(0);
-const [scrollItemOrder, setScrollItemOrder] = React.useState(0);
+const [itemSelectedCurrent, setItemSelectedCurrent] = React.useState(null);
 const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
+const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
+const [itemActionIndex, setItemActionIndex] = React.useState(0);
+const itemActions = ["Use", "Throw", "Discard"];
+const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
 const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
 const [inventoryFull, setInventoryFull] = React.useState(false);
@@ -381,6 +393,13 @@ const minHeight = 60;
 const maxHeight = 70;
 const minWidth = 60;
 const maxWidth = 70;
+const getInventoryIndex = (inventory, ITEM_DEFS) => {
+  return inventory.map((item, position) => ({
+    item,
+    itemDef: ITEM_DEFS[item.name],
+    position
+  }));
+};
 const height = randInt(minHeight, maxHeight + 1);
 const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
@@ -572,6 +591,10 @@ function addItemToInventory(itemName) {
   // Safely update item order inside inventory update logic
   setInventory(prev => {
     let newInventory = [...prev];
+    let itemSelected = newInventory.find(item => item.name === itemName);
+    console.log('Adding item:', itemName)
+    console.log('Inventory Index:', getInventoryIndex(newInventory, ITEM_DEFS))
+    // Removed invalid itemOrder property access
 
     // Find stacks of this item that are not full
     let stackIndexes = [];
@@ -603,9 +626,28 @@ function addItemToInventory(itemName) {
     return updatedInventory;
   });
 }
+function discardSelectedItem() {
+  setInventory(prev => {
+    const idx = itemOrder - 1; // itemOrder is 1-based
+    if (idx < 0 || idx >= prev.length) return prev;
+    const updated = [...prev];
+    if (updated[idx].count > 1) {
+      updated[idx].count -= 1;
+    } else {
+      updated.splice(idx, 1);
+      setNatItemOrder(updated.length);
+      setItemOrder(Math.max(1, updated.length));
+    }
+    return updated;
+  });
+  setShowItemActionMenu(false);
+}
+React.useEffect(() => {
+  setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
+}, [inventory]);
 
 // Flicker effect: toggle flickerFrame every 500ms if itemSelected is not null
-React.useEffect(() => {
+  React.useEffect(() => {
   if (itemSelected === null) return;
   const interval = setInterval(() => {
     setFlickerFrame(prev => (prev === 0 ? 1 : 0));
@@ -709,6 +751,40 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
+  if (showToolbox && itemSelected !== null) {
+    if (showItemActionMenu) {
+      // Scroll through actions
+      if (e.key === 'w') {
+        setItemActionIndex(prev => (prev - 1 + itemActions.length) % itemActions.length);
+        return;
+      }
+      if (e.key === 's') {
+        setItemActionIndex(prev => (prev + 1) % itemActions.length);
+        return;
+      }
+      if (e.key === 'Enter') {
+        // Use the current value of itemActionIndex immediately
+        const selectedAction = itemActions[itemActionIndex];
+        console.log('Selected action:', selectedAction);
+        if (selectedAction === 'Discard') {
+          discardSelectedItem();
+        }
+        // Add logic for other actions here ("Use", "Throw")
+        setShowItemActionMenu(false);
+        return;
+      }
+      if (e.key === 'Escape') {
+        setShowItemActionMenu(false);
+        return;
+      }
+    } else {
+      if (e.key === 'Enter') {
+        setShowItemActionMenu(true);
+        setItemActionIndex(0);
+        return;
+      }
+    }
+  }
   if (e.key === 'Shift') {
     updateKeyState('shift', true); // Set Shift pressed state to true
     setShowIndicators(prev => !prev); // show indicators
@@ -1090,7 +1166,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex]); // Add isShiftPressed to dependencies
 
 
 const idleIntervalMs = 500; // Adjust as needed for idle animation speed
@@ -1542,16 +1618,42 @@ return (
         {inventory.length === 0 ? (
           <p className="text-white">No items in inventory.</p>
         ) : (
-          
-          <ul>
-            {inventory.map((item, idx) => (
-              <li key={idx} className="text-white flex items-center mb-2">
-                <img src={item.sprite} alt={item.name} style={{ width: 32, marginRight: 8 }} />
-                {item.name} x{item.count}
-              </li>
-            ))}
-          </ul>
-          
+          <div>
+            <ul>
+              {inventory.map((item, idx) => (
+                <li key={idx} className="text-white flex items-center mb-2">
+                  <img src={item.sprite} alt={item.name} style={{ width: 32, marginRight: 8 }} />
+                  {item.name} x{item.count}
+                </li>
+              ))}
+            </ul>
+            {/* Mini-menu for item actions */}
+            {showItemActionMenu && itemSelected !== null && (
+              <div style={{
+                position: 'absolute',
+                left: '70%',
+                top: `${40 * (itemOrder - 1) + 60}px`,
+                background: 'rgba(0,0,50,0.95)',
+                border: '2px solid white',
+                borderRadius: '8px',
+                padding: '10px',
+                zIndex: 200
+              }}>
+                <ul style={{margin: 0, padding: 0, listStyle: 'none'}}>
+                  {itemActions.map((action, idx) => (
+                    <li key={action} style={{
+                      color: idx === itemActionIndex ? 'yellow' : 'white',
+                      fontWeight: idx === itemActionIndex ? 'bold' : 'normal',
+                      marginBottom: '6px',
+                      fontSize: '18px',
+                    }}>
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         )}
         <div className="menu-itemSelector">
           <img src={itemSelector} alt="Item Selector" style={{ 
@@ -1560,13 +1662,12 @@ return (
             marginLeft: '55%',
             animation: 'flicker 1s infinite',
             transform: itemOrder <= 1 ? `none` : `translateY(${(itemOrder - 1) * 40}px)`,
-            opacity: itemSelected !== null && flickerFrame !== 0 ? 1 : 0,
+            opacity: showItemActionMenu ? 1 : itemSelected !== null && flickerFrame !== 0 ? 1 : 0,
             zIndex: itemSelected !== null ? 101 : 'auto',
             position: 'fixed',
             top: '35px'
           }} />
         </div>
-        
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
       </div>
     )}
