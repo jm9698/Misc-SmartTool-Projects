@@ -89,6 +89,7 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
     position
   }));
 };
+
 //import { frames } from 'frameExports.js'
 //console.log (frames.characters.vaporeon.idle.down.frame1);
 const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
@@ -279,8 +280,8 @@ const vaporeonDownSpinSprites = [
 ]
 const vaporeonDownLeftSpinSprites = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/%20VaporeonDownLeftSpinFrame2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/%20VaporeonDownLeftSpinFrame3.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame4.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame5.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame6.png',
@@ -755,6 +756,12 @@ function discardSelectedItem() {
   setTimeout(() => {
     setIsSpinning(false);
   }, 1350); // Spin for 1.35 seconds
+  setTimeout(() => {
+    setIsWalking(true);
+  }, 1400); // Start walking after spin ends
+  setTimeout(() => {
+    setIsWalking(false);
+  }, 1401); // Stop walking after 1.5 seconds of walking
 }
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
@@ -1549,9 +1556,11 @@ return (
                         }
                               alt="Vaporeon"
                         className="player-sprite absolute"
+                        style={{
+                          transform: isSpinning ? 'scale(0.85)' : 'scale(1)',
+                        }}
                         />
                     )}
-
                   </div>
                 )
               })}
