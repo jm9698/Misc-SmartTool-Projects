@@ -497,6 +497,8 @@ const [zoomLevel, setZoomLevel] = React.useState(1);
 const [cameraTransform, setCameraTransform] = React.useState('');
 const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
 const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
+const [spinSpriteIndex, setSpinSpriteIndex] = React.useState(0); // Index for spin animation
+const [isSpinning, setIsSpinning] = React.useState(false); // State to track if spinning
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
@@ -731,6 +733,29 @@ function discardSelectedItem() {
   });
   setShowItemActionMenu(false);
 }
+
+  function throwSelectedItem() {
+  setInventory(prev => {
+    const idx = itemOrder - 1; // itemOrder is 1-based
+    if (idx < 0 || idx >= prev.length) return prev;
+    const updated = [...prev];
+    if (updated[idx].count > 1) {
+      updated[idx].count -= 1;
+    } else {
+      updated.splice(idx, 1);
+      setNatItemOrder(updated.length);
+      setItemOrder(Math.max(1, updated.length));
+    }
+    return updated;
+  });
+  setIsSpinning(true);
+  setShowItemActionMenu(false);
+  setShowToolbox(false);
+  setIsPaused(false);
+  setTimeout(() => {
+    setIsSpinning(false);
+  }, 1350); // Spin for 1.35 seconds
+}
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
 }, [inventory]);
@@ -857,6 +882,9 @@ const handleKeyDown = (e) => {
         console.log('Selected action:', selectedAction);
         if (selectedAction === 'Discard') {
           discardSelectedItem();
+        }
+        if (selectedAction === 'Throw') {
+          throwSelectedItem();
         }
         // Add logic for other actions here ("Use", "Throw")
         setShowItemActionMenu(false);
@@ -1255,14 +1283,15 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking]); // Add isShiftPressed to dependencies
 
 
 const idleIntervalMs = 500; // Adjust as needed for idle animation speed
 const walkIntervalMs = 300; // Adjust as needed for walking animation speed
+const spinIntervalMs = 150; // Adjust as needed for spinning animation speed
 
 React.useEffect(() => {
-  if (isWalking || isPaused) return;
+  if (isWalking || isSpinning || isPaused) return;
   const interval = setInterval(() => {
     switch (lastDirectionRef.current) {
       case 'left':
@@ -1331,6 +1360,42 @@ React.useEffect(() => {
   }, walkIntervalMs);
   return () => clearInterval(interval);
 }, [isWalking, isPaused, lastDirection]);
+
+React.useEffect(() => {
+  if (!isSpinning) return;
+  const interval = setInterval(() => {
+    switch (lastDirectionRef.current) {
+      case 'down':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownSpinSprites.length);
+        break;
+      case 'up':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpSpinSprites.length);
+        break;
+      case 'right':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonRightSpinSprites.length);
+        break;
+      case 'left':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonLeftSpinSprites.length);
+        break;
+      case 'up-left':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSpinSprites.length);
+        break;
+      case 'up-right':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSpinSprites.length);
+        break;
+      case 'down-left':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSpinSprites.length);
+        break;
+      case 'down-right':
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSpinSprites.length);
+        break;
+      default:
+        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+    }
+  }, spinIntervalMs);
+  console.log('Spinning animation active in direction:', lastDirectionRef.current);
+  return () => clearInterval(interval);
+}, [isWalking, isPaused, lastDirection, isSpinning]);
 
 const generateDungeon = () => {
   const stateWidth = width, stateHeight = height;
@@ -1462,6 +1527,16 @@ return (
                               : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
                               : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
                               : vaporeonSprites[idleSpriteIndex])
+                          : isSpinning
+                          ? (lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
+                            : vaporeonSprites[idleSpriteIndex])
                             : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex]
                               : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex]
                               : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex]
@@ -1472,10 +1547,11 @@ return (
                               : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex]
                               : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
                         }
-                        alt="Vaporeon"
+                              alt="Vaporeon"
                         className="player-sprite absolute"
-                      />
+                        />
                     )}
+
                   </div>
                 )
               })}
