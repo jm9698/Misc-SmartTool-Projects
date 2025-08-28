@@ -650,6 +650,21 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
 
   return cLocations;
 }
+function generateSingleItem(position, item) {
+  console.log('Generating single item:', item);
+  let iLocations = [];
+  const itemNames = Object.keys(ITEM_DEFS);
+  const itemSprites = Object.values(ITEM_DEFS).map(def => def.sprite);
+  const itemName = item.name;
+  const itemSprite = itemSprites[1];
+  console.log('Generating single item:', itemName, itemSprite, 'at position', position);
+  iLocations.push({
+      ...position,
+      itemName,
+      sprite: ITEM_DEFS[itemName].sprite
+    });
+    return iLocations;
+}
 function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = randInt(minCount, maxCount)) {
   let iLocations = []
   let height = dungeon.length;
@@ -734,7 +749,56 @@ function discardSelectedItem() {
   });
   setShowItemActionMenu(false);
 }
+function createItemAnimation(trajectory, item) {
+    let index = 0;
+    return {
+      start: () => {
+        const interval = setInterval(() => {
+          console.log('Animating item to position:', trajectory[index]);
+          if (index >= trajectory.length) {
+            clearInterval(interval);
+            return;
+          }
+          const pos = trajectory[index];
+          setItemTiles(prev => prev.map(tile => 
+            tile.itemName === item.name && tile.x === playerPos.x && tile.y === playerPos.y
+              ? { ...tile, x: pos.x, y: pos.y }
+              : tile
+          ));
+          index++;
+        }, 50); // Update every 50ms for smoother animation
+      }
+    };
+  }
+  function itemThrown(item) {
+    const startPos = { x: playerPos.x, y: playerPos.y };
+    const targetPos = { x: playerPos.x + (lastDirectionRef.current === 'left' ? -5 : lastDirectionRef.current === 'right' ? 5 : 0) + (lastDirectionRef.current === 'up' ? 0 : lastDirectionRef.current === 'down' ? 0 : 0), 
+                        y: playerPos.y + (lastDirectionRef.current === 'up' ? -5 : lastDirectionRef.current === 'down' ? 5 : 0) + (lastDirectionRef.current === 'left' ? 0 : lastDirectionRef.current === 'right' ? 0 : 0) };
+    const endPos = { x: targetPos.x, y: targetPos.y };
+    function calculateProjectilePath(start, end) {
+      const path = [];
+      const steps = 20; // Number of steps in the trajectory
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        // Simple linear interpolation for now
+        const x = start.x + (end.x - start.x) * t;
+        const y = start.y + (end.y - start.y) * t - 4 * t * (1 - t); // Adding a simple arc
+        path.push({ x, y });
+      }
+      return path;
+    }
+    const trajectory = calculateProjectilePath(startPos, endPos);
+    // Animate the item along the trajectory
+    const itemAnimation = createItemAnimation(trajectory, item);
+    itemAnimation.start();
 
+    const itemLoc = generateSingleItem(endPos, item);
+    console.log('Item location:', itemLoc);
+    setItemTiles(prev => [...prev, ...itemLoc]);
+    console.log('Item thrown:', item);
+    console.log('Projectile trajectory:', trajectory);
+    console.log('Start Pos:', startPos, 'Target Pos:', targetPos, 'End Pos:', endPos);
+  }
   function throwSelectedItem() {
   setInventory(prev => {
     const idx = itemOrder - 1; // itemOrder is 1-based
@@ -762,6 +826,7 @@ function discardSelectedItem() {
   setTimeout(() => {
     setIsWalking(false);
   }, 1401); // Stop walking after 1.5 seconds of walking
+  itemThrown(inventory[itemOrder - 1]);
 }
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
