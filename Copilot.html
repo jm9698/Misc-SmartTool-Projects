@@ -465,6 +465,7 @@ const [itemSelected, setItemSelected] = React.useState(null); // Index of select
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
 const [itemActionIndex, setItemActionIndex] = React.useState(0);
 const itemActions = ["Use", "Throw", "Discard"];
+const [isThrowing, setIsThrowing] = React.useState(false);
 const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
 const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
@@ -749,6 +750,7 @@ function discardSelectedItem() {
   });
   setShowItemActionMenu(false);
 }
+
 function createItemAnimation(trajectory, item) {
     let index = 0;
     return {
@@ -766,10 +768,55 @@ function createItemAnimation(trajectory, item) {
               : tile
           ));
           index++;
+          function returnPosition(){
+            return trajectory[index] ? trajectory[index].x : itemThrown.x;
+          }
+          console.log('itemTiles:', itemTiles);
+          console.log(pos.x, pos.y);
         }, 50); // Update every 50ms for smoother animation
       }
     };
   }
+
+  const startPos = { x: playerPos.x, y: playerPos.y };
+    const targetPos = { x: playerPos.x + (lastDirectionRef.current === 'left' ? -5 : lastDirectionRef.current === 'right' ? 5 : 0) + (lastDirectionRef.current === 'up' ? 0 : lastDirectionRef.current === 'down' ? 0 : 0), 
+                        y: playerPos.y + (lastDirectionRef.current === 'up' ? -5 : lastDirectionRef.current === 'down' ? 5 : 0) + (lastDirectionRef.current === 'left' ? 0 : lastDirectionRef.current === 'right' ? 0 : 0) };
+    const endPos = { x: targetPos.x, y: targetPos.y };
+    function calculateProjectilePathGlobal(start, end) {
+      const path = [];
+      const steps = 20; // Number of steps in the trajectory
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        // Simple linear interpolation for now
+        const x = start.x + (end.x - start.x) * t;
+        const y = start.y + (end.y - start.y) * t - 4 * t * (1 - t); // Adding a simple arc
+        path.push({ x, y });
+      }
+      return path;
+    }
+const trajectory = calculateProjectilePathGlobal(startPos, endPos);
+
+let index = 0;
+const interval = setInterval(() => {
+          if (index >= trajectory.length) {
+            clearInterval(interval);
+            return;
+          }
+          const pos = trajectory[index];
+          /*
+          setItemTiles(prev => prev.map(tile => 
+            tile.itemName === item.name && tile.x === playerPos.x && tile.y === playerPos.y
+              ? { ...tile, x: pos.x, y: pos.y }
+              : tile
+          ));
+          */
+          index++;
+          function returnPositionGlobal(){
+            return trajectory[index] ? trajectory[index].x : itemThrown.x;
+            return trajectory[index] ? trajectory[index].y : itemThrown.y;
+          }
+        });
+
   function itemThrown(item) {
     const startPos = { x: playerPos.x, y: playerPos.y };
     const targetPos = { x: playerPos.x + (lastDirectionRef.current === 'left' ? -5 : lastDirectionRef.current === 'right' ? 5 : 0) + (lastDirectionRef.current === 'up' ? 0 : lastDirectionRef.current === 'down' ? 0 : 0), 
@@ -828,6 +875,11 @@ function createItemAnimation(trajectory, item) {
   }, 1401); // Stop walking after 1.5 seconds of walking
   itemThrown(inventory[itemOrder - 1]);
 }
+React.useEffect(() => {
+  if (isSpinning) {
+    setIsThrowing(true);
+  }
+}, [isSpinning]);
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
 }, [inventory]);
@@ -1546,8 +1598,16 @@ return (
             <div key={rowIndex} className="dungeon-row flex">
               {row.map((cell, colIndex) => {
                 let wallSprite;
+                const item = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                function returnPositionGlobal(){
+            return trajectory[index] ? trajectory[index].x : itemThrown.x;
+            return trajectory[index] ? trajectory[index].y : itemThrown.y;
+          }
                 const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
                 const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                const trajectory = calculateProjectilePathGlobal(startPos, endPos);
+                const pos = returnPositionGlobal();
+                const itemThrown = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex && isThrowing);
                 // Determine sprite based on position
                 if (cell === 'W') {
                   wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
@@ -1577,6 +1637,20 @@ return (
                     )}
                     {itemHere && (
                       <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
+                        zIndex: 5,
+                        objectFit: 'contain',
+                        width: '50%',
+                        height: '50%',
+                        left: '25%',
+                        top: '25%',
+                      }} />
+                    )}
+                    {itemThrown && isThrowing && (
+                      <img src={ITEM_DEFS[itemThrown.itemName].sprite} alt={itemThrown.itemName} className="absolute w-full h-full" style={{
+                        positionX: trajectory[pos] ? trajectory[pos].x : itemThrown.x,
+                        positionY: trajectory[pos] ? trajectory[pos].y : itemThrown.y,
+                        rowIndex: trajectory[pos] ? trajectory[pos].y : itemThrown.y/rowIndex,
+                        colIndex: trajectory[pos] ? trajectory[pos].x : itemThrown.x/colIndex,
                         zIndex: 5,
                         objectFit: 'contain',
                         width: '50%',
