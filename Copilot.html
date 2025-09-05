@@ -458,6 +458,8 @@ const [maxExp, setMaxExp] = React.useState(100);
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
 const [itemTiles, setItemTiles] = React.useState([]);
+const [itemTilesIndex, setItemTilesIndex] = React.useState([]); // Index for cycling through item tiles
+const [itemTilesIndexRef, setItemTilesIndexRef] = React.useState([]);
 const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
 const [itemOrder, setItemOrder] = React.useState(0);
 const [itemSelectedCurrent, setItemSelectedCurrent] = React.useState(null);
@@ -665,6 +667,16 @@ function generateSingleItem(position, item) {
     });
     return iLocations;
 }
+function beginItemTilesIndex(itemAdded) {
+  console.log('Updating item tiles index with:', itemAdded);
+  setItemTilesIndex(itemAdded);
+  console.log('Item Tiles Index after update:', itemTilesIndex);
+}
+React.useEffect(() => {
+  console.log('Item Tiles Index changed:', itemTilesIndex);
+  setItemTilesIndexRef(itemTilesIndex);
+  console.log('Item Tiles Index Ref updated:', itemTilesIndexRef);
+}, [itemTilesIndex]);
 function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = randInt(minCount, maxCount)) {
   let iLocations = []
   let height = dungeon.length;
@@ -749,6 +761,15 @@ function discardSelectedItem() {
   });
   setShowItemActionMenu(false);
 }
+function addItemTile(item) {
+  setItemTiles(prev => [...prev, item]);
+  const itemAdded = { ...item };
+  setItemTilesIndex(prev => [...prev, itemAdded]);
+  setTimeout(() => {
+    setItemTiles(prev => prev.filter(tile => tile.itemName !== itemAdded.itemName));
+  }, 50);
+}
+
 function createItemAnimation(trajectory, item) {
     let index = 0;
     return {
@@ -757,15 +778,148 @@ function createItemAnimation(trajectory, item) {
           console.log('Animating item to position:', trajectory[index]);
           if (index >= trajectory.length) {
             clearInterval(interval);
+            let index = 0;
             return;
           }
-          const pos = trajectory[index];
-          setItemTiles(prev => prev.map(tile => 
-            tile.itemName === item.name && tile.x === playerPos.x && tile.y === playerPos.y
-              ? { ...tile, x: pos.x, y: pos.y }
-              : tile
-          ));
-          index++;
+          const pos1 = trajectory[1];
+          const pos2 = trajectory[2];
+          const pos3 = trajectory[3];
+          const pos4 = trajectory[4];
+          const pos5 = trajectory[5];
+          const pos6 = trajectory[6];
+          const pos7 = trajectory[7];
+          const pos8 = trajectory[8];
+          const pos9 = trajectory[9];
+          const pos10 = trajectory[10];
+          const pos11 = trajectory[11];
+          const pos12 = trajectory[12];
+          const pos13 = trajectory[13];
+          const pos14 = trajectory[14];
+          const pos15 = trajectory[15];
+          const pos16 = trajectory[16];
+          const pos17 = trajectory[17];
+          const pos18 = trajectory[18];
+          const pos19 = trajectory[19];
+          const pos20 = trajectory[20];
+
+          function isNewPosition(pos) {
+            console.log('Is new position:', pos, !itemTilesIndexRef.some(tile => tile.x === pos.x && tile.y === pos.y));
+            console.log('Current item tile x positions:', itemTilesIndexRef.map(tile => tile.x));
+            console.log('Current item tile y positions:', itemTilesIndexRef.map(tile => tile.y));
+            console.log('Current position:', pos);
+            if (itemTilesIndexRef.some(tile => tile.x === pos.x && tile.y === pos.y)) {
+              console.log('Position is not new:', pos);
+              return false;
+            }
+            return true;
+          }
+          if (isNewPosition(pos1)) {
+            addItemTile({ itemName: item.name, x: pos1.x, y: pos1.y });
+          }
+          setTimeout(() => {
+            if (isNewPosition(pos2)) {
+              addItemTile({ itemName: item.name, x: pos2.x, y: pos2.y });
+            }
+          }, 50);
+          setTimeout(() => {
+            if (isNewPosition(pos3)) {
+              addItemTile({ itemName: item.name, x: pos3.x, y: pos3.y });
+            }
+          }, 100);
+          setTimeout(() => {
+            if (isNewPosition(pos4)) {
+              addItemTile({ itemName: item.name, x: pos4.x, y: pos4.y });
+            }
+          }, 150);
+          setTimeout(() => {
+            if (isNewPosition(pos5)) {
+              addItemTile({ itemName: item.name, x: pos5.x, y: pos5.y });
+            }
+          }, 200);
+          setTimeout(() => {
+            if (isNewPosition(pos6)) {
+              addItemTile({ itemName: item.name, x: pos6.x, y: pos6.y });
+            }
+          }, 250);
+          setTimeout(() => {
+            if (isNewPosition(pos7)) {
+              addItemTile({ itemName: item.name, x: pos7.x, y: pos7.y });
+            }
+          }, 300);
+          setTimeout(() => {
+            if (isNewPosition(pos8)) {
+              addItemTile({ itemName: item.name, x: pos8.x, y: pos8.y });
+            }
+          }, 350);
+          setTimeout(() => {
+            if (isNewPosition(pos9)) {
+              addItemTile({ itemName: item.name, x: pos9.x, y: pos9.y });
+            }
+          }, 400);
+          setTimeout(() => {
+            if (isNewPosition(pos10)) {
+              addItemTile({ itemName: item.name, x: pos10.x, y: pos10.y });
+            }
+          }, 450);
+          setTimeout(() => {
+            if (isNewPosition(pos11)) {
+              addItemTile({ itemName: item.name, x: pos11.x, y: pos11.y });
+            }
+          }, 500);
+          setTimeout(() => {
+            if (isNewPosition(pos12)) {
+              addItemTile({ itemName: item.name, x: pos12.x, y: pos12.y });
+            }
+          }, 550);
+          setTimeout(() => {
+            if (isNewPosition(pos13)) {
+              addItemTile({ itemName: item.name, x: pos13.x, y: pos13.y });
+            }
+          }, 600);
+          setTimeout(() => {
+            if (isNewPosition(pos14)) {
+              addItemTile({ itemName: item.name, x: pos14.x, y: pos14.y });
+            }
+          }, 650);
+          setTimeout(() => {
+            if (isNewPosition(pos15)) {
+              addItemTile({ itemName: item.name, x: pos15.x, y: pos15.y });
+            }
+          }, 700);
+          setTimeout(() => {
+            if (isNewPosition(pos16)) {
+              addItemTile({ itemName: item.name, x: pos16.x, y: pos16.y });
+            }
+          }, 750);
+          setTimeout(() => {
+            if (isNewPosition(pos17)) {
+              addItemTile({ itemName: item.name, x: pos17.x, y: pos17.y });
+            }
+          }, 800);
+          setTimeout(() => {
+            if (isNewPosition(pos18)) {
+              addItemTile({ itemName: item.name, x: pos18.x, y: pos18.y });
+            }
+          }, 850);
+          setTimeout(() => {
+            if (isNewPosition(pos19)) {
+              addItemTile({ itemName: item.name, x: pos19.x, y: pos19.y });
+            }
+          }, 900);
+          setTimeout(() => {
+            if (isNewPosition(pos20)) {
+              addItemTile({ itemName: item.name, x: pos20.x, y: pos20.y });
+            }
+          }, 950);
+          setTimeout(() => {
+            clearInterval(interval);
+          }, 1000);
+          
+          //setItemTiles(prev => prev.map(tile => 
+            //tile.itemName === item.name ?
+             //{ ...tile, x: pos.x, y: pos.y }
+           //   : { ...tile, x: pos.x, y: pos.y } // Keep other tiles unchanged
+         // ));
         }, 50); // Update every 50ms for smoother animation
       }
     };
@@ -781,20 +935,59 @@ function createItemAnimation(trajectory, item) {
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         // Simple linear interpolation for now
-        const x = start.x + (end.x - start.x) * t;
-        const y = start.y + (end.y - start.y) * t - 4 * t * (1 - t); // Adding a simple arc
+        const x = Math.round(start.x + (end.x - start.x) * t);
+        const y = Math.round(start.y + (end.y - start.y) * t - 4 * t * (1 - t)); // Adding a simple arc
         path.push({ x, y });
       }
       return path;
     }
     const trajectory = calculateProjectilePath(startPos, endPos);
+    const pos1 = trajectory[1];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos1.x, y: pos1.y }]);
+          console.log('Item Tiles Index', itemTilesIndex);
+          const pos2 = trajectory[2];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos2.x, y: pos2.y }]);
+          const pos3 = trajectory[3];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos3.x, y: pos3.y }]);
+          const pos4 = trajectory[4];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos4.x, y: pos4.y }]);
+          const pos5 = trajectory[5];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos5.x, y: pos5.y }]);
+          const pos6 = trajectory[6];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos6.x, y: pos6.y }]);
+          const pos7 = trajectory[7];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos7.x, y: pos7.y }]);
+          const pos8 = trajectory[8];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos8.x, y: pos8.y }]);
+          const pos9 = trajectory[9];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos9.x, y: pos9.y }]);
+          const pos10 = trajectory[10];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos10.x, y: pos10.y }]);
+          const pos11 = trajectory[11];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos11.x, y: pos11.y }]);
+          const pos12 = trajectory[12];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos12.x, y: pos12.y }]);
+          const pos13 = trajectory[13];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos13.x, y: pos13.y }]);
+          const pos14 = trajectory[14];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos14.x, y: pos14.y }]);
+          const pos15 = trajectory[15];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos15.x, y: pos15.y }]);
+          const pos16 = trajectory[16];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos16.x, y: pos16.y }]);
+          const pos17 = trajectory[17];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos17.x, y: pos17.y }]);
+          const pos18 = trajectory[18];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos18.x, y: pos18.y }]);
+          const pos19 = trajectory[19];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos19.x, y: pos19.y }]);
+          const pos20 = trajectory[20];
+          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos20.x, y: pos20.y }]);
+          console.log('Item Tiles Index', itemTilesIndexRef);
     // Animate the item along the trajectory
     const itemAnimation = createItemAnimation(trajectory, item);
     itemAnimation.start();
 
-    const itemLoc = generateSingleItem(endPos, item);
-    console.log('Item location:', itemLoc);
-    setItemTiles(prev => [...prev, ...itemLoc]);
     console.log('Item thrown:', item);
     console.log('Projectile trajectory:', trajectory);
     console.log('Start Pos:', startPos, 'Target Pos:', targetPos, 'End Pos:', endPos);
@@ -1296,6 +1489,7 @@ case 'l':
 console.log('Current item order:', itemOrder);
 console.log('Natural item order:', natItemOrder);
 console.log(inventory.length, 'items in inventory');
+console.log('item tile index:', itemTilesIndex);
   break;
 }
 
@@ -1487,7 +1681,7 @@ const currencyLocs = generateCurrencyTiles(newDungeon, 20, 80, 5); // 5 coins, v
   setCurrencyTiles(currencyLocs);
 const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // between 5 and 10 items spawn
   setItemTiles(itemLocs);
-
+  beginItemTilesIndex(itemLocs);
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
   setDungeon(newDungeon);
@@ -1548,6 +1742,7 @@ return (
                 let wallSprite;
                 const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
                 const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                //console.log(itemHere);
                 // Determine sprite based on position
                 if (cell === 'W') {
                   wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
