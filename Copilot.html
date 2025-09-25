@@ -672,6 +672,12 @@ function beginItemTilesIndex(itemAdded) {
   setItemTilesIndex(itemAdded);
   console.log('Item Tiles Index after update:', itemTilesIndex);
 }
+function updateItemTilesIndex(newIndex) {
+  console.log('Updating item tiles index to:', newIndex);
+  setItemTilesIndex(prev => [...prev, newIndex]);
+  return newIndex;
+  console.log('Item Tiles Index after update:', itemTilesIndex);
+}
 React.useEffect(() => {
   console.log('Item Tiles Index changed:', itemTilesIndex);
   setItemTilesIndexRef(itemTilesIndex);
@@ -774,6 +780,149 @@ function createItemAnimation(trajectory, item) {
     let index = 0;
     return {
       start: () => {
+        function isNewPosition(pos) {
+            console.log('Is new position:', pos, !tilePositions.some(tilePositions => tilePositions.x === pos.x && tilePositions.y === pos.y));
+            console.log('Current position:', pos);
+            let tile = tilePositions.find(tile => tile.x && tile.y);
+            console.log(tile)
+            if (tile.x === pos.x) {
+              console.log('Position is not new:', pos);
+              console.log('tile.x:', tile.x);
+              console.log('tile.y:', tile.y);
+              console.log('Current position x:', pos.x);
+              console.log('Current position y:', pos.y);
+              return false;
+            }
+            else if (tile.y === pos.y) {
+              console.log('Position is not new(y case):', pos);
+              return false
+            }
+            console.log('Position is new:', pos);
+            return true;
+        }
+        const pos1 = trajectory[1];
+        const pos2 = trajectory[2];
+        const pos3 = trajectory[3];
+        const pos4 = trajectory[4];
+        const pos5 = trajectory[5];
+        const pos6 = trajectory[6];
+        const pos7 = trajectory[7];
+        const pos8 = trajectory[8];
+        const pos9 = trajectory[9];
+        const pos10 = trajectory[10];
+        const pos11 = trajectory[11];
+        const pos12 = trajectory[12];
+        const pos13 = trajectory[13];
+        const pos14 = trajectory[14];
+        const pos15 = trajectory[15];
+        const pos16 = trajectory[16];
+        const pos17 = trajectory[17];
+        const pos18 = trajectory[18];
+        const pos19 = trajectory[19];
+        const pos20 = trajectory[20];
+
+        const tilePositions = [
+            pos1 !== null ? pos1 : null,
+            pos2 !== null ? pos2 : null,
+            pos3 !== null ? pos3 : null,
+            pos4 !== null ? pos4 : null,
+            pos5 !== null ? pos5 : null,
+            pos6 !== null ? pos6 : null,
+            pos7 !== null ? pos7 : null,
+            pos8 !== null ? pos8 : null,
+            pos9 !== null ? pos9 : null,
+            pos10 !== null ? pos10 : null,
+            pos11 !== null ? pos11 : null,
+            pos12 !== null ? pos12 : null,
+            pos13 !== null ? pos13 : null,
+            pos14 !== null ? pos14 : null,
+            pos15 !== null ? pos15 : null,
+            pos16 !== null ? pos16 : null,
+            pos17 !== null ? pos17 : null,
+            pos18 !== null ? pos18 : null,
+            pos19 !== null ? pos19 : null,
+            pos20 !== null ? pos20 : null
+          ]
+        if (isNewPosition(pos1)) {
+          const tilepos1 = updateItemTilesIndex(pos1);
+          console.log('newpos1:', tilepos1);
+        }
+        if (isNewPosition(pos2)) {
+          const tilepos2 = updateItemTilesIndex(pos2);
+          console.log('newpos2:', tilepos2);
+        }
+        if (isNewPosition(pos3)) {
+          const tilepos3 = updateItemTilesIndex(pos3);
+          console.log('newpos3:', tilepos3);
+        }
+        if (isNewPosition(pos4)) {
+          const tilepos4 = updateItemTilesIndex(pos4);
+          console.log('newpos4:', tilepos4);
+        }
+        if (isNewPosition(pos5)) {
+          const tilepos5 = updateItemTilesIndex(pos5);
+          console.log('newpos5:', tilepos5);
+        }
+        if (isNewPosition(pos6)) {
+          const tilepos6 = updateItemTilesIndex(pos6);
+          console.log('newpos6:', tilepos6);
+        }
+        if (isNewPosition(pos7)) {
+          const tilepos7 = updateItemTilesIndex(pos7);
+          console.log('newpos7:', tilepos7);
+        }
+        if (isNewPosition(pos8)) {
+          const tilepos8 = updateItemTilesIndex(pos8);
+          console.log('newpos8:', tilepos8);
+        }
+        if (isNewPosition(pos9)) {
+          const tilepos9 = updateItemTilesIndex(pos9);
+          console.log('newpos9:', tilepos9);
+        }
+        if (isNewPosition(pos10)) {
+          const tilepos10 = updateItemTilesIndex(pos10);
+          console.log('newpos10:', tilepos10);
+        }
+        if (isNewPosition(pos11)) {
+          const tilepos11 = updateItemTilesIndex(pos11);
+          console.log('newpos11:', tilepos11);
+        }
+        if (isNewPosition(pos12)) {
+          const tilepos12 = updateItemTilesIndex(pos12);
+          console.log('newpos12:', tilepos12);
+        }
+        if (isNewPosition(pos13)) {
+          const tilepos13 = updateItemTilesIndex(pos13);
+          console.log('newpos13:', tilepos13);
+        }
+        if (isNewPosition(pos14)) {
+          const tilepos14 = updateItemTilesIndex(pos14)
+          console.log('newpos14:', tilepos14);
+        }
+        if (isNewPosition(pos15)) {
+          const tilepos15 = updateItemTilesIndex(pos15)
+          console.log('newpos15:', tilepos15);
+        }
+        if (isNewPosition(pos16)) {
+          const tilepos16 = updateItemTilesIndex(pos16)
+          console.log('newpos16:', tilepos16);
+        }
+        if (isNewPosition(pos17)) {
+          const tilepos17 = updateItemTilesIndex(pos17)
+          console.log('newpos17:', tilepos17);
+        }
+        if (isNewPosition(pos18)) {
+          const tilepos18 = updateItemTilesIndex(pos18)
+          console.log('newpos18:', tilepos18);
+        }
+        if (isNewPosition(pos19)) {
+          const tilepos19 = updateItemTilesIndex(pos19)
+          console.log('newpos19:', tilepos19);
+        }
+        if (isNewPosition(pos20)) {
+          const tilepos20 = updateItemTilesIndex(pos20)
+          console.log('newpos20:', tilepos20);
+        }
         const interval = setInterval(() => {
           console.log('Animating item to position:', trajectory[index]);
           if (index >= trajectory.length) {
@@ -781,134 +930,125 @@ function createItemAnimation(trajectory, item) {
             let index = 0;
             return;
           }
-          const pos1 = trajectory[1];
-          const pos2 = trajectory[2];
-          const pos3 = trajectory[3];
-          const pos4 = trajectory[4];
-          const pos5 = trajectory[5];
-          const pos6 = trajectory[6];
-          const pos7 = trajectory[7];
-          const pos8 = trajectory[8];
-          const pos9 = trajectory[9];
-          const pos10 = trajectory[10];
-          const pos11 = trajectory[11];
-          const pos12 = trajectory[12];
-          const pos13 = trajectory[13];
-          const pos14 = trajectory[14];
-          const pos15 = trajectory[15];
-          const pos16 = trajectory[16];
-          const pos17 = trajectory[17];
-          const pos18 = trajectory[18];
-          const pos19 = trajectory[19];
-          const pos20 = trajectory[20];
-
-          function isNewPosition(pos) {
-            console.log('Is new position:', pos, !itemTilesIndexRef.some(tile => tile.x === pos.x && tile.y === pos.y));
-            console.log('Current item tile x positions:', itemTilesIndexRef.map(tile => tile.x));
-            console.log('Current item tile y positions:', itemTilesIndexRef.map(tile => tile.y));
-            console.log('Current position:', pos);
-            if (itemTilesIndexRef.some(tile => tile.x === pos.x && tile.y === pos.y)) {
-              console.log('Position is not new:', pos);
-              return false;
-            }
-            return true;
-          }
+          
+          
+          console.log(isNewPosition(pos1))
           if (isNewPosition(pos1)) {
             addItemTile({ itemName: item.name, x: pos1.x, y: pos1.y });
+            console.log('Position added:', pos1);
           }
           setTimeout(() => {
             if (isNewPosition(pos2)) {
               addItemTile({ itemName: item.name, x: pos2.x, y: pos2.y });
+               console.log('Position added:', pos2);
             }
           }, 50);
           setTimeout(() => {
             if (isNewPosition(pos3)) {
               addItemTile({ itemName: item.name, x: pos3.x, y: pos3.y });
+               console.log('Position added:', pos3);
             }
           }, 100);
           setTimeout(() => {
             if (isNewPosition(pos4)) {
               addItemTile({ itemName: item.name, x: pos4.x, y: pos4.y });
+               console.log('Position added:', pos4);
             }
           }, 150);
           setTimeout(() => {
             if (isNewPosition(pos5)) {
               addItemTile({ itemName: item.name, x: pos5.x, y: pos5.y });
+               console.log('Position added:', pos5);
             }
           }, 200);
           setTimeout(() => {
             if (isNewPosition(pos6)) {
               addItemTile({ itemName: item.name, x: pos6.x, y: pos6.y });
+               console.log('Position added:', pos6);
             }
           }, 250);
           setTimeout(() => {
             if (isNewPosition(pos7)) {
               addItemTile({ itemName: item.name, x: pos7.x, y: pos7.y });
+               console.log('Position added:', pos7);
             }
           }, 300);
           setTimeout(() => {
             if (isNewPosition(pos8)) {
               addItemTile({ itemName: item.name, x: pos8.x, y: pos8.y });
+               console.log('Position added:', pos8);
             }
           }, 350);
           setTimeout(() => {
             if (isNewPosition(pos9)) {
               addItemTile({ itemName: item.name, x: pos9.x, y: pos9.y });
+               console.log('Position added:', pos9);
             }
           }, 400);
           setTimeout(() => {
             if (isNewPosition(pos10)) {
               addItemTile({ itemName: item.name, x: pos10.x, y: pos10.y });
+               console.log('Position added:', pos10);
             }
           }, 450);
           setTimeout(() => {
             if (isNewPosition(pos11)) {
               addItemTile({ itemName: item.name, x: pos11.x, y: pos11.y });
+               console.log('Position added:', pos11);
             }
           }, 500);
           setTimeout(() => {
             if (isNewPosition(pos12)) {
               addItemTile({ itemName: item.name, x: pos12.x, y: pos12.y });
+               console.log('Position added:', pos12);
             }
           }, 550);
           setTimeout(() => {
             if (isNewPosition(pos13)) {
               addItemTile({ itemName: item.name, x: pos13.x, y: pos13.y });
+               console.log('Position added:', pos13);
             }
           }, 600);
           setTimeout(() => {
             if (isNewPosition(pos14)) {
               addItemTile({ itemName: item.name, x: pos14.x, y: pos14.y });
+               console.log('Position added:', pos14);
             }
           }, 650);
           setTimeout(() => {
             if (isNewPosition(pos15)) {
               addItemTile({ itemName: item.name, x: pos15.x, y: pos15.y });
+               console.log('Position added:', pos15);
             }
           }, 700);
           setTimeout(() => {
             if (isNewPosition(pos16)) {
               addItemTile({ itemName: item.name, x: pos16.x, y: pos16.y });
+               console.log('Position added:', pos16);
             }
           }, 750);
           setTimeout(() => {
             if (isNewPosition(pos17)) {
               addItemTile({ itemName: item.name, x: pos17.x, y: pos17.y });
+               console.log('Position added:', pos17);
             }
           }, 800);
           setTimeout(() => {
             if (isNewPosition(pos18)) {
               addItemTile({ itemName: item.name, x: pos18.x, y: pos18.y });
+               console.log('Position added:', pos18);
             }
           }, 850);
           setTimeout(() => {
             if (isNewPosition(pos19)) {
               addItemTile({ itemName: item.name, x: pos19.x, y: pos19.y });
+               console.log('Position added:', pos19);
             }
           }, 900);
           setTimeout(() => {
             if (isNewPosition(pos20)) {
               addItemTile({ itemName: item.name, x: pos20.x, y: pos20.y });
+               console.log('Position added:', pos20);
             }
           }, 950);
           setTimeout(() => {
@@ -942,48 +1082,7 @@ function createItemAnimation(trajectory, item) {
       return path;
     }
     const trajectory = calculateProjectilePath(startPos, endPos);
-    const pos1 = trajectory[1];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos1.x, y: pos1.y }]);
-          console.log('Item Tiles Index', itemTilesIndex);
-          const pos2 = trajectory[2];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos2.x, y: pos2.y }]);
-          const pos3 = trajectory[3];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos3.x, y: pos3.y }]);
-          const pos4 = trajectory[4];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos4.x, y: pos4.y }]);
-          const pos5 = trajectory[5];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos5.x, y: pos5.y }]);
-          const pos6 = trajectory[6];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos6.x, y: pos6.y }]);
-          const pos7 = trajectory[7];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos7.x, y: pos7.y }]);
-          const pos8 = trajectory[8];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos8.x, y: pos8.y }]);
-          const pos9 = trajectory[9];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos9.x, y: pos9.y }]);
-          const pos10 = trajectory[10];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos10.x, y: pos10.y }]);
-          const pos11 = trajectory[11];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos11.x, y: pos11.y }]);
-          const pos12 = trajectory[12];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos12.x, y: pos12.y }]);
-          const pos13 = trajectory[13];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos13.x, y: pos13.y }]);
-          const pos14 = trajectory[14];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos14.x, y: pos14.y }]);
-          const pos15 = trajectory[15];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos15.x, y: pos15.y }]);
-          const pos16 = trajectory[16];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos16.x, y: pos16.y }]);
-          const pos17 = trajectory[17];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos17.x, y: pos17.y }]);
-          const pos18 = trajectory[18];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos18.x, y: pos18.y }]);
-          const pos19 = trajectory[19];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos19.x, y: pos19.y }]);
-          const pos20 = trajectory[20];
-          setItemTilesIndex(prev => [...prev, { itemName: item.name, x: pos20.x, y: pos20.y }]);
-          console.log('Item Tiles Index', itemTilesIndexRef);
+    
     // Animate the item along the trajectory
     const itemAnimation = createItemAnimation(trajectory, item);
     itemAnimation.start();
