@@ -751,6 +751,33 @@ function addItemToInventory(itemName) {
     return updatedInventory;
   });
 }
+function useSelectedItem() {
+  if (inventory[itemOrder - 1].name === 'Life Seed') {
+    setMaxPlayerHP(prev => prev + 5);
+    addLogMessage('Used Life Seed! Max HP increased!');
+  } else {
+    console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
+    return;
+  }
+  
+  setInventory(prev => {
+    const idx = itemOrder - 1;
+    if (idx < 0 || idx >= prev.length) return prev;
+    const updated = [...prev];
+    if (updated[idx].count > 1) {
+      updated[idx].count -= 1;
+    } else {
+      updated.splice(idx, 1);
+      setNatItemOrder(updated.length);
+      setItemOrder(Math.max(1, updated.length));
+    }
+    if (updated.length < MAX_INVENTORY_SLOTS) {
+      setInventoryFull(false);
+    }
+    return updated;
+  });
+  setShowItemActionMenu(false);
+}
 function discardSelectedItem() {
   setInventory(prev => {
     const idx = itemOrder - 1; // itemOrder is 1-based
@@ -762,6 +789,9 @@ function discardSelectedItem() {
       updated.splice(idx, 1);
       setNatItemOrder(updated.length);
       setItemOrder(Math.max(1, updated.length));
+    }
+    if (updated.length < MAX_INVENTORY_SLOTS) {
+      setInventoryFull(false);
     }
     return updated;
   });
@@ -1250,6 +1280,10 @@ const handleKeyDown = (e) => {
         if (selectedAction === 'Throw') {
           throwSelectedItem();
         }
+        if (selectedAction === 'Use') {
+          useSelectedItem();
+          console.log('Used item:', itemSelected);
+        }
         // Add logic for other actions here ("Use", "Throw")
         setShowItemActionMenu(false);
         return;
@@ -1317,6 +1351,14 @@ const handleKeyDown = (e) => {
             addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
           }
           else if (inventoryFull){
+            if (inventory.length < MAX_INVENTORY_SLOTS){
+              setInventoryFull(false);
+              addItemToInventory(itemHere.itemName || "Reviver Seed");
+              setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+              setItemSelected(itemHere.id);
+              addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+              return;
+            }
             addLogMessage('Inventory full!');
           }
         }
@@ -1648,7 +1690,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, itemSelected]); // Add isShiftPressed to dependencies
 
 
 const idleIntervalMs = 500; // Adjust as needed for idle animation speed
