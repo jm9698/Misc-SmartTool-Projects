@@ -332,6 +332,19 @@ const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame14.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame15.png'
 ]
+const buffVfxFrames = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame8.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame9.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame10.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame11.png'
+]
 const vaporeonPortraitNormal = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/portraits/VaporeonPortrait_Normal.png';
 
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Pokedollar.png'; // Replace with your sprite URL
@@ -534,6 +547,8 @@ const [spinSpriteIndex, setSpinSpriteIndex] = React.useState(0); // Index for sp
 const [sleepSpriteIndex, setSleepSpriteIndex] = React.useState(0); // Index for sleep animation
 const [levelVfxIndex, setLevelVfxIndex] = React.useState(0); // Index for level up VFX animation
 const [isLevelingUp, setIsLevelingUp] = React.useState(false); // State to track if leveling up
+const [isBuffing, setIsBuffing] = React.useState(false); // State to track if buffing
+const [buffVfxIndex, setBuffVfxIndex] = React.useState(0); // Index for buff VFX animation
 const [isSpinning, setIsSpinning] = React.useState(false); // State to track if spinning
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
@@ -760,6 +775,28 @@ function polarToCartesian(cx, cy, r, angle) {
     x: cx + r * Math.cos(rad),
     y: cy + r * Math.sin(rad)
   };
+}
+function useMove(moveIndex) {
+  const move = moves[moveIndex];
+  let specialDefenceGain = 10; // TODO: Add an initial state variable for this
+  let buffState = playerSpecialDefense/specialDefenceGain;
+  if (!move) return;
+  if (move.name === 'Acid Armor' && buffState === 1) {
+    setPlayerSpecialDefense(prev => prev + specialDefenceGain);
+    setIsBuffing(true);
+    setTimeout(() => setIsBuffing(false), 1650);
+    addLogMessage('Vaporeon used Acid Armor! Special Defense increased!');
+  } else if (move.name === 'Acid Armor' && buffState < 4) {
+    setPlayerSpecialDefense(prev => prev + specialDefenceGain);
+    setIsBuffing(true);
+    setTimeout(() => setIsBuffing(false), 1650);
+    addLogMessage('Vaporeon used Acid Armor! Special Defense increased!');
+  } else if (move.name === 'Acid Armor' && buffState >= 4) {
+    setIsBuffing(true);
+    setTimeout(() => setIsBuffing(false), 1650);
+    addLogMessage('Vaporeon used Acid Armor, but her Special Defense can\'t go any higher!');
+    return;
+  }
 }
 function addItemToInventory(itemName) {
   const itemDef = ITEM_DEFS[itemName];
@@ -1427,10 +1464,11 @@ const handleKeyDown = (e) => {
       if (selected.name === 'Acid Armor') {
         setShowMoveSelector(false);
         setIsPaused(false);
+        useMove(selectedMove);
         console.log('Selected move:', selected);
         // Handle move selection logic here
       }
-      if (selected.name === 'Ice Beam') {
+      if (selected.name === 'Aqua Tail') {
         setShowMoveSelector(false);
         setIsPaused(false);
         console.log('Selected move:', selected);
@@ -1968,6 +2006,14 @@ React.useEffect(() => {
   return () => clearInterval(interval);
 }, [isLevelingUp]);
 
+React.useEffect(() => {
+  if (!isBuffing) return;
+  const interval = setInterval(() => {
+    setBuffVfxIndex((prev) => (prev + 1) % buffVfxFrames.length);
+  }, levelUpIntervalMs);
+  return () => clearInterval(interval);
+}, [isBuffing]);
+
 const generateDungeon = () => {
   const stateWidth = width, stateHeight = height;
   const { dungeon: newDungeon, playerStart } = generateProceduralDungeon(stateWidth, stateHeight);
@@ -2140,6 +2186,19 @@ return (
                         left: '25%',
                         top: '25%',
                       }} />
+                    )}
+                    {isBuffing && playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={buffVfxFrames[buffVfxIndex]}
+                        alt="Buff"
+                        className="absolute w-full h-full"
+                        style={{
+                          transform: 'translateY(-20%)',
+                          zIndex: 31,
+                          pointerEvents: 'none',
+                          animation: 'buff-fade 1s forwards',
+                        }}
+                      />
                     )}
                     {isLevelingUp && playerPos.x === colIndex && playerPos.y === rowIndex && (
                       <img
