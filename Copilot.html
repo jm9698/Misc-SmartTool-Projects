@@ -93,6 +93,92 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
 //import { frames } from 'frameExports.js'
 //console.log (frames.characters.vaporeon.idle.down.frame1);
 const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
+const MOVE_DEFS = {
+  "Acid Armor": {
+    name: "Acid Armor",
+    type: "Poison",
+    power: 0,
+    accuracy: 100,
+    ppmax: 30,
+    ppcurr: 30,
+    effect: "Raises user's Defense by 2 stages.",
+  },
+  "Aqua Tail": {
+    name: "Aqua Tail",
+    type: "Water",
+    power: 90,
+    accuracy: 90,
+    ppmax: 10,
+    ppcurr: 10,
+    effect: "Has a high critical hit ratio.",
+  },
+  "Aurora Beam": {
+    name: "Aurora Beam",
+    type: "Ice",
+    power: 65,
+    accuracy: 100,
+    pp: 20,
+    effect: "May lower the target's Attack by 1 stage.",
+  },
+  "Bite": {
+    name: "Bite",
+    type: "Dark",
+    power: 60,
+    accuracy: 100,
+    pp: 25,
+    effect: "May cause the target to flinch.",
+  },
+  "Bubble Beam": {
+    name: "Bubble Beam",
+    type: "Water",
+    power: 65,
+    accuracy: 100,
+    pp: 20,
+    effect: "May lower the target's Speed by 1 stage.",
+  },
+  "Hydro Pump": {
+    name: "Hydro Pump",
+    type: "Water",
+    power: 110,
+    accuracy: 80,
+    pp: 5,
+    effect: "No additional effect.",
+  },
+  "Ice Beam": {
+    name: "Ice Beam",
+    type: "Ice",
+    power: 90,
+    accuracy: 100,
+    pp: 10,
+    effect: "May freeze."
+  },
+  "Muddy Water": {
+    name: "Muddy Water",
+    type: "Water",
+    power: 90,
+    accuracy: 85,
+    pp: 10,
+    effect: "May lower the target's accuracy by 1 stage.",
+  },
+  'Refresh': {
+    name: 'Refresh',
+    type: 'Normal',
+    power: 0,
+    accuracy: 100,
+    ppmax: 20,
+    ppcurr: 20,
+    effect: "Heals the user if it is poisoned, burned, or paralyzed.",
+  },
+  "Water Pulse": {
+    name: "Water Pulse",
+    type: "Water",
+    power: 60,
+    accuracy: 100,
+    ppmax: 20,
+    ppcurr: 20,
+    effect: "May confuse the target.",
+  }
+};
 const ITEM_DEFS = {
   "Reviver Seed": {
     name: "Reviver Seed",
@@ -501,11 +587,12 @@ const [itemSelected, setItemSelected] = React.useState(null); // Index of select
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
 const [showMoveSelector, setShowMoveSelector] = React.useState(false);
 const [selectedMove, setSelectedMove] = React.useState(0);
+
 const moves = [
-  { name: "Water Pulse", pp: "10/10" },
-  { name: "Aqua Tail", pp: "15/15" },
-  { name: "Acid Armor", pp: "30/30" },
-  { name: "Refresh", pp: "10/10" }
+  { name: "Water Pulse", pp: `${MOVE_DEFS["Water Pulse"].ppcurr}/${MOVE_DEFS["Water Pulse"].ppmax}` },
+  { name: "Aqua Tail", pp: `${MOVE_DEFS["Aqua Tail"].ppcurr}/${MOVE_DEFS["Aqua Tail"].ppmax}` },
+  { name: "Acid Armor", pp: `${MOVE_DEFS["Acid Armor"].ppcurr}/${MOVE_DEFS["Acid Armor"].ppmax}` },
+  { name: "Refresh", pp: `${MOVE_DEFS["Refresh"].ppcurr}/${MOVE_DEFS["Refresh"].ppmax}` }
 ];
 const [itemActionIndex, setItemActionIndex] = React.useState(0);
 const itemActions = ["Use", "Throw", "Discard"];
@@ -781,6 +868,7 @@ function useMove(moveIndex) {
   let specialDefenceGain = 10; // TODO: Add an initial state variable for this
   let buffState = playerSpecialDefense/specialDefenceGain;
   if (!move) return;
+  MOVE_DEFS[move.name].ppcurr = Math.max(0, MOVE_DEFS[move.name].ppcurr - 1);
   if (move.name === 'Acid Armor' && buffState === 1) {
     setPlayerSpecialDefense(prev => prev + specialDefenceGain);
     setIsBuffing(true);
@@ -1808,9 +1896,7 @@ return;
 break;
 case 'l':
 //quick log
-console.log('Current item order:', itemOrder);
-console.log('Natural item order:', natItemOrder);
-console.log(inventory.length, 'items in inventory');
+console.log('Moves:', moves);
 console.log('item tile index:', itemTilesIndex);
   break;
 }
@@ -2460,10 +2546,10 @@ return (
     {isPaused && showMoves && ( // Show moves menu when Moves is clicked
       <div className="menu moves-menu">
         <h2 className="text-white text-lg">Moves</h2>
-        <p className="text-white">Water Pulse - 10/10 PP</p>
-        <p className="text-white">Aqua Tail - 15/15 PP</p>
-        <p className="text-white">Acid Armor - 30/30 PP</p>
-        <p className="text-white">Refresh - 10/10 PP</p>
+        <p className="text-white">Water Pulse - {MOVE_DEFS["Water Pulse"].ppcurr}/{MOVE_DEFS["Water Pulse"].ppmax} PP</p>
+        <p className="text-white">Aqua Tail - {MOVE_DEFS["Aqua Tail"].ppcurr}/{MOVE_DEFS["Aqua Tail"].ppmax} PP</p>
+        <p className="text-white">Acid Armor - {MOVE_DEFS["Acid Armor"].ppcurr}/{MOVE_DEFS["Acid Armor"].ppmax} PP</p>
+        <p className="text-white">Refresh - {MOVE_DEFS["Refresh"].ppcurr}/{MOVE_DEFS["Refresh"].ppmax} PP</p>
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowMoves(false)}>Back</button>
       </div>
     )}
