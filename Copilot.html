@@ -1962,143 +1962,144 @@ window.removeEventListener('keyup', handleKeyUp);
 };
 }, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, isSleeping, showMoveSelector, selectedMove]); // Add isShiftPressed to dependencies
 
+// Replace multiple setInterval animation effects with this single rAF loop + preload
+const ANIM_TIMINGS = {
+  idle: 500,
+  walk: 300,
+  spin: 150,
+  sleep: 500,
+  level: 150,
+  buff: 150
+};
 
-const idleIntervalMs = 500; // Adjust as needed for idle animation speed
-const walkIntervalMs = 300; // Adjust as needed for walking animation speed
-const spinIntervalMs = 150; // Adjust as needed for spinning animation speed
-const sleepIntervalMs = 500; // Adjust as needed for sleeping animation speed
-const levelUpIntervalMs = 150; // Adjust as needed for level up animation speed
+const animRafRef = React.useRef(null);
+const lastAnimTsRef = React.useRef(0);
+const indicesRef = React.useRef({
+  idle: 0,
+  walk: 0,
+  spin: 0,
+  sleep: 0,
+  level: 0,
+  buff: 0
+});
 
+// Ensure refs reflect current flags/direction (some already exist above)
 React.useEffect(() => {
-  if (isWalking || isSpinning || isPaused || isSleeping) return;
-  const interval = setInterval(() => {
-    switch (lastDirectionRef.current) {
-      case 'left':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonLeftSprites.length);
-        break;
-      case 'right':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonRightSprites.length);
-        break;
-      case 'up':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpSprites.length);
-        break;
-      case 'down':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
-        break;
-      case 'up-left':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSprites.length);
-        break;
-      case 'up-right':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSprites.length);
-        break;
-      case 'down-left':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSprites.length);
-        break;
-      case 'down-right':
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSprites.length);
-        break;
-      default:
-        setIdleSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+  lastDirectionRef.current = lastDirection;
+  isPausedRef.current = isPaused;
+  isWalkingRef.current = isWalking;
+}, [lastDirection, isPaused, isWalking]);
+
+// Preload arrays (call with array of urls)
+function preloadImages(urls = []) {
+  urls.forEach(u => {
+    if (!u) return;
+    const img = new Image();
+    img.src = u;
+  });
+}
+
+// Collect sprite URL arrays to preload (trim or extend as needed)
+React.useEffect(() => {
+  const allSprites = [
+    ...vaporeonSprites,
+    ...vaporeonLeftSprites,
+    ...vaporeonRightSprites,
+    ...vaporeonUpSprites,
+    ...vaporeonDownWalkSprites,
+    ...vaporeonUpWalkSprites,
+    ...vaporeonLeftWalkSprites,
+    ...vaporeonRightWalkSprites,
+    ...vaporeonDownRightWalkSprites,
+    ...vaporeonDownLeftWalkSprites,
+    ...vaporeonUpRightWalkSprites,
+    ...vaporeonUpLeftWalkSprites,
+    ...vaporeonDownSpinSprites,
+    ...vaporeonUpSpinSprites,
+    ...vaporeonLeftSpinSprites,
+    ...vaporeonRightSpinSprites,
+    ...vaporeonDownLeftSpinSprites,
+    ...vaporeonDownRightSpinSprites,
+    ...vaporeonUpLeftSpinSprites,
+    ...vaporeonUpRightSpinSprites,
+    ...vaporeonSleepSprites,
+    ...levelVfxFrames,
+    ...buffVfxFrames,
+    // add spin arrays if not huge...
+  ];
+  preloadImages(allSprites);
+}, []);
+
+// rAF animation driver
+React.useEffect(() => {
+  function step(ts) {
+    if (!lastAnimTsRef.current) lastAnimTsRef.current = ts;
+    const elapsed = ts - lastAnimTsRef.current;
+
+    // Idle animation (when not walking, spinning, sleeping, or paused)
+    if (!isWalkingRef.current && !isSpinning && !isSleeping && !isPausedRef.current) {
+      if (elapsed >= ANIM_TIMINGS.idle) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.idle = (indicesRef.current.idle + 1) % vaporeonSprites.length;
+        // Only update visible idle index state if it changed (minimize setState)
+        setIdleSpriteIndex(indicesRef.current.idle);
+      }
     }
-  }, idleIntervalMs);
-  return () => clearInterval(interval);
-}, [isWalking, isPaused, lastDirection]);
 
-// Walking animation effect
-React.useEffect(() => {
-  if (!isWalking || isPaused) return;
-  const interval = setInterval(() => {
-    switch (lastDirectionRef.current) {
-      case 'down':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownWalkSprites.length);
-        break;
-      case 'up':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpWalkSprites.length);
-        break;
-      case 'right':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonRightWalkSprites.length);
-        break;
-      case 'left':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonLeftWalkSprites.length);
-        break;
-      case 'up-left':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftWalkSprites.length);
-        break;
-      case 'up-right':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonUpRightWalkSprites.length);
-        break;
-      case 'down-left':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftWalkSprites.length);
-        break;
-      case 'down-right':
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonDownRightWalkSprites.length);
-        break;
-      default:
-        setWalkSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+    // Walk animation
+    if (isWalkingRef.current && !isPausedRef.current) {
+      if (elapsed >= ANIM_TIMINGS.walk) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.walk = (indicesRef.current.walk + 1) % vaporeonDownWalkSprites.length; // length used as baseline
+        setWalkSpriteIndex(indicesRef.current.walk);
+      }
     }
-  }, walkIntervalMs);
-  return () => clearInterval(interval);
-}, [isWalking, isPaused, lastDirection]);
 
-React.useEffect(() => {
-  if (!isSpinning) return;
-  const interval = setInterval(() => {
-    switch (lastDirectionRef.current) {
-      case 'down':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownSpinSprites.length);
-        break;
-      case 'up':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpSpinSprites.length);
-        break;
-      case 'right':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonRightSpinSprites.length);
-        break;
-      case 'left':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonLeftSpinSprites.length);
-        break;
-      case 'up-left':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpLeftSpinSprites.length);
-        break;
-      case 'up-right':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonUpRightSpinSprites.length);
-        break;
-      case 'down-left':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownLeftSpinSprites.length);
-        break;
-      case 'down-right':
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonDownRightSpinSprites.length);
-        break;
-      default:
-        setSpinSpriteIndex((prev) => (prev + 1) % vaporeonSprites.length);
+    // Spin animation
+    if (isSpinning) {
+      if (elapsed >= ANIM_TIMINGS.spin) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.spin = (indicesRef.current.spin + 1) % vaporeonDownSpinSprites.length;
+        setSpinSpriteIndex(indicesRef.current.spin);
+      }
     }
-  }, spinIntervalMs);
-  console.log('Spinning animation active in direction:', lastDirectionRef.current);
-  return () => clearInterval(interval);
-}, [isWalking, isPaused, lastDirection, isSpinning]);
 
-React.useEffect(() => {
-  if (!isSleeping) return;
-  const interval = setInterval(() => {
-    setSleepSpriteIndex((prev) => (prev + 1) % vaporeonSleepSprites.length);
-  }, sleepIntervalMs);
-  return () => clearInterval(interval);
-}, [isSleeping]);
+    // Sleep animation
+    if (isSleeping) {
+      if (elapsed >= ANIM_TIMINGS.sleep) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.sleep = (indicesRef.current.sleep + 1) % vaporeonSleepSprites.length;
+        setSleepSpriteIndex(indicesRef.current.sleep);
+      }
+    }
 
-React.useEffect(() => {
-  if (!isLevelingUp) return;
-  const interval = setInterval(() => {
-    setLevelVfxIndex((prev) => (prev + 1) % levelVfxFrames.length);
-  }, levelUpIntervalMs);
-  return () => clearInterval(interval);
-}, [isLevelingUp]);
+    // Level VFX
+    if (isLevelingUp) {
+      if (elapsed >= ANIM_TIMINGS.level) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.level = (indicesRef.current.level + 1) % levelVfxFrames.length;
+        setLevelVfxIndex(indicesRef.current.level);
+      }
+    }
 
-React.useEffect(() => {
-  if (!isBuffing) return;
-  const interval = setInterval(() => {
-    setBuffVfxIndex((prev) => (prev + 1) % buffVfxFrames.length);
-  }, levelUpIntervalMs);
-  return () => clearInterval(interval);
-}, [isBuffing]);
+    // Buff VFX
+    if (isBuffing) {
+      if (elapsed >= ANIM_TIMINGS.buff) {
+        lastAnimTsRef.current = ts;
+        indicesRef.current.buff = (indicesRef.current.buff + 1) % buffVfxFrames.length;
+        setBuffVfxIndex(indicesRef.current.buff);
+      }
+    }
+
+    animRafRef.current = requestAnimationFrame(step);
+  }
+
+  animRafRef.current = requestAnimationFrame(step);
+  return () => {
+    if (animRafRef.current) cancelAnimationFrame(animRafRef.current);
+    animRafRef.current = null;
+  };
+}, [isSpinning, isSleeping, isLevelingUp, isBuffing]); // flags that change animation sets
 
 const generateDungeon = () => {
   const stateWidth = width, stateHeight = height;
