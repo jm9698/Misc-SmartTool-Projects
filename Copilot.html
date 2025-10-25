@@ -650,6 +650,10 @@ const [keyState, setKeyState] = React.useState({
 const lastDirectionRef = React.useRef(lastDirection);
 const isPausedRef = React.useRef(isPaused);
 const isWalkingRef = React.useRef(isWalking);
+const [projectiles, setProjectiles] = React.useState([]); // NEW: active thrown item projectiles
+const projectilesRef = React.useRef([]);
+projectilesRef.current = projectiles;
+
 function getWallTileType(x, y, dungeon) {
     // Get neighbors (W = wall)
     let up = y > 0 && dungeon[y-1][x] === 'W';
@@ -985,10 +989,13 @@ function addItemTile(item) {
   setItemTiles(prev => [...prev, item]);
   const itemAdded = { ...item };
   setItemTilesIndex(prev => [...prev, itemAdded]);
+  /*
   setTimeout(() => {
     setItemTiles(prev => prev.filter(tile => tile.itemName !== itemAdded.itemName));
   }, 50);
+  */
 }
+
 
 function createItemAnimation(trajectory, item) {
     let index = 0;
@@ -1278,62 +1285,110 @@ function createItemAnimation(trajectory, item) {
       }
     };
   }
-  function itemThrown(item) {
-    const startPos = { x: playerPos.x, y: playerPos.y };
-    const targetPos = { x: playerPos.x + (lastDirectionRef.current === 'left' ? -5 : lastDirectionRef.current === 'right' ? 5 : 0) + (lastDirectionRef.current === 'up' ? 0 : lastDirectionRef.current === 'down' ? 0 : 0), 
-                        y: playerPos.y + (lastDirectionRef.current === 'up' ? -5 : lastDirectionRef.current === 'down' ? 5 : 0) + (lastDirectionRef.current === 'left' ? 0 : lastDirectionRef.current === 'right' ? 0 : 0) };
-    const endPos = { x: targetPos.x, y: targetPos.y };
-    function calculateProjectilePath(start, end) {
-      const path = [];
-      const steps = 20; // Number of steps in the trajectory
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        // Simple linear interpolation for now
-        const x = Math.round(start.x + (end.x - start.x) * t);
-        const y = Math.round(start.y + (end.y - start.y) * t - 4 * t * (1 - t)); // Adding a simple arc
-        path.push({ x, y });
-      }
-      return path;
-    }
-    const trajectory = calculateProjectilePath(startPos, endPos);
-    
-    // Animate the item along the trajectory
-    const itemAnimation = createItemAnimation(trajectory, item);
-    itemAnimation.start();
+  // Insert spawnProjectile helper (adds and animates a projectile using rAF)
+function lerp(a, b, t) { return a + (b - a) * t; }
+function arcOffset(t, arcHeight) { return 4 * arcHeight * t * (1 - t); }
 
-    console.log('Item thrown:', item);
-    console.log('Projectile trajectory:', trajectory);
-    console.log('Start Pos:', startPos, 'Target Pos:', targetPos, 'End Pos:', endPos);
-  }
-  function throwSelectedItem() {
-  setInventory(prev => {
-    const idx = itemOrder - 1; // itemOrder is 1-based
-    if (idx < 0 || idx >= prev.length) return prev;
-    const updated = [...prev];
-    if (updated[idx].count > 1) {
-      updated[idx].count -= 1;
+function spawnProjectile(opts) {
+  const { start, end, sprite, duration = 700, arcHeight = 2 } = opts;
+  const id = 'proj_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  const startTs = performance.now();
+  // add initial projectile
+  setProjectiles(prev => [...prev, { id, sprite, x: start.x, y: start.y }]);
+
+  function step(now) {
+    const elapsed = now - startTs;
+    const t = Math.min(1, elapsed / duration);
+    const x = lerp(start.x, end.x, t);
+    const y = lerp(start.y, end.y, t) - arcOffset(t, arcHeight);
+
+    setProjectiles(prev => prev.map(p => p.id === id ? { ...p, x, y } : p));
+
+    if (t < 1) {
+      requestAnimationFrame(step);
     } else {
-      updated.splice(idx, 1);
-      setNatItemOrder(updated.length);
-      setItemOrder(Math.max(1, updated.length));
+      // remove after a short delay
+      setTimeout(() => setProjectiles(prev => prev.filter(p => p.id !== id)), 50);
     }
-    return updated;
-  });
-  setIsSpinning(true);
-  setShowItemActionMenu(false);
-  setShowToolbox(false);
-  setIsPaused(false);
-  setTimeout(() => {
-    setIsSpinning(false);
-  }, 1350); // Spin for 1.35 seconds
-  setTimeout(() => {
-    setIsWalking(true);
-  }, 1400); // Start walking after spin ends
-  setTimeout(() => {
-    setIsWalking(false);
-  }, 1401); // Stop walking after 1.5 seconds of walking
-  itemThrown(inventory[itemOrder - 1]);
+  }
+
+  requestAnimationFrame(step);
+  return id;
 }
+
+function itemThrown(item) {
+    const startPos = { x: playerPos.x + 0.25, y: playerPos.y}; // center of player's tile
+    const dir = lastDirectionRef.current || 'right';
+    const dirMap = {
+      up: { x: 0, y: -6 },
+      down: { x: 0, y: 6 },
+      left: { x: -6, y: 0 },
+      right: { x: 6, y: 0 },
+      'up-left': { x: -4, y: -4 },
+      'up-right': { x: 4, y: -4 },
+      'down-left': { x: -4, y: 4 },
+      'down-right': { x: 4, y: 4 }
+    };
+    const wallChecks = {
+      up: { x: 0, y: -1 },
+      down: { x: 0, y: 1 },
+      left: { x: -1, y: 0 },
+      right: { x: 1, y: 0 },
+      'up-left': { x: -1, y: -1 },
+      'up-right': { x: 1, y: -1 },
+      'down-left': { x: -1, y: 1 },
+      'down-right': { x: 1, y: 1 }
+    };
+    const delta = dirMap[dir] || dirMap.right;
+    const wallCheck1 = wallChecks[dir] || wallChecks.right;
+    const wallCheck2 = { x: wallCheck1.x * 2, y: wallCheck1.y * 2 };
+    const wallCheck3 = { x: wallCheck1.x * 3, y: wallCheck1.y * 3 };
+    const wallCheck4 = { x: wallCheck1.x * 4, y: wallCheck1.y * 4 };
+    const wallCheck5 = { x: wallCheck1.x * 5, y: wallCheck1.y * 5 };
+    const wallCheck6 = { x: wallCheck1.x * 6, y: wallCheck1.y * 6 };
+    // Adjust delta if there's a wall in the way
+    if (dungeon[playerPos.y + wallCheck1.y][playerPos.x + wallCheck1.x] === 'W') {
+      delta.x = wallCheck1.x - wallCheck1.x;
+      delta.y = wallCheck1.y - wallCheck1.y;
+    }
+    else if (dungeon[playerPos.y + wallCheck2.y][playerPos.x + wallCheck2.x] === 'W') {
+      delta.x = wallCheck2.x - wallCheck1.x;
+      delta.y = wallCheck2.y - wallCheck1.y;
+    }
+    else if (dungeon[playerPos.y + wallCheck3.y][playerPos.x + wallCheck3.x] === 'W') {
+      delta.x = wallCheck3.x - wallCheck1.x;
+      delta.y = wallCheck3.y - wallCheck1.y;
+    }
+    else if (dungeon[playerPos.y + wallCheck4.y][playerPos.x + wallCheck4.x] === 'W') {
+      delta.x = wallCheck4.x - wallCheck1.x;
+      delta.y = wallCheck4.y - wallCheck1.y;
+    }
+    else if (dungeon[playerPos.y + wallCheck5.y][playerPos.x + wallCheck5.x] === 'W') {
+      delta.x = wallCheck5.x - wallCheck1.x;
+      delta.y = wallCheck5.y - wallCheck1.y;
+    }
+    else if (dungeon[playerPos.y + wallCheck6.y][playerPos.x + wallCheck6.x] === 'W') {
+      delta.x = wallCheck6.x - wallCheck1.x;
+      delta.y = wallCheck6.y - wallCheck1.y;
+    }
+    const endPos = { x: startPos.x + delta.x, y: startPos.y + delta.y + 0.25 }; // slight y offset for better arc
+    
+
+    // avoid optional chaining (Babel inline): use safe access instead
+    const spriteSrc = item.sprite || (ITEM_DEFS[item.name] && ITEM_DEFS[item.name].sprite) || Reviverseed;
+
+    spawnProjectile({
+      start: startPos,
+      end: endPos,
+      sprite: spriteSrc,
+      duration: 1250,
+      arcHeight: 2.2
+    });
+
+    setTimeout(() => addItemTile({ itemName: item.name, x: endPos.x - 0.25, y: endPos.y - 0.25 }), 1250);
+
+    console.log('Item thrown:', item, 'from', startPos, 'to', endPos);
+  }
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
 }, [inventory]);
@@ -1462,20 +1517,52 @@ const handleKeyDown = (e) => {
         // Use the current value of itemActionIndex immediately
         const selectedAction = itemActions[itemActionIndex];
         console.log('Selected action:', selectedAction);
+
         if (selectedAction === 'Discard') {
           discardSelectedItem();
-        }
-        if (selectedAction === 'Throw') {
-          throwSelectedItem();
-        }
-        if (selectedAction === 'Use') {
+        } else if (selectedAction === 'Throw') {
+          const idx = itemOrder - 1;
+          const thrownItem = inventory[idx];
+          if (!thrownItem) {
+            console.log('No item to throw at index', idx);
+          } else {
+            // remove one from stack or remove stack
+            setInventory(prev => {
+              if (idx < 0 || idx >= prev.length) return prev;
+              const updated = [...prev];
+              if (updated[idx].count > 1) {
+                updated[idx].count -= 1;
+              } else {
+                updated.splice(idx, 1);
+                setNatItemOrder(updated.length);
+                setItemOrder(Math.max(1, updated.length));
+              }
+              if (updated.length < MAX_INVENTORY_SLOTS) setInventoryFull(false);
+              return updated;
+            });
+      
+            // visual / state effects (kept from previous logic)
+            setIsSpinning(true);
+            setShowItemActionMenu(false);
+            setShowToolbox(false);
+            setIsPaused(false);
+            setTimeout(() => setIsSpinning(false), 1350);
+            setTimeout(() => setIsWalking(true), 1400);
+            setTimeout(() => setIsWalking(false), 1401);
+      
+            // actually throw the selected item
+            itemThrown(thrownItem);
+          }
+        } else if (selectedAction === 'Use') {
           useSelectedItem();
           console.log('Used item:', itemSelected);
         }
-        // Add logic for other actions here ("Use", "Throw")
+      
+        // Close action menu
         setShowItemActionMenu(false);
         return;
       }
+       // ...existing code...
       if (e.key === 'Escape') {
         setShowItemActionMenu(false);
         return;
@@ -1898,6 +1985,7 @@ case 'l':
 //quick log
 console.log('Moves:', moves);
 console.log('item tile index:', itemTilesIndex);
+console.log('Player position:', playerPos);
   break;
 }
 
@@ -2347,6 +2435,26 @@ return (
               })}
             </div>
           ))}
+
+          {/* Render projectiles inside the dungeon so they follow camera transform */}
+          {projectiles.map(p => (
+            <img
+              key={p.id}
+              src={p.sprite}
+              alt="thrown"
+              style={{
+                position: 'absolute',
+                left: `${p.x * 40}px`,
+                top: `${p.y * 40}px`,
+                width: '20px',
+                height: '20px',
+                transformOrigin: 'center',
+                zIndex: 40,
+                pointerEvents: 'none',
+                objectFit: 'contain'
+              }}
+            />
+          ))}
         </div>
         <div
               style={{
@@ -2626,6 +2734,24 @@ return (
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
       </div>
     )}
+    {projectiles.map(p => (
+  <img
+    key={p.id}
+    src={p.sprite}
+    alt="thrown"
+    style={{
+      position: 'absolute',
+      left: `${p.x * 40}px`,    // 40px tile size used elsewhere
+      top: `${p.y * 40}px`,
+      width: '40px',
+      height: '40px',
+      transformOrigin: 'center',
+      zIndex: 40,
+      pointerEvents: 'none',
+      objectFit: 'contain'
+    }}
+  />
+))}
   </div>
 );
 }
