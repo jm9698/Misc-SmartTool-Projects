@@ -1986,16 +1986,43 @@ case 'l':
 console.log('Moves:', moves);
 console.log('item tile index:', itemTilesIndex);
 console.log('Player position:', playerPos);
+console.log('Ispositionwall?', dungeon[playerPos.y][playerPos.x] === 'W');
+console.log('Ispositiondownwall?', dungeon[playerPos.y + 1][playerPos.x] === 'W');
+console.log('Ispositionupwall?', dungeon[playerPos.y - 1][playerPos.x] === 'W');
+console.log('Ispositionleftwall?', dungeon[playerPos.y][playerPos.x - 1] === 'W');
+console.log('Ispositionrightwall?', dungeon[playerPos.y][playerPos.x + 1] === 'W');
+console.log('Ispositionupleftwall?', dungeon[playerPos.y - 1][playerPos.x - 1] === 'W');
+console.log('Ispositionuprightwall?', dungeon[playerPos.y - 1][playerPos.x + 1] === 'W');
+console.log('Ispositiondownleftwall?', dungeon[playerPos.y + 1][playerPos.x - 1] === 'W');
+console.log('Ispositiondownrightwall?', dungeon[playerPos.y + 1][playerPos.x + 1] === 'W');
+console.log('Dungeon:', dungeon);
   break;
 }
 
 // Check for collision with walls only if not paused and not holding Shift
-if (!isAiming && !isPaused && newY >= 0 && newY < height && newX >= 0 && newX < width && dungeon[newY][newX] !== 'W' && !keyState.shift) {
-setPlayerPos({ x: newX, y: newY });
-updateCamera(newX, newY);
-}
-else {
-  console.log('Movement blocked by wall or paused state. New position:', newX, newY, 'Player position:', playerPos, 'Dungeon tile:', dungeon[newY] ? dungeon[newY][newX] : 'N/A', 'Height:', height, 'Width:', width);
+const moveCheck = (() => {
+  if (isAiming) return { ok: false, reason: 'isAiming' };
+  if (isPaused) return { ok: false, reason: 'isPaused' };
+  if (keyState.shift) return { ok: false, reason: 'shift held' };
+  if (newY < 0 || newY >= height || newX < 0 || newX >= width) return { ok: false, reason: 'out of bounds' };
+  if (!Array.isArray(dungeon) || dungeon.length === 0) return { ok: false, reason: 'dungeon not initialized' };
+  if (!dungeon[newY]) return { ok: false, reason: 'dungeon row undefined', rowLen: dungeon.length };
+  const tile = dungeon[newY][newX];
+  if (tile === 'W') return { ok: false, reason: 'wall', tile };
+  if (typeof tile === 'undefined' || tile === null) return { ok: false, reason: 'tile undefined', tile };
+  return { ok: true, reason: 'ok', tile };
+})();
+
+if (moveCheck.ok) {
+  setPlayerPos({ x: newX, y: newY });
+  updateCamera(newX, newY);
+} else {
+  console.log('Movement blocked:', moveCheck.reason,
+    'new:', newX, newY,
+    'tile:', moveCheck.tile,
+    'dungeonRows:', Array.isArray(dungeon) ? dungeon.length : 'N/A',
+    'height/width:', height, width,
+    'isAiming:', isAiming, 'isPaused:', isPaused, 'shift:', keyState.shift);
 }
 
 if (newX === stairs.x && newY === stairs.y) {
