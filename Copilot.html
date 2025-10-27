@@ -90,8 +90,6 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
   }));
 };
 
-//import { frames } from 'frameExports.js'
-//console.log (frames.characters.vaporeon.idle.down.frame1);
 const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
 const MOVE_DEFS = {
   "Acid Armor": {
@@ -213,6 +211,8 @@ const ITEM_DEFS = {
 };
 const MAX_INVENTORY_SLOTS = 10;
 
+// Vaporeon sprite URLs
+  // Idle animations
 const vaporeonSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png'
@@ -252,7 +252,7 @@ const vaporeonUpRightSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png'
 ];
-
+  // Walking animations
 const vaporeonDownWalkSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
@@ -309,6 +309,7 @@ const vaporeonDownRightWalkSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png',
 
 ]
+  // Spin animations
 const vaporeonUpSpinSprites = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame2.png',
@@ -397,10 +398,13 @@ const vaporeonUpLeftSpinSprites = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame8.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame9.png'
 ]
+  // Sleep animations
 const vaporeonSleepSprites = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim2.png'
 ]
+// VFX animations
+  // Level up VFX
 const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame2.png',
@@ -418,6 +422,7 @@ const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame14.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame15.png'
 ]
+  // Buff VFX
 const buffVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame2.png',
@@ -435,6 +440,7 @@ const vaporeonPortraitNormal = 'https://raw.githubusercontent.com/jm9698/Misc-Sm
 
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Pokedollar.png'; // Replace with your sprite URL
 
+// Wall sprites
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -451,7 +457,7 @@ const innerCornerTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const innerCornerTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png';
 const innerCornerBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png';
 const innerCornerBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png';
-//These are debug images to test the exp bar
+// Experience bar components
 const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar100%25.png';
 const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar0%25.png';
 const expBarComponent1 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar1%25.png';
@@ -553,19 +559,41 @@ const expBarComponent96 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTo
 const expBarComponent97 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar97%25.png';
 const expBarComponent98 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar98%25.png';
 const expBarComponent99 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expBar99%25.png';
-//These are debug images to test the exp bar
+
+// Item Selection indicator (proto)
 const itemSelector = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/itemSelector.png'
+
+// Floor Sprites (random rotation)
 const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet116%233.png',
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
 ];
+
+// Stair Sprite (proto)
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
+
 const Game = () => {
+// Start React state declarations here
 const [dungeon, setDungeon] = React.useState([]);
-const [timeElapsed, setTimeElapsed] = React.useState(0);
+const dungeonRef = React.useRef(null);
+const minHeight = 60;
+const maxHeight = 70;
+const minWidth = 60;
+const maxWidth = 70;
+const height = randInt(minHeight, maxHeight + 1);
+const width = randInt(minWidth, maxWidth + 1);
+const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
+const [floor, setFloor] = React.useState(1);
+const [zoomLevel, setZoomLevel] = React.useState(1);
+
+// Level params
 const [level, setLevel] = React.useState(1);
+const [exp, setExp] = React.useState(0);
+const [maxExp, setMaxExp] = React.useState(100);
+
+// Player stats
 const [playerHP, setPlayerHP] = React.useState(100);
 const [maxPlayerHP, setMaxPlayerHP] = React.useState(100);
 const [playerAttack, setPlayerAttack] = React.useState(10);
@@ -573,43 +601,84 @@ const [playerSpecialAttack, setPlayerSpecialAttack] = React.useState(20);
 const [playerDefense, setPlayerDefense] = React.useState(5);
 const [playerSpecialDefense, setPlayerSpecialDefense] = React.useState(10);
 const [playerSpeed, setPlayerSpeed] = React.useState(5);
-const [exp, setExp] = React.useState(0);
-const [maxExp, setMaxExp] = React.useState(100);
+
+// Menu states
+const [isPaused, setIsPaused] = React.useState(false); // New paused state
+const [showOptions, setShowOptions] = React.useState(false); // State for options menu
+const [showStatus, setShowStatus] = React.useState(false); // State for status menu
+const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
+const [showToolbox, setShowToolbox] = React.useState(false); // State for toolbox menu
+const isPausedRef = React.useRef(isPaused);
+
+// Currency
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
+
+// Item tiles and inventory
 const [itemTiles, setItemTiles] = React.useState([]);
 const [itemTilesIndex, setItemTilesIndex] = React.useState([]); // Index for cycling through item tiles
 const [itemTilesIndexRef, setItemTilesIndexRef] = React.useState([]);
 const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
 const [itemOrder, setItemOrder] = React.useState(0);
-const [itemSelectedCurrent, setItemSelectedCurrent] = React.useState(null);
 const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
+const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
+const [flickerFrame, setFlickerFrame] = React.useState(0);
+const [inventory, setInventory] = React.useState([]);
+const [inventoryFull, setInventoryFull] = React.useState(false);
+const getInventoryIndex = (inventory, ITEM_DEFS) => {
+  return inventory.map((item, position) => ({
+    item,
+    itemDef: ITEM_DEFS[item.name],
+    position
+  }));
+};
+
+// Move selection
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
 const [showMoveSelector, setShowMoveSelector] = React.useState(false);
 const [selectedMove, setSelectedMove] = React.useState(0);
-
 const moves = [
   { name: "Water Pulse", pp: `${MOVE_DEFS["Water Pulse"].ppcurr}/${MOVE_DEFS["Water Pulse"].ppmax}` },
   { name: "Aqua Tail", pp: `${MOVE_DEFS["Aqua Tail"].ppcurr}/${MOVE_DEFS["Aqua Tail"].ppmax}` },
   { name: "Acid Armor", pp: `${MOVE_DEFS["Acid Armor"].ppcurr}/${MOVE_DEFS["Acid Armor"].ppmax}` },
   { name: "Refresh", pp: `${MOVE_DEFS["Refresh"].ppcurr}/${MOVE_DEFS["Refresh"].ppmax}` }
 ];
+
+// Item action selection
 const [itemActionIndex, setItemActionIndex] = React.useState(0);
 const itemActions = ["Use", "Throw", "Discard"];
-const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
-const [flickerFrame, setFlickerFrame] = React.useState(0);
-const [inventory, setInventory] = React.useState([]);
-const [inventoryFull, setInventoryFull] = React.useState(false);
-const [showToolbox, setShowToolbox] = React.useState(false);
+
+// Checkboxes for options (proto)
 const [checkBox1, setCheckBox1] = React.useState(false);
 const [checkBox2, setCheckBox2] = React.useState(false);
 const [checkBox3, setCheckBox3] = React.useState(false);
+
+// Action log
 const [actionLog, setActionLog] = React.useState([]); // [{msg, id}]
+
+// Aiming and diagonal mode (proto)
 const [isAiming, setIsAiming] = React.useState(false); // Track whether player is aiming
 const [inDiagonalMode, setInDiagonalMode] = React.useState(false); // Track whether player is using diagonal mode
 const [showIndicators, setShowIndicators] = React.useState(false); // State to track indicator visibility
+
+//Animation booleans
 const [isWalking, setIsWalking] = React.useState(false);
+const isWalkingRef = React.useRef(isWalking);
 const [isSleeping, setIsSleeping] = React.useState(false);
+const [isLevelingUp, setIsLevelingUp] = React.useState(false); // State to track if leveling up
+const [isBuffing, setIsBuffing] = React.useState(false); // State to track if buffing
+const [isSpinning, setIsSpinning] = React.useState(false); // State to track if spinning
+  // Indexes
+const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
+const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
+const [spinSpriteIndex, setSpinSpriteIndex] = React.useState(0); // Index for spin animation
+const [sleepSpriteIndex, setSleepSpriteIndex] = React.useState(0); // Index for sleep animation
+const [levelVfxIndex, setLevelVfxIndex] = React.useState(0); // Index for level up VFX animation
+const [buffVfxIndex, setBuffVfxIndex] = React.useState(0); // Index for buff VFX animation
+  // Other
+const walkCooldownRef = React.useRef(null);
+
+//Location and map tracking
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
 const [roomsState, setRoomsState] = React.useState([]); // rooms returned from generator
 const [exploredTiles, setExploredTiles] = React.useState(() => new Set()); // "x,y" keys
@@ -619,55 +688,27 @@ const MINIMAP_SIZE = 200; // px (adjust as desired)
 // helper for keys
 const tileKey = (x, y) => `${x},${y}`;
 
-const minHeight = 60;
-const maxHeight = 70;
-const minWidth = 60;
-const maxWidth = 70;
-const getInventoryIndex = (inventory, ITEM_DEFS) => {
-  return inventory.map((item, position) => ({
-    item,
-    itemDef: ITEM_DEFS[item.name],
-    position
-  }));
-};
-const height = randInt(minHeight, maxHeight + 1);
-const width = randInt(minWidth, maxWidth + 1);
-const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
-const [floor, setFloor] = React.useState(1);
-const [zoomLevel, setZoomLevel] = React.useState(1);
+// Camera params
 const [cameraTransform, setCameraTransform] = React.useState('');
-// Use a DOM ref for the dungeon element so the camera transform can be applied
-// directly to the element (avoids frequent React state updates that cause jank).
-const dungeonRef = React.useRef(null);
 const cameraTargetRef = React.useRef({ x: playerPos.x, y: playerPos.y });
 const cameraPosRef = React.useRef({ x: playerPos.x, y: playerPos.y });
 const cameraRafRef = React.useRef(null);
-const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
-const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
-const [spinSpriteIndex, setSpinSpriteIndex] = React.useState(0); // Index for spin animation
-const [sleepSpriteIndex, setSleepSpriteIndex] = React.useState(0); // Index for sleep animation
-const [levelVfxIndex, setLevelVfxIndex] = React.useState(0); // Index for level up VFX animation
-const [isLevelingUp, setIsLevelingUp] = React.useState(false); // State to track if leveling up
-const [isBuffing, setIsBuffing] = React.useState(false); // State to track if buffing
-const [buffVfxIndex, setBuffVfxIndex] = React.useState(0); // Index for buff VFX animation
-const [isSpinning, setIsSpinning] = React.useState(false); // State to track if spinning
+
+// Movement and key states
 const [lastDirection, setLastDirection] = React.useState('down'); // Default direction
-const [isPaused, setIsPaused] = React.useState(false); // New paused state
-const [showOptions, setShowOptions] = React.useState(false); // State for options menu
-const [showStatus, setShowStatus] = React.useState(false); // State for status menu
-const [showMoves, setShowMoves] = React.useState(false); // State for moves menu
+const lastDirectionRef = React.useRef(lastDirection);
 const [keyState, setKeyState] = React.useState({
   w: false, a: false, s: false, d: false, q: false, e: false, z: false, c: false,
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
   shift: false, qHeld: false, eHeld: false, zHeld: false, cHeld: false
 });
-const lastDirectionRef = React.useRef(lastDirection);
-const isPausedRef = React.useRef(isPaused);
-const isWalkingRef = React.useRef(isWalking);
-const [projectiles, setProjectiles] = React.useState([]); // NEW: active thrown item projectiles
+
+// Thrown item projectiles
+const [projectiles, setProjectiles] = React.useState([]);
 const projectilesRef = React.useRef([]);
 projectilesRef.current = projectiles;
 
+//Function declarations start here
 function getWallTileType(x, y, dungeon) {
     // Get neighbors (W = wall)
     let up = y > 0 && dungeon[y-1][x] === 'W';
@@ -724,13 +765,13 @@ const wallSpriteMap = {
   wall_inner_corner_bottomright: innerCornerBottomRight
   // ...etc...
 };
+
 function updateKeyState(key, value) {
   setKeyState(prev => ({ ...prev, [key]: value }));
 }
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-const walkCooldownRef = React.useRef(null);
 function triggerWalkCooldown() {
   // Clear any existing cooldown
   if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
@@ -1003,11 +1044,6 @@ function addItemTile(item) {
   setItemTiles(prev => [...prev, item]);
   const itemAdded = { ...item };
   setItemTilesIndex(prev => [...prev, itemAdded]);
-  /*
-  setTimeout(() => {
-    setItemTiles(prev => prev.filter(tile => tile.itemName !== itemAdded.itemName));
-  }, 50);
-  */
 }
 function startCameraLoop() {
   if (cameraRafRef.current) return;
@@ -1015,10 +1051,6 @@ function startCameraLoop() {
   function step() {
     const cur = cameraPosRef.current;
     const tgt = cameraTargetRef.current;
-    // small lerp factor for smooth motion (tune 0.15 - 0.35)
-    //const t = 0.35;
-    // adaptive lerp factor: increase responsiveness when the camera is far
-    // from the target (helps with rapid player inputs) but clamp to limit overshoot.
     const dist = Math.hypot(tgt.x - cur.x, tgt.y - cur.y);
     const t = Math.min(0.6, 0.18 + dist * 0.18);
     const nx = lerp(cur.x, tgt.x, t);
@@ -1177,295 +1209,7 @@ React.useEffect(() => {
   revealRoomIfEntered(playerPos);
 }, [playerPos, roomsState]);
 
-function createItemAnimation(trajectory, item) {
-    let index = 0;
-    return {
-      start: () => {
-        function isNewPosition(pos) {
-            console.log('Is new position:', pos, !tilePositions.some(tilePositions => tilePositions.x === pos.x && tilePositions.y === pos.y));
-            console.log('Current position:', pos);
-            let tile = tilePositions.find(tile => tile.x && tile.y);
-            console.log(tile)
-            if (tile.x === pos.x) {
-              console.log('Position is not new:', pos);
-              console.log('tile.x:', tile.x);
-              console.log('tile.y:', tile.y);
-              console.log('Current position x:', pos.x);
-              console.log('Current position y:', pos.y);
-              return false;
-            }
-            else if (tile.y === pos.y) {
-              console.log('Position is not new(y case):', pos);
-              return false
-            }
-            console.log('Position is new:', pos);
-            return true;
-        }
-        const pos1 = trajectory[1];
-        const pos2 = trajectory[2];
-        const pos3 = trajectory[3];
-        const pos4 = trajectory[4];
-        const pos5 = trajectory[5];
-        const pos6 = trajectory[6];
-        const pos7 = trajectory[7];
-        const pos8 = trajectory[8];
-        const pos9 = trajectory[9];
-        const pos10 = trajectory[10];
-        const pos11 = trajectory[11];
-        const pos12 = trajectory[12];
-        const pos13 = trajectory[13];
-        const pos14 = trajectory[14];
-        const pos15 = trajectory[15];
-        const pos16 = trajectory[16];
-        const pos17 = trajectory[17];
-        const pos18 = trajectory[18];
-        const pos19 = trajectory[19];
-        const pos20 = trajectory[20];
-
-        const tilePositions = [
-            pos1 !== null ? pos1 : null,
-            pos2 !== null ? pos2 : null,
-            pos3 !== null ? pos3 : null,
-            pos4 !== null ? pos4 : null,
-            pos5 !== null ? pos5 : null,
-            pos6 !== null ? pos6 : null,
-            pos7 !== null ? pos7 : null,
-            pos8 !== null ? pos8 : null,
-            pos9 !== null ? pos9 : null,
-            pos10 !== null ? pos10 : null,
-            pos11 !== null ? pos11 : null,
-            pos12 !== null ? pos12 : null,
-            pos13 !== null ? pos13 : null,
-            pos14 !== null ? pos14 : null,
-            pos15 !== null ? pos15 : null,
-            pos16 !== null ? pos16 : null,
-            pos17 !== null ? pos17 : null,
-            pos18 !== null ? pos18 : null,
-            pos19 !== null ? pos19 : null,
-            pos20 !== null ? pos20 : null
-          ]
-        if (isNewPosition(pos1)) {
-          const tilepos1 = updateItemTilesIndex(pos1);
-          console.log('newpos1:', tilepos1);
-        }
-        if (isNewPosition(pos2)) {
-          const tilepos2 = updateItemTilesIndex(pos2);
-          console.log('newpos2:', tilepos2);
-        }
-        if (isNewPosition(pos3)) {
-          const tilepos3 = updateItemTilesIndex(pos3);
-          console.log('newpos3:', tilepos3);
-        }
-        if (isNewPosition(pos4)) {
-          const tilepos4 = updateItemTilesIndex(pos4);
-          console.log('newpos4:', tilepos4);
-        }
-        if (isNewPosition(pos5)) {
-          const tilepos5 = updateItemTilesIndex(pos5);
-          console.log('newpos5:', tilepos5);
-        }
-        if (isNewPosition(pos6)) {
-          const tilepos6 = updateItemTilesIndex(pos6);
-          console.log('newpos6:', tilepos6);
-        }
-        if (isNewPosition(pos7)) {
-          const tilepos7 = updateItemTilesIndex(pos7);
-          console.log('newpos7:', tilepos7);
-        }
-        if (isNewPosition(pos8)) {
-          const tilepos8 = updateItemTilesIndex(pos8);
-          console.log('newpos8:', tilepos8);
-        }
-        if (isNewPosition(pos9)) {
-          const tilepos9 = updateItemTilesIndex(pos9);
-          console.log('newpos9:', tilepos9);
-        }
-        if (isNewPosition(pos10)) {
-          const tilepos10 = updateItemTilesIndex(pos10);
-          console.log('newpos10:', tilepos10);
-        }
-        if (isNewPosition(pos11)) {
-          const tilepos11 = updateItemTilesIndex(pos11);
-          console.log('newpos11:', tilepos11);
-        }
-        if (isNewPosition(pos12)) {
-          const tilepos12 = updateItemTilesIndex(pos12);
-          console.log('newpos12:', tilepos12);
-        }
-        if (isNewPosition(pos13)) {
-          const tilepos13 = updateItemTilesIndex(pos13);
-          console.log('newpos13:', tilepos13);
-        }
-        if (isNewPosition(pos14)) {
-          const tilepos14 = updateItemTilesIndex(pos14)
-          console.log('newpos14:', tilepos14);
-        }
-        if (isNewPosition(pos15)) {
-          const tilepos15 = updateItemTilesIndex(pos15)
-          console.log('newpos15:', tilepos15);
-        }
-        if (isNewPosition(pos16)) {
-          const tilepos16 = updateItemTilesIndex(pos16)
-          console.log('newpos16:', tilepos16);
-        }
-        if (isNewPosition(pos17)) {
-          const tilepos17 = updateItemTilesIndex(pos17)
-          console.log('newpos17:', tilepos17);
-        }
-        if (isNewPosition(pos18)) {
-          const tilepos18 = updateItemTilesIndex(pos18)
-          console.log('newpos18:', tilepos18);
-        }
-        if (isNewPosition(pos19)) {
-          const tilepos19 = updateItemTilesIndex(pos19)
-          console.log('newpos19:', tilepos19);
-        }
-        if (isNewPosition(pos20)) {
-          const tilepos20 = updateItemTilesIndex(pos20)
-          console.log('newpos20:', tilepos20);
-        }
-        const interval = setInterval(() => {
-          console.log('Animating item to position:', trajectory[index]);
-          if (index >= trajectory.length) {
-            clearInterval(interval);
-            let index = 0;
-            return;
-          }
-          
-          
-          console.log(isNewPosition(pos1))
-          if (isNewPosition(pos1)) {
-            addItemTile({ itemName: item.name, x: pos1.x, y: pos1.y });
-            console.log('Position added:', pos1);
-          }
-          setTimeout(() => {
-            if (isNewPosition(pos2)) {
-              addItemTile({ itemName: item.name, x: pos2.x, y: pos2.y });
-               console.log('Position added:', pos2);
-            }
-          }, 50);
-          setTimeout(() => {
-            if (isNewPosition(pos3)) {
-              addItemTile({ itemName: item.name, x: pos3.x, y: pos3.y });
-               console.log('Position added:', pos3);
-            }
-          }, 100);
-          setTimeout(() => {
-            if (isNewPosition(pos4)) {
-              addItemTile({ itemName: item.name, x: pos4.x, y: pos4.y });
-               console.log('Position added:', pos4);
-            }
-          }, 150);
-          setTimeout(() => {
-            if (isNewPosition(pos5)) {
-              addItemTile({ itemName: item.name, x: pos5.x, y: pos5.y });
-               console.log('Position added:', pos5);
-            }
-          }, 200);
-          setTimeout(() => {
-            if (isNewPosition(pos6)) {
-              addItemTile({ itemName: item.name, x: pos6.x, y: pos6.y });
-               console.log('Position added:', pos6);
-            }
-          }, 250);
-          setTimeout(() => {
-            if (isNewPosition(pos7)) {
-              addItemTile({ itemName: item.name, x: pos7.x, y: pos7.y });
-               console.log('Position added:', pos7);
-            }
-          }, 300);
-          setTimeout(() => {
-            if (isNewPosition(pos8)) {
-              addItemTile({ itemName: item.name, x: pos8.x, y: pos8.y });
-               console.log('Position added:', pos8);
-            }
-          }, 350);
-          setTimeout(() => {
-            if (isNewPosition(pos9)) {
-              addItemTile({ itemName: item.name, x: pos9.x, y: pos9.y });
-               console.log('Position added:', pos9);
-            }
-          }, 400);
-          setTimeout(() => {
-            if (isNewPosition(pos10)) {
-              addItemTile({ itemName: item.name, x: pos10.x, y: pos10.y });
-               console.log('Position added:', pos10);
-            }
-          }, 450);
-          setTimeout(() => {
-            if (isNewPosition(pos11)) {
-              addItemTile({ itemName: item.name, x: pos11.x, y: pos11.y });
-               console.log('Position added:', pos11);
-            }
-          }, 500);
-          setTimeout(() => {
-            if (isNewPosition(pos12)) {
-              addItemTile({ itemName: item.name, x: pos12.x, y: pos12.y });
-               console.log('Position added:', pos12);
-            }
-          }, 550);
-          setTimeout(() => {
-            if (isNewPosition(pos13)) {
-              addItemTile({ itemName: item.name, x: pos13.x, y: pos13.y });
-               console.log('Position added:', pos13);
-            }
-          }, 600);
-          setTimeout(() => {
-            if (isNewPosition(pos14)) {
-              addItemTile({ itemName: item.name, x: pos14.x, y: pos14.y });
-               console.log('Position added:', pos14);
-            }
-          }, 650);
-          setTimeout(() => {
-            if (isNewPosition(pos15)) {
-              addItemTile({ itemName: item.name, x: pos15.x, y: pos15.y });
-               console.log('Position added:', pos15);
-            }
-          }, 700);
-          setTimeout(() => {
-            if (isNewPosition(pos16)) {
-              addItemTile({ itemName: item.name, x: pos16.x, y: pos16.y });
-               console.log('Position added:', pos16);
-            }
-          }, 750);
-          setTimeout(() => {
-            if (isNewPosition(pos17)) {
-              addItemTile({ itemName: item.name, x: pos17.x, y: pos17.y });
-               console.log('Position added:', pos17);
-            }
-          }, 800);
-          setTimeout(() => {
-            if (isNewPosition(pos18)) {
-              addItemTile({ itemName: item.name, x: pos18.x, y: pos18.y });
-               console.log('Position added:', pos18);
-            }
-          }, 850);
-          setTimeout(() => {
-            if (isNewPosition(pos19)) {
-              addItemTile({ itemName: item.name, x: pos19.x, y: pos19.y });
-               console.log('Position added:', pos19);
-            }
-          }, 900);
-          setTimeout(() => {
-            if (isNewPosition(pos20)) {
-              addItemTile({ itemName: item.name, x: pos20.x, y: pos20.y });
-               console.log('Position added:', pos20);
-            }
-          }, 950);
-          setTimeout(() => {
-            clearInterval(interval);
-          }, 1000);
-          
-          //setItemTiles(prev => prev.map(tile => 
-            //tile.itemName === item.name ?
-             //{ ...tile, x: pos.x, y: pos.y }
-           //   : { ...tile, x: pos.x, y: pos.y } // Keep other tiles unchanged
-         // ));
-        }, 50); // Update every 50ms for smoother animation
-      }
-    };
-  }
-  // Insert spawnProjectile helper (adds and animates a projectile using rAF)
+// Insert spawnProjectile helper (adds and animates a projectile using rAF)
 function lerp(a, b, t) { return a + (b - a) * t; }
 function arcOffset(t, arcHeight) { return 4 * arcHeight * t * (1 - t); }
 
@@ -1736,6 +1480,9 @@ const handleKeyDown = (e) => {
           }
         } else if (selectedAction === 'Use') {
           useSelectedItem();
+          setShowItemActionMenu(false);
+          setShowToolbox(false);
+          setIsPaused(false);
           console.log('Used item:', itemSelected);
         }
       
@@ -2185,7 +1932,6 @@ const moveCheck = (() => {
   if (isAiming) return { ok: false, reason: 'isAiming' };
   if (isPaused) return { ok: false, reason: 'isPaused' };
   if (keyState.shift) return { ok: false, reason: 'shift held' };
-  if (newY < 0 || newY >= height || newX < 0 || newX >= width) return { ok: false, reason: 'out of bounds' };
   if (!Array.isArray(dungeon) || dungeon.length === 0) return { ok: false, reason: 'dungeon not initialized' };
   if (!dungeon[newY]) return { ok: false, reason: 'dungeon row undefined', rowLen: dungeon.length };
   const tile = dungeon[newY][newX];
@@ -2321,7 +2067,6 @@ React.useEffect(() => {
     ...vaporeonSleepSprites,
     ...levelVfxFrames,
     ...buffVfxFrames,
-    // add spin arrays if not huge...
   ];
   preloadImages(allSprites);
 }, []);
@@ -2828,7 +2573,7 @@ return (
           : 0.62 <= exp/maxExp && exp/maxExp < 0.63 ? expBarComponent62
           : 0.63 <= exp/maxExp && exp/maxExp < 0.64 ? expBarComponent63
           : 0.64 <= exp/maxExp && exp/maxExp < 0.65 ? expBarComponent64
-          : 0.65 <= exp/maxExp && expMaxExp < 0.66 ? expBarComponent65
+          : 0.65 <= exp/maxExp && exp/maxExp < 0.66 ? expBarComponent65
           : 0.66 <= exp/maxExp && exp/maxExp < 0.67 ? expBarComponent66
           : 0.67 <= exp/maxExp && exp/maxExp < 0.68 ? expBarComponent67
           : 0.68 <= exp/maxExp && exp/maxExp < 0.69 ? expBarComponent68
