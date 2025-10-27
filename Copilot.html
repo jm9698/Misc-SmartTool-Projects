@@ -611,6 +611,14 @@ const [showIndicators, setShowIndicators] = React.useState(false); // State to t
 const [isWalking, setIsWalking] = React.useState(false);
 const [isSleeping, setIsSleeping] = React.useState(false);
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
+const [roomsState, setRoomsState] = React.useState([]); // rooms returned from generator
+const [exploredTiles, setExploredTiles] = React.useState(() => new Set()); // "x,y" keys
+const minimapCanvasRef = React.useRef(null);
+const MINIMAP_SIZE = 200; // px (adjust as desired)
+
+// helper for keys
+const tileKey = (x, y) => `${x},${y}`;
+
 const minHeight = 60;
 const maxHeight = 70;
 const minWidth = 60;
@@ -628,6 +636,12 @@ const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
 const [cameraTransform, setCameraTransform] = React.useState('');
+// Use a DOM ref for the dungeon element so the camera transform can be applied
+// directly to the element (avoids frequent React state updates that cause jank).
+const dungeonRef = React.useRef(null);
+const cameraTargetRef = React.useRef({ x: playerPos.x, y: playerPos.y });
+const cameraPosRef = React.useRef({ x: playerPos.x, y: playerPos.y });
+const cameraRafRef = React.useRef(null);
 const [idleSpriteIndex, setIdleSpriteIndex] = React.useState(0); // Index for idle animation
 const [walkSpriteIndex, setWalkSpriteIndex] = React.useState(0); // Index for walk animation
 const [spinSpriteIndex, setSpinSpriteIndex] = React.useState(0); // Index for spin animation
@@ -995,7 +1009,173 @@ function addItemTile(item) {
   }, 50);
   */
 }
+function startCameraLoop() {
+  if (cameraRafRef.current) return;
+  const lerp = (a, b, t) => a + (b - a) * t;
+  function step() {
+    const cur = cameraPosRef.current;
+    const tgt = cameraTargetRef.current;
+    // small lerp factor for smooth motion (tune 0.15 - 0.35)
+    //const t = 0.35;
+    // adaptive lerp factor: increase responsiveness when the camera is far
+    // from the target (helps with rapid player inputs) but clamp to limit overshoot.
+    const dist = Math.hypot(tgt.x - cur.x, tgt.y - cur.y);
+    const t = Math.min(0.6, 0.18 + dist * 0.18);
+    const nx = lerp(cur.x, tgt.x, t);
+    const ny = lerp(cur.y, tgt.y, t);
+    cameraPosRef.current = { x: nx, y: ny };
 
+    // compute pixel offsets like original logic but use current lerped pos
+    const offsetX = (15 - nx + 1) * 40 + 20;
+    const offsetY = (15 - ny - 8.5) * 40 + 20;
+    const newTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
+
+    // Apply transform directly to the dungeon DOM node to avoid re-rendering the whole tree.
+    if (dungeonRef.current && dungeonRef.current.style.transform !== newTransform) {
+      dungeonRef.current.style.transform = newTransform;
+    }
+
+    // stop when close enough
+    if (Math.abs(tgt.x - nx) > 0.01 || Math.abs(tgt.y - ny) > 0.01) {
+      cameraRafRef.current = requestAnimationFrame(step);
+    } else {
+      cameraRafRef.current = null;
+    }
+  }
+  cameraRafRef.current = requestAnimationFrame(step);
+}
+function stopCameraLoop() {
+  if (cameraRafRef.current) {
+    cancelAnimationFrame(cameraRafRef.current);
+    cameraRafRef.current = null;
+  }
+}
+
+function revealTile(x, y) {
+  setExploredTiles(prev => {
+    const next = new Set(prev);
+    next.add(tileKey(Math.floor(x), Math.floor(y)));
+    return next;
+  });
+}
+
+// reveal every tile inside a room rectangle
+function revealRoom(room) {
+  if (!room) return;
+  setExploredTiles(prev => {
+    const next = new Set(prev);
+    for (let yy = room.y; yy < room.y + room.h; yy++) {
+      for (let xx = room.x; xx < room.x + room.w; xx++) {
+        next.add(tileKey(xx, yy));
+      }
+    }
+    return next;
+  });
+}
+
+// if player enters a room, reveal the whole room
+function revealRoomIfEntered(pos) {
+  if (!roomsState || roomsState.length === 0) return;
+  const r = roomsState.find(room =>
+    pos.x >= room.x && pos.x < room.x + room.w &&
+    pos.y >= room.y && pos.y < room.y + room.h
+  );
+  if (r) revealRoom(r);
+}
+
+// draw minimap to canvas (simple, fast)
+function drawMinimap() {
+  const canvas = minimapCanvasRef.current;
+  if (!canvas || !dungeon || dungeon.length === 0) return;
+  const ctx = canvas.getContext('2d');
+  const rows = dungeon.length;
+  const cols = dungeon[0].length;
+  canvas.width = MINIMAP_SIZE;
+  canvas.height = MINIMAP_SIZE;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // compute tile size and center offset to fit dungeon into canvas
+  const tileW = Math.max(1, Math.floor(MINIMAP_SIZE / cols));
+  const tileH = Math.max(1, Math.floor(MINIMAP_SIZE / rows));
+  const t = Math.max(1, Math.min(tileW, tileH));
+  const mapW = t * cols;
+  const mapH = t * rows;
+  const offX = Math.floor((canvas.width - mapW) / 2);
+  const offY = Math.floor((canvas.height - mapH) / 2);
+// draw explored tiles, walls and floors
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const k = tileKey(x, y);
+      const explored = exploredTiles.has(k);
+      const px = offX + x * t;
+      const py = offY + y * t;
+
+      if (!explored) {
+        // fog (semi-transparent dark)
+        ctx.fillStyle = 'rgba(0,0,0,0.8)';
+        ctx.fillRect(px, py, t, t);
+        continue;
+      }
+
+      const cell = dungeon[y][x];
+      if (cell === 'W') {
+        ctx.fillStyle = 'rgba(80,80,80,0.95)'; // wall color
+      } else if (cell === 'S') {
+        ctx.fillStyle = 'rgba(220,200,50,0.95)'; // stairs color
+      } else {
+        ctx.fillStyle = 'rgba(170,200,220,0.95)'; // floor color
+      }
+      ctx.fillRect(px, py, t, t);
+    }
+  }
+
+  // draw items / currency (optional small dots)
+  if (itemTiles && itemTiles.length) {
+    ctx.fillStyle = 'rgba(255,200,0,0.95)';
+    itemTiles.forEach(it => {
+      const k = tileKey(Math.floor(it.x), Math.floor(it.y));
+      if (!exploredTiles.has(k)) return;
+      const px = offX + Math.floor(it.x) * t;
+      const py = offY + Math.floor(it.y) * t;
+      ctx.fillRect(px + Math.floor(t/3), py + Math.floor(t/3), Math.max(1, Math.floor(t/3)), Math.max(1, Math.floor(t/3)));
+    });
+  }
+
+  // draw stairs prominently if explored
+  if (stairs) {
+    const k = tileKey(stairs.x, stairs.y);
+    if (exploredTiles.has(k)) {
+      ctx.fillStyle = 'rgba(255,220,100,1)';
+      ctx.fillRect(offX + stairs.x * t, offY + stairs.y * t, t, t);
+    }
+  }
+
+  // draw player as a small circle on top
+  if (playerPos) {
+    const px = offX + Math.floor(playerPos.x) * t + t/2;
+    const py = offY + Math.floor(playerPos.y) * t + t/2;
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(220,60,60,1)';
+    ctx.arc(px, py, Math.max(1, t/2.2), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // subtle border
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.strokeRect(offX + 0.5, offY + 0.5, mapW - 1, mapH - 1);
+}
+
+// ensure minimap redraws when relevant state changes
+React.useEffect(() => {
+  drawMinimap();
+}, [dungeon, exploredTiles, playerPos, stairs, itemTiles]);
+
+// when player moves, reveal tile and possibly whole room
+React.useEffect(() => {
+  if (!dungeon || dungeon.length === 0) return;
+  revealTile(playerPos.x, playerPos.y);
+  revealRoomIfEntered(playerPos);
+}, [playerPos, roomsState]);
 
 function createItemAnimation(trajectory, item) {
     let index = 0;
@@ -1481,7 +1661,8 @@ const lastRoom = rooms[rooms.length - 1];
 const firstRoom = rooms[0] || { center: { x: Math.floor(width/2), y: Math.floor(height/2) } };
 return {
     dungeon,
-    playerStart: { x: firstRoom.center.x, y: firstRoom.center.y }
+    playerStart: { x: firstRoom.center.x, y: firstRoom.center.y },
+    rooms // <-- return rooms so caller can reveal whole rooms when entered
   };
 }
 React.useEffect(() => {
@@ -2217,8 +2398,20 @@ React.useEffect(() => {
 }, [isSpinning, isSleeping, isLevelingUp, isBuffing]); // flags that change animation sets
 
 const generateDungeon = () => {
-  const stateWidth = width, stateHeight = height;
-  const { dungeon: newDungeon, playerStart } = generateProceduralDungeon(stateWidth, stateHeight);
+   const stateWidth = width, stateHeight = height;
+   const { dungeon: newDungeon, playerStart, rooms } = generateProceduralDungeon(stateWidth, stateHeight);
+ 
+   setExploredTiles(() => {
+     // ensure new Set object so drawMinimap treats it as change
+     return new Set();
+   });
+   if (minimapCanvasRef.current) {
+     const c = minimapCanvasRef.current;
+     const ctx = c.getContext && c.getContext('2d');
+     c.width = MINIMAP_SIZE;
+     c.height = MINIMAP_SIZE;
+     if (ctx) ctx.clearRect(0, 0, c.width, c.height);
+   }
 
   // Find stairs position
   let stairX = 0, stairY = 0;
@@ -2238,18 +2431,51 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
   setDungeon(newDungeon);
+  // set rooms and reveal starting room  setRoomsState(rooms || []);
+  // reveal the starting room entirely
+  if (rooms && rooms.length) {
+    const startRoom = rooms.find(r => r.center.x === playerStart.x && r.center.y === playerStart.y) || rooms[0];
+    revealRoom(startRoom);
+  } else {
+    // fallback: reveal starting tile
+    revealTile(playerStart.x, playerStart.y);
+  }
+
+  // Reset camera refs to avoid sudden jumps/stutter and smooth to new start
+  cameraPosRef.current = { x: playerStart.x, y: playerStart.y };
+  cameraTargetRef.current = { x: playerStart.x, y: playerStart.y };
+  // Immediately apply the transform to the DOM node (if available) so we don't
+  // briefly display the previous floor's camera position.
+  const offsetX = (15 - playerStart.x + 1) * 40 + 20;
+  const offsetY = (15 - playerStart.y - 8.5) * 40 + 20;
+  const immediateTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
+  if (dungeonRef.current) dungeonRef.current.style.transform = immediateTransform;
+  // Start smoothing toward the target (will no-op if already near)
   updateCamera(playerStart.x, playerStart.y);
 };
 
 const getRandomFloorTile = () => {
-return floorSprites[Math.floor(Math.random() * floorSprites.length)];
+ return floorSprites[Math.floor(Math.random() * floorSprites.length)];
 };
-
-const updateCamera = (x, y) => {
-const offsetX = (15 - x + 1) * 40 + 20;
-const offsetY = (15 - y - 8.5) * 40 + 20;
-setCameraTransform(`translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`);
-};
+ 
+ const updateCamera = (x, y) => {
+   cameraTargetRef.current = { x, y };
+   // Ensure cameraPosRef isn't NaN/uninitialized after floor change
+   if (typeof cameraPosRef.current.x !== 'number' || typeof cameraPosRef.current.y !== 'number') {
+     cameraPosRef.current = { x, y };
+     // set immediate transform for the first frame
+     const offsetX = (15 - x + 1) * 40 + 20;
+     const offsetY = (15 - y - 8.5) * 40 + 20;
+     if (dungeonRef.current) dungeonRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
+     return;
+   }
+   startCameraLoop();
+ };
+ React.useEffect(() => {
+   return () => {
+     stopCameraLoop();
+   };
+ }, []);
 
 const getLineCoordinates = (direction) => {
 const lineCoords = [];
@@ -2339,8 +2565,26 @@ return (
       <div className="counter" style={{ right: '150px' }}>
         <img src={Pokedollar} alt="Currency" style={{ width: 24, verticalAlign: 'middle' }} /> {currency}
       </div>
+      {/* Minimap (top-right) */}
+      <canvas
+        ref={minimapCanvasRef}
+        width={MINIMAP_SIZE}
+        height={MINIMAP_SIZE}
+        style={{
+          position: 'absolute',
+          top: '10%',
+          right: 8,
+          width: MINIMAP_SIZE,
+          height: MINIMAP_SIZE,
+          background: 'rgba(0,0,0,0.35)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 6,
+          zIndex: 110,
+          pointerEvents: 'none' // non-interactive overlay
+        }}
+      />
       <div className="dungeon-container">
-        <div className="dungeon" style={{ 
+        <div className="dungeon" ref={dungeonRef} style={{ 
           transform: cameraTransform,
           width: '7680px',
           height: '7680px',
@@ -2583,7 +2827,7 @@ return (
           : 0.62 <= exp/maxExp && exp/maxExp < 0.63 ? expBarComponent62
           : 0.63 <= exp/maxExp && exp/maxExp < 0.64 ? expBarComponent63
           : 0.64 <= exp/maxExp && exp/maxExp < 0.65 ? expBarComponent64
-          : 0.65 <= exp/maxExp && exp/maxExp < 0.66 ? expBarComponent65
+          : 0.65 <= exp/maxExp && expMaxExp < 0.66 ? expBarComponent65
           : 0.66 <= exp/maxExp && exp/maxExp < 0.67 ? expBarComponent66
           : 0.67 <= exp/maxExp && exp/maxExp < 0.68 ? expBarComponent67
           : 0.68 <= exp/maxExp && exp/maxExp < 0.69 ? expBarComponent68
