@@ -2431,7 +2431,8 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
   setDungeon(newDungeon);
-  // set rooms and reveal starting room  setRoomsState(rooms || []);
+  // set rooms and reveal starting room
+  setRoomsState(rooms || []);
   // reveal the starting room entirely
   if (rooms && rooms.length) {
     const startRoom = rooms.find(r => r.center.x === playerStart.x && r.center.y === playerStart.y) || rooms[0];
