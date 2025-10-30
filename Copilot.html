@@ -1067,6 +1067,26 @@ function useSelectedItem() {
       addLogMessage('Vaporeon woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   } 
+  else if (inventory[itemOrder - 1].name === 'Warp Seed') {
+    const floorPositions = [];
+    for (let y = 0; y < dungeon.length; y++) {
+      for (let x = 0; x < dungeon[0].length; x++) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== playerPos.x || y !== playerPos.y)) {
+          floorPositions.push({ x, y });
+        }
+      }
+    }
+    if (floorPositions.length > 0) {
+      const randIndex = randInt(0, floorPositions.length);
+      const newPos = floorPositions[randIndex];
+      setPlayerPos({ x: newPos.x, y: newPos.y });
+      cameraTargetRef.current = { x: newPos.x, y: newPos.y };
+      startCameraLoop();
+      addLogMessage('Used Warp Seed! Teleported to a random location!');
+    } else {
+      addLogMessage('No valid locations to warp to!');
+    }
+  }
   else if (inventory[itemOrder - 1].name === 'Protein') {
     setPlayerAttack(prev => prev + 2);
     addLogMessage('Used Protein! Attack increased!');
