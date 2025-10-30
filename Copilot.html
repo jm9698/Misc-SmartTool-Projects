@@ -90,7 +90,19 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
   }));
 };
 
-const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seed_Yellow.png';
+const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png';
+const Apple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png';
+const Bigapple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Big%20Apple.png';
+const Goldenapple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Golden%20Apple.png';
+const Grimyfood = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Grimy%20Food.png';
+const Maxether = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Ether.png';
+const Maxelixir = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Elixir.png';
+const Protein = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Protein.png';
+const Calcium = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Calcium.png';
+const Iron = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png';
+const Zinc = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png';
+const Carbos = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png';
+
 const MOVE_DEFS = {
   "Acid Armor": {
     name: "Acid Armor",
@@ -206,6 +218,61 @@ const ITEM_DEFS = {
   "Life Seed": {
     name: "Life Seed",
     sprite: Reviverseed,
+    stackSize: 1
+  },
+  "Apple": {
+    name: "Apple",
+    sprite: Apple,
+    stackSize: 1
+  },
+  "Big Apple": {
+    name: "Big Apple",
+    sprite: Bigapple,
+    stackSize: 1
+  },
+  "Golden Apple": {
+    name: "Golden Apple",
+    sprite: Goldenapple,
+    stackSize: 1
+  },
+  "Grimy Food": {
+    name: "Grimy Food",
+    sprite: Grimyfood,
+    stackSize: 1
+  },
+  "Max Ether": {
+    name: "Max Ether",
+    sprite: Maxether,
+    stackSize: 1
+  },
+  "Max Elixir": {
+    name: "Max Elixir",
+    sprite: Maxelixir,
+    stackSize: 1
+  },
+  "Protein": {
+    name: "Protein",
+    sprite: Protein,
+    stackSize: 1
+  },
+  "Calcium": {
+    name: "Calcium",
+    sprite: Calcium,
+    stackSize: 1
+  },
+  "Iron": {
+    name: "Iron",
+    sprite: Iron,
+    stackSize: 1
+  },
+  "Zinc": {
+    name: "Zinc",
+    sprite: Zinc,
+    stackSize: 1
+  },
+  "Carbos": {
+    name: "Carbos",
+    sprite: Carbos,
     stackSize: 1
   }
 };
@@ -438,7 +505,7 @@ const buffVfxFrames = [
 ]
 const vaporeonPortraitNormal = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/portraits/VaporeonPortrait_Normal.png';
 
-const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Pokedollar.png'; // Replace with your sprite URL
+const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Currency/Pokedollar.png'; // Replace with your sprite URL
 
 // Wall sprites
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
@@ -636,6 +703,7 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
 // Move selection
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
 const [showMoveSelector, setShowMoveSelector] = React.useState(false);
+const [usingEther, setUsingEther] = React.useState(false); // Track if using Ether
 const [selectedMove, setSelectedMove] = React.useState(0);
 const moves = [
   { name: "Water Pulse", pp: `${MOVE_DEFS["Water Pulse"].ppcurr}/${MOVE_DEFS["Water Pulse"].ppmax}` },
@@ -998,7 +1066,40 @@ function useSelectedItem() {
       setIsSleeping(false);
       addLogMessage('Vaporeon woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
-  } else {
+  } 
+  else if (inventory[itemOrder - 1].name === 'Protein') {
+    setPlayerAttack(prev => prev + 2);
+    addLogMessage('Used Protein! Attack increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Calcium') {
+    setPlayerSpecialAttack(prev => prev + 2);
+    addLogMessage('Used Calcium! Special Attack increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Iron') {
+    setPlayerDefense(prev => prev + 2);
+    addLogMessage('Used Iron! Defense increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Zinc') {
+    setPlayerSpecialDefense(prev => prev + 2);
+    addLogMessage('Used Zinc! Special Defense increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Carbos') {
+    setPlayerSpeed(prev => prev + 2);
+    addLogMessage('Used Carbos! Speed increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Max Ether') {
+    setShowMoveSelector(true);
+    setUsingEther(true);
+    addLogMessage('Used Max Ether!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Max Elixir') {
+    // Restore all moves' PP to max
+    Object.keys(MOVE_DEFS).forEach(moveName => {
+      MOVE_DEFS[moveName].ppcurr = MOVE_DEFS[moveName].ppmax;
+    });
+    addLogMessage('Used Max Elixir! All move PP restored!');
+  }
+  else {
     console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
     return;
   }
@@ -1300,7 +1401,6 @@ function itemThrown(item) {
 
     // avoid optional chaining (Babel inline): use safe access instead
     const spriteSrc = item.sprite || (ITEM_DEFS[item.name] && ITEM_DEFS[item.name].sprite) || Reviverseed;
-
     spawnProjectile({
       start: startPos,
       end: endPos,
@@ -1512,7 +1612,7 @@ const handleKeyDown = (e) => {
   let newY = playerPos.y;
 
   // If toolbox is open, only handle item selection keys
-  if (e.key === 'm') {
+  if (e.key === 'm' && !usingEther) {
     if (!showMoveSelector){
       setShowMoveSelector(true);
       console.log('Opening move selector');
@@ -1564,7 +1664,17 @@ const handleKeyDown = (e) => {
     }
     if (e.key === 'Enter') {
       const selected = moves[selectedMove];
-      if (selected.name === 'Acid Armor') {
+      if (usingEther) {
+        MOVE_DEFS[selected.name].ppcurr = MOVE_DEFS[selected.name].ppmax;
+        setShowMoveSelector(false);
+        setIsPaused(false);
+        setUsingEther(false);
+        addLogMessage('Restored PP of ' + selected.name + ' using Max Ether!');
+        console.log('Selected move:', selected);
+        return;
+      }
+      else if (!usingEther){
+        if (selected.name === 'Acid Armor') {
         setShowMoveSelector(false);
         setIsPaused(false);
         useMove(selectedMove);
@@ -1589,6 +1699,7 @@ const handleKeyDown = (e) => {
         console.log('Selected move:', selected);
         // Handle move selection logic here
       }
+    }
       return;
     }
     // Optionally handle other move selector-specific keys here
@@ -2377,6 +2488,7 @@ return (
                         height: '50%',
                         left: '25%',
                         top: '25%',
+                        transform: ITEM_DEFS[itemHere.itemName].sprite !== Reviverseed ? 'scale(1.5)' : 'none'
                       }} />
                     )}
                     {isBuffing && playerPos.x === colIndex && playerPos.y === rowIndex && (
@@ -2454,6 +2566,7 @@ return (
           ))}
 
           {/* Render projectiles inside the dungeon so they follow camera transform */}
+          
           {projectiles.map(p => (
             <img
               key={p.id}
@@ -2468,10 +2581,12 @@ return (
                 transformOrigin: 'center',
                 zIndex: 40,
                 pointerEvents: 'none',
-                objectFit: 'contain'
+                objectFit: 'contain',
+                transform: p.sprite !== Reviverseed ? 'scale(1.5)' : 'none'
               }}
             />
           ))}
+        
         </div>
         <div
               style={{
@@ -2751,24 +2866,6 @@ return (
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowToolbox(false)}>Back</button>
       </div>
     )}
-    {projectiles.map(p => (
-  <img
-    key={p.id}
-    src={p.sprite}
-    alt="thrown"
-    style={{
-      position: 'absolute',
-      left: `${p.x * 40}px`,    // 40px tile size used elsewhere
-      top: `${p.y * 40}px`,
-      width: '40px',
-      height: '40px',
-      transformOrigin: 'center',
-      zIndex: 40,
-      pointerEvents: 'none',
-      objectFit: 'contain'
-    }}
-  />
-))}
   </div>
 );
 }
