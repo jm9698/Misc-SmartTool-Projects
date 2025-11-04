@@ -868,7 +868,7 @@ const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
 const [roomsState, setRoomsState] = React.useState([]); // rooms returned from generator
 const [exploredTiles, setExploredTiles] = React.useState(() => new Set()); // "x,y" keys
 const minimapCanvasRef = React.useRef(null);
-const MINIMAP_SIZE = 200; // px (adjust as desired)
+const [minimapSize, setMinimapSize] = React.useState(200)
 
 // helper for keys
 const tileKey = (x, y) => `${x},${y}`;
@@ -1377,13 +1377,13 @@ function drawMinimap() {
   const ctx = canvas.getContext('2d');
   const rows = dungeon.length;
   const cols = dungeon[0].length;
-  canvas.width = MINIMAP_SIZE;
-  canvas.height = MINIMAP_SIZE;
+  canvas.width = minimapSize;
+  canvas.height = minimapSize;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // compute tile size and center offset to fit dungeon into canvas
-  const tileW = Math.max(1, Math.floor(MINIMAP_SIZE / cols));
-  const tileH = Math.max(1, Math.floor(MINIMAP_SIZE / rows));
+  const tileW = Math.max(1, Math.floor(minimapSize / cols));
+  const tileH = Math.max(1, Math.floor(minimapSize / rows));
   const t = Math.max(1, Math.min(tileW, tileH));
   const mapW = t * cols;
   const mapH = t * rows;
@@ -1455,7 +1455,7 @@ function drawMinimap() {
 // ensure minimap redraws when relevant state changes
 React.useEffect(() => {
   drawMinimap();
-}, [dungeon, exploredTiles, playerPos, stairs, itemTiles]);
+}, [dungeon, exploredTiles, playerPos, stairs, itemTiles, minimapSize]);
 
 // when player moves, reveal tile and possibly whole room
 React.useEffect(() => {
@@ -2482,8 +2482,8 @@ const generateDungeon = () => {
    if (minimapCanvasRef.current) {
      const c = minimapCanvasRef.current;
      const ctx = c.getContext && c.getContext('2d');
-     c.width = MINIMAP_SIZE;
-     c.height = MINIMAP_SIZE;
+     c.width = minimapSize;
+     c.height = minimapSize;
      if (ctx) ctx.clearRect(0, 0, c.width, c.height);
    }
 
@@ -2643,14 +2643,14 @@ return (
       {/* Minimap (top-right) */}
       <canvas
         ref={minimapCanvasRef}
-        width={MINIMAP_SIZE}
-        height={MINIMAP_SIZE}
+        width={minimapSize}
+        height={minimapSize}
         style={{
           position: 'absolute',
           top: '10%',
           right: 8,
-          width: MINIMAP_SIZE,
-          height: MINIMAP_SIZE,
+          width: minimapSize,
+          height: minimapSize,
           background: 'rgba(0,0,0,0.35)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 6,
@@ -3032,6 +3032,20 @@ return (
         <label>
           <input type="checkbox" checked={checkBox3} onChange={() => setCheckBox3(!checkBox3)} /> Checkbox 3
         </label>
+
+        <div style={{ marginTop: 12 }}>
+          <label style={{color: 'white', display: 'block', marginBottom: 6}}>
+            Minimap Size: {minimapSize}px
+          </label>
+          <input
+          type='range'
+          min='200'
+          max='300'
+          value={minimapSize}
+          onChange={(e) => setMinimapSize(Number(e.target.value))}
+          style={{width: '100%'}}
+          />
+          </div>
         <button className="bg-blue-500 text-white p-2 rounded" onClick={() => setShowOptions(false)}>Back</button>
       </div>
     )}
