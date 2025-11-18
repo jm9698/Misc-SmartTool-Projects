@@ -293,8 +293,233 @@ const ITEM_DEFS = {
     tier: 2
   }
 };
-const MAX_INVENTORY_SLOTS = 10;
+const ENEMY_DEFS = {
+  'Lunatone': {
+    name: 'Lunatone',
+    type: 'Rock/Psychic',
+    maxHp: 150,
+    hp: 150,
+    attack: 80,
+    specialAttack: 95,
+    specialDefense: 90,
+    defense: 90,
+    speed: 60,
+    moves: [MOVE_DEFS['Acid Armor'], MOVE_DEFS['Aurora Beam'], MOVE_DEFS['Bite'], MOVE_DEFS['Moonblast']],
+    sprites: {
+      downIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown8.png'
+      },
+      upIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp8.png'
+      },
+      leftIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft8.png'
+      },
+      rightIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight8.png'
+      },
+      upRightIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight8.png'
+      },
+      upLeftIdle: {
+        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft1.png',
+        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft2.png',
+        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft3.png',
+        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft4.png',
+        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft5.png',
+        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft6.png',
+        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft7.png',
+        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft8.png'
+      },
+      downLeftIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft2.png',
+      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft3.png',
+      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft4.png',
+      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft5.png',
+      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft6.png',
+      frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft7.png',
+      frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft8.png'
+      },
+      downRightIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight2.png',
+      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight3.png',
+      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight4.png',
+      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight5.png',
+      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
+      frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
+      frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
+    }
+  },
+},
+  'Vaporeon': {
+    name: 'Vaporeon',
+    type: 'Water',
+    maxHp: 130,
+    hp: 130,
+    attack: 65,
+    specialAttack: 110,
+    specialDefense: 95,
+    defense: 60,
+    speed: 65,
+    moves: [MOVE_DEFS['Bubble Beam'], MOVE_DEFS['Hydro Pump'], MOVE_DEFS['Ice Beam'], MOVE_DEFS['Water Pulse']],
+    sprites: {
+      downIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png',
+      },
+      upIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png',
+      },
+      leftIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png',
+      },
+      rightIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png',
+      },
+      downLeftIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png',
+      },
+      downRightIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png',
+      },
+      upLeftIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png',
+      },
+      upRightIdle: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png',
+      }
+    }
+  }
 
+}
+const MAX_INVENTORY_SLOTS = 10;
+// Enemy sprite URLs
+  //Lunatone
+    // Idle animation
+const lunatoneSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown8.png'
+];
+const lunatoneUpSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp8.png'
+];
+const lunatoneLeftSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft8.png'
+];
+const lunatoneRightSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight8.png'
+]
+const lunatoneUpRightSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight8.png'
+];
+const lunatoneUpLeftSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft8.png'
+]
+const lunatoneDownLeftSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft8.png'
+];
+const lunatoneDownRightSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight1.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight2.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight3.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight4.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight5.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
+]
 // Vaporeon sprite URLs
   // Idle animations
 const vaporeonSprites = [
@@ -995,6 +1220,50 @@ const [hungry, setHungry] = React.useState(false);
 const [isStarving, setIsStarving] = React.useState(false);
 const [warned, setWarned] = React.useState(false);
 
+// Enemy params
+const [enemies, setEnemies] = React.useState([]);
+const enemiesRef = React.useRef(enemies); 
+const enemyCount = randInt(1, 2); // 1 to 2 enemies per room
+const [enemyTypes, setEnemyTypes] = React.useState(Object.keys(ENEMY_DEFS));
+const [enemyType, setEnemyType] = React.useState(enemyTypes[randInt(0, enemyTypes.length)]);
+const [enemyType1, setEnemyType1] = React.useState(null);
+const [enemyType2, setEnemyType2] = React.useState(null);
+const [enemyType3, setEnemyType3] = React.useState(null);
+const [enemyType4, setEnemyType4] = React.useState(null);
+const [enemyType5, setEnemyType5] = React.useState(null);
+const [enemyType6, setEnemyType6] = React.useState(null);
+const [enemyType7, setEnemyType7] = React.useState(null);
+const [enemyType8, setEnemyType8] = React.useState(null);
+const [enemyHere, setEnemyHere] = React.useState(null);
+const [enemyHereTiles, setEnemyHereTiles] = React.useState([]);
+const enemyHereTilesRef = React.useRef([]);
+const [enemiesState, setEnemiesState] = React.useState([])
+const [enemy1, setEnemy1] = React.useState(false);
+const [enemy2, setEnemy2] = React.useState(false);
+const [enemy3, setEnemy3] = React.useState(false);
+const [enemy4, setEnemy4] = React.useState(false);
+const [enemy5, setEnemy5] = React.useState(false);
+const [enemy6, setEnemy6] = React.useState(false);
+const [enemy7, setEnemy7] = React.useState(false);
+const [enemy8, setEnemy8] = React.useState(false);
+const [enemy1Pos, setEnemy1Pos] = React.useState({ x: 0, y: 0 });
+const [enemy2Pos, setEnemy2Pos] = React.useState({ x: 0, y: 0 });
+const [enemy3Pos, setEnemy3Pos] = React.useState({ x: 0, y: 0 });
+const [enemy4Pos, setEnemy4Pos] = React.useState({ x: 0, y: 0 });
+const [enemy5Pos, setEnemy5Pos] = React.useState({ x: 0, y: 0 });
+const [enemy6Pos, setEnemy6Pos] = React.useState({ x: 0, y: 0 });
+const [enemy7Pos, setEnemy7Pos] = React.useState({ x: 0, y: 0 });
+const [enemy8Pos, setEnemy8Pos] = React.useState({ x: 0, y: 0 });
+  // anims
+const [enemy1IdleAnimIndex, setEnemy1IdleAnimIndex] = React.useState(0);
+const [enemy2IdleAnimIndex, setEnemy2IdleAnimIndex] = React.useState(0);
+const [enemy3IdleAnimIndex, setEnemy3IdleAnimIndex] = React.useState(0);
+const [enemy4IdleAnimIndex, setEnemy4IdleAnimIndex] = React.useState(0);
+const [enemy5IdleAnimIndex, setEnemy5IdleAnimIndex] = React.useState(0);
+const [enemy6IdleAnimIndex, setEnemy6IdleAnimIndex] = React.useState(0);
+const [enemy7IdleAnimIndex, setEnemy7IdleAnimIndex] = React.useState(0);
+const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
+
 // Menu states
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
@@ -1399,6 +1668,167 @@ function addItemToInventory(itemName) {
     return updatedInventory;
   });
 }
+function spawnEnemy(dungeonLocal, room, enemy) {
+  // validate dungeonLocal
+  if (!Array.isArray(dungeonLocal) || dungeonLocal.length === 0 || !Array.isArray(dungeonLocal[0])) {
+    console.warn('spawnEnemy: invalid dungeonLocal, skipping spawn');
+    return null;
+  }
+
+  const cols = dungeonLocal[0].length;
+  const rows = dungeonLocal.length;
+
+  // clamp room bounds to dungeon bounds
+  const minX = Math.max(0, room.x + 1);
+  const maxX = Math.min(cols - 1, room.x + room.w - 1);
+  const minY = Math.max(0, room.y + 1);
+  const maxY = Math.min(rows - 1, room.y + room.h - 1);
+
+  // collect all valid floor tiles INSIDE the room first
+  const roomFloorTiles = [];
+  for (let yy = minY; yy <= maxY; yy++) {
+    if (!dungeonLocal[yy]) continue;
+    for (let xx = minX; xx <= maxX; xx++) {
+      const c = dungeonLocal[yy][xx];
+      if (typeof c !== 'undefined' && c !== 'W' && c !== 'S') roomFloorTiles.push({ x: xx, y: yy });
+    }
+  }
+
+  let spawnX = null, spawnY = null;
+
+  if (roomFloorTiles.length) {
+    const pick = roomFloorTiles[randInt(0, roomFloorTiles.length)];
+    spawnX = pick.x;
+    spawnY = pick.y;
+  } else {
+    // fallback: try random attempts within clamped box (keeps previous behavior but only within room bounds)
+    const maxAttempts = 200;
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const tx = randInt(minX, maxX + 1);
+      const ty = randInt(minY, maxY + 1);
+      if (!dungeonLocal[ty] || typeof dungeonLocal[ty][tx] === 'undefined') continue;
+      const cell = dungeonLocal[ty][tx];
+      if (cell !== 'W' && cell !== 'S') {
+        spawnX = tx;
+        spawnY = ty;
+        break;
+      }
+    }
+  }
+
+  // last resort: scan whole dungeon for any floor tile (only if room interior had none)
+  if (spawnX === null) {
+    for (let yy = 0; yy < rows && spawnX === null; yy++) {
+      for (let xx = 0; xx < cols; xx++) {
+        const c = dungeonLocal[yy][xx];
+        if (typeof c !== 'undefined' && c !== 'W' && c !== 'S') {
+          spawnX = xx;
+          spawnY = yy;
+          break;
+        }
+      }
+    }
+  }
+
+    // final fallback to room center clamped
+  if (spawnX === null) {
+    spawnX = Math.min(Math.max(room.center.x, 0), cols - 1);
+    spawnY = Math.min(Math.max(room.center.y, 0), rows - 1);
+    console.warn('spawnEnemy: could not find free tile, using room center', spawnX, spawnY);
+  }
+
+  const def = ENEMY_DEFS[enemy] || {};
+  const enemyObj = {
+    key: enemy,
+    name: def.name || String(enemy),
+    type: def.type || 'Unknown',
+    pos: { x: spawnX, y: spawnY },
+    hp: def.maxHp || def.hp || 0,
+    maxHp: def.maxHp || def.hp || 0,
+    attack: def.attack || 0,
+    defense: def.defense || 0,
+    speed: def.speed || 0,
+    specialAttack: def.specialAttack || 0,
+    specialDefense: def.specialDefense || 0,
+    sprites: def.sprites || {},
+    roomId: typeof room.id !== 'undefined' ? room.id : null
+  };
+
+  // push into the shared enemies array (keep existing behavior)
+
+  return enemyObj;
+}
+function updateEnemyPosition(tilex, tiley) {
+  const enemy = enemiesRef.current.find(enemy => enemy.posx.x === tilex && enemy.posy.y === tiley);
+  console.log('Checking for enemy at position:', tilex, tiley, 'Found enemy:', enemy);
+  if (enemy) {
+    setEnemyHere(enemy);
+  } else {
+    setEnemyHere(null);
+  }
+}
+function verifyEnemyGeneration (enemyCount) {
+  if (enemyCount < 1) return;
+  else if (enemyCount < 2) {
+    setEnemy1(true);
+  }
+  else if (enemyCount < 3) {
+    setEnemy1(true);
+    setEnemy2(true);
+}
+else if (enemyCount < 4) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+}
+else if (enemyCount < 5) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+    setEnemy4(true);
+}
+else if (enemyCount < 6) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+    setEnemy4(true);
+    setEnemy5(true);
+  }
+else if (enemyCount < 7) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+    setEnemy4(true);
+    setEnemy5(true);
+    setEnemy6(true);
+  }
+else if (enemyCount < 8) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+    setEnemy4(true);
+    setEnemy5(true);
+    setEnemy6(true);
+    setEnemy7(true);
+  }
+else if (enemyCount < 9) {
+    setEnemy1(true);
+    setEnemy2(true);
+    setEnemy3(true);
+    setEnemy4(true);
+    setEnemy5(true);
+    setEnemy6(true);
+    setEnemy7(true);
+    setEnemy8(true);
+  }
+  return;
+}
+
+React.useEffect(() => {
+  enemiesRef.current = enemies;
+  enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite }));
+  console.log(enemyHereTilesRef.current);
+}, [enemies]);
 function useSelectedItem() {
   if (inventory[itemOrder - 1].name === 'Life Seed') {
     setMaxPlayerHP(prev => prev + 5);
@@ -1908,6 +2338,7 @@ for (let i = 0; i < roomAttempts && rooms.length < randInt(minRooms, maxRooms + 
     const x = randInt(2, width - w - 2);
     const y = randInt(2, height - h - 2);
     const newRoom = makeRoom(x, y, w, h);
+    newRoom.id = rooms.length;
     console.log(roomAttempts)
 if (rooms.every(room => !roomsOverlap(newRoom, room))) {
       carveRoom(dungeon, newRoom);
@@ -2464,7 +2895,24 @@ return;
 break;
 case 'l':
 //quick log
-console.log('playerHunger:', playerHunger, 'maxPlayerHunger:', maxPlayerHunger, "playerHungerPercentage:", (playerHunger / maxPlayerHunger) * 100);
+//console.log('playerHunger:', playerHunger, 'maxPlayerHunger:', maxPlayerHunger, "playerHungerPercentage:", (playerHunger / maxPlayerHunger) * 100);
+console.log('Enemy definition:', ENEMY_DEFS['Lunatone']);
+console.log('Spawned enemies:', enemiesRef.current);
+console.log('enemy1', enemy1);
+console.log('enemy2', enemy2);
+console.log('enemy3', enemy3);
+console.log('enemy4', enemy4);
+console.log('enemy5', enemy5);
+console.log('enemy6', enemy6);
+console.log('enemy7', enemy7);
+console.log('enemy8', enemy8);
+console.log(enemyType2);
+console.log(ENEMY_DEFS[enemyType2]);
+console.log(ENEMY_DEFS[enemyType1].sprites.downIdle.frame1);
+console.log(ENEMY_DEFS[enemyType1].sprites.downIdle.length);
+console.log(enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : null);
+console.log('enemy1.sprite:', enemy1 ? enemy1.sprite : 'N/A');
+console.log(enemies);
   break;
 }
 
@@ -2561,7 +3009,10 @@ const ANIM_TIMINGS = {
 const animRafRef = React.useRef(null);
 // keep a timestamp per animation so they don't interfere with each other
 const lastAnimTsRef = React.useRef({
-  idle: 0,
+  idle: {
+    player: 0,
+    enemy: 0,
+  },
   walk: 0,
   spin: 0,
   sleep: 0,
@@ -2570,7 +3021,10 @@ const lastAnimTsRef = React.useRef({
   aquaTail: 0
 });
 const indicesRef = React.useRef({
-  idle: 0,
+  idle: {
+    player: 0,
+    enemy: 0,
+  },
   walk: 0,
   spin: 0,
   sleep: 0,
@@ -2627,6 +3081,14 @@ React.useEffect(() => {
     ...vaporeonAquaTailUpLeftSprites,
     ...vaporeonAquaTailDownRightSprites,
     ...vaporeonAquaTailDownLeftSprites,
+    ...lunatoneSprites,
+    ...lunatoneLeftSprites,
+    ...lunatoneRightSprites,
+    ...lunatoneUpSprites,
+    ...lunatoneUpRightSprites,
+    ...lunatoneUpLeftSprites,
+    ...lunatoneDownLeftSprites,
+    ...lunatoneDownRightSprites,
     ...levelVfxFrames,
     ...buffVfxFrames,
   ];
@@ -2637,12 +3099,25 @@ React.useEffect(() => {
 React.useEffect(() => {
   function step(ts) {
     // Idle
-    const elapsedIdle = ts - (lastAnimTsRef.current.idle || 0);
+    const elapsedIdlePlayer = ts - (lastAnimTsRef.current.idle.player || 0);
+    const elapsedIdleEnemy = ts - (lastAnimTsRef.current.idle.enemy || 0);
+    if (elapsedIdleEnemy >= ANIM_TIMINGS.idle) {
+        lastAnimTsRef.current.idle.enemy = ts;
+        indicesRef.current.idle.enemy = (indicesRef.current.idle.enemy + 1) % (enemyType1 === 'Lunatone' ? lunatoneSprites.length : vaporeonSprites.length);
+        setEnemy1IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy2IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy3IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy4IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy5IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy6IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy7IdleAnimIndex(indicesRef.current.idle.enemy);
+        setEnemy8IdleAnimIndex(indicesRef.current.idle.enemy);
+      }
     if (!isWalkingRef.current && !isSpinning && !isSleeping && !isPausedRef.current) {
-      if (elapsedIdle >= ANIM_TIMINGS.idle) {
-        lastAnimTsRef.current.idle = ts;
-        indicesRef.current.idle = (indicesRef.current.idle + 1) % vaporeonSprites.length;
-        setIdleSpriteIndex(indicesRef.current.idle);
+      if (elapsedIdlePlayer >= ANIM_TIMINGS.idle) {
+        lastAnimTsRef.current.idle.player = ts;
+        indicesRef.current.idle.player = (indicesRef.current.idle.player + 1) % vaporeonSprites.length;
+        setIdleSpriteIndex(indicesRef.current.idle.player);
       }
     }
 
@@ -2777,6 +3252,51 @@ const currencyLocs = generateCurrencyTiles(newDungeon, 20, 80, 5); // 5 coins, v
 const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // between 5 and 10 items spawn
   setItemTiles(itemLocs);
   beginItemTilesIndex(itemLocs);
+  const spawnedAll = [];
+  rooms.forEach(room => {
+    // spawn up to enemyCount for this room and capture returned enemies (avoid relying on room.id)
+    const spawned = [];
+    for (let i = 0; i < enemyCount; i++) {
+      // choose an enemy type safely
+      const types = Object.keys(ENEMY_DEFS);
+      const chosen = types[randInt(0, types.length)] || types[0];
+      const e = spawnEnemy(newDungeon, room, chosen);
+      if (e){ 
+        spawnedAll.push(e);
+        spawned.push(e);
+      }
+    }
+  setEnemies(spawnedAll);
+  setEnemiesState(spawnedAll);
+  setEnemyHereTiles(spawnedAll.map(en => ({ x: en.pos.x, y: en.pos.y, sprite: en.sprites && en.sprites.downIdle ? en.sprites.downIdle.frame1 : null })));
+
+      // populate per-slot enemy flags/positions (up to 8)
+      const first8 = spawnedAll.slice(0, 8);
+      const e1 = first8[0] || null, e2 = first8[1] || null, e3 = first8[2] || null, e4 = first8[3] || null;
+  const e5 = first8[4] || null, e6 = first8[5] || null, e7 = first8[6] || null, e8 = first8[7] || null;
+      setEnemyType1(e1 ? e1.key : null);
+      setEnemyType2(e2 ? e2.key : null);
+      setEnemyType3(e3 ? e3.key : null);
+      setEnemyType4(e4 ? e4.key : null);
+      setEnemyType5(e5 ? e5.key : null);
+      setEnemyType6(e6 ? e6.key : null);
+      setEnemyType7(e7 ? e7.key : null);
+      setEnemyType8(e8 ? e8.key : null);
+
+      setEnemy1(!!e1); setEnemy2(!!e2); setEnemy3(!!e3); setEnemy4(!!e4); setEnemy5(!!e5); setEnemy6(!!e6); setEnemy7(!!e7); setEnemy8(!!e8);
+      setEnemy1Pos(e1 ? { x: e1.pos.x, y: e1.pos.y } : null);
+      setEnemy2Pos(e2 ? { x: e2.pos.x, y: e2.pos.y } : null);
+      setEnemy3Pos(e3 ? { x: e3.pos.x, y: e3.pos.y } : null);
+      setEnemy4Pos(e4 ? { x: e4.pos.x, y: e4.pos.y } : null);
+      setEnemy5Pos(e5 ? { x: e5.pos.x, y: e5.pos.y } : null);
+      setEnemy6Pos(e6 ? { x: e6.pos.x, y: e6.pos.y } : null);
+      setEnemy7Pos(e7 ? { x: e7.pos.x, y: e7.pos.y } : null);
+      setEnemy8Pos(e8 ? { x: e8.pos.x, y: e8.pos.y } : null);
+
+      verifyEnemyGeneration(spawnedAll.length);
+  
+      console.log('Spawned enemies for room:', spawnedAll.map(en => (en && en.pos) ? `${en.pos.x},${en.pos.y}` : 'N/A'));
+    });
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
   setDungeon(newDungeon);
@@ -3033,6 +3553,111 @@ return (
                         }}
                       />
                     )}
+                    
+                    {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
+                      <img
+                        src={enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
+                      <img
+                        src={enemy2IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame4 : enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame5 : enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame6 : enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame7 : enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType2].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
+                      <img
+                        src={enemy3IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame4 : enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame5 : enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame6 : enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame7 : enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType3].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
+                      <img
+                        src={enemy4IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame4 : enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame5 : enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame6 : enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame7 : enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType4].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
+                      <img
+                        src={enemy5IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame4 : enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame5 : enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame6 : enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame7 : enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType5].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
+                      <img
+                        src={enemy6IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame4 : enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame5 : enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame6 : enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame7 : enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType6].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
+                      <img
+                        src={enemy7IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame4 : enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame5 : enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame6 : enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame7 : enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType7].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
+                      <img
+                        src={enemy8IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame4 : enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame5 : enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame6 : enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame7 : enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType8].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                      
+                      }}
+                      />
+                    ) : null}
+
                     {playerPos.x === colIndex && playerPos.y === rowIndex && (
                       <img
                         src={
