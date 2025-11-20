@@ -1068,6 +1068,7 @@ const healthBarComponent3 = 'https://raw.githubusercontent.com/jm9698/Misc-Smart
 const healthBarComponent2 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/healthComponent/HealthBarComponent2%25.png';
 const healthBarComponent1 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/healthComponent/HealthBarComponent1%25.png';
 const healthBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/healthComponent/HealthBarComponent0%25.png';
+
 // Experience bar components
 const expBarComponent100 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expComponent/expBar100%25.png';
 const expBarComponent0 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/expComponent/expBar0%25.png';
@@ -2212,6 +2213,7 @@ function itemThrown(item) {
       delta.x = wallCheck6.x - wallCheck1.x;
       delta.y = wallCheck6.y - wallCheck1.y;
     }
+
     const endPos = { x: startPos.x + delta.x, y: startPos.y + delta.y + 0.25 }; // slight y offset for better arc
     
 
@@ -2906,6 +2908,7 @@ console.log('enemy5', enemy5);
 console.log('enemy6', enemy6);
 console.log('enemy7', enemy7);
 console.log('enemy8', enemy8);
+console.log(enemy1.x, enemy1.y);
 console.log(enemyType2);
 console.log(ENEMY_DEFS[enemyType2]);
 console.log(ENEMY_DEFS[enemyType1].sprites.downIdle.frame1);
@@ -2927,6 +2930,14 @@ const moveCheck = (() => {
   if (!dungeon[newY]) return { ok: false, reason: 'dungeon row undefined', rowLen: dungeon.length };
   const tile = dungeon[newY][newX];
   if (tile === 'W') return { ok: false, reason: 'wall', tile };
+  if (enemy1 && enemy1Pos.x === newX && enemy1Pos.y === newY) return { ok: false, reason: 'enemy1', tile };
+  if (enemy2 && enemy2Pos.x === newX && enemy2Pos.y === newY) return { ok: false, reason: 'enemy2', tile };
+  if (enemy3 && enemy3Pos.x === newX && enemy3Pos.y === newY) return { ok: false, reason: 'enemy3', tile };
+  if (enemy4 && enemy4Pos.x === newX && enemy4Pos.y === newY) return { ok: false, reason: 'enemy4', tile };
+  if (enemy5 && enemy5Pos.x === newX && enemy5Pos.y === newY) return { ok: false, reason: 'enemy5', tile };
+  if (enemy6 && enemy6Pos.x === newX && enemy6Pos.y === newY) return { ok: false, reason: 'enemy6', tile };
+  if (enemy7 && enemy7Pos.x === newX && enemy7Pos.y === newY) return { ok: false, reason: 'enemy7', tile };
+  if (enemy8 && enemy8Pos.x === newX && enemy8Pos.y === newY) return { ok: false, reason: 'enemy8', tile };
   if (typeof tile === 'undefined' || tile === null) return { ok: false, reason: 'tile undefined', tile };
   return { ok: true, reason: 'ok', tile };
 })();
@@ -3040,12 +3051,168 @@ React.useEffect(() => {
   isWalkingRef.current = isWalking;
 }, [lastDirection, isPaused, isWalking]);
 
-// Preload arrays (call with array of urls)
+// Helper: convert raw.githubusercontent URLs to jsDelivr CDN and fallback on image errors
+function cdnify(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname && u.hostname.includes('raw.githubusercontent.com')) {
+      // raw.githubusercontent.com/<user>/<repo>/refs/heads/<branch>/path/to/file
+      const parts = u.pathname.split('/').filter(Boolean);
+      // Expect at least: [user, repo, 'refs', 'heads', branch, ...path]
+      if (parts.length >= 6 && parts[2] === 'refs' && parts[3] === 'heads') {
+        const user = parts[0];
+        const repo = parts[1];
+        const branch = parts[4];
+        const path = parts.slice(5).join('/');
+        return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${path}`;
+      }
+    }
+     } catch (e) {
+    // if parsing fails, fall through and return original
+  }
+  return url;
+}
+
+// NEW: robust normalizer + cdn converter for malformed raw URLs (handles both /refs/heads/ and raw/{user}/{repo}/{branch}/ forms
+function normalizeAndCdn(url) {
+  if (!url || typeof url !== 'string') return url;
+  let s = url.trim();
+
+  try {
+    const u = new URL(s);
+    const host = u.hostname || '';
+    // If it's raw.githubusercontent, convert to jsDelivr and clean common malformations
+    if (host.includes('raw.githubusercontent.com')) {
+      const parts = u.pathname.split('/').filter(Boolean);
+      let user, repo, branch, path;
+      // handle raw like /user/repo/branch/...
+      if (parts.length >= 4 && parts[2] !== 'refs') {
+        user = parts[0];
+        repo = parts[1];
+        branch = parts[2];
+        path = parts.slice(3).join('/');
+      }
+      // handle raw like /user/repo/refs/heads/branch/...
+      else if (parts.length >= 6 && parts[2] === 'refs' && parts[3] === 'heads') {
+        user = parts[0];
+        repo = parts[1];
+        branch = parts[4];
+        path = parts.slice(5).join('/');
+      } else {
+        // fallback to the simple cdnify (keeps original if not convertible)
+        return cdnify(s);
+      }
+
+      // remove accidental leading encoded spaces in segments (e.g. "/%20Foo.png")
+      path = path.replace(/(^|\/)%20+/g, '$1');
+      // compress multiple slashes
+      path = path.replace(/\/+/g, '/');
+      // return jsdelivr gh URL
+      return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${path}`;
+    }
+  } catch (e) {
+    // ignore and fall back
+  }
+// not raw.githubusercontent — still return original
+  return s;
+}
+
+// Apply normalization to known sprite collections and defs so preload uses CDN-safe URLs
+(function normalizeAllSprites() {
+  try {
+    // Normalize ITEM_DEFS sprites
+    /*
+    Object.keys(ITEM_DEFS).forEach(k => {
+      if (ITEM_DEFS[k] && ITEM_DEFS[k].sprite) ITEM_DEFS[k].sprite = normalizeAndCdn(ITEM_DEFS[k].sprite);
+    });
+    */
+    // Normalize enemy defs (nested frame objects and arrays)
+    Object.keys(ENEMY_DEFS).forEach(enemyKey => {
+      const e = ENEMY_DEFS[enemyKey];
+      if (!e || !e.sprites) return;
+      Object.keys(e.sprites).forEach(dir => {
+        const frames = e.sprites[dir];
+        if (!frames) return;
+        // If frames is an array
+        if (Array.isArray(frames)) {
+          for (let i = 0; i < frames.length; i++) {
+            frames[i] = normalizeAndCdn(frames[i]);
+          }
+        } else if (typeof frames === 'object') {
+          // object like { frame1: url, frame2: url, ... }
+          Object.keys(frames).forEach(fk => {
+            frames[fk] = normalizeAndCdn(frames[fk]);
+          });
+        }
+      });
+    });
+    // Normalize the many top-level arrays you use for Vaporeon/Lunatone etc.
+    const spriteArrays = [
+      vaporeonSprites, vaporeonLeftSprites, vaporeonRightSprites, vaporeonUpSprites,
+      vaporeonDownWalkSprites, vaporeonUpWalkSprites, vaporeonLeftWalkSprites, vaporeonRightWalkSprites,
+      vaporeonDownRightWalkSprites, vaporeonDownLeftWalkSprites, vaporeonUpRightWalkSprites, vaporeonUpLeftWalkSprites,
+      vaporeonDownSpinSprites, vaporeonUpSpinSprites, vaporeonLeftSpinSprites, vaporeonRightSpinSprites,
+      vaporeonDownLeftSpinSprites, vaporeonDownRightSpinSprites, vaporeonUpLeftSpinSprites, vaporeonUpRightSpinSprites,
+      vaporeonSleepSprites,
+      vaporeonAquaTailUpSprites, vaporeonAquaTailDownSprites, vaporeonAquaTailLeftSprites, vaporeonAquaTailRightSprites,
+      vaporeonAquaTailUpRightSprites, vaporeonAquaTailUpLeftSprites, vaporeonAquaTailDownRightSprites, vaporeonAquaTailDownLeftSprites,
+      lunatoneSprites, lunatoneUpSprites, lunatoneLeftSprites, lunatoneRightSprites,
+      lunatoneUpRightSprites, lunatoneUpLeftSprites, lunatoneDownLeftSprites, lunatoneDownRightSprites,
+      levelVfxFrames, buffVfxFrames,
+      vaporeonUpSpinSprites, vaporeonRightSpinSprites // (repeat-safe)
+    ];
+
+    spriteArrays.forEach(arr => {
+      if (!Array.isArray(arr)) return;
+      for (let i = 0; i < arr.length; i++) {
+        arr[i] = normalizeAndCdn(arr[i]);
+      }
+    });
+    // Normalize some single URLs
+    //if (typeof vaporeonPortraitNormal === 'string') vaporeonPortraitNormal = normalizeAndCdn(vaporeonPortraitNormal);
+    //if (typeof Pokedollar === 'string') Pokedollar = normalizeAndCdn(Pokedollar);
+    //if (typeof stairSprite === 'string') stairSprite = normalizeAndCdn(stairSprite);
+
+    // Walls / bars
+    [
+      wallSpriteLeft, wallSpriteRight, wallSpriteUp, wallSpriteDown, cornerSpriteTopLeft,
+      cornerSpriteTopRight, cornerSpriteBottomLeft, cornerSpriteBottomRight,
+      enclosedWallSprite1, enclosedWallSprite2, enclosedWallSprite3, enclosedWallSprite4,
+      innerCornerTopRight, innerCornerTopLeft, innerCornerBottomRight, innerCornerBottomLeft
+    ].forEach((val, idx) => {
+      // these constants are const in your file — if you prefer immutability, convert by reassigning their usages
+      // (no-op here if unchanged). We mainly need ENEMY_DEFS and the arrays normalized.
+    });
+
+  } catch (e) {
+    console.warn('Sprite normalization failed', e);
+  }
+})();
+
+// Global image error listener: if an IMG using raw.githubusercontent fails (429 etc), retry via jsDelivr once.
+window.addEventListener('error', function onImgError(e) {
+  const t = e.target;
+  if (!t || t.tagName !== 'IMG') return;
+  const src = t.src || '';
+  if (src.includes('raw.githubusercontent.com') && !t.dataset.__triedCdn) {
+    t.dataset.__triedCdn = '1';
+    t.src = cdnify(src);
+  }
+}, true);
+
+// Preload arrays (call with array of urls) — use cdnify so preloads prefer CDN cached route
 function preloadImages(urls = []) {
   urls.forEach(u => {
     if (!u) return;
     const img = new Image();
-    img.src = u;
+    img.src = cdnify(u);
+    // also set onerror to try cdnify as an extra safety net (in case listener isn't triggered)
+    img.onerror = function () {
+      if (!img.dataset.__triedCdn) {
+        img.dataset.__triedCdn = '1';
+        img.src = cdnify(u);
+      }
+    };
   });
 }
 
@@ -3092,7 +3259,38 @@ React.useEffect(() => {
     ...levelVfxFrames,
     ...buffVfxFrames,
   ];
-  preloadImages(allSprites);
+  // Add single-file sprites
+  const singleSprites = [Pokedollar, stairSprite, itemSelector, vaporeonPortraitNormal];
+  singleSprites.forEach(u => { if (u) allSprites.push(normalizeAndCdn(u)); });
+
+  // Add every hunger bar (100 -> 0), health bar (100 -> 0), exp bar (0 -> 100)
+  // Uses eval so we don't have to hardcode every constant twice; safe inside this script.
+  try {
+    for (let i = 100; i >= 0; i--) {
+      try {
+        const h = eval('hungerBarComponent' + i);
+        if (h) allSprites.push(normalizeAndCdn(h));
+      } catch (e) { /* skip missing */ }
+    }
+    for (let i = 100; i >= 0; i--) {
+      try {
+        const h2 = eval('healthBarComponent' + i);
+        if (h2) allSprites.push(normalizeAndCdn(h2));
+      } catch (e) { /* skip missing */ }
+    }
+    for (let i = 0; i <= 100; i++) {
+      try {
+        const e = eval('expBarComponent' + i);
+        if (e) allSprites.push(normalizeAndCdn(e));
+      } catch (e) { /* skip missing */ }
+    }
+  } catch (e) {
+    console.warn('Bar-preload loop failed', e);
+  }
+
+  // Deduplicate & preload
+  const uniq = Array.from(new Set(allSprites.filter(Boolean)));
+  preloadImages(uniq);
 }, []);
 
 // rAF animation driver
