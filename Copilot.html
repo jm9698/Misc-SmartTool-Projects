@@ -95,13 +95,6 @@ border-image: linear-gradient(to right, red, transparent) 1;
 <div id="root"></div>
 <script type="text/babel">
 // Utility to index inventory items with their definitions and positions
-const getInventoryIndex = (inventory, ITEM_DEFS) => {
-  return inventory.map((item, position) => ({
-    item,
-    itemDef: ITEM_DEFS[item.name],
-    position
-  }));
-};
 
 const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png';
 const Apple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png';
@@ -1311,9 +1304,11 @@ const isPausedRef = React.useRef(isPaused);
 // Currency
 const [currencyTiles, setCurrencyTiles] = React.useState([]);
 const [currency, setCurrency] = React.useState(0);
+const currencyTilesRef = React.useRef(currencyTiles);
 
 // Item tiles and inventory
 const [itemTiles, setItemTiles] = React.useState([]);
+const itemTilesRef = React.useRef(itemTiles);
 const [itemTilesIndex, setItemTilesIndex] = React.useState([]); // Index for cycling through item tiles
 const [itemTilesIndexRef, setItemTilesIndexRef] = React.useState([]);
 const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
@@ -1322,6 +1317,7 @@ const [itemSelected, setItemSelected] = React.useState(null); // Index of select
 const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
 const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
+const inventoryRef = React.useRef(inventory);
 const [inventoryFull, setInventoryFull] = React.useState(false);
 const getInventoryIndex = (inventory, ITEM_DEFS) => {
   return inventory.map((item, position) => ({
@@ -1403,11 +1399,18 @@ const [keyState, setKeyState] = React.useState({
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
   shift: false, qHeld: false, eHeld: false, zHeld: false, cHeld: false
 });
+const keyStateRef = React.useRef(keyState);
 
 // Thrown item projectiles
 const [projectiles, setProjectiles] = React.useState([]);
 const projectilesRef = React.useRef([]);
 projectilesRef.current = projectiles;
+
+//effects to update refs
+React.useEffect(() => { keyStateRef.current = keyState; }, [keyState]);
+React.useEffect(() => { itemTilesRef.current = itemTiles; }, [itemTiles]);
+React.useEffect(() => { currencyTilesRef.current = currencyTiles; }, [currencyTiles]);
+React.useEffect(() => { inventoryRef.current = inventory; }, [inventory]);
 
 //Function declarations start here
 function getWallTileType(x, y, dungeon) {
@@ -1548,13 +1551,11 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
   return cLocations;
 }
 function generateSingleItem(position, item) {
-  console.log('Generating single item:', item);
   let iLocations = [];
   const itemNames = Object.keys(ITEM_DEFS);
   const itemSprites = Object.values(ITEM_DEFS).map(def => def.sprite);
   const itemName = item.name;
   const itemSprite = itemSprites[1];
-  console.log('Generating single item:', itemName, itemSprite, 'at position', position);
   iLocations.push({
       ...position,
       itemName,
@@ -1563,20 +1564,14 @@ function generateSingleItem(position, item) {
     return iLocations;
 }
 function beginItemTilesIndex(itemAdded) {
-  console.log('Updating item tiles index with:', itemAdded);
   setItemTilesIndex(itemAdded);
-  console.log('Item Tiles Index after update:', itemTilesIndex);
 }
 function updateItemTilesIndex(newIndex) {
-  console.log('Updating item tiles index to:', newIndex);
   setItemTilesIndex(prev => [...prev, newIndex]);
   return newIndex;
-  console.log('Item Tiles Index after update:', itemTilesIndex);
 }
 React.useEffect(() => {
-  console.log('Item Tiles Index changed:', itemTilesIndex);
   setItemTilesIndexRef(itemTilesIndex);
-  console.log('Item Tiles Index Ref updated:', itemTilesIndexRef);
 }, [itemTilesIndex]);
 function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = randInt(minCount, maxCount)) {
   let iLocations = []
@@ -1670,8 +1665,6 @@ function addItemToInventory(itemName) {
   setInventory(prev => {
     let newInventory = [...prev];
     let itemSelected = newInventory.find(item => item.name === itemName);
-    console.log('Adding item:', itemName)
-    console.log('Inventory Index:', getInventoryIndex(newInventory, ITEM_DEFS))
     // Removed invalid itemOrder property access
 
     // Find stacks of this item that are not full
@@ -1796,7 +1789,6 @@ function spawnEnemy(dungeonLocal, room, enemy) {
 }
 function updateEnemyPosition(tilex, tiley) {
   const enemy = enemiesRef.current.find(enemy => enemy.posx.x === tilex && enemy.posy.y === tiley);
-  console.log('Checking for enemy at position:', tilex, tiley, 'Found enemy:', enemy);
   if (enemy) {
     setEnemyHere(enemy);
   } else {
@@ -1863,7 +1855,6 @@ else if (enemyCount < 9) {
 React.useEffect(() => {
   enemiesRef.current = enemies;
   enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite }));
-  console.log(enemyHereTilesRef.current);
 }, [enemies]);
 function useSelectedItem() {
   if (inventory[itemOrder - 1].name === 'Life Seed') {
@@ -2264,7 +2255,6 @@ function itemThrown(item) {
 
     setTimeout(() => addItemTile({ itemName: item.name, x: endPos.x - 0.25, y: endPos.y - 0.25 }), 1250);
 
-    console.log('Item thrown:', item, 'from', startPos, 'to', endPos);
   }
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
@@ -2284,7 +2274,6 @@ function itemSelectDown() {
     let newOrder = itemOrder + 1;
     if (newOrder > natItemOrder) newOrder = 1;
     setItemOrder(newOrder);
-    console.log('Item order changed to:', newOrder);
   }
 }
 function itemSelectUp() {
@@ -2292,7 +2281,6 @@ function itemSelectUp() {
     let newOrder = itemOrder - 1;
     if (newOrder < 1) newOrder = natItemOrder;
     setItemOrder(newOrder);
-    console.log('Item order changed to:', newOrder);
   }
 }
 function takeStarvationDamage() {
@@ -2355,7 +2343,6 @@ if (exp >= maxExp) {
   const overflow = exp - maxExp;
   setExp(overflow);
   increaseLevel();
-  console.log(`Level: ${level} reached!`);
 }
 function generateProceduralDungeon(width, height, options = {}) {
   const {
@@ -2376,7 +2363,6 @@ for (let i = 0; i < roomAttempts && rooms.length < randInt(minRooms, maxRooms + 
     const y = randInt(2, height - h - 2);
     const newRoom = makeRoom(x, y, w, h);
     newRoom.id = rooms.length;
-    console.log(roomAttempts)
 if (rooms.every(room => !roomsOverlap(newRoom, room))) {
       carveRoom(dungeon, newRoom);
       rooms.push(newRoom);
@@ -2418,6 +2404,7 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
+  const ks = keyStateRef.current;
   if (showToolbox && itemSelected !== null) {
     if (showItemActionMenu) {
       // Scroll through actions
@@ -2432,7 +2419,6 @@ const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
         // Use the current value of itemActionIndex immediately
         const selectedAction = itemActions[itemActionIndex];
-        console.log('Selected action:', selectedAction);
 
         if (selectedAction === 'Discard') {
           discardSelectedItem();
@@ -2440,7 +2426,6 @@ const handleKeyDown = (e) => {
           const idx = itemOrder - 1;
           const thrownItem = inventory[idx];
           if (!thrownItem) {
-            console.log('No item to throw at index', idx);
           } else {
             // remove one from stack or remove stack
             setInventory(prev => {
@@ -2474,7 +2459,6 @@ const handleKeyDown = (e) => {
           setShowItemActionMenu(false);
           setShowToolbox(false);
           setIsPaused(false);
-          console.log('Used item:', itemSelected);
         }
       
         // Close action menu
@@ -2506,12 +2490,10 @@ const handleKeyDown = (e) => {
   if (e.key === 'm' && !usingEther) {
     if (!showMoveSelector){
       setShowMoveSelector(true);
-      console.log('Opening move selector');
       return;
     }
     else {
       setShowMoveSelector(false);
-      console.log('Closing move selector');
       return;
     }
   }
@@ -2561,7 +2543,6 @@ const handleKeyDown = (e) => {
         setIsPaused(false);
         setUsingEther(false);
         addLogMessage('Restored PP of ' + selected.name + ' using Max Ether!');
-        console.log('Selected move:', selected);
         return;
       }
       else if (!usingEther){
@@ -2569,26 +2550,22 @@ const handleKeyDown = (e) => {
         setShowMoveSelector(false);
         setIsPaused(false);
         useMove(selectedMove);
-        console.log('Selected move:', selected);
         // Handle move selection logic here
       }
       if (selected.name === 'Aqua Tail') {
         setShowMoveSelector(false);
         setIsPaused(false);
         useMove(selectedMove);
-        console.log('Selected move:', selected);
         // Handle move selection logic here
       }
       if (selected.name === 'Water Pulse') {
         setShowMoveSelector(false);
         setIsPaused(false);
-        console.log('Selected move:', selected);
         // Handle move selection logic here
       }
       if (selected.name === 'Refresh') {
         setShowMoveSelector(false);
         setIsPaused(false);
-        console.log('Selected move:', selected);
         // Handle move selection logic here
       }
     }
@@ -2615,13 +2592,13 @@ const handleKeyDown = (e) => {
     break;
   //up
   case 'w':
-      if (!keyState.w) {
+      if (!ks.w) {
         updateKeyState('w', true);
         if (isAiming){
           setLastDirection('up');
         }
       }
-      if (!isAiming && !inDiagonalMode && !keyState.wHeld && !isSleeping && !isSpinning && !usingAquaTail){ newY -= 1; // Move up unless Shift is pressed
+      if (!ks.wHeld && !showToolbox){ newY -= 1; // Move up unless Shift is pressed
         setIsWalking(true);
         triggerWalkCooldown();
         advanceTicks();
@@ -2658,13 +2635,12 @@ const handleKeyDown = (e) => {
       break;
 case 'q':
 //up left
-if (!keyState.q) {
 updateKeyState('q', true);
-}
-if (keyState.q && isAiming){
+
+if (isAiming){
   setLastDirection('up-left');
 }
-if (!isAiming && keyState.q && !keyState.qHeld && !isSleeping && !isSpinning && !usingAquaTail){
+if (!ks.qHeld){
 updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
@@ -2699,10 +2675,7 @@ updateKeyState('s', true);
 if (isAiming){
 setLastDirection('down');
 }
-else if (isAiming && keyState.s && keyState.d){
-setLastDirection('down-right');
-}
-else if (!isAiming && !inDiagonalMode && !keyState.sHeld && !isSleeping && !isSpinning && !usingAquaTail){ 
+else if (!ks.sHeld && !showToolbox){ 
 newY += 1; // Move down unless Shift is pressed
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2732,13 +2705,13 @@ if (itemHere) {
 break;
 case 'c':
 //down right
-if (!keyState.c) {
+if (!ks.c) {
   updateKeyState('c', true);
 }
-if (keyState.c && isAiming){
+if (isAiming){
   setLastDirection('down-right');
 }
-if (!isAiming && keyState.c && !keyState.cHeld && !isSleeping && !isSpinning && !usingAquaTail){
+if (!ks.cHeld){
 updateKeyState('cHeld', true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2773,10 +2746,8 @@ updateKeyState('a', true);
 if (isAiming){
 setLastDirection('left');
 }
-else if (isAiming && keyState.a && keyState.s){
-setLastDirection('down-left');
-}
-else if (!isAiming && !inDiagonalMode && !keyState.aHeld && !isSleeping && !isSpinning && !usingAquaTail){ newX -= 1; // Move left unless Shift is pressed
+
+else if (!ks.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2804,14 +2775,14 @@ if (itemHere) {
 }
 break;
 case 'z':
-if (!keyState.z) {
+if (!ks.z) {
   updateKeyState('z', true);
 }
-if (keyState.z && isAiming){
+if (isAiming){
 setLastDirection('down-left');
 }
 //down left
-if (!isAiming && keyState.z && !keyState.zHeld && !isSleeping && !isSpinning && !usingAquaTail){
+if (!ks.zHeld){
 updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
@@ -2846,10 +2817,7 @@ updateKeyState('d', true);
 if (isAiming){
 setLastDirection('right');
 }
-else if (isAiming && keyState.d && keyState.w){
-setLastDirection('up-right');
-}
-else if (!isAiming && !inDiagonalMode && !keyState.dHeld && !isSleeping && !isSpinning && !usingAquaTail){ newX += 1; // Move right unless Shift is pressed
+else if (!ks.dHeld){ newX += 1; // Move right unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2877,14 +2845,12 @@ if (itemHere) {
 }
 break;
 case 'e':
-if (!keyState.e) {
   updateKeyState('e', true);
-}
-if (isAiming && keyState.e){
+if (isAiming){
   setLastDirection('up-right');
 }
 //up right
-if (!isAiming && keyState.e && !keyState.eHeld && !isSleeping && !isSpinning && !usingAquaTail){
+if (!ks.eHeld){
 updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
@@ -2925,6 +2891,9 @@ case 'Shift': // Shift key to toggle aim mode
 if (inDiagonalMode){
 setInDiagonalMode(false);
 }
+case 'm':
+  setKeyState(prev => ({ ...prev, m: true }));
+break;
 setIsAiming(prev => !prev);
 return;
 default:
@@ -3080,6 +3049,7 @@ const indicesRef = React.useRef({
 });
 
 // Ensure refs reflect current flags/direction (some already exist above)
+
 React.useEffect(() => {
   lastDirectionRef.current = lastDirection;
   isPausedRef.current = isPaused;
@@ -3528,7 +3498,6 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
 
       verifyEnemyGeneration(spawnedAll.length);
   
-      console.log('Spawned enemies for room:', spawnedAll.map(en => (en && en.pos) ? `${en.pos.x},${en.pos.y}` : 'N/A'));
     });
   setStairs({ x: stairX, y: stairY });
   setPlayerPos(playerStart);
@@ -3699,7 +3668,6 @@ return (
                 let wallSprite;
                 const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
                 const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
-                //console.log(itemHere);
                 // Determine sprite based on position
                 if (cell === 'W') {
                   wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
