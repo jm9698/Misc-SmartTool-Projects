@@ -12,7 +12,7 @@
 body {
 background-color: black;
 }
- .fpsCounter {
+.fpsCounter {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -1199,7 +1199,8 @@ const floorSprites = [
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 
 const Game = () => {
-  const fpsRef = React.useRef(null);
+// Start React state declarations here
+const fpsRef = React.useRef(null);
   React.useEffect(() => {
     let rafId = 0;
     let frames = 0;
@@ -1221,7 +1222,6 @@ const Game = () => {
     return () => cancelAnimationFrame(rafId);
   }, []);
 
-// Start React state declarations here
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const minHeight = 60;
@@ -1330,49 +1330,6 @@ const getInventoryIndex = (inventory, ITEM_DEFS) => {
     position
   }));
 };
-
-// --- PERF: lookups to avoid .find() per tile ---
-function getViewportBounds() {
-  if (!Array.isArray(dungeon) || dungeon.length === 0) return { xStart: 0, xEnd: 0, yStart: 0, yEnd: 0 };
-  const cols = dungeon[0].length;
-  const rows = dungeon.length;
-  const halfW = 15; // matches camera math elsewhere
-  const halfH = 15;
-  const cx = Math.floor((playerPos && typeof playerPos.x === 'number') ? playerPos.x : 15);
-  const cy = Math.floor((playerPos && typeof playerPos.y === 'number') ? playerPos.y : 15);
-  const xStart = Math.max(0, cx - halfW);
-  const xEnd = Math.min(cols - 1, cx + halfW);
-  const yStart = Math.max(0, cy - halfH);
-  const yEnd = Math.min(rows - 1, cy + halfH);
-  return { xStart, xEnd, yStart, yEnd };
-}
-
-  const currencyTilesLookup = React.useMemo(() => {
-    const m = {};
-    for (let i = 0; i < currencyTiles.length; i++) {
-      const t = currencyTiles[i];
-      m[`${Math.floor(t.x)},${Math.floor(t.y)}`] = t;
-    }
-    return m;
-  }, [currencyTiles]);
-
-  const itemTilesLookup = React.useMemo(() => {
-    const m = {};
-    for (let i = 0; i < itemTiles.length; i++) {
-      const t = itemTiles[i];
-      m[`${Math.floor(t.x)},${Math.floor(t.y)}`] = t;
-    }
-    return m;
-  }, [itemTiles]);
-
-  const enemiesByPos = React.useMemo(() => {
-    const m = {};
-    for (let i = 0; i < enemies.length; i++) {
-      const en = enemies[i];
-      if (en && en.pos) m[`${en.pos.x},${en.pos.y}`] = en;
-    }
-    return m;
-  }, [enemies]);
 
 // Move selection
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
@@ -3736,41 +3693,262 @@ return (
           width: '7680px',
           height: '7680px',
         }}>
-          {(() => {
-            if (!dungeon || dungeon.length === 0) return null;
-            const { xStart, xEnd, yStart, yEnd } = getViewportBounds();
-            const rows = [];
-            for (let ry = yStart; ry <= yEnd; ry++) {
-              const cols = [];
-              for (let cx = xStart; cx <= xEnd; cx++) {
-                const cell = dungeon[ry][cx];
-                const currencyHere = currencyTilesLookup[`${cx},${ry}`];
-                const itemHere = itemTilesLookup[`${cx},${ry}`];
-                let wallSprite = cell === 'W' ? wallSpriteMap[getWallTileType(cx, ry, dungeon)] : null;
-                const isIndicatorVisible = lineCoordinates.some(coord => coord.x === cx && coord.y === ry) && !(playerPos.x === cx && playerPos.y === ry);
-                const enemyHere = enemiesByPos[`${cx},${ry}`];
-                    cols.push(
-                  <div key={`${ry},${cx}`} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
-                    {cell === 'W' ? <img src={wallSprite} alt="Wall" className="wall absolute" /> : <img src={cell} alt="Floor" className="floor absolute" />}
-                    {cell === 'S' && <img src={stairSprite} alt="Stairs" className="stair absolute" />}
-                    {currencyHere && <img src={Pokedollar} alt="Currency" className="absolute w-full h-full" style={{ zIndex:5, objectFit:'contain', width:'50%', height:'50%', left:'25%', top:'25%' }} />}
-                    {itemHere && <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{ zIndex:5, objectFit:'contain', width:'50%', height:'50%', left:'25%', top:'25%' }} />}
+          {dungeon.map((row, rowIndex) => (
+            <div key={rowIndex} className="dungeon-row flex">
+              {row.map((cell, colIndex) => {
+                let wallSprite;
+                const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+                //console.log(itemHere);
+                // Determine sprite based on position
+                if (cell === 'W') {
+                  wallSprite = wallSpriteMap[getWallTileType(colIndex, rowIndex, dungeon)];
+                }
 
-                    {/* enemy render simplified: one mapping based on enemies array (sprites chosen by enemy.sprites) */}
-                    {enemyHere && (
-                      <img src={(enemyHere.sprites && enemyHere.sprites.downIdle && enemyHere.sprites.downIdle.frame1) || lunatoneSprites[0]} alt="Enemy" className="enemy-sprite absolute" style={{ transform: 'none' }} />
+                const isIndicatorVisible = lineCoordinates.some(coord => coord.x === colIndex && coord.y === rowIndex) && !(playerPos.x === colIndex && playerPos.y === rowIndex);
+
+                return (
+                  <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
+                    {cell === 'W' ? (
+                      <img src={wallSprite} alt="Wall" className="wall absolute" />
+                    ) : (
+                      <img src={cell} alt="Floor" className="floor absolute" />
                     )}
+                    {cell === 'S' && (
+                      <img src={stairSprite} alt="Stairs" className="stair absolute" />
+                    )}
+                    {currencyHere && (
+                      <img src={Pokedollar} alt="Currency" className="absolute w-full h-full" style={{
+                        zIndex: 5,
+                        objectFit: 'contain',
+                        width: '50%',
+                        height: '50%',
+                        left: '25%',
+                        top: '25%',
+                      }} />
+                    )}
+                    {itemHere && (
+                      <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
+                        zIndex: 5,
+                        objectFit: 'contain',
+                        width: '50%',
+                        height: '50%',
+                        left: '25%',
+                        top: '25%',
+                        transform: ITEM_DEFS[itemHere.itemName].sprite !== Reviverseed ? 'scale(1.5)' : 'none'
+                      }} />
+                    )}
+                    {isBuffing && playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={buffVfxFrames[buffVfxIndex]}
+                        alt="Buff"
+                        className="absolute w-full h-full"
+                        style={{
+                          transform: 'translateY(-20%)',
+                          zIndex: 31,
+                          pointerEvents: 'none',
+                          animation: 'buff-fade 1s forwards',
+                        }}
+                      />
+                    )}
+                    {usingAquaTail && playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={
+                          lastDirection === 'up' ? vaporeonAquaTailUpSprites[aquaTailIndex] 
+                          : lastDirection === 'down' ? vaporeonAquaTailDownSprites[aquaTailIndex]
+                          : lastDirection === 'left' ? vaporeonAquaTailLeftSprites[aquaTailIndex]
+                          : lastDirection === 'right' ? vaporeonAquaTailRightSprites[aquaTailIndex]
+                          : lastDirection === 'up-left' ? vaporeonAquaTailUpLeftSprites[aquaTailIndex]
+                          : lastDirection === 'up-right' ? vaporeonAquaTailUpRightSprites[aquaTailIndex]
+                          : lastDirection === 'down-left' ? vaporeonAquaTailDownLeftSprites[aquaTailIndex]
+                          : lastDirection === 'down-right' ? vaporeonAquaTailDownRightSprites[aquaTailIndex]
+                          : vaporeonAquaTailDownSprites[aquaTailIndex]
+                        }
+                        alt="Aqua Tail"
+                        className="absolute w-full h-full"
+                        style={{
+                          transform: 'translateY(-10%) scale(2.0)',
+                          zIndex: 31,
+                          pointerEvents: 'none',
+                          animation: 'aqua-tail-fade 6s forwards',
+                        }}
+                      />
+                    )}
+                    {isLevelingUp && playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={levelVfxFrames[levelVfxIndex]}
+                        alt="Level Up"
+                        className="absolute w-full h-full"
+                        style={{
+                          transform: 'translateY(-20%)',
+                          zIndex: 31,
+                          pointerEvents: 'none',
+                          animation: 'level-up-fade 1s forwards',
+                        }}
+                      />
+                    )}
+                    
+                    {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
+                      <img
+                        src={enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
 
-                    {(playerPos.x === cx && playerPos.y === ry) && (
-                      <img src={vaporeonSprites[idleSpriteIndex]} alt="Vaporeon" className="player-sprite absolute" style={{ transform: 'scale(1)' }} />
+                    {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
+                      <img
+                        src={enemy2IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame4 : enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame5 : enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame6 : enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame7 : enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType2].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
+                      <img
+                        src={enemy3IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame4 : enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame5 : enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame6 : enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame7 : enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType3].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                        
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
+                      <img
+                        src={enemy4IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame4 : enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame5 : enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame6 : enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame7 : enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType4].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
+                      <img
+                        src={enemy5IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame4 : enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame5 : enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame6 : enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame7 : enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType5].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
+                      <img
+                        src={enemy6IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame4 : enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame5 : enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame6 : enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame7 : enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType6].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
+                      <img
+                        src={enemy7IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame4 : enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame5 : enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame6 : enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame7 : enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType7].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                       
+                      }}
+                      />
+                    ) : null}
+
+                    {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
+                      <img
+                        src={enemy8IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame4 : enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame5 : enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame6 : enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame7 : enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType8].sprites.downIdle.frame1}
+                        alt="Enemy"
+                        className="enemy-sprite absolute"
+                        style={{
+                        position: 'absolute',
+                        transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                      
+                      }}
+                      />
+                    ) : null}
+
+                    {playerPos.x === colIndex && playerPos.y === rowIndex && (
+                      <img
+                        src={
+                          isSleeping
+                            ? vaporeonSleepSprites[sleepSpriteIndex]
+                            : isWalking
+                              ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
+                                : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
+                                : vaporeonSprites[idleSpriteIndex])
+                              : isSpinning
+                                ? (lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
+                                  : vaporeonSprites[idleSpriteIndex])
+                              : usingAquaTail
+                                ? (lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
+                                  : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
+                                  : vaporeonSprites[idleSpriteIndex])
+                                : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex]
+                                  : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex]
+                                  : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex]
+                                  : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex]
+                                  : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
+                                  : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
+                                  : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex]
+                                  : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex]
+                                  : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
+                        }
+                              alt="Vaporeon"
+                        className="player-sprite absolute"
+                        style={{
+                          transform: isSpinning ? 'scale(0.85)' : usingAquaTail ? 'scale(0.85)' : 'scale(1)'
+                        }}
+                        />
                     )}
                   </div>
-                );
-              }
-              rows.push(<div key={`row-${ry}`} className="dungeon-row flex">{cols}</div>);
-            }
-            return rows;
-          })()}
+                )
+              })}
+            </div>
+          ))}
 
           {/* Render projectiles inside the dungeon so they follow camera transform */}
           
@@ -4331,7 +4509,7 @@ const MemoizedGame = React.memo(Game);
 ReactDOM.render(
   <MemoizedGame />, // Use the memoized component as a JSX element
   document.getElementById('root')
-);
+  );
 </script>
 </body>
 </html>
