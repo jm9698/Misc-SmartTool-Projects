@@ -1399,7 +1399,7 @@ const [keyState, setKeyState] = React.useState({
   wHeld: false, aHeld: false, sHeld: false, dHeld: false,
   shift: false, qHeld: false, eHeld: false, zHeld: false, cHeld: false
 });
-const keyStateRef = React.useRef(keyState);
+const ks = React.useRef(keyState); // For easier access
 
 // Thrown item projectiles
 const [projectiles, setProjectiles] = React.useState([]);
@@ -1407,7 +1407,7 @@ const projectilesRef = React.useRef([]);
 projectilesRef.current = projectiles;
 
 //effects to update refs
-React.useEffect(() => { keyStateRef.current = keyState; }, [keyState]);
+React.useEffect(() => { ks.current = keyState; }, [keyState]);
 React.useEffect(() => { itemTilesRef.current = itemTiles; }, [itemTiles]);
 React.useEffect(() => { currencyTilesRef.current = currencyTiles; }, [currencyTiles]);
 React.useEffect(() => { inventoryRef.current = inventory; }, [inventory]);
@@ -1470,16 +1470,33 @@ const wallSpriteMap = {
   // ...etc...
 };
 
+// Throttling function
+function throttle(func, delay) {
+  let lastCall =  0;
+  return function(...args) {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) {
+      return;
+    }
+    lastCall = now;
+    func(...args);
+  };
+}
+
 function updateKeyState(key, value) {
   setKeyState(prev => ({ ...prev, [key]: value }));
 }
+
+//const throttledUpdateKeyState = throttle(updateKeyState, 200); // 200ms throttle
+
+
+
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 function triggerWalkCooldown() {
   // Clear any existing cooldown
   if (walkCooldownRef.current) clearTimeout(walkCooldownRef.current);
-  setIsWalking(true);
   walkCooldownRef.current = setTimeout(() => {
     setIsWalking(false);
     walkCooldownRef.current = null;
@@ -2320,6 +2337,35 @@ function depleteHungerAfterTicks(ticks){
 function depleteHunger(amount) {
   setPlayerHunger(prev => Math.max(prev - amount, 0));
 }
+function handleUnderneath(newX, newY) {
+const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
+        if (pickedCurrency) {
+          setCurrency(curr => curr + pickedCurrency.amount);
+          setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+          addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
+          return;
+        }
+        const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
+        if (itemHere) {
+          if (!inventoryFull){
+            addItemToInventory(itemHere.itemName || "Reviver Seed");
+            setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+            setItemSelected(itemHere.id);
+            addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+          }
+          else if (inventoryFull){
+            if (inventory.length < MAX_INVENTORY_SLOTS){
+              setInventoryFull(false);
+              addItemToInventory(itemHere.itemName || "Reviver Seed");
+              setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
+              setItemSelected(itemHere.id);
+              addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
+              return;
+            }
+            addLogMessage('Inventory full!');
+          }
+        }
+      }
 
 function increaseLevel(){
   setLevel(prev => prev + 1);
@@ -2404,7 +2450,6 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
-  const ks = keyStateRef.current;
   if (showToolbox && itemSelected !== null) {
     if (showItemActionMenu) {
       // Scroll through actions
@@ -2592,55 +2637,27 @@ const handleKeyDown = (e) => {
     break;
   //up
   case 'w':
-      if (!ks.w) {
-        updateKeyState('w', true);
-        if (isAiming){
+      if (isAiming){
           setLastDirection('up');
         }
-      }
-      if (!ks.wHeld && !showToolbox){ newY -= 1; // Move up unless Shift is pressed
+      else if (!ks.current.wHeld && !showToolbox){ newY -= 1; // Move up unless Shift is pressed
+        if (!isWalking){
         setIsWalking(true);
+        }
         triggerWalkCooldown();
         advanceTicks();
         depleteHungerAfterTicks(hungerTicks);
         updateKeyState('wHeld', true);
         setLastDirection('up');
-        const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-        if (pickedCurrency) {
-          setCurrency(curr => curr + pickedCurrency.amount);
-          setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-          addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-        }
-        const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-        if (itemHere) {
-          if (!inventoryFull){
-            addItemToInventory(itemHere.itemName || "Reviver Seed");
-            setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-            setItemSelected(itemHere.id);
-            addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-          }
-          else if (inventoryFull){
-            if (inventory.length < MAX_INVENTORY_SLOTS){
-              setInventoryFull(false);
-              addItemToInventory(itemHere.itemName || "Reviver Seed");
-              setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-              setItemSelected(itemHere.id);
-              addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-              return;
-            }
-            addLogMessage('Inventory full!');
-          }
-        }
+        handleUnderneath(newX, newY);
       }
       break;
 case 'q':
 //up left
-updateKeyState('q', true);
-
 if (isAiming){
   setLastDirection('up-left');
 }
-if (!ks.qHeld){
+if (!ks.current.qHeld){
 updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
@@ -2649,33 +2666,15 @@ depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
 setLastDirection('up-left');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 //down
 case 's':
-updateKeyState('s', true);
 if (isAiming){
 setLastDirection('down');
 }
-else if (!ks.sHeld && !showToolbox){ 
+else if (!ks.current.sHeld && !showToolbox){ 
 newY += 1; // Move down unless Shift is pressed
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2683,35 +2682,15 @@ setIsWalking(true);
 triggerWalkCooldown();
 updateKeyState('sHeld', true);
 setLastDirection('down');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 case 'c':
 //down right
-if (!ks.c) {
-  updateKeyState('c', true);
-}
 if (isAiming){
   setLastDirection('down-right');
 }
-if (!ks.cHeld){
+if (!ks.current.cHeld){
 updateKeyState('cHeld', true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
@@ -2720,69 +2699,31 @@ newX +=1;
 setIsWalking(true);
 triggerWalkCooldown();
 setLastDirection('down-right');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 //left
 case 'a':
-updateKeyState('a', true);
 if (isAiming){
 setLastDirection('left');
 }
 
-else if (!ks.aHeld){ newX -= 1; // Move left unless Shift is pressed
+else if (!ks.current.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
 triggerWalkCooldown();
 updateKeyState('aHeld', true);
 setLastDirection('left');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 case 'z':
-if (!ks.z) {
-  updateKeyState('z', true);
-}
 if (isAiming){
 setLastDirection('down-left');
 }
 //down left
-if (!ks.zHeld){
+if (!ks.current.zHeld){
 updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
@@ -2791,66 +2732,30 @@ depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
 setLastDirection('down-left');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 //right
 case 'd':
-updateKeyState('d', true);
 if (isAiming){
 setLastDirection('right');
 }
-else if (!ks.dHeld){ newX += 1; // Move right unless Shift is pressed
+else if (!ks.current.dHeld){ newX += 1; // Move right unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
 depleteHungerAfterTicks(hungerTicks);
 triggerWalkCooldown();
 updateKeyState('dHeld', true);
 setLastDirection('right');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 case 'e':
-  updateKeyState('e', true);
 if (isAiming){
   setLastDirection('up-right');
 }
 //up right
-if (!ks.eHeld){
+if (!ks.current.eHeld){
 updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
@@ -2859,24 +2764,7 @@ depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
 setLastDirection('up-right');
-const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === newY);
-if (pickedCurrency) {
-  setCurrency(curr => curr + pickedCurrency.amount);
-  setCurrencyTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  addLogMessage(`Picked up ${pickedCurrency.amount} Pokedollars!`);
-}
-const itemHere = itemTiles.find(tile => tile.x === newX && tile.y === newY);
-if (itemHere) {
-  if (!inventoryFull){
-  addItemToInventory(itemHere.itemName || "Reviver Seed");
-  setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
-  setItemSelected(itemHere.id);
-  addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
-  }
-  else if (inventoryFull){
-    addLogMessage('Inventory full!');
-}
-}
+handleUnderneath(newX, newY);
 }
 break;
 case 'p': // debug for exp
@@ -2965,40 +2853,34 @@ setFloor((prevFloor) => prevFloor + 1);
 };
 
 const handleKeyUp = (e) => {
-if (e.key === 'q'){
+if (e.key === 'q' && ks.current.qHeld){
 updateKeyState('qHeld', false);
 }
-if (e.key === 'e'){
+if (e.key === 'e' && ks.current.eHeld){
 updateKeyState('eHeld', false);
 }
-if (e.key === 'z'){
+if (e.key === 'z' && ks.current.zHeld){
 updateKeyState('zHeld', false);
 }
-if (e.key === 'c'){
+if (e.key === 'c' && ks.current.cHeld){
 updateKeyState('cHeld', false);
 }
 if (e.key === 'Shift') {
 updateKeyState('shift', false); // Set Shift pressed state to false
 }
 if (e.key === 'w') {
-updateKeyState('w', false);
 updateKeyState('wHeld', false);
-//triggerWalkCooldown()
+console.log('w key released');
+console.log(ks);
 }
-if (e.key === 'a') {
-updateKeyState('a', false);
+if (e.key === 'a' && ks.current.aHeld) {
 updateKeyState('aHeld', false);
-//triggerWalkCooldown();
 }
-if (e.key === 's') {
-updateKeyState('s', false);
+if (e.key === 's' && ks.current.sHeld) {
 updateKeyState('sHeld', false);
-//triggerWalkCooldown();
 }
-if (e.key === 'd') {
-updateKeyState('d', false);
+if (e.key === 'd' && ks.current.dHeld) {
 updateKeyState('dHeld', false);
-//triggerWalkCooldown();
 }
 };
 
