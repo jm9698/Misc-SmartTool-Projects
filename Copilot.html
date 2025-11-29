@@ -424,6 +424,7 @@ const ENEMY_DEFS = {
     }
   },
 },
+/*
   'Vaporeon': {
     name: 'Vaporeon',
     type: 'Water',
@@ -470,6 +471,7 @@ const ENEMY_DEFS = {
       }
     }
   }
+    */
 
 }
 const MAX_INVENTORY_SLOTS = 10;
@@ -2498,9 +2500,8 @@ const handleKeyDown = (e) => {
             setDialogIndex(0);
             setTextSkipped(false);
         }
-        console.log(dialogIndex !== DebugTextDialog.length - 1);
-  }
-
+      }
+    }
   if (showToolbox && itemSelected !== null) {
     if (showItemActionMenu) {
       // Scroll through actions
@@ -2512,8 +2513,14 @@ const handleKeyDown = (e) => {
         setItemActionIndex(prev => (prev + 1) % itemActions.length);
         return;
       }
-    
-      if (itemActions.length === 0) return;
+    }
+      if (e.key === 'Enter') {
+       if (!showItemActionMenu){
+        setShowItemActionMenu(true);
+        setItemActionIndex(0);
+        return;
+        }
+      else if (showItemActionMenu){
         // Use the current value of itemActionIndex immediately
         const selectedAction = itemActions[itemActionIndex];
 
@@ -2551,7 +2558,7 @@ const handleKeyDown = (e) => {
             // actually throw the selected item
             itemThrown(thrownItem);
           }
-        } else if (selectedAction === 'Use') {
+           } else if (selectedAction === 'Use') {
           useSelectedItem();
           setShowItemActionMenu(false);
           setShowToolbox(false);
@@ -2561,20 +2568,18 @@ const handleKeyDown = (e) => {
         // Close action menu
         setShowItemActionMenu(false);
         return;
+      
       }
-       // ...existing code...
-      if (e.key === 'Escape') {
+    }
+
+      if (e.key === 'Escape' && showItemActionMenu) {
         setShowItemActionMenu(false);
         return;
       }
-    } else {
-      if (e.key === 'Enter') {
-        setShowItemActionMenu(true);
-        setItemActionIndex(0);
-        return;
-      }
-    }
+      
+
   }
+  
   if (e.key === 'Shift') {
     updateKeyState('shift', true); // Set Shift pressed state to true
     setShowIndicators(prev => !prev); // show indicators
@@ -2685,7 +2690,9 @@ const handleKeyDown = (e) => {
   }
   switch (e.key) {
     case 'Escape': // Escape key to toggle pause
+    if (!showDialog){
       setIsPaused(prev => !prev);
+    }
     break;
   //up
   case 'w':
