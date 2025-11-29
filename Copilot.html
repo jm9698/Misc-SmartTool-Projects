@@ -109,6 +109,36 @@ const Iron = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/r
 const Zinc = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png';
 const Carbos = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png';
 
+// Scene Dialog
+  //Debug Text Dialog (Key = 0)
+const DebugTextDialog = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_00.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_01.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_02.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_03.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_04.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_05.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_06.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_07.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_08.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_09.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_10.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_11.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_12.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_13.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_14.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_15.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_16.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_17.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_18.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_19.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_20.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_21.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_22.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_23.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_24.png'
+]
+
 const MOVE_DEFS = {
   "Acid Armor": {
     name: "Acid Armor",
@@ -1348,6 +1378,13 @@ const [checkBox1, setCheckBox1] = React.useState(false);
 const [checkBox2, setCheckBox2] = React.useState(false);
 const [checkBox3, setCheckBox3] = React.useState(false);
 
+// Scene params
+const [dialogIndex, setDialogIndex] = React.useState(0); // Index for dialog progression
+const [showDialog, setShowDialog] = React.useState(false); // State to show
+const [dialogKey, setDialogKey] = React.useState(0); // Key for dialog content
+const [dialogSpeed, setDialogSpeed] = React.useState('Normal'); // Speed of dialog text
+const [textSkipped, setTextSkipped] = React.useState(false); // Track if text was skipped
+
 // Action log
 const [actionLog, setActionLog] = React.useState([]); // [{msg, id}]
 
@@ -2450,6 +2487,20 @@ React.useEffect(() => {
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
+  if (showDialog && dialogKey === 0){
+    if (e.key === 'Enter') {
+          if (dialogIndex !== DebugTextDialog.length - 1){
+          setDialogIndex(DebugTextDialog.length - 1);
+          setTextSkipped(true);
+          }
+          else if (dialogIndex === DebugTextDialog.length - 1){
+            setShowDialog(false)
+            setDialogIndex(0);
+            setTextSkipped(false);
+        }
+        console.log(dialogIndex !== DebugTextDialog.length - 1);
+  }
+
   if (showToolbox && itemSelected !== null) {
     if (showItemActionMenu) {
       // Scroll through actions
@@ -2461,7 +2512,8 @@ const handleKeyDown = (e) => {
         setItemActionIndex(prev => (prev + 1) % itemActions.length);
         return;
       }
-      if (e.key === 'Enter') {
+    
+      if (itemActions.length === 0) return;
         // Use the current value of itemActionIndex immediately
         const selectedAction = itemActions[itemActionIndex];
 
@@ -2768,12 +2820,8 @@ handleUnderneath(newX, newY);
 }
 break;
 case 'p': // debug for exp
-setPlayerHP(prev => prev - 1);
-  addLogMessage('Vaporeon took 1 damage!');
-if (exp < maxExp) {
-  //setExp(prev => prev + 200); // Add 200 EXP for testing
-  //addLogMessage(`Gained 200 EXP! Current EXP: ${exp + 200}`);
-}
+setShowDialog(true);
+console.log(showDialog);
 break;
 case 'Shift': // Shift key to toggle aim mode
 if (inDiagonalMode){
@@ -2789,25 +2837,6 @@ return;
 break;
 case 'l':
 //quick log
-//console.log('playerHunger:', playerHunger, 'maxPlayerHunger:', maxPlayerHunger, "playerHungerPercentage:", (playerHunger / maxPlayerHunger) * 100);
-console.log('Enemy definition:', ENEMY_DEFS['Lunatone']);
-console.log('Spawned enemies:', enemiesRef.current);
-console.log('enemy1', enemy1);
-console.log('enemy2', enemy2);
-console.log('enemy3', enemy3);
-console.log('enemy4', enemy4);
-console.log('enemy5', enemy5);
-console.log('enemy6', enemy6);
-console.log('enemy7', enemy7);
-console.log('enemy8', enemy8);
-console.log(enemy1.x, enemy1.y);
-console.log(enemyType2);
-console.log(ENEMY_DEFS[enemyType2]);
-console.log(ENEMY_DEFS[enemyType1].sprites.downIdle.frame1);
-console.log(ENEMY_DEFS[enemyType1].sprites.downIdle.length);
-console.log(enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : null);
-console.log('enemy1.sprite:', enemy1 ? enemy1.sprite : 'N/A');
-console.log(enemies);
   break;
 }
 
@@ -2868,6 +2897,9 @@ updateKeyState('cHeld', false);
 if (e.key === 'Shift') {
 updateKeyState('shift', false); // Set Shift pressed state to false
 }
+if (e.key === 'Enter') {
+updateKeyState('Enter', false);
+}
 if (e.key === 'w') {
 updateKeyState('wHeld', false);
 console.log('w key released');
@@ -2890,7 +2922,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState.shift, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, isSleeping, showMoveSelector, selectedMove, isSpinning, usingAquaTail]); // Add isShiftPressed to dependencies
+}, [playerPos, stairs, dungeon, isPaused, keyState, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, isSleeping, showMoveSelector, selectedMove, isSpinning, usingAquaTail, showDialog, dialogKey, inventory, isAiming]);
 
 // Replace multiple setInterval animation effects with this single rAF loop + preload
 const ANIM_TIMINGS = {
@@ -2900,7 +2932,8 @@ const ANIM_TIMINGS = {
   sleep: 500,
   level: 150,
   buff: 150,
-  aquaTail: 150
+  aquaTail: 150,
+  dialog: dialogSpeed === 'Slow' ? 100 : dialogSpeed === 'Fast' ? 50 : 75,
 };
 
 const animRafRef = React.useRef(null);
@@ -2915,7 +2948,8 @@ const lastAnimTsRef = React.useRef({
   sleep: 0,
   level: 0,
   buff: 0,
-  aquaTail: 0
+  aquaTail: 0,
+  dialog: 0
 });
 const indicesRef = React.useRef({
   idle: {
@@ -2927,7 +2961,8 @@ const indicesRef = React.useRef({
   sleep: 0,
   level: 0,
   buff: 0,
-  aquaTail: 0
+  aquaTail: 0,
+  dialog: 0
 });
 
 // Ensure refs reflect current flags/direction (some already exist above)
@@ -3145,6 +3180,7 @@ React.useEffect(() => {
     ...lunatoneDownRightSprites,
     ...levelVfxFrames,
     ...buffVfxFrames,
+    ...DebugTextDialog
   ];
   // Add single-file sprites
   const singleSprites = [Pokedollar, stairSprite, itemSelector, vaporeonPortraitNormal];
@@ -3216,6 +3252,17 @@ React.useEffect(() => {
       }
     }
 
+    // Dialog (overrides other animations)
+    const elapsedDialog = ts - (lastAnimTsRef.current.dialog || 0);
+    if (showDialog) {
+      if (elapsedDialog >= ANIM_TIMINGS.dialog && !textSkipped) {
+        lastAnimTsRef.current.dialog = ts;
+        if (dialogKey === 0 && indicesRef.current.dialog !== DebugTextDialog.length - 1) {
+        indicesRef.current.dialog = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
+        }
+        setDialogIndex(indicesRef.current.dialog);
+      }
+    }
     // Aqua Tail (use its own timer so spin/idle won't block it)
     const elapsedAqua = ts - (lastAnimTsRef.current.aquaTail || 0);
     if (usingAquaTail) {
@@ -3282,8 +3329,17 @@ React.useEffect(() => {
     if (animRafRef.current) cancelAnimationFrame(animRafRef.current);
     animRafRef.current = null;
   };
-}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail]); // flags that change animation sets
+}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail, showDialog, textSkipped]); // flags that change animation sets
 
+React.useEffect(()=> {
+  if (!showDialog) {
+    // Reset dialog animation state
+    lastAnimTsRef.current.dialog = 0;
+    indicesRef.current.dialog = 0;
+    setTextSkipped(false);
+    setDialogIndex(0);
+  }
+}, [showDialog, textSkipped]);
 React.useEffect(() => {
   if (!usingAquaTail) return;
   const now = performance.now();
@@ -3637,7 +3693,6 @@ return (
                         }}
                       />
                     )}
-                    
                     {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
                       <img
                         src={enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
@@ -4213,6 +4268,22 @@ return (
           <img src={vaporeonPortraitNormal} alt="Vaporeon Portrait" className="w-16 h-16" />
       </div>
       </div>
+      {showDialog && !isPaused ? (
+        <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center"
+        style={{
+          zIndex: 1000,
+          width: '50%',
+          height: '75%',
+          marginLeft: '25%'
+        }}>
+            <img
+            src={DebugTextDialog[dialogIndex]}
+            alt="Dialog"
+            className="absolute w-full h-full"
+        
+                      />
+        </div>
+      ) : null}
     {isPaused && !showOptions && !showMoves && !showToolbox && !showStatus && (
       <div className="menu" style={{zIndex: 1000}}>
         <h2 className="text-white text-lg">Paused</h2>
@@ -4251,6 +4322,37 @@ return (
         <label>
           <input type="checkbox" checked={checkBox3} onChange={() => setCheckBox3(!checkBox3)} /> Checkbox 3
         </label>
+        <label style={{color: 'white', display: 'block', marginTop: 12}}>
+          Dialogue Speed: 
+          </label>
+          <label style={{color: 'white', display: 'block', marginTop: 12, textAlign: 'center'}}>
+          'Slow'
+          <input
+          type='radio'
+          name="dialogSpeed"
+          value={dialogSpeed}
+          onChange={(e) => setDialogSpeed('Slow')}
+          checked={dialogSpeed === 'Slow'}
+          style={{width: '100%'}}
+          />
+          'Normal' <input
+          type='radio'
+          name="dialogSpeed"
+          value={dialogSpeed}
+          onChange={(e) => setDialogSpeed('Normal')}
+          checked={dialogSpeed === 'Normal'}
+          style={{width: '100%'}}
+        />
+          'Fast'
+          <input
+          type='radio'
+          name="dialogSpeed"
+          value={dialogSpeed}
+          onChange={(e) => setDialogSpeed('Fast')}
+          checked={dialogSpeed === 'Fast'}
+          style={{width: '100%'}}
+          />
+           </label>
 
         <div style={{ marginTop: 12 }}>
           <label style={{color: 'white', display: 'block', marginBottom: 6}}>
@@ -4352,7 +4454,7 @@ return (
     )}
   </div>
 );
-}
+};
 const MemoizedGame = React.memo(Game);
 
 // Render the memoized component
