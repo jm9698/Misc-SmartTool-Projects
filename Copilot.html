@@ -11,7 +11,9 @@
 <style>
 body {
 background-color: black;
+overflow: hidden;
 }
+
 .fpsCounter {
   position: absolute;
   top: 10px;
@@ -112,31 +114,187 @@ const Carbos = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects
 // Scene Dialog
   //Debug Text Dialog (Key = 0)
 const DebugTextDialog = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_00.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_01.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_02.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_03.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_04.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_05.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_06.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_07.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_08.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_09.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_10.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_11.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_12.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_13.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_14.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_15.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_16.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_17.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_18.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_19.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_20.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_21.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_22.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_23.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextDialog_24.png'
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_001.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_002.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_003.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_004.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_005.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_006.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_007.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_008.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_009.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_010.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_011.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_012.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_013.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_014.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_015.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_016.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_017.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_018.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_019.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_020.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_021.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_022.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_023.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_024.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_025.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_026.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_027.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_028.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_029.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_030.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_031.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_032.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_033.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_034.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_035.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_036.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_037.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_038.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_039.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_040.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_041.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_042.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_043.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_044.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_045.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_046.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_047.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_048.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_049.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_050.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_051.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_052.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_053.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_054.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_055.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_056.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_057.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_058.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_059.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_060.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_061.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_062.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_063.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_064.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_065.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_066.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_067.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_068.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_069.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_070.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_071.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_072.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_073.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_074.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_075.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_076.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_077.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_078.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_079.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_080.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_081.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_082.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_083.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_084.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_085.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_086.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_087.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_088.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_089.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_090.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_091.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_092.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_093.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_094.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_095.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_096.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_097.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_098.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_099.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_100.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_101.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_102.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_103.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_104.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_105.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_106.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_107.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_108.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_109.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_110.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_111.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_112.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_113.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_114.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_115.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_116.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_117.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_118.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_119.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_120.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_121.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_122.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_123.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_124.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_125.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_126.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_127.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_128.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_129.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_130.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_131.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_132.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_133.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_134.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_135.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_136.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_137.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_138.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_139.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_140.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_141.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_142.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_143.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_144.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_145.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_146.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_147.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_148.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_149.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_150.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_151.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_152.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_153.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_154.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_155.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_156.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_157.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_158.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_159.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_160.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_161.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_162.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_163.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_164.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_165.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_166.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_167.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_168.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_169.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_170.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_171.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_172.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_173.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_174.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_175.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_176.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_177.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_178.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_179.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_180.png'
 ]
 
 const MOVE_DEFS = {
@@ -1249,6 +1407,7 @@ const fpsRef = React.useRef(null);
 
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
+const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
 const minHeight = 60;
 const maxHeight = 70;
 const minWidth = 60;
@@ -1386,7 +1545,27 @@ const [showDialog, setShowDialog] = React.useState(false); // State to show
 const [dialogKey, setDialogKey] = React.useState(0); // Key for dialog content
 const [dialogSpeed, setDialogSpeed] = React.useState('Normal'); // Speed of dialog text
 const [textSkipped, setTextSkipped] = React.useState(false); // Track if text was skipped
+const [textAdvance, setTextAdvance] = React.useState(false); // Track if text should advance
+const [textStopped, setTextStopped] = React.useState(false); // Track if text advancement is stopped
 
+// Add a ref + helper to keep rAF callback in sync immediately
+const textAdvanceRef = React.useRef(false);
+const setTextAdvanceAndRef = (val) => {
+  textAdvanceRef.current = val;
+  setTextAdvance(val);
+};
+const showDialogRef = React.useRef(showDialog);
+const textSkippedRef = React.useRef(textSkipped);
+React.useEffect(() => { textSkippedRef.current = textSkipped; }, [textSkipped]);
+const textStoppedRef = React.useRef(textStopped);
+React.useEffect(() => { textStoppedRef.current = textStopped; }, [textStopped]);
+  //debug
+  const debugStops = {
+  firstStop: 25,
+  secondStop: 84,
+  thirdStop: 124,
+  fourthStop: 181
+};
 // Action log
 const [actionLog, setActionLog] = React.useState([]); // [{msg, id}]
 
@@ -1450,7 +1629,10 @@ React.useEffect(() => { ks.current = keyState; }, [keyState]);
 React.useEffect(() => { itemTilesRef.current = itemTiles; }, [itemTiles]);
 React.useEffect(() => { currencyTilesRef.current = currencyTiles; }, [currencyTiles]);
 React.useEffect(() => { inventoryRef.current = inventory; }, [inventory]);
+React.useEffect(() => { textAdvanceRef.current = textAdvance; }, [textAdvance]);
+React.useEffect(() => { showDialogRef.current = showDialog; }, [showDialog]);
 
+// ...existing code...
 //Function declarations start here
 function getWallTileType(x, y, dungeon) {
     // Get neighbors (W = wall)
@@ -2052,19 +2234,21 @@ function startCameraLoop() {
     const cur = cameraPosRef.current;
     const tgt = cameraTargetRef.current;
     const dist = Math.hypot(tgt.x - cur.x, tgt.y - cur.y);
-    const t = Math.min(0.6, 0.18 + dist * 0.18);
+    const t = Math.min(0.2, 0.05 + dist * 0.05);
     const nx = lerp(cur.x, tgt.x, t);
     const ny = lerp(cur.y, tgt.y, t);
     cameraPosRef.current = { x: nx, y: ny };
 
     // compute pixel offsets like original logic but use current lerped pos
-    const offsetX = (15 - nx + 1) * 40 + 20;
-    const offsetY = (15 - ny - 8.5) * 40 + 20;
+    const offsetX = (20 - nx) * 0.5 + 20;   //1
+    const offsetY = (-20 - ny) * 0.5 - 100;  //-8.5
     const newTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
 
-    // Apply transform directly to the dungeon DOM node to avoid re-rendering the whole tree.
+
     if (dungeonRef.current && dungeonRef.current.style.transform !== newTransform) {
       dungeonRef.current.style.transform = newTransform;
+      setCameraTransform(newTransform);
+      console.log('Camera transform updated:', cameraTransform);
     }
 
     // stop when close enough
@@ -2491,14 +2675,50 @@ React.useEffect(() => {
 const handleKeyDown = (e) => {
   if (showDialog && dialogKey === 0){
     if (e.key === 'Enter') {
-          if (dialogIndex !== DebugTextDialog.length - 1){
-          setDialogIndex(DebugTextDialog.length - 1);
+          if (dialogIndex < debugStops.firstStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
+          setDialogIndex(debugStops.firstStop - 1);
           setTextSkipped(true);
+          setTextStopped(true);
+          console.log('Skipped to first stop');
           }
-          else if (dialogIndex === DebugTextDialog.length - 1){
+          else if (dialogIndex === debugStops.firstStop - 1){
+            setTextSkipped(false);
+            setTextAdvanceAndRef(true);
+            console.log('Continued from first stop');
+          }
+          else if (dialogIndex > debugStops.firstStop - 1 && dialogIndex < debugStops.secondStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
+            setDialogIndex(debugStops.secondStop - 1);
+            setTextSkipped(true);
+            setTextStopped(true);
+            console.log('Skipped to second stop');
+          }
+          else if (dialogIndex === debugStops.secondStop - 1){
+            setTextSkipped(false);
+            setTextAdvanceAndRef(true);
+            console.log('Continued from second stop');
+          }
+          else if (dialogIndex > debugStops.secondStop - 1 && dialogIndex < debugStops.thirdStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
+            setDialogIndex(debugStops.thirdStop - 1);
+            setTextSkipped(true);
+            setTextStopped(true);
+            console.log('Skipped to third stop');
+          }
+          else if (dialogIndex === debugStops.thirdStop - 1){
+            setTextSkipped(false);
+            setTextAdvanceAndRef(true);
+            console.log('Continued from third stop');
+          }
+          else if (dialogIndex > debugStops.thirdStop - 1 && dialogIndex < debugStops.fourthStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
+            setDialogIndex(debugStops.fourthStop - 1);
+            setTextSkipped(true);
+            setTextStopped(true);
+            console.log('Skipped to fourth stop');
+          }
+          else if (dialogIndex === debugStops.fourthStop - 1){
             setShowDialog(false)
             setDialogIndex(0);
             setTextSkipped(false);
+            console.log('Continued from fourth stop and closed dialog');
         }
       }
     }
@@ -2929,7 +3149,7 @@ return () => {
 window.removeEventListener('keydown', handleKeyDown);
 window.removeEventListener('keyup', handleKeyUp);
 };
-}, [playerPos, stairs, dungeon, isPaused, keyState, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, isSleeping, showMoveSelector, selectedMove, isSpinning, usingAquaTail, showDialog, dialogKey, inventory, isAiming]);
+}, [playerPos, stairs, dungeon, isPaused, keyState, showToolbox, itemOrder, natItemOrder, showItemActionMenu, itemActionIndex, isWalking, isSleeping, showMoveSelector, selectedMove, isSpinning, usingAquaTail, showDialog, dialogKey, dialogIndex, inventory, isAiming]);
 
 // Replace multiple setInterval animation effects with this single rAF loop + preload
 const ANIM_TIMINGS = {
@@ -3261,13 +3481,57 @@ React.useEffect(() => {
 
     // Dialog (overrides other animations)
     const elapsedDialog = ts - (lastAnimTsRef.current.dialog || 0);
-    if (showDialog) {
-      if (elapsedDialog >= ANIM_TIMINGS.dialog && !textSkipped) {
-        lastAnimTsRef.current.dialog = ts;
-        if (dialogKey === 0 && indicesRef.current.dialog !== DebugTextDialog.length - 1) {
-        indicesRef.current.dialog = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
+    if (showDialogRef.current) {
+        if (textAdvanceRef.current) {
+          indicesRef.current.dialog = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
+          setDialogIndex(indicesRef.current.dialog);
+          setTextAdvanceAndRef(false);
+          setTextStopped(false);
+          setTextSkipped(false);
+          console.log('Dialog advance acknowledged, moving to index', indicesRef.current.dialog);
         }
-        setDialogIndex(indicesRef.current.dialog);
+        if (textSkippedRef.current && !textStoppedRef.current) {
+          if (indicesRef.current.dialog < debugStops.firstStop - 1){
+          indicesRef.current.dialog = (debugStops.firstStop - 1) % DebugTextDialog.length;
+          console.log('Dialog skip acknowledged, jumping to stop at index1', indicesRef.current.dialog);
+          setDialogIndex(indicesRef.current.dialog);
+          setTextSkipped(false);
+          }
+          else if (indicesRef.current.dialog < debugStops.secondStop - 1 && indicesRef.current.dialog >= debugStops.firstStop - 1){
+            indicesRef.current.dialog = (debugStops.secondStop - 1) % DebugTextDialog.length;
+            console.log('Dialog skip acknowledged, jumping to stop at index2', indicesRef.current.dialog);
+            setDialogIndex(indicesRef.current.dialog);
+            setTextSkipped(false);
+          }
+          else if (indicesRef.current.dialog < debugStops.thirdStop - 1 && indicesRef.current.dialog >= debugStops.secondStop - 1){
+            indicesRef.current.dialog = (debugStops.thirdStop - 1) % DebugTextDialog.length;
+            console.log('Dialog skip acknowledged, jumping to stop at index3', indicesRef.current.dialog);
+            setDialogIndex(indicesRef.current.dialog);
+            setTextSkipped(false);
+          }
+          else if (indicesRef.current.dialog < debugStops.fourthStop - 1 && indicesRef.current.dialog >= debugStops.thirdStop - 1){
+            indicesRef.current.dialog = (debugStops.fourthStop - 1) % DebugTextDialog.length;
+            console.log('Dialog skip acknowledged, jumping to stop at index4', indicesRef.current.dialog);
+            setDialogIndex(indicesRef.current.dialog);
+            setTextSkipped(false);
+          }
+        }
+        else if (!textStoppedRef.current && elapsedDialog >= ANIM_TIMINGS.dialog) {
+        lastAnimTsRef.current.dialog = ts;
+        if (dialogKey === 0) {
+          const next = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
+          if (next === debugStops.firstStop - 1 || next === debugStops.secondStop - 1 || next === debugStops.thirdStop - 1 || next === debugStops.fourthStop - 1) {
+            indicesRef.current.dialog = next;
+            setDialogIndex(indicesRef.current.dialog);
+            setTextStopped(true);
+            setTextSkipped(false);
+            console.log('Dialog reached stop at index', next, 'waiting for user to skip');
+            console.log('textStoppedRef:', textStoppedRef.current);
+          } else {
+            indicesRef.current.dialog = next;
+            setDialogIndex(indicesRef.current.dialog);
+          }
+        } 
       }
     }
     // Aqua Tail (use its own timer so spin/idle won't block it)
@@ -3336,7 +3600,7 @@ React.useEffect(() => {
     if (animRafRef.current) cancelAnimationFrame(animRafRef.current);
     animRafRef.current = null;
   };
-}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail, showDialog, textSkipped]); // flags that change animation sets
+}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail, dialogIndex, dialogSpeed]); // flags that change animation sets
 
 React.useEffect(()=> {
   if (!showDialog) {
@@ -3344,7 +3608,10 @@ React.useEffect(()=> {
     lastAnimTsRef.current.dialog = 0;
     indicesRef.current.dialog = 0;
     setTextSkipped(false);
+    setTextStopped(false);
+    setTextAdvanceAndRef(false);
     setDialogIndex(0);
+    console.log('Dialog closed, resetting dialog animation state');
   }
 }, [showDialog, textSkipped]);
 React.useEffect(() => {
@@ -3463,12 +3730,17 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
   cameraTargetRef.current = { x: playerStart.x, y: playerStart.y };
   // Immediately apply the transform to the DOM node (if available) so we don't
   // briefly display the previous floor's camera position.
-  const offsetX = (15 - playerStart.x + 1) * 40 + 20;
-  const offsetY = (15 - playerStart.y - 8.5) * 40 + 20;
+  const offsetX = (20 - playerStart.x) * 0.5 + 20;
+  const offsetY = (-20 - playerStart.y) * 0.5 - 20;
+  //5
+  //-12
   const immediateTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
   if (dungeonRef.current) dungeonRef.current.style.transform = immediateTransform;
-  // Start smoothing toward the target (will no-op if already near)
+  setCameraTransform(immediateTransform);
   updateCamera(playerStart.x, playerStart.y);
+  console.log('Generated new dungeon with playerStart at', playerStart);
+  console.log('New camera position set to', cameraPosRef.current, 'and target to', cameraTargetRef.current);
+  console.log('Applied immediate transform:', cameraTransform);
 };
 
 const getRandomFloorTile = () => {
@@ -3477,22 +3749,32 @@ const getRandomFloorTile = () => {
  
  const updateCamera = (x, y) => {
    cameraTargetRef.current = { x, y };
+   cameraPosRef.current = { x, y };
+   console.log('Floor change: playerStart =', { x, y });
+   console.log('Updating camera target and position to', cameraTargetRef.current);
+   startCameraLoop();
+ };
+
+ /*
    // Ensure cameraPosRef isn't NaN/uninitialized after floor change
    if (typeof cameraPosRef.current.x !== 'number' || typeof cameraPosRef.current.y !== 'number') {
      cameraPosRef.current = { x, y };
      // set immediate transform for the first frame
      const offsetX = (15 - x + 1) * 40 + 20;
      const offsetY = (15 - y - 8.5) * 40 + 20;
+     console.log('Floor change: playerStart =', playerStart);
      if (dungeonRef.current) dungeonRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
      return;
    }
    startCameraLoop();
  };
- React.useEffect(() => {
-   return () => {
-     stopCameraLoop();
-   };
- }, []);
+ */
+
+React.useEffect(() => {
+  return () => {
+    stopCameraLoop();
+  };
+}, []);
 
 const getLineCoordinates = (direction) => {
 const lineCoords = [];
@@ -3518,7 +3800,13 @@ return lineCoords;
 };
 
 const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
-
+const safeDungeon = Array.isArray(dungeon) && dungeon.length ? dungeon : [[]];
+const rows = safeDungeon.length;
+const cols = (safeDungeon[0] && safeDungeon[0].length) || 0;
+const minRow = Math.max(0, Math.floor((playerPos && playerPos.y) ? playerPos.y : 0) - VIEW_RADIUS);
+const maxRow = Math.min(Math.max(0, rows - 1), Math.floor((playerPos && playerPos.y) ? playerPos.y : 0) + VIEW_RADIUS);
+const minCol = Math.max(0, Math.floor((playerPos && playerPos.x) ? playerPos.x : 0) - VIEW_RADIUS);
+const maxCol = Math.min(Math.max(0, cols - 1), Math.floor((playerPos && playerPos.x) ? playerPos.x : 0) + VIEW_RADIUS);
 return (
   <div>
     <div ref={fpsRef} className="fpsCounter" aria-live="polite">FPS: --</div>
@@ -3607,11 +3895,14 @@ return (
           width: '7680px',
           height: '7680px',
         }}>
-          {dungeon.map((row, rowIndex) => (
-            <div key={rowIndex} className="dungeon-row flex">
-              {row.map((cell, colIndex) => {
-                let wallSprite;
-                const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
+          {safeDungeon.slice(minRow, maxRow + 1).map((row, rIdx) => {
+            const rowIndex = rIdx + minRow;
+            return (
+              <div key={rowIndex} className="dungeon-row flex">
+                {row.slice(minCol, maxCol + 1).map((cell, cIdx) => {
+                  const colIndex = cIdx + minCol;
+                  let wallSprite;
+                  const currencyHere = currencyTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
                 const itemHere = itemTiles.find(tile => tile.x === colIndex && tile.y === rowIndex);
                 // Determine sprite based on position
                 if (cell === 'W') {
@@ -3860,7 +4151,8 @@ return (
                 )
               })}
             </div>
-          ))}
+          );
+          })}
 
           {/* Render projectiles inside the dungeon so they follow camera transform */}
           
@@ -3883,7 +4175,7 @@ return (
               }}
             />
           ))}
-        
+          
         </div>
         <div
               style={{
