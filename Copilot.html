@@ -1408,10 +1408,10 @@ const fpsRef = React.useRef(null);
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
-const minHeight = 60;
-const maxHeight = 70;
-const minWidth = 60;
-const maxWidth = 70;
+const minHeight = 66;
+const maxHeight = 76;
+const minWidth = 66;
+const maxWidth = 76;
 const height = randInt(minHeight, maxHeight + 1);
 const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
@@ -2175,10 +2175,10 @@ function useSelectedItem() {
     setMaxPlayerHunger(prev => Math.min(prev + 20, 200));
     addLogMessage('Ate a Golden Apple! Hunger restored and max hunger increased.');
   }
-  else if (inventory[itemOrder - 1].name === 'Grimey Food') {
+  else if (inventory[itemOrder - 1].name === 'Grimy Food') {
     setPlayerHunger(prev => Math.min(prev + 30, maxPlayerHunger));
-    addLogMessage('Ate Grimey Food! Hunger restored.');
-    //TODO: Implement Grimey Food effects
+    addLogMessage('Ate Grimy Food! Hunger restored.');
+    //TODO: Implement Grimy Food effects
   }
   else {
     console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
@@ -2241,7 +2241,7 @@ function startCameraLoop() {
 
     // compute pixel offsets like original logic but use current lerped pos
     const offsetX = (20 - nx) * 0.5 + 20;   //1
-    const offsetY = (-20 - ny) * 0.5 - 100;  //-8.5
+    const offsetY = (-20 - ny) * 0.5 - 225;  //-8.5
     const newTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
 
 
@@ -2628,8 +2628,8 @@ function generateProceduralDungeon(width, height, options = {}) {
 for (let i = 0; i < roomAttempts && rooms.length < randInt(minRooms, maxRooms + 1); i++) {
     const w = randInt(minRoomSize, maxRoomSize + 1);
     const h = randInt(minRoomSize, maxRoomSize + 1);
-    const x = randInt(2, width - w - 2);
-    const y = randInt(2, height - h - 2);
+    const x = randInt(6, width - w - 6);
+    const y = randInt(6, height - h - 6);
     const newRoom = makeRoom(x, y, w, h);
     newRoom.id = rooms.length;
 if (rooms.every(room => !roomsOverlap(newRoom, room))) {
@@ -3731,16 +3731,13 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
   // Immediately apply the transform to the DOM node (if available) so we don't
   // briefly display the previous floor's camera position.
   const offsetX = (20 - playerStart.x) * 0.5 + 20;
-  const offsetY = (-20 - playerStart.y) * 0.5 - 20;
+  const offsetY = (-20 - playerStart.y) * 0.5 - 225;
   //5
   //-12
   const immediateTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
   if (dungeonRef.current) dungeonRef.current.style.transform = immediateTransform;
   setCameraTransform(immediateTransform);
   updateCamera(playerStart.x, playerStart.y);
-  console.log('Generated new dungeon with playerStart at', playerStart);
-  console.log('New camera position set to', cameraPosRef.current, 'and target to', cameraTargetRef.current);
-  console.log('Applied immediate transform:', cameraTransform);
 };
 
 const getRandomFloorTile = () => {
@@ -3750,25 +3747,8 @@ const getRandomFloorTile = () => {
  const updateCamera = (x, y) => {
    cameraTargetRef.current = { x, y };
    cameraPosRef.current = { x, y };
-   console.log('Floor change: playerStart =', { x, y });
-   console.log('Updating camera target and position to', cameraTargetRef.current);
    startCameraLoop();
  };
-
- /*
-   // Ensure cameraPosRef isn't NaN/uninitialized after floor change
-   if (typeof cameraPosRef.current.x !== 'number' || typeof cameraPosRef.current.y !== 'number') {
-     cameraPosRef.current = { x, y };
-     // set immediate transform for the first frame
-     const offsetX = (15 - x + 1) * 40 + 20;
-     const offsetY = (15 - y - 8.5) * 40 + 20;
-     console.log('Floor change: playerStart =', playerStart);
-     if (dungeonRef.current) dungeonRef.current.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
-     return;
-   }
-   startCameraLoop();
- };
- */
 
 React.useEffect(() => {
   return () => {
