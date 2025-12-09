@@ -420,6 +420,18 @@ const ITEM_DEFS = {
     stackSize: 1,
     tier: 2
   },
+  "Pure Seed": {
+    name: "Pure Seed",
+    sprite: Reviverseed,
+    stackSize: 1,
+    tier: 3
+  },
+  "Joy Seed": {
+    name: "Joy Seed",
+    sprite: Reviverseed,
+    stackSize: 1,
+    tier: 2
+  },
   "Apple": {
     name: "Apple",
     sprite: Apple,
@@ -1408,10 +1420,10 @@ const fpsRef = React.useRef(null);
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
-const minHeight = 66;
-const maxHeight = 76;
-const minWidth = 66;
-const maxWidth = 76;
+const minHeight = 65;
+const maxHeight = 75;
+const minWidth = 65;
+const maxWidth = 75;
 const height = randInt(minHeight, maxHeight + 1);
 const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
@@ -1819,7 +1831,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   let floorPositions = [];
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S') {
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && !enemyHereTilesRef.current.find(tile => tile.x === x && tile.y === y) && !currencyTilesRef.current.find(tile => tile.x === x && tile.y === y) && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y) {
         floorPositions.push({ x, y });
       }
     }
@@ -1831,13 +1843,13 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
-    let tierchosen = randInt(1, 6);
+    let tierchosen = randInt(1, 100);
     let itemName;
-    if (tierchosen <= 3 && itemNamesTier1.length > 0) {
+    if (tierchosen <= 50 && itemNamesTier1.length > 0) {
       itemName = itemNamesTier1[randInt(0, itemNamesTier1.length)];
-    } else if (tierchosen <= 5 && itemNamesTier2.length > 0) {
+    } else if (tierchosen <= 80 && itemNamesTier2.length > 0) {
       itemName = itemNamesTier2[randInt(0, itemNamesTier2.length)];
-    } else if (tierchosen === 6 && itemNamesTier3.length > 0) {
+    } else if (tierchosen <= 100 && itemNamesTier3.length > 0) {
       itemName = itemNamesTier3[randInt(0, itemNamesTier3.length)];
     }
     iLocations.push({
@@ -2130,6 +2142,35 @@ function useSelectedItem() {
       addLogMessage('No valid locations to warp to!');
     }
   }
+  else if (inventory[itemOrder - 1].name === 'Joy Seed') {
+    setExp(maxExp);
+    setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
+    addLogMessage('Used Joy Seed! Level increased!');
+  }
+  else if (inventory[itemOrder - 1].name === 'Pure Seed') {
+    const floorPositions = [];
+    setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
+    for (let y = 0; y < dungeon.length; y++) {
+      for (let x = 0; x < dungeon[0].length; x++) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S') {
+          if (dungeon[y - 1][x] === 'S' || dungeon[y + 1][x] === 'S' || dungeon[y][x - 1] === 'S' || dungeon[y][x + 1] === 'S' ||
+              dungeon[y - 1][x - 1] === 'S' || dungeon[y - 1][x + 1] === 'S' || dungeon[y + 1][x - 1] === 'S' || dungeon[y + 1][x + 1] === 'S') {
+          floorPositions.push({ x, y });
+        }
+      }
+    }
+  }
+    if (floorPositions.length > 0) {
+      const randIndex = randInt(0, floorPositions.length);
+      const newPos = floorPositions[randIndex];
+      setPlayerPos({ x: newPos.x, y: newPos.y });
+      cameraTargetRef.current = { x: newPos.x, y: newPos.y };
+      startCameraLoop();
+      addLogMessage('Used Pure Seed! Teleported to the stairs!');
+    } else {
+      return;
+    }
+  }
   else if (inventory[itemOrder - 1].name === 'Protein') {
     setPlayerAttack(prev => prev + 2);
     addLogMessage('Used Protein! Attack increased!');
@@ -2171,8 +2212,8 @@ function useSelectedItem() {
     addLogMessage('Ate a Big Apple! Hunger restored.');
   }
   else if (inventory[itemOrder - 1].name === 'Golden Apple') {
-    setPlayerHunger(prev => Math.min(prev + 100, maxPlayerHunger));
     setMaxPlayerHunger(prev => Math.min(prev + 20, 200));
+    setPlayerHunger(prev => Math.min(prev + 100, maxPlayerHunger));
     addLogMessage('Ate a Golden Apple! Hunger restored and max hunger increased.');
   }
   else if (inventory[itemOrder - 1].name === 'Grimy Food') {
@@ -2248,7 +2289,6 @@ function startCameraLoop() {
     if (dungeonRef.current && dungeonRef.current.style.transform !== newTransform) {
       dungeonRef.current.style.transform = newTransform;
       setCameraTransform(newTransform);
-      console.log('Camera transform updated:', cameraTransform);
     }
 
     // stop when close enough
@@ -2402,8 +2442,8 @@ function spawnProjectile(opts) {
   const id = 'proj_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
   const startTs = performance.now();
   // add initial projectile
-  setProjectiles(prev => [...prev, { id, sprite, x: start.x, y: start.y }]);
-
+  //setProjectiles(prev => [...prev, { id, sprite, x: start.x, y: start.y }]);
+  setProjectiles(prev => [...prev, { id, sprite, x: playerPos.x + 0.25, y: playerPos.y + 0.25 }]);
   function step(now) {
     const elapsed = now - startTs;
     const t = Math.min(1, elapsed / duration);
@@ -2481,7 +2521,6 @@ function itemThrown(item) {
     }
 
     const endPos = { x: startPos.x + delta.x, y: startPos.y + delta.y + 0.25 }; // slight y offset for better arc
-    
 
     // avoid optional chaining (Babel inline): use safe access instead
     const spriteSrc = item.sprite || (ITEM_DEFS[item.name] && ITEM_DEFS[item.name].sprite) || Reviverseed;
@@ -2679,46 +2718,38 @@ const handleKeyDown = (e) => {
           setDialogIndex(debugStops.firstStop - 1);
           setTextSkipped(true);
           setTextStopped(true);
-          console.log('Skipped to first stop');
           }
           else if (dialogIndex === debugStops.firstStop - 1){
             setTextSkipped(false);
             setTextAdvanceAndRef(true);
-            console.log('Continued from first stop');
           }
           else if (dialogIndex > debugStops.firstStop - 1 && dialogIndex < debugStops.secondStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
             setDialogIndex(debugStops.secondStop - 1);
             setTextSkipped(true);
             setTextStopped(true);
-            console.log('Skipped to second stop');
           }
           else if (dialogIndex === debugStops.secondStop - 1){
             setTextSkipped(false);
             setTextAdvanceAndRef(true);
-            console.log('Continued from second stop');
           }
           else if (dialogIndex > debugStops.secondStop - 1 && dialogIndex < debugStops.thirdStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
             setDialogIndex(debugStops.thirdStop - 1);
             setTextSkipped(true);
             setTextStopped(true);
-            console.log('Skipped to third stop');
           }
           else if (dialogIndex === debugStops.thirdStop - 1){
             setTextSkipped(false);
             setTextAdvanceAndRef(true);
-            console.log('Continued from third stop');
           }
           else if (dialogIndex > debugStops.thirdStop - 1 && dialogIndex < debugStops.fourthStop - 1 && !textSkippedRef.current && !textStoppedRef.current){
             setDialogIndex(debugStops.fourthStop - 1);
             setTextSkipped(true);
             setTextStopped(true);
-            console.log('Skipped to fourth stop');
           }
           else if (dialogIndex === debugStops.fourthStop - 1){
             setShowDialog(false)
             setDialogIndex(0);
             setTextSkipped(false);
-            console.log('Continued from fourth stop and closed dialog');
         }
       }
     }
@@ -3074,6 +3105,8 @@ const moveCheck = (() => {
   if (keyState.shift) return { ok: false, reason: 'shift held' };
   if (isSpinning) return { ok: false, reason: 'isSpinning' };
   if (usingAquaTail) return { ok: false, reason: 'usingAquaTail' };
+  if (isSleeping) return { ok: false, reason: 'isSleeping' };
+  if (showDialog) return { ok: false, reason: 'showDialog' };
   if (!Array.isArray(dungeon) || dungeon.length === 0) return { ok: false, reason: 'dungeon not initialized' };
   if (!dungeon[newY]) return { ok: false, reason: 'dungeon row undefined', rowLen: dungeon.length };
   const tile = dungeon[newY][newX];
@@ -3129,8 +3162,6 @@ updateKeyState('Enter', false);
 }
 if (e.key === 'w') {
 updateKeyState('wHeld', false);
-console.log('w key released');
-console.log(ks);
 }
 if (e.key === 'a' && ks.current.aHeld) {
 updateKeyState('aHeld', false);
@@ -3488,30 +3519,25 @@ React.useEffect(() => {
           setTextAdvanceAndRef(false);
           setTextStopped(false);
           setTextSkipped(false);
-          console.log('Dialog advance acknowledged, moving to index', indicesRef.current.dialog);
         }
         if (textSkippedRef.current && !textStoppedRef.current) {
           if (indicesRef.current.dialog < debugStops.firstStop - 1){
           indicesRef.current.dialog = (debugStops.firstStop - 1) % DebugTextDialog.length;
-          console.log('Dialog skip acknowledged, jumping to stop at index1', indicesRef.current.dialog);
           setDialogIndex(indicesRef.current.dialog);
           setTextSkipped(false);
           }
           else if (indicesRef.current.dialog < debugStops.secondStop - 1 && indicesRef.current.dialog >= debugStops.firstStop - 1){
             indicesRef.current.dialog = (debugStops.secondStop - 1) % DebugTextDialog.length;
-            console.log('Dialog skip acknowledged, jumping to stop at index2', indicesRef.current.dialog);
             setDialogIndex(indicesRef.current.dialog);
             setTextSkipped(false);
           }
           else if (indicesRef.current.dialog < debugStops.thirdStop - 1 && indicesRef.current.dialog >= debugStops.secondStop - 1){
             indicesRef.current.dialog = (debugStops.thirdStop - 1) % DebugTextDialog.length;
-            console.log('Dialog skip acknowledged, jumping to stop at index3', indicesRef.current.dialog);
             setDialogIndex(indicesRef.current.dialog);
             setTextSkipped(false);
           }
           else if (indicesRef.current.dialog < debugStops.fourthStop - 1 && indicesRef.current.dialog >= debugStops.thirdStop - 1){
             indicesRef.current.dialog = (debugStops.fourthStop - 1) % DebugTextDialog.length;
-            console.log('Dialog skip acknowledged, jumping to stop at index4', indicesRef.current.dialog);
             setDialogIndex(indicesRef.current.dialog);
             setTextSkipped(false);
           }
@@ -3525,8 +3551,6 @@ React.useEffect(() => {
             setDialogIndex(indicesRef.current.dialog);
             setTextStopped(true);
             setTextSkipped(false);
-            console.log('Dialog reached stop at index', next, 'waiting for user to skip');
-            console.log('textStoppedRef:', textStoppedRef.current);
           } else {
             indicesRef.current.dialog = next;
             setDialogIndex(indicesRef.current.dialog);
@@ -3611,7 +3635,6 @@ React.useEffect(()=> {
     setTextStopped(false);
     setTextAdvanceAndRef(false);
     setDialogIndex(0);
-    console.log('Dialog closed, resetting dialog animation state');
   }
 }, [showDialog, textSkipped]);
 React.useEffect(() => {
@@ -3662,11 +3685,6 @@ const generateDungeon = () => {
       }
     }
   }
-const currencyLocs = generateCurrencyTiles(newDungeon, 20, 80, 5); // 5 coins, value 20-80
-  setCurrencyTiles(currencyLocs);
-const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // between 5 and 10 items spawn
-  setItemTiles(itemLocs);
-  beginItemTilesIndex(itemLocs);
   const spawnedAll = [];
   rooms.forEach(room => {
     // spawn up to enemyCount for this room and capture returned enemies (avoid relying on room.id)
@@ -3712,6 +3730,11 @@ const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // betwee
   
     });
   setStairs({ x: stairX, y: stairY });
+  const currencyLocs = generateCurrencyTiles(newDungeon, 20, 80, 5); // 5 coins, value 20-80
+  setCurrencyTiles(currencyLocs);
+  const itemLocs = generateItemTiles(newDungeon, 5, 10, randInt(5, 10)); // between 5 and 10 items spawn
+  setItemTiles(itemLocs);
+  beginItemTilesIndex(itemLocs);
   setPlayerPos(playerStart);
   setDungeon(newDungeon);
   // set rooms and reveal starting room
@@ -4137,24 +4160,25 @@ return (
           {/* Render projectiles inside the dungeon so they follow camera transform */}
           
           {projectiles.map(p => (
+            p.x >= minCol - 1 && p.x <= maxCol + 1 && p.y >= minRow - 1 && p.y <= maxRow + 1 && ( minCol === playerPos.x && maxCol === playerPos.x && minRow === playerPos.y && maxRow === playerPos.y ? null : (
             <img
               key={p.id}
               src={p.sprite}
               alt="thrown"
               style={{
                 position: 'absolute',
-                left: `${p.x * 40}px`,
-                top: `${p.y * 40}px`,
+                left: minCol > 0 ? `${(p.x - minCol) * 40}px` : `${p.x * 40}px`,
+                top: minRow > 0 ? `${(p.y - minRow) * 40}px` : `${p.y * 40}px`,
                 width: '20px',
                 height: '20px',
                 transformOrigin: 'center',
                 zIndex: 40,
                 pointerEvents: 'none',
                 objectFit: 'contain',
-                transform: p.sprite !== Reviverseed ? 'scale(1.5)' : 'none'
+                transform: p.sprite !== Reviverseed ? `scale(1.5)`: 'none'
               }}
             />
-          ))}
+          ))))}
           
         </div>
         <div
