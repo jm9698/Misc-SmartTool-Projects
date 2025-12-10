@@ -1495,6 +1495,25 @@ const [enemy5IdleAnimIndex, setEnemy5IdleAnimIndex] = React.useState(0);
 const [enemy6IdleAnimIndex, setEnemy6IdleAnimIndex] = React.useState(0);
 const [enemy7IdleAnimIndex, setEnemy7IdleAnimIndex] = React.useState(0);
 const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
+  // configure AI
+  const [enemy1MoveBehavior, setEnemy1MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy1AttackBehavior, setEnemy1AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy2MoveBehavior, setEnemy2MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy2AttackBehavior, setEnemy2AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy3MoveBehavior, setEnemy3MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy3AttackBehavior, setEnemy3AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy4MoveBehavior, setEnemy4MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy4AttackBehavior, setEnemy4AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy5MoveBehavior, setEnemy5MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy5AttackBehavior, setEnemy5AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy6MoveBehavior, setEnemy6MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy6AttackBehavior, setEnemy6AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy7MoveBehavior, setEnemy7MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy7AttackBehavior, setEnemy7AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy8MoveBehavior, setEnemy8MoveBehavior] = React.useState(true); // Whether enemies move
+  const [enemy8AttackBehavior, setEnemy8AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [validOptions, setValidOptions] = React.useState(null);
+  const [chosen, setChosen] = React.useState(0);
 
 // Menu states
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
@@ -1722,8 +1741,6 @@ function updateKeyState(key, value) {
 
 //const throttledUpdateKeyState = throttle(updateKeyState, 200); // 200ms throttle
 
-
-
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -1947,6 +1964,656 @@ function addItemToInventory(itemName) {
     return updatedInventory;
   });
 }
+
+//AI functions
+function patrol(enemyx, enemyy, key){
+
+const tileUp = dungeon[enemyy - 1][enemyx]
+const tileDown = dungeon[enemyy + 1][enemyx]
+const tileRight = dungeon[enemyy][enemyx + 1]
+const tileLeft = dungeon[enemyy][enemyx - 1]
+const tileUpRight = dungeon[enemyy - 1][enemyx + 1]
+const tileUpLeft = dungeon[enemyy - 1][enemyx - 1]
+const tileDownRight = dungeon[enemyy + 1][enemyx + 1]
+const tileDownLeft = dungeon[enemyy + 1][enemyx - 1]
+
+const newPosx = null
+const newPosy = null
+const validOptions = []
+const directions = {
+up: null,
+down: null,
+left: null,
+right: null,
+upLeft: null,
+upRight: null,
+downLeft: null,
+downRight: null
+}
+
+if (tileUp !== 'W'){
+const up = true
+validOptions.push('up')
+}
+if (tileDown !== 'W'){
+const down = true
+validOptions.push('down')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileLeft !== 'W'){
+const left = true
+validOptions.push('left')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileRight !== 'W'){
+const right = true
+validOptions.push('right')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileDownLeft !== 'W'){
+const downLeft = true
+validOptions.push('downLeft')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileDownRight !== 'W'){
+const downRight = true
+validOptions.push('downRight')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileUpLeft !== 'W'){
+const upLeft = true
+validOptions.push('upLeft')
+const chosen = randInt(0, validOptions.length)
+}
+if (tileUpRight !== 'W'){
+const upRight = true
+validOptions.push('upRight')
+const chosen = randInt(0, validOptions.length)
+}
+
+setChosen(randInt(1, validOptions.length))
+console.log(validOptions[chosen]);
+
+if ((validOptions[chosen] === 'up')){
+    const newPosx = enemyx
+    const newPosy = enemyy - 1
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'down'){
+    const newPosx = enemyx
+    const newPosy = enemyy + 1
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'left'){
+    const newPosx = enemyx - 1
+    const newPosy = enemyy
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'right'){
+    const newPosx = enemyx + 1
+    const newPosy = enemyy
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'downLeft'){
+    const newPosx = enemyx - 1
+    const newPosy = enemyy + 1
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'downRight'){
+    const newPosx = enemyx + 1
+    const newPosy = enemyy + 1
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'upLeft'){
+    const newPosx = enemyx - 1
+    const newPosy = enemyy - 1
+    if (key === 1){
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+if (validOptions[chosen] === 'upRight'){
+    const newPosx = enemyx + 1
+    const newPosy = enemyy - 1
+    if (key === 1){
+  setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 2){
+    setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 3){
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 4){
+    setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 5){
+    setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 6){
+    setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 7){
+    setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+    if (key === 8){
+    setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+return
+}
+
+function pursue(enemyx, enemyy, key){
+
+const tileUp = dungeon[enemyy - 1][enemyx]
+const tileDown = dungeon[enemyy + 1][enemyx]
+const tileRight = dungeon[enemyy][enemyx + 1]
+const tileLeft = dungeon[enemyy][enemyx - 1]
+const tileUpRight = dungeon[enemyy - 1][enemyx + 1]
+const tileUpLeft = dungeon[enemyy - 1][enemyx - 1]
+const tileDownRight = dungeon[enemyy + 1][enemyx + 1]
+const tileDownLeft = dungeon[enemyy + 1][enemyx - 1]
+
+
+const newPosx = enemyx
+const newPosy = enemyy
+
+if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W'){
+const newPosx = enemyx + 1
+const newPosy = enemyy + 1
+console.log('case 1')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W'){
+const newPosx = enemyx + 1
+const newPosy = enemyy - 1
+console.log('case 2')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W'){
+const newPosx = enemyx - 1
+const newPosy = enemyy + 1
+console.log('case 3')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W'){
+const newPosx = enemyx - 1
+const newPosy = enemyy - 1
+console.log('case 4')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyx < playerPos.x && tileRight !== 'W'){
+const newPosx = enemyx + 1
+const newPosy = enemyy 
+console.log('case 5')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy})
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyx > playerPos.x && tileLeft !== 'W'){
+const newPosx = enemyx - 1
+const newPosy = enemyy
+console.log('case 6')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyy < playerPos.y && tileDown !== 'W'){
+const newPosx = enemyx
+const newPosy = enemyy + 1
+console.log('case 7')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+else if (enemyy > playerPos.y && tileUp !== 'W'){
+const newPosx = enemyx
+const newPosy = enemyy - 1
+console.log('case 8')
+if (key === 1){
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 2){
+setEnemy2Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 3){
+setEnemy3Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 4){
+setEnemy4Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 5){
+setEnemy5Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 6){
+setEnemy6Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 7){
+setEnemy7Pos( {x: newPosx, y: newPosy} )
+}
+if (key === 8){
+setEnemy8Pos( {x: newPosx, y: newPosy} )
+}
+}
+return
+}
+function confirmEnemyBehavior() {
+  if (enemy1 && enemy1MoveBehavior){
+    console.log((Math.abs(enemy1Pos.x - playerPos.x) < 15 && Math.abs(enemy1Pos.y - playerPos.y) < 15))
+    if (Math.abs(enemy1Pos.x - playerPos.x) < 15 && Math.abs(enemy1Pos.y - playerPos.y) < 15){
+      pursue(enemy1Pos.x, enemy1Pos.y, 1)
+      console.log('pursue1')
+    }
+    else if (Math.abs(enemy1Pos.x - playerPos.x) >= 15 && Math.abs(enemy1Pos.y - playerPos.y) >= 15){
+      patrol(enemy1Pos.x, enemy1Pos.y, 1)
+      console.log('patrol1')
+    }
+  }
+  //setTimeout(() => { 
+    if (enemy2 && enemy2MoveBehavior){
+    if (Math.abs(enemy2Pos.x - playerPos.x) < 15 && Math.abs(enemy2Pos.y - playerPos.y) < 15){
+      pursue(enemy2Pos.x, enemy2Pos.y, 2)
+      console.log('pursue2')
+    }
+    else if (Math.abs(enemy2Pos.x - playerPos.x) >= 15 && Math.abs(enemy2Pos.y - playerPos.y) >= 15){
+      patrol(enemy2Pos.x, enemy2Pos.y, 2)  
+      console.log('patrol2')
+    }}
+   //}, (1000))
+
+  //setTimeout(() => { 
+    if (enemy3 && enemy3MoveBehavior){
+    if (Math.abs(enemy3Pos.x - playerPos.x) < 15 && Math.abs(enemy3Pos.y - playerPos.y) < 15){
+      pursue(enemy3Pos.x, enemy3Pos.y, 3)
+      console.log('pursue3')
+    }
+    else if (Math.abs(enemy3Pos.x - playerPos.x) >= 15 && Math.abs(enemy3Pos.y - playerPos.y) >= 15){
+      patrol(enemy3Pos.x, enemy3Pos.y, 3)  
+      console.log('patrol3')
+    }
+  }
+//}, (2000))
+
+  //setTimeout(() => {
+    if (enemy4 && enemy4MoveBehavior){
+    if (Math.abs(enemy4Pos.x - playerPos.x) < 15 && Math.abs(enemy4Pos.y - playerPos.y) < 15){
+      pursue(enemy4Pos.x, enemy4Pos.y, 4)
+      console.log('pursue4')
+    }
+    else if (Math.abs(enemy4Pos.x - playerPos.x) >= 15 && Math.abs(enemy4Pos.y - playerPos.y) >= 15){
+      patrol(enemy4Pos.x, enemy4Pos.y, 4)  
+      console.log('patrol4')
+    }
+  } 
+//}, (3000))
+
+  //setTimeout(() => {
+    if (enemy5 && enemy5MoveBehavior){
+    if (Math.abs(enemy5Pos.x - playerPos.x) < 15 && Math.abs(enemy5Pos.y - playerPos.y) < 15){
+      pursue(enemy5Pos.x, enemy5Pos.y, 5)
+      console.log('pursue5')
+    }
+    else if (Math.abs(enemy5Pos.x - playerPos.x) >= 15 && Math.abs(enemy5Pos.y - playerPos.y) >= 15){
+      patrol(enemy5Pos.x, enemy5Pos.y, 5)  
+      console.log('patrol5')
+    }
+  } 
+//}, (4000))
+
+  //setTimeout(() => {
+  if (enemy6 && enemy6MoveBehavior){
+    if (Math.abs(enemy6Pos.x - playerPos.x) < 15 && Math.abs(enemy6Pos.y - playerPos.y) < 15){
+      pursue(enemy6Pos.x, enemy6Pos.y, 6)
+      console.log('pursue6')
+    }
+    else if (Math.abs(enemy6Pos.x - playerPos.x) >= 15 && Math.abs(enemy6Pos.y - playerPos.y) >= 15){
+      patrol(enemy6Pos.x, enemy6Pos.y, 6) 
+      console.log('patrol6') 
+    }
+  } 
+//}, (5000))
+
+  //setTimeout(() => {
+    if (enemy7 && enemy7MoveBehavior){
+    if (Math.abs(enemy7Pos.x - playerPos.x) < 15 && Math.abs(enemy7Pos.y - playerPos.y) < 15){
+      pursue(enemy7Pos.x, enemy7Pos.y, 7)
+      console.log('pursue7')
+    }
+    else if (Math.abs(enemy7Pos.x - playerPos.x) >= 15 && Math.abs(enemy7Pos.y - playerPos.y) >= 15){
+      patrol(enemy7Pos.x, enemy7Pos.y, 7)  
+      console.log('patrol7')
+    }
+  } 
+//}, (6000))
+
+  //setTimeout(() => {
+   if (enemy8 && enemy8MoveBehavior){
+    if (Math.abs(enemy8Pos.x - playerPos.x) < 15 && Math.abs(enemy8Pos.y - playerPos.y) < 15){
+      pursue(enemy8Pos.x, enemy8Pos.y, 8)
+      console.log('pursue8')
+    }
+    else if (Math.abs(enemy8Pos.x - playerPos.x) >= 15 && Math.abs(enemy8Pos.y - playerPos.y) >= 15){
+      patrol(enemy8Pos.x, enemy8Pos.y, 8)  
+      console.log('patrol8')
+    }
+  } 
+//}, (7000))
+}
+
+
 function spawnEnemy(dungeonLocal, room, enemy) {
   // validate dungeonLocal
   if (!Array.isArray(dungeonLocal) || dungeonLocal.length === 0 || !Array.isArray(dungeonLocal[0])) {
@@ -2708,7 +3375,6 @@ React.useEffect(() => {
   setIdleSpriteIndex(0);
   setWalkSpriteIndex(0);
 }, [lastDirection, isWalking]);
-//*
 
 React.useEffect(() => {
 const handleKeyDown = (e) => {
@@ -2972,6 +3638,7 @@ updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
@@ -2987,6 +3654,7 @@ setLastDirection('down');
 else if (!ks.current.sHeld && !showToolbox){ 
 newY += 1; // Move down unless Shift is pressed
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
@@ -3003,6 +3671,7 @@ if (isAiming){
 if (!ks.current.cHeld){
 updateKeyState('cHeld', true);
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 newY +=1;
 newX +=1;
@@ -3021,6 +3690,7 @@ setLastDirection('left');
 else if (!ks.current.aHeld){ newX -= 1; // Move left unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 triggerWalkCooldown();
 updateKeyState('aHeld', true);
@@ -3038,6 +3708,7 @@ updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
@@ -3053,6 +3724,7 @@ setLastDirection('right');
 else if (!ks.current.dHeld){ newX += 1; // Move right unless Shift is pressed
 setIsWalking(true);
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 triggerWalkCooldown();
 updateKeyState('dHeld', true);
@@ -3070,6 +3742,7 @@ updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
 advanceTicks();
+confirmEnemyBehavior()
 depleteHungerAfterTicks(hungerTicks);
 setIsWalking(true);
 triggerWalkCooldown();
@@ -3095,6 +3768,7 @@ return;
 break;
 case 'l':
 //quick log
+confirmEnemyBehavior()
   break;
 }
 
