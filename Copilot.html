@@ -2276,7 +2276,8 @@ const tileDownLeft = dungeon[enemyy + 1][enemyx - 1]
 const newPosx = enemyx
 const newPosy = enemyy
 
-if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W'){
+if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy + 1)
+){
 const newPosx = enemyx + 1
 const newPosy = enemyy + 1
 console.log('case 1')
@@ -2305,7 +2306,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W'){
+else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy - 1)
+){
 const newPosx = enemyx + 1
 const newPosy = enemyy - 1
 console.log('case 2')
@@ -2334,7 +2336,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W'){
+else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy + 1)
+){
 const newPosx = enemyx - 1
 const newPosy = enemyy + 1
 console.log('case 3')
@@ -2363,7 +2366,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W'){
+else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy - 1)
+){
 const newPosx = enemyx - 1
 const newPosy = enemyy - 1
 console.log('case 4')
@@ -2392,7 +2396,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyx < playerPos.x && tileRight !== 'W'){
+else if (enemyx < playerPos.x && tileRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy)
+){
 const newPosx = enemyx + 1
 const newPosy = enemyy 
 console.log('case 5')
@@ -2421,7 +2426,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyx > playerPos.x && tileLeft !== 'W'){
+else if (enemyx > playerPos.x && tileLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy)
+){
 const newPosx = enemyx - 1
 const newPosy = enemyy
 console.log('case 6')
@@ -2450,7 +2456,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyy < playerPos.y && tileDown !== 'W'){
+else if (enemyy < playerPos.y && tileDown !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx && enemyy + 1)
+){
 const newPosx = enemyx
 const newPosy = enemyy + 1
 console.log('case 7')
@@ -2479,7 +2486,8 @@ if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 }
 }
-else if (enemyy > playerPos.y && tileUp !== 'W'){
+else if (enemyy > playerPos.y && tileUp !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx && enemyy - 1)
+){
 const newPosx = enemyx
 const newPosy = enemyy - 1
 console.log('case 8')
@@ -3610,6 +3618,7 @@ const handleKeyDown = (e) => {
     if (!showDialog){
       setIsPaused(prev => !prev);
     }
+    return
     break;
   //up
   case 'w':
@@ -3617,15 +3626,8 @@ const handleKeyDown = (e) => {
           setLastDirection('up');
         }
       else if (!ks.current.wHeld && !showToolbox){ newY -= 1; // Move up unless Shift is pressed
-        if (!isWalking){
-        setIsWalking(true);
-        }
-        triggerWalkCooldown();
-        advanceTicks();
-        depleteHungerAfterTicks(hungerTicks);
         updateKeyState('wHeld', true);
         setLastDirection('up');
-        handleUnderneath(newX, newY);
       }
       break;
 case 'q':
@@ -3637,13 +3639,7 @@ if (!ks.current.qHeld){
 updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-setIsWalking(true);
-triggerWalkCooldown();
 setLastDirection('up-left');
-handleUnderneath(newX, newY);
 }
 break;
 //down
@@ -3653,14 +3649,8 @@ setLastDirection('down');
 }
 else if (!ks.current.sHeld && !showToolbox){ 
 newY += 1; // Move down unless Shift is pressed
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-setIsWalking(true);
-triggerWalkCooldown();
 updateKeyState('sHeld', true);
 setLastDirection('down');
-handleUnderneath(newX, newY);
 }
 break;
 case 'c':
@@ -3670,15 +3660,9 @@ if (isAiming){
 }
 if (!ks.current.cHeld){
 updateKeyState('cHeld', true);
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
 newY +=1;
 newX +=1;
-setIsWalking(true);
-triggerWalkCooldown();
 setLastDirection('down-right');
-handleUnderneath(newX, newY);
 }
 break;
 //left
@@ -3688,14 +3672,8 @@ setLastDirection('left');
 }
 
 else if (!ks.current.aHeld){ newX -= 1; // Move left unless Shift is pressed
-setIsWalking(true);
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-triggerWalkCooldown();
 updateKeyState('aHeld', true);
 setLastDirection('left');
-handleUnderneath(newX, newY);
 }
 break;
 case 'z':
@@ -3707,13 +3685,7 @@ if (!ks.current.zHeld){
 updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-setIsWalking(true);
-triggerWalkCooldown();
 setLastDirection('down-left');
-handleUnderneath(newX, newY);
 }
 break;
 //right
@@ -3722,14 +3694,8 @@ if (isAiming){
 setLastDirection('right');
 }
 else if (!ks.current.dHeld){ newX += 1; // Move right unless Shift is pressed
-setIsWalking(true);
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-triggerWalkCooldown();
 updateKeyState('dHeld', true);
 setLastDirection('right');
-handleUnderneath(newX, newY);
 }
 break;
 case 'e':
@@ -3741,13 +3707,7 @@ if (!ks.current.eHeld){
 updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
-advanceTicks();
-confirmEnemyBehavior()
-depleteHungerAfterTicks(hungerTicks);
-setIsWalking(true);
-triggerWalkCooldown();
 setLastDirection('up-right');
-handleUnderneath(newX, newY);
 }
 break;
 case 'p': // debug for exp
@@ -3798,7 +3758,13 @@ const moveCheck = (() => {
 })();
 
 if (moveCheck.ok) {
+  handleUnderneath(newX, newY);
   setPlayerPos({ x: newX, y: newY });
+  confirmEnemyBehavior()
+  advanceTicks();
+  depleteHungerAfterTicks(hungerTicks);
+  setIsWalking(true);
+  triggerWalkCooldown();
   updateCamera(newX, newY);
 } else {
   console.log('Movement blocked:', moveCheck.reason,
