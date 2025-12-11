@@ -1940,8 +1940,36 @@ function useMove(moveIndex) {
 
   if (move.name === 'Aqua Tail') {
     setIsWalking(false);
+    const moveRange = 1
     setTimeout(() => setUsingAquaTail(true), 0);
     setTimeout(() => setUsingAquaTail(false), 1500); // Duration of Aqua Tail animation
+    setTimeout(() => { 
+    if (Math.abs(playerPosRef.current.x - enemy1PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy1PosRef.current.y) <= moveRange){
+    setEnemy1Pos( {x: 2, y: 2} )
+   }
+    if (Math.abs(playerPosRef.current.x - enemy2PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy2PosRef.current.y) <= moveRange){
+    setEnemy2Pos( {x: 2, y: 2} )
+   }
+    if (Math.abs(playerPosRef.current.x - enemy3PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy3PosRef.current.y) <= moveRange){
+    setEnemy3Pos( {x: 2, y: 2} )
+   }
+    if (Math.abs(playerPosRef.current.x - enemy4PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy4PosRef.current.y) <= moveRange){
+    setEnemy4Pos( {x: 2, y: 2} )
+   }
+   if (Math.abs(playerPosRef.current.x - enemy5PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy5PosRef.current.y) <= moveRange){
+    setEnemy5Pos( {x: 2, y: 2} )
+   }
+   if (Math.abs(playerPosRef.current.x - enemy6PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy6PosRef.current.y) <= moveRange){
+    setEnemy6Pos( {x: 2, y: 2} )
+   }
+   if (Math.abs(playerPosRef.current.x - enemy7PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy7PosRef.current.y) <= moveRange){
+    setEnemy7Pos( {x: 2, y: 2} )
+   }
+   if (Math.abs(playerPosRef.current.x - enemy8PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy8PosRef.current.y) <= moveRange){
+    setEnemy8Pos( {x: 2, y: 2} )
+   }
+    }, 1501)
+    //Debug prototype for a move-handling function ^^^
     addLogMessage('Vaporeon used Aqua Tail!');
   }
 }
@@ -3973,6 +4001,7 @@ break;
 case 'p': // debug for exp
 setShowDialog(true);
 console.log(showDialog);
+return
 break;
 case 'Shift': // Shift key to toggle aim mode
 if (inDiagonalMode){
@@ -3988,7 +4017,7 @@ return;
 break;
 case 'l':
 //quick log
-return
+//return
   break;
 }
 
