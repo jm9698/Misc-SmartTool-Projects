@@ -1486,6 +1486,15 @@ const [enemy5Pos, setEnemy5Pos] = React.useState({ x: 0, y: 0 });
 const [enemy6Pos, setEnemy6Pos] = React.useState({ x: 0, y: 0 });
 const [enemy7Pos, setEnemy7Pos] = React.useState({ x: 0, y: 0 });
 const [enemy8Pos, setEnemy8Pos] = React.useState({ x: 0, y: 0 });
+  // position refs
+const enemy1PosRef = React.useRef(enemy1Pos);
+const enemy2PosRef = React.useRef(enemy2Pos);
+const enemy3PosRef = React.useRef(enemy3Pos);
+const enemy4PosRef = React.useRef(enemy4Pos);
+const enemy5PosRef = React.useRef(enemy5Pos);
+const enemy6PosRef = React.useRef(enemy6Pos);
+const enemy7PosRef = React.useRef(enemy7Pos);
+const enemy8PosRef = React.useRef(enemy8Pos);
   // anims
 const [enemy1IdleAnimIndex, setEnemy1IdleAnimIndex] = React.useState(0);
 const [enemy2IdleAnimIndex, setEnemy2IdleAnimIndex] = React.useState(0);
@@ -1626,6 +1635,7 @@ const walkCooldownRef = React.useRef(null);
 
 //Location and map tracking
 const [playerPos, setPlayerPos] = React.useState({ x: 15, y: 15 });
+const playerPosRef = React.useRef(playerPos); // Special ref for enemy <-> player comparison
 const [roomsState, setRoomsState] = React.useState([]); // rooms returned from generator
 const [exploredTiles, setExploredTiles] = React.useState(() => new Set()); // "x,y" keys
 const minimapCanvasRef = React.useRef(null);
@@ -1662,6 +1672,16 @@ React.useEffect(() => { currencyTilesRef.current = currencyTiles; }, [currencyTi
 React.useEffect(() => { inventoryRef.current = inventory; }, [inventory]);
 React.useEffect(() => { textAdvanceRef.current = textAdvance; }, [textAdvance]);
 React.useEffect(() => { showDialogRef.current = showDialog; }, [showDialog]);
+React.useEffect(() => { enemy1PosRef.current = enemy1Pos ; }, [enemy1Pos]);
+React.useEffect(() => { enemy2PosRef.current = enemy2Pos ; }, [enemy2Pos]);
+React.useEffect(() => { enemy3PosRef.current = enemy3Pos ; }, [enemy3Pos]);
+React.useEffect(() => { enemy4PosRef.current = enemy4Pos ; }, [enemy4Pos]);
+React.useEffect(() => { enemy5PosRef.current = enemy5Pos ; }, [enemy5Pos]);
+React.useEffect(() => { enemy6PosRef.current = enemy6Pos ; }, [enemy6Pos]);
+React.useEffect(() => { enemy7PosRef.current = enemy7Pos ; }, [enemy7Pos]);
+React.useEffect(() => { enemy8PosRef.current = enemy8Pos ; }, [enemy8Pos]);
+React.useEffect(() => { playerPosRef.current = playerPos ; }, [playerPos]);
+
 
 // ...existing code...
 //Function declarations start here
@@ -1977,8 +1997,8 @@ const tileUpLeft = dungeon[enemyy - 1][enemyx - 1]
 const tileDownRight = dungeon[enemyy + 1][enemyx + 1]
 const tileDownLeft = dungeon[enemyy + 1][enemyx - 1]
 
-const newPosx = null
-const newPosy = null
+const newPosx = enemyx
+const newPosy = enemyy
 const validOptions = []
 const directions = {
 up: null,
@@ -2260,6 +2280,116 @@ if (validOptions[chosen] === 'upRight'){
 }
 return
 }
+function verifyPlayerPosition(playerx, playery){
+  if (playerx === playerPosRef.current.x && playery === playerPosRef.current.y){
+    console.log(playerx, 'is the same as', playerPosRef.current.x, 'and', playery, 'is the same as', playerPosRef.current.y)
+    return playerPos
+  }
+  else {
+      console.log(playerx, 'is not the same as', playerPosRef.current.x, 'or', playery, 'is not the same as', playerPosRef.current.y)
+      setPlayerPos( {x: playerx, y: playery} )
+      console.log('Correct after state change:', playerx === playerPosRef.current.x && playery === playerPosRef.current.y)
+      return playerPos
+  }
+}
+function verifyEnemyPosition(enemyx, enemyy, key){
+  if (key === 1){
+    if (enemyx === enemy1PosRef.current.x && enemyy === enemy1PosRef.current.y){
+    console.log('Case 1:', enemyx, 'is the same as', enemy1PosRef.current.x, 'and', enemyy, 'is the same as', enemy1PosRef.current.y)
+    return enemy1Pos
+    }
+    else {
+      console.log('Case 1:', enemyx, 'is not the same as', enemy1PosRef.current.x, 'or', enemyy, 'is not the same as', enemy1PosRef.current.y)
+      setEnemy1Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy1PosRef.current.x && enemyy === enemy1PosRef.current.y)
+      return enemy1Pos
+    }
+  }
+  if (key === 2){
+    if (enemyx === enemy2PosRef.current.x && enemyy === enemy2PosRef.current.y){
+    console.log('Case 2:', enemyx, 'is the same as', enemy2PosRef.current.x, 'and', enemyy, 'is the same as', enemy2PosRef.current.y)
+    return enemy2Pos
+    }
+    else {
+      console.log('Case 2:', enemyx, 'is not the same as', enemy2PosRef.current.x, 'or', enemyy, 'is not the same as', enemy2PosRef.current.y)
+      setEnemy2Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy2PosRef.current.x && enemyy === enemy2PosRef.current.y)
+      return enemy2Pos
+    }
+  }
+  if (key === 3){
+    if (enemyx === enemy3PosRef.current.x && enemyy === enemy3PosRef.current.y){
+    console.log('Case 3:', enemyx, 'is the same as', enemy3PosRef.current.x, 'and', enemyy, 'is the same as', enemy3PosRef.current.y)
+    return enemy3Pos
+    }
+    else {
+      console.log('Case 3:', enemyx, 'is not the same as', enemy3PosRef.current.x, 'or', enemyy, 'is not the same as', enemy3PosRef.current.y)
+      setEnemy3Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy3PosRef.current.x && enemyy === enemy3PosRef.current.y)
+      return enemy3Pos
+    }
+  }
+  if (key === 4){
+    if (enemyx === enemy4PosRef.current.x && enemyy === enemy4PosRef.current.y){
+    console.log('Case 4:', enemyx, 'is the same as', enemy4PosRef.current.x, 'and', enemyy, 'is the same as', enemy4PosRef.current.y)
+    return enemy4Pos
+    }
+    else {
+      console.log('Case 4:', enemyx, 'is not the same as', enemy4PosRef.current.x, 'or', enemyy, 'is not the same as', enemy4PosRef.current.y)
+      setEnemy4Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy4PosRef.current.x && enemyy === enemy4PosRef.current.y)
+      return enemy4Pos
+    }
+  }
+  if (key === 5){
+    if (enemyx === enemy5PosRef.current.x && enemyy === enemy5PosRef.current.y){
+    console.log('Case 5:', enemyx, 'is the same as', enemy5PosRef.current.x, 'and', enemyy, 'is the same as', enemy5PosRef.current.y)
+    return enemy5Pos
+    }
+    else {
+      console.log('Case 5:', enemyx, 'is not the same as', enemy5PosRef.current.x, 'or', enemyy, 'is not the same as', enemy5PosRef.current.y)
+      setEnemy5Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy5PosRef.current.x && enemyy === enemy5PosRef.current.y)
+      return enemy5Pos
+    }
+  }
+  if (key === 6){
+    if (enemyx === enemy6PosRef.current.x && enemyy === enemy6PosRef.current.y){
+    console.log('Case 6:', enemyx, 'is the same as', enemy6PosRef.current.x, 'and', enemyy, 'is the same as', enemy6PosRef.current.y)
+    return enemy6Pos
+    }
+    else {
+      console.log('Case 6:', enemyx, 'is not the same as', enemy6PosRef.current.x, 'or', enemyy, 'is not the same as', enemy6PosRef.current.y)
+      setEnemy6Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy6PosRef.current.x && enemyy === enemy6PosRef.current.y)
+      return enemy6Pos
+    }
+  }
+  if (key === 7){
+    if (enemyx === enemy7PosRef.current.x && enemyy === enemy7PosRef.current.y){
+    console.log('Case 7:', enemyx, 'is the same as', enemy7PosRef.current.x, 'and', enemyy, 'is the same as', enemy7PosRef.current.y)
+    return enemy7Pos
+    }
+    else {
+      console.log('Case 7:', enemyx, 'is not the same as', enemy7PosRef.current.x, 'or', enemyy, 'is not the same as', enemy7PosRef.current.y)
+      setEnemy7Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy7PosRef.current.x && enemyy === enemy7PosRef.current.y)
+      return enemy7Pos
+    }
+  }
+  if (key === 8){
+    if (enemyx === enemy8PosRef.current.x && enemyy === enemy8PosRef.current.y){
+    console.log('Case 8:', enemyx, 'is the same as', enemy8PosRef.current.x, 'and', enemyy, 'is the same as', enemy8PosRef.current.y)
+    return enemy8Pos
+    }
+    else {
+      console.log('Case 8:', enemyx, 'is not the same as', enemy8PosRef.current.x, 'or', enemyy, 'is not the same as', enemy8PosRef.current.y)
+      setEnemy8Pos( {x: enemyx, y: enemyy} )
+      console.log('Correct after state change:', enemyx === enemy8PosRef.current.x && enemyy === enemy8PosRef.current.y)
+      return enemy8Pos
+    }
+  }
+}
 
 function pursue(enemyx, enemyy, key){
 
@@ -2272,284 +2402,414 @@ const tileUpLeft = dungeon[enemyy - 1][enemyx - 1]
 const tileDownRight = dungeon[enemyy + 1][enemyx + 1]
 const tileDownLeft = dungeon[enemyy + 1][enemyx - 1]
 
+//player cases
+const playerUp = playerPosRef.current.y === enemyy - 1 && playerPosRef.current.x === enemyx
+const playerDown = playerPosRef.current.y === enemyy + 1 && playerPosRef.current.x === enemyx
+const playerLeft = playerPosRef.current.y === enemyy && playerPosRef.current.x === enemyx - 1
+const playerRight = playerPosRef.current.y === enemyy && playerPosRef.current.x === enemyx + 1
+const playerUpRight = playerPosRef.current.y === enemyy - 1 && playerPosRef.current.x === enemyx + 1
+const playerUpLeft = playerPosRef.current.y === enemyy - 1 && playerPosRef.current.x === enemyx - 1
+const playerDownRight = playerPosRef.current.y === enemyy + 1 && playerPosRef.current.x === enemyx + 1
+const playerDownLeft = playerPosRef.current.y === enemyy + 1 && playerPosRef.current.x === enemyx - 1
+//enemy1 cases
+const enemy1Up = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx : false
+const enemy1Down = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx : false
+const enemy1Left = enemy1 ? enemy1PosRef.current.y === enemyy && enemy1PosRef.current.x === enemyx - 1 : false
+const enemy1Right = enemy1 ? enemy1PosRef.current.y === enemyy && enemy1PosRef.current.x === enemyx + 1 : false
+const enemy1UpRight = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx + 1 : false
+const enemy1UpLeft = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx - 1 : false
+const enemy1DownRight = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx + 1 : false
+const enemy1DownLeft = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx - 1 : false
+//enemy2 cases
+const enemy2Up = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx : false
+const enemy2Down = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx : false
+const enemy2Left = enemy2 ? enemy2PosRef.current.y === enemyy && enemy2PosRef.current.x === enemyx - 1 : false
+const enemy2Right = enemy2 ? enemy2PosRef.current.y === enemyy && enemy2PosRef.current.x === enemyx + 1 : false
+const enemy2UpRight = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx + 1 : false
+const enemy2UpLeft = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx - 1 : false
+const enemy2DownRight = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx + 1 : false
+const enemy2DownLeft = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx - 1 : false
+//enemy3 cases
+const enemy3Up = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx : false
+const enemy3Down = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx : false
+const enemy3Left = enemy3 ? enemy3PosRef.current.y === enemyy && enemy3PosRef.current.x === enemyx - 1 : false
+const enemy3Right = enemy3 ? enemy3PosRef.current.y === enemyy && enemy3PosRef.current.x === enemyx + 1 : false
+const enemy3UpRight = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx + 1 : false
+const enemy3UpLeft = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx - 1 : false
+const enemy3DownRight = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx + 1 : false
+const enemy3DownLeft = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx - 1 : false
+//enemy4 cases
+const enemy4Up = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx : false
+const enemy4Down = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx : false
+const enemy4Left = enemy4 ? enemy4PosRef.current.y === enemyy && enemy4PosRef.current.x === enemyx - 1 : false
+const enemy4Right = enemy4 ? enemy4PosRef.current.y === enemyy && enemy4PosRef.current.x === enemyx + 1 : false
+const enemy4UpRight = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx + 1 : false
+const enemy4UpLeft = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx - 1 : false
+const enemy4DownRight = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx + 1 : false
+const enemy4DownLeft = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx - 1 : false
+//enemy5 cases
+const enemy5Up = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx : false
+const enemy5Down = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx : false
+const enemy5Left = enemy5 ? enemy5PosRef.current.y === enemyy && enemy5PosRef.current.x === enemyx - 1 : false
+const enemy5Right = enemy5 ? enemy5PosRef.current.y === enemyy && enemy5PosRef.current.x === enemyx + 1 : false
+const enemy5UpRight = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx + 1 : false
+const enemy5UpLeft = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx - 1 : false
+const enemy5DownRight = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx + 1 : false
+const enemy5DownLeft = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx - 1 : false
+//enemy6 cases
+const enemy6Up = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx : false
+const enemy6Down = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx : false
+const enemy6Left = enemy6 ? enemy6PosRef.current.y === enemyy && enemy6PosRef.current.x === enemyx - 1 : false
+const enemy6Right = enemy6 ? enemy6PosRef.current.y === enemyy && enemy6PosRef.current.x === enemyx + 1 : false
+const enemy6UpRight = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx + 1 : false
+const enemy6UpLeft = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx - 1 : false
+const enemy6DownRight = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx + 1 : false
+const enemy6DownLeft = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx - 1 : false
+//enemy7 cases
+const enemy7Up = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx : false
+const enemy7Down = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx : false
+const enemy7Left = enemy7 ? enemy7PosRef.current.y === enemyy && enemy7PosRef.current.x === enemyx - 1 : false
+const enemy7Right = enemy7 ? enemy7PosRef.current.y === enemyy && enemy7PosRef.current.x === enemyx + 1 : false
+const enemy7UpRight = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx + 1 : false
+const enemy7UpLeft = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx - 1 : false
+const enemy7DownRight = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx + 1 : false
+const enemy7DownLeft = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx - 1 : false
+//enemy8 cases
+const enemy8Up = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx : false
+const enemy8Down = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx : false
+const enemy8Left = enemy8 ? enemy8PosRef.current.y === enemyy && enemy8PosRef.current.x === enemyx - 1 : false
+const enemy8Right = enemy8 ? enemy8PosRef.current.y === enemyy && enemy8PosRef.current.x === enemyx + 1 : false
+const enemy8UpRight = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx + 1 : false
+const enemy8UpLeft = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx - 1 : false
+const enemy8DownRight = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx + 1 : false
+const enemy8DownLeft = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx - 1 : false
 
-const newPosx = enemyx
-const newPosy = enemyy
 
-if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy + 1)
-){
+let newPosx = enemyx
+let newPosy = enemyy
+
+if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W' && !playerDownRight && !enemy1DownRight && !enemy2DownRight && !enemy3DownRight && !enemy4DownRight && !enemy5DownRight && !enemy6DownRight && !enemy7DownRight && !enemy8DownRight){
 const newPosx = enemyx + 1
 const newPosy = enemyy + 1
-console.log('case 1')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy - 1)
-){
+else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W' && !playerUpRight && !enemy1UpRight && !enemy2UpRight && !enemy3UpRight && !enemy4UpRight && !enemy5UpRight && !enemy6UpRight && !enemy7UpRight && !enemy8UpRight){
 const newPosx = enemyx + 1
 const newPosy = enemyy - 1
-console.log('case 2')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy + 1)
-){
+else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W' && !playerDownLeft && !enemy1DownLeft && !enemy2DownLeft && !enemy3DownLeft && !enemy4DownLeft && !enemy5DownLeft && !enemy6DownLeft && !enemy7DownLeft && !enemy8DownLeft){
 const newPosx = enemyx - 1
+console.log(newPosx)
 const newPosy = enemyy + 1
-console.log('case 3')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy - 1)
-){
+else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W' && !playerUpLeft && !enemy1UpLeft && !enemy2UpLeft && !enemy3UpLeft && !enemy4UpLeft && !enemy5UpLeft && !enemy6UpLeft && !enemy7UpLeft && !enemy8UpLeft){
 const newPosx = enemyx - 1
 const newPosy = enemyy - 1
-console.log('case 4')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyx < playerPos.x && tileRight !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx + 1 && enemyy) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx + 1 && enemyy) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx + 1 && enemyy) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx + 1 && enemyy) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx + 1 && enemyy) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx + 1 && enemyy) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx + 1 && enemyy) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx + 1 && enemyy) && (playerPos.x && playerPos.y) !== (enemyx + 1 && enemyy)
-){
+else if (enemyx < playerPos.x && tileRight !== 'W' && !playerRight && !enemy1Right && !enemy2Right && !enemy3Right && !enemy4Right && !enemy5Right && !enemy6Right && !enemy7Right && !enemy8Right){
 const newPosx = enemyx + 1
 const newPosy = enemyy 
-console.log('case 5')
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy})
+setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyx > playerPos.x && tileLeft !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx - 1 && enemyy) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx - 1 && enemyy) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx - 1 && enemyy) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx - 1 && enemyy) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx - 1 && enemyy) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx - 1 && enemyy) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx - 1 && enemyy) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx - 1 && enemyy) && (playerPos.x && playerPos.y) !== (enemyx - 1 && enemyy)
-){
+else if (enemyx > playerPos.x && tileLeft !== 'W' && !playerLeft && !enemy1Left && !enemy2Left && !enemy3Left && !enemy4Left && !enemy5Left && !enemy6Left && !enemy7Left && !enemy8Left ){
 const newPosx = enemyx - 1
 const newPosy = enemyy
-console.log('case 6')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyy < playerPos.y && tileDown !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx && enemyy + 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx && enemyy + 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx && enemyy + 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx && enemyy + 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx && enemyy + 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx && enemyy + 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx && enemyy + 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx && enemyy + 1) && (playerPos.x && playerPos.y) !== (enemyx && enemyy + 1)
-){
+else if (enemyy < playerPos.y && tileDown !== 'W' && !playerDown && !enemy1Down && !enemy2Down && !enemy3Down && !enemy4Down && !enemy5Down && !enemy6Down && !enemy7Down && !enemy8Down){
 const newPosx = enemyx
 const newPosy = enemyy + 1
-console.log('case 7')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
-else if (enemyy > playerPos.y && tileUp !== 'W' //&& (enemy1Pos.x && enemy1Pos.y) !== (enemyx && enemyy - 1) && (enemy2Pos.x && enemy2Pos.y) !== (enemyx && enemyy - 1) && (enemy3Pos.x && enemy3Pos.y) !== (enemyx && enemyy - 1) && (enemy4Pos.x && enemy4Pos.y) !== (enemyx && enemyy - 1) && (enemy5Pos.x && enemy5Pos.y) !== (enemyx && enemyy - 1) && (enemy6Pos.x && enemy6Pos.y) !== (enemyx && enemyy - 1) && (enemy7Pos.x && enemy7Pos.y) !== (enemyx && enemyy - 1) && (enemy8Pos.x && enemy8Pos.y) !== (enemyx && enemyy - 1) && (playerPos.x && playerPos.y) !== (enemyx && enemyy - 1)
-){
+else if (enemyy > playerPos.y && tileUp !== 'W' && !playerUp && !enemy1Up && !enemy2Up && !enemy3Up && !enemy4Up && !enemy5Up && !enemy6Up && !enemy7Up && !enemy8Up){
 const newPosx = enemyx
 const newPosy = enemyy - 1
-console.log('case 8')
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
+verifyEnemyPosition(newPosx, newPosy, key)
 }
 }
 return
 }
 function confirmEnemyBehavior() {
   if (enemy1 && enemy1MoveBehavior){
-    console.log((Math.abs(enemy1Pos.x - playerPos.x) < 15 && Math.abs(enemy1Pos.y - playerPos.y) < 15))
-    if (Math.abs(enemy1Pos.x - playerPos.x) < 15 && Math.abs(enemy1Pos.y - playerPos.y) < 15){
-      pursue(enemy1Pos.x, enemy1Pos.y, 1)
+    if (Math.abs(enemy1PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
       console.log('pursue1')
     }
-    else if (Math.abs(enemy1Pos.x - playerPos.x) >= 15 && Math.abs(enemy1Pos.y - playerPos.y) >= 15){
-      patrol(enemy1Pos.x, enemy1Pos.y, 1)
+    else if (Math.abs(enemy1PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
       console.log('patrol1')
     }
   }
   //setTimeout(() => { 
     if (enemy2 && enemy2MoveBehavior){
-    if (Math.abs(enemy2Pos.x - playerPos.x) < 15 && Math.abs(enemy2Pos.y - playerPos.y) < 15){
-      pursue(enemy2Pos.x, enemy2Pos.y, 2)
+    if (Math.abs(enemy2PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)
       console.log('pursue2')
     }
-    else if (Math.abs(enemy2Pos.x - playerPos.x) >= 15 && Math.abs(enemy2Pos.y - playerPos.y) >= 15){
-      patrol(enemy2Pos.x, enemy2Pos.y, 2)  
+    else if (Math.abs(enemy2PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)  
       console.log('patrol2')
     }}
    //}, (1000))
 
   //setTimeout(() => { 
     if (enemy3 && enemy3MoveBehavior){
-    if (Math.abs(enemy3Pos.x - playerPos.x) < 15 && Math.abs(enemy3Pos.y - playerPos.y) < 15){
-      pursue(enemy3Pos.x, enemy3Pos.y, 3)
+    if (Math.abs(enemy3PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)
       console.log('pursue3')
     }
-    else if (Math.abs(enemy3Pos.x - playerPos.x) >= 15 && Math.abs(enemy3Pos.y - playerPos.y) >= 15){
-      patrol(enemy3Pos.x, enemy3Pos.y, 3)  
+    else if (Math.abs(enemy3PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)  
       console.log('patrol3')
     }
   }
@@ -2557,12 +2817,12 @@ function confirmEnemyBehavior() {
 
   //setTimeout(() => {
     if (enemy4 && enemy4MoveBehavior){
-    if (Math.abs(enemy4Pos.x - playerPos.x) < 15 && Math.abs(enemy4Pos.y - playerPos.y) < 15){
-      pursue(enemy4Pos.x, enemy4Pos.y, 4)
+    if (Math.abs(enemy4PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)
       console.log('pursue4')
     }
-    else if (Math.abs(enemy4Pos.x - playerPos.x) >= 15 && Math.abs(enemy4Pos.y - playerPos.y) >= 15){
-      patrol(enemy4Pos.x, enemy4Pos.y, 4)  
+    else if (Math.abs(enemy4PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)  
       console.log('patrol4')
     }
   } 
@@ -2570,12 +2830,12 @@ function confirmEnemyBehavior() {
 
   //setTimeout(() => {
     if (enemy5 && enemy5MoveBehavior){
-    if (Math.abs(enemy5Pos.x - playerPos.x) < 15 && Math.abs(enemy5Pos.y - playerPos.y) < 15){
-      pursue(enemy5Pos.x, enemy5Pos.y, 5)
+    if (Math.abs(enemy5PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)
       console.log('pursue5')
     }
-    else if (Math.abs(enemy5Pos.x - playerPos.x) >= 15 && Math.abs(enemy5Pos.y - playerPos.y) >= 15){
-      patrol(enemy5Pos.x, enemy5Pos.y, 5)  
+    else if (Math.abs(enemy5PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)  
       console.log('patrol5')
     }
   } 
@@ -2583,12 +2843,12 @@ function confirmEnemyBehavior() {
 
   //setTimeout(() => {
   if (enemy6 && enemy6MoveBehavior){
-    if (Math.abs(enemy6Pos.x - playerPos.x) < 15 && Math.abs(enemy6Pos.y - playerPos.y) < 15){
-      pursue(enemy6Pos.x, enemy6Pos.y, 6)
+    if (Math.abs(enemy6PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy6PosRef.current.x, enemy6PosRef.current.y, 6)
       console.log('pursue6')
     }
-    else if (Math.abs(enemy6Pos.x - playerPos.x) >= 15 && Math.abs(enemy6Pos.y - playerPos.y) >= 15){
-      patrol(enemy6Pos.x, enemy6Pos.y, 6) 
+    else if (Math.abs(enemy6PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) 
       console.log('patrol6') 
     }
   } 
@@ -2596,12 +2856,12 @@ function confirmEnemyBehavior() {
 
   //setTimeout(() => {
     if (enemy7 && enemy7MoveBehavior){
-    if (Math.abs(enemy7Pos.x - playerPos.x) < 15 && Math.abs(enemy7Pos.y - playerPos.y) < 15){
-      pursue(enemy7Pos.x, enemy7Pos.y, 7)
+    if (Math.abs(enemy7PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)
       console.log('pursue7')
     }
-    else if (Math.abs(enemy7Pos.x - playerPos.x) >= 15 && Math.abs(enemy7Pos.y - playerPos.y) >= 15){
-      patrol(enemy7Pos.x, enemy7Pos.y, 7)  
+    else if (Math.abs(enemy7PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)  
       console.log('patrol7')
     }
   } 
@@ -2609,12 +2869,12 @@ function confirmEnemyBehavior() {
 
   //setTimeout(() => {
    if (enemy8 && enemy8MoveBehavior){
-    if (Math.abs(enemy8Pos.x - playerPos.x) < 15 && Math.abs(enemy8Pos.y - playerPos.y) < 15){
-      pursue(enemy8Pos.x, enemy8Pos.y, 8)
+    if (Math.abs(enemy8PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) < 15){
+      pursue(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)
       console.log('pursue8')
     }
-    else if (Math.abs(enemy8Pos.x - playerPos.x) >= 15 && Math.abs(enemy8Pos.y - playerPos.y) >= 15){
-      patrol(enemy8Pos.x, enemy8Pos.y, 8)  
+    else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15){
+      patrol(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)  
       console.log('patrol8')
     }
   } 
@@ -3728,7 +3988,7 @@ return;
 break;
 case 'l':
 //quick log
-confirmEnemyBehavior()
+return
   break;
 }
 
@@ -3760,6 +4020,7 @@ const moveCheck = (() => {
 if (moveCheck.ok) {
   handleUnderneath(newX, newY);
   setPlayerPos({ x: newX, y: newY });
+  verifyPlayerPosition(newX, newY);
   confirmEnemyBehavior()
   advanceTicks();
   depleteHungerAfterTicks(hungerTicks);
