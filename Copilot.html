@@ -500,6 +500,7 @@ const ITEM_DEFS = {
   }
 };
 const ENEMY_DEFS = {
+  //Note: Lunatone is a levitating Pokemon and does not reasonably need walk sprites
   'Lunatone': {
     name: 'Lunatone',
     type: 'Rock/Psychic',
@@ -1521,6 +1522,14 @@ const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
   const [enemy7AttackBehavior, setEnemy7AttackBehavior] = React.useState(false); // Whether enemies attack
   const [enemy8MoveBehavior, setEnemy8MoveBehavior] = React.useState(true); // Whether enemies move
   const [enemy8AttackBehavior, setEnemy8AttackBehavior] = React.useState(false); // Whether enemies attack
+  const [enemy1LastDirection, setEnemy1LastDirection] = React.useState('down');
+  const [enemy2LastDirection, setEnemy2LastDirection] = React.useState('down');
+  const [enemy3LastDirection, setEnemy3LastDirection] = React.useState('down');
+  const [enemy4LastDirection, setEnemy4LastDirection] = React.useState('down');
+  const [enemy5LastDirection, setEnemy5LastDirection] = React.useState('down');
+  const [enemy6LastDirection, setEnemy6LastDirection] = React.useState('down');
+  const [enemy7LastDirection, setEnemy7LastDirection] = React.useState('down');
+  const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
   const [validOptions, setValidOptions] = React.useState(null);
   const [chosen, setChosen] = React.useState(0);
 
@@ -2087,27 +2096,35 @@ if ((validOptions[chosen] === 'up')){
     const newPosy = enemyy - 1
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('up')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('up')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('up')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('up')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('up')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('up')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('up')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('up')
 }
 }
 if (validOptions[chosen] === 'down'){
@@ -2115,27 +2132,35 @@ if (validOptions[chosen] === 'down'){
     const newPosy = enemyy + 1
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('down')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('down')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('down')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('down')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('down')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('down')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('down')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('down')
 }
 }
 if (validOptions[chosen] === 'left'){
@@ -2143,27 +2168,35 @@ if (validOptions[chosen] === 'left'){
     const newPosy = enemyy
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('left')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('left')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('left')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('left')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('left')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('left')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('left')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('left')
 }
 }
 if (validOptions[chosen] === 'right'){
@@ -2171,27 +2204,35 @@ if (validOptions[chosen] === 'right'){
     const newPosy = enemyy
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('right')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('right')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('right')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('right')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('right')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('right')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('right')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('right')
 }
 }
 if (validOptions[chosen] === 'downLeft'){
@@ -2199,27 +2240,35 @@ if (validOptions[chosen] === 'downLeft'){
     const newPosy = enemyy + 1
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('downLeft')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('downLeft')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('downLeft')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('downLeft')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('downLeft')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('downLeft')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('downLeft')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('downLeft')
 }
 }
 if (validOptions[chosen] === 'downRight'){
@@ -2227,27 +2276,35 @@ if (validOptions[chosen] === 'downRight'){
     const newPosy = enemyy + 1
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('downRight')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('downRight')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('downRight')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('downRight')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('downRight')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('downRight')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('downRight')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('downRight')
 }
 }
 if (validOptions[chosen] === 'upLeft'){
@@ -2255,55 +2312,71 @@ if (validOptions[chosen] === 'upLeft'){
     const newPosy = enemyy - 1
     if (key === 1){
     setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('upLeft')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('upLeft')
 }
     if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('upLeft')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('upLeft')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('upLeft')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('upLeft')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('upLeft')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('upLeft')
 }
 }
 if (validOptions[chosen] === 'upRight'){
     const newPosx = enemyx + 1
     const newPosy = enemyy - 1
     if (key === 1){
-  setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1Pos( {x: newPosx, y: newPosy} )
+    setEnemy1LastDirection('upRight')
 }
     if (key === 2){
     setEnemy2Pos( {x: newPosx, y: newPosy} )
+    setEnemy2LastDirection('upRight')
 }
     if (key === 3){
     setEnemy3Pos( {x: newPosx, y: newPosy} )
+    setEnemy3LastDirection('upRight')
 }
     if (key === 4){
     setEnemy4Pos( {x: newPosx, y: newPosy} )
+    setEnemy4LastDirection('upRight')
 }
     if (key === 5){
     setEnemy5Pos( {x: newPosx, y: newPosy} )
+    setEnemy5LastDirection('upRight')
 }
     if (key === 6){
     setEnemy6Pos( {x: newPosx, y: newPosy} )
+    setEnemy6LastDirection('upRight')
 }
     if (key === 7){
     setEnemy7Pos( {x: newPosx, y: newPosy} )
+    setEnemy7LastDirection('upRight')
 }
     if (key === 8){
     setEnemy8Pos( {x: newPosx, y: newPosy} )
+    setEnemy8LastDirection('upRight')
 }
 }
 return
@@ -2522,34 +2595,42 @@ const newPosy = enemyy + 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('downRight')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('downRight')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('downRight')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('downRight')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('downRight')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('downRight')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('downRight')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('downRight')
 }
 }
 else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W' && !playerUpRight && !enemy1UpRight && !enemy2UpRight && !enemy3UpRight && !enemy4UpRight && !enemy5UpRight && !enemy6UpRight && !enemy7UpRight && !enemy8UpRight){
@@ -2558,71 +2639,86 @@ const newPosy = enemyy - 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('upRight')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('upRight')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('upRight')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('upRight')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('upRight')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('upRight')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('upRight')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('upRight')
 }
 }
 else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W' && !playerDownLeft && !enemy1DownLeft && !enemy2DownLeft && !enemy3DownLeft && !enemy4DownLeft && !enemy5DownLeft && !enemy6DownLeft && !enemy7DownLeft && !enemy8DownLeft){
 const newPosx = enemyx - 1
-console.log(newPosx)
 const newPosy = enemyy + 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('downLeft')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('downLeft')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('downLeft')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('downLeft')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('downLeft')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('downLeft')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('downLeft')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('downLeft')
 }
 }
 else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W' && !playerUpLeft && !enemy1UpLeft && !enemy2UpLeft && !enemy3UpLeft && !enemy4UpLeft && !enemy5UpLeft && !enemy6UpLeft && !enemy7UpLeft && !enemy8UpLeft){
@@ -2631,34 +2727,42 @@ const newPosy = enemyy - 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('upLeft')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('upLeft')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('upLeft')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('upLeft')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('upLeft')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('upLeft')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('upLeft')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('upLeft')
 }
 }
 else if (enemyx < playerPos.x && tileRight !== 'W' && !playerRight && !enemy1Right && !enemy2Right && !enemy3Right && !enemy4Right && !enemy5Right && !enemy6Right && !enemy7Right && !enemy8Right){
@@ -2667,34 +2771,42 @@ const newPosy = enemyy
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('right')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('right')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('right')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('right')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('right')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('right')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('right')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('right')
 }
 }
 else if (enemyx > playerPos.x && tileLeft !== 'W' && !playerLeft && !enemy1Left && !enemy2Left && !enemy3Left && !enemy4Left && !enemy5Left && !enemy6Left && !enemy7Left && !enemy8Left ){
@@ -2703,34 +2815,42 @@ const newPosy = enemyy
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('left')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('left')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('left')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('left')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('left')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('left')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('left')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('left')
 }
 }
 else if (enemyy < playerPos.y && tileDown !== 'W' && !playerDown && !enemy1Down && !enemy2Down && !enemy3Down && !enemy4Down && !enemy5Down && !enemy6Down && !enemy7Down && !enemy8Down){
@@ -2739,34 +2859,42 @@ const newPosy = enemyy + 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('down')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('down')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('down')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('down')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('down')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('down')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('down')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('down')
 }
 }
 else if (enemyy > playerPos.y && tileUp !== 'W' && !playerUp && !enemy1Up && !enemy2Up && !enemy3Up && !enemy4Up && !enemy5Up && !enemy6Up && !enemy7Up && !enemy8Up){
@@ -2775,34 +2903,42 @@ const newPosy = enemyy - 1
 if (key === 1){
 setEnemy1Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy1LastDirection('up')
 }
 if (key === 2){
 setEnemy2Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy2LastDirection('up')
 }
 if (key === 3){
 setEnemy3Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy3LastDirection('up')
 }
 if (key === 4){
 setEnemy4Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy4LastDirection('up')
 }
 if (key === 5){
 setEnemy5Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy5LastDirection('up')
 }
 if (key === 6){
 setEnemy6Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy6LastDirection('up')
 }
 if (key === 7){
 setEnemy7Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy7LastDirection('up')
 }
 if (key === 8){
 setEnemy8Pos( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
+setEnemy8LastDirection('up')
 }
 }
 return
@@ -4926,7 +5062,79 @@ return (
                     )}
                     {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
                       <img
-                        src={enemy1IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
+                        src={enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : 
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame1 :
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame2 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame3 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame4 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame5 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame6 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame7 : 
+                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame8 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame1 :
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame2 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame3 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame4 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame5 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame6 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame7 : 
+                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame8 :
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame1 :
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame2 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame3 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame4 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame5 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame6 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame7 : 
+                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame8 :
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame1 :
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame2 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame3 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame4 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame5 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame6 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame7 : 
+                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame8 :
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame1 :
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame2 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame3 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame4 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame5 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame6 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame7 : 
+                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame8 :
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame1 :
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame2 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame3 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame4 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame5 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame6 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame7 : 
+                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame8 :
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame1 :
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame2 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame3 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame4 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame5 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame6 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame7 : 
+                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -4939,7 +5147,79 @@ return (
 
                     {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
                       <img
-                        src={enemy2IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame4 : enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame5 : enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame6 : enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame7 : enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType2].sprites.downIdle.frame1}
+                        src={enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame4 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame5 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame6 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame7 : 
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame8 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame1 :
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame2 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame3 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame4 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame5 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame6 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame7 : 
+                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame8 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame1 :
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame2 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame3 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame4 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame5 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame6 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame7 : 
+                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame8 :
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame1 :
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame2 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame3 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame4 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame5 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame6 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame7 : 
+                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame8 :
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame1 :
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame2 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame3 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame4 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame5 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame6 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame7 : 
+                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame8 :
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame1 :
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame2 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame3 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame4 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame5 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame6 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame7 : 
+                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame8 :
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame1 :
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame2 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame3 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame4 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame5 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame6 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame7 : 
+                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame8 :
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame1 :
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame2 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame3 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame4 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame5 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame6 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame7 : 
+                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType2].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -4952,7 +5232,79 @@ return (
 
                     {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
                       <img
-                        src={enemy3IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame4 : enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame5 : enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame6 : enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame7 : enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType3].sprites.downIdle.frame1}
+                        src={enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame4 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame5 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame6 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame7 : 
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame8 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame1 :
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame2 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame3 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame4 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame5 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame6 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame7 : 
+                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame8 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame1 :
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame2 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame3 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame4 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame5 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame6 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame7 : 
+                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame8 :
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame1 :
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame2 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame3 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame4 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame5 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame6 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame7 : 
+                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame8 :
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame1 :
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame2 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame3 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame4 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame5 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame6 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame7 : 
+                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame8 :
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame1 :
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame2 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame3 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame4 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame5 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame6 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame7 : 
+                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame8 :
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame1 :
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame2 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame3 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame4 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame5 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame6 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame7 : 
+                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame8 :
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame1 :
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame2 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame3 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame4 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame5 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame6 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame7 : 
+                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType3].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -4965,7 +5317,79 @@ return (
 
                     {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
                       <img
-                        src={enemy4IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame4 : enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame5 : enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame6 : enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame7 : enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType4].sprites.downIdle.frame1}
+                        src={enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame4 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame5 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame6 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame7 : 
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame8 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame1 :
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame2 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame3 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame4 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame5 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame6 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame7 : 
+                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame8 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame1 :
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame2 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame3 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame4 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame5 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame6 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame7 : 
+                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame8 :
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame1 :
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame2 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame3 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame4 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame5 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame6 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame7 : 
+                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame8 :
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame1 :
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame2 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame3 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame4 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame5 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame6 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame7 : 
+                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame8 :
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame1 :
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame2 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame3 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame4 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame5 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame6 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame7 : 
+                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame8 :
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame1 :
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame2 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame3 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame4 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame5 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame6 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame7 : 
+                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame8 :
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame1 :
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame2 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame3 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame4 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame5 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame6 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame7 : 
+                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType4].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -4978,7 +5402,79 @@ return (
 
                     {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
                       <img
-                        src={enemy5IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame4 : enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame5 : enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame6 : enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame7 : enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType5].sprites.downIdle.frame1}
+                        src={enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame4 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame5 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame6 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame7 : 
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame8 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame1 :
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame2 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame3 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame4 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame5 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame6 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame7 : 
+                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame8 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame1 :
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame2 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame3 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame4 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame5 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame6 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame7 : 
+                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame8 :
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame1 :
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame2 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame3 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame4 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame5 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame6 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame7 : 
+                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame8 :
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame1 :
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame2 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame3 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame4 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame5 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame6 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame7 : 
+                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame8 :
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame1 :
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame2 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame3 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame4 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame5 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame6 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame7 : 
+                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame8 :
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame1 :
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame2 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame3 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame4 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame5 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame6 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame7 : 
+                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame8 :
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame1 :
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame2 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame3 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame4 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame5 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame6 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame7 : 
+                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType5].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -4991,7 +5487,79 @@ return (
 
                     {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
                       <img
-                        src={enemy6IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame4 : enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame5 : enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame6 : enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame7 : enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType6].sprites.downIdle.frame1}
+                        src={enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame4 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame5 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame6 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame7 : 
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame8 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame1 :
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame2 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame3 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame4 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame5 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame6 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame7 : 
+                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame8 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame1 :
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame2 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame3 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame4 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame5 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame6 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame7 : 
+                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame8 :
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame1 :
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame2 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame3 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame4 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame5 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame6 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame7 : 
+                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame8 :
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame1 :
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame2 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame3 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame4 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame5 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame6 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame7 : 
+                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame8 :
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame1 :
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame2 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame3 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame4 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame5 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame6 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame7 : 
+                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame8 :
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame1 :
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame2 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame3 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame4 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame5 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame6 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame7 : 
+                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame8 :
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame1 :
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame2 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame3 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame4 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame5 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame6 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame7 : 
+                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType6].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -5004,7 +5572,79 @@ return (
 
                     {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
                       <img
-                        src={enemy7IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame4 : enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame5 : enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame6 : enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame7 : enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType7].sprites.downIdle.frame1}
+                        src={enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame4 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame5 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame6 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame7 : 
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame8 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame1 :
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame2 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame3 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame4 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame5 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame6 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame7 : 
+                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame8 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame1 :
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame2 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame3 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame4 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame5 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame6 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame7 : 
+                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame8 :
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame1 :
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame2 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame3 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame4 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame5 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame6 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame7 : 
+                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame8 :
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame1 :
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame2 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame3 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame4 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame5 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame6 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame7 : 
+                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame8 :
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame1 :
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame2 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame3 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame4 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame5 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame6 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame7 : 
+                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame8 :
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame1 :
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame2 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame3 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame4 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame5 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame6 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame7 : 
+                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame8 :
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame1 :
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame2 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame3 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame4 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame5 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame6 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame7 : 
+                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType7].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
@@ -5017,7 +5657,79 @@ return (
 
                     {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
                       <img
-                        src={enemy8IdleAnimIndex === 0 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame4 : enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame5 : enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame6 : enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame7 : enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame8 : ENEMY_DEFS[enemyType8].sprites.downIdle.frame1}
+                        src={enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame4 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame5 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame6 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame7 : 
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame8 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame1 :
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame2 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame3 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame4 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame5 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame6 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame7 : 
+                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame8 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame1 :
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame2 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame3 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame4 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame5 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame6 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame7 : 
+                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame8 :
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame1 :
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame2 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame3 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame4 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame5 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame6 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame7 : 
+                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame8 :
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame1 :
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame2 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame3 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame4 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame5 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame6 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame7 : 
+                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame8 :
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame1 :
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame2 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame3 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame4 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame5 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame6 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame7 : 
+                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame8 :
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame1 :
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame2 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame3 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame4 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame5 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame6 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame7 : 
+                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame8 :
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 0
+                        ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame1 :
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame2 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame3 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame4 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame5 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame6 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame7 : 
+                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame8 :
+                        ENEMY_DEFS[enemyType8].sprites.downIdle.frame1}
                         alt="Enemy"
                         className="enemy-sprite absolute"
                         style={{
