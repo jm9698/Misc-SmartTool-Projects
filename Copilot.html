@@ -110,6 +110,9 @@ const Calcium = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Project
 const Iron = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png';
 const Zinc = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png';
 const Carbos = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png';
+const Scarf = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Equips/Scarf.png';
+const Orb = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Orbs/Wonder_Orb.png';
+const GeoPebble = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Throwables/Arc/Geo_Pebble.png';
 
 // Scene Dialog
   //Debug Text Dialog (Key = 0)
@@ -497,6 +500,24 @@ const ITEM_DEFS = {
     sprite: Carbos,
     stackSize: 1,
     tier: 2
+  },
+  "Zinc Band": {
+    name: "Zinc Band",
+    sprite: Scarf,
+    stackSize: 1,
+    tier: 4
+  },
+  "Special Band": {
+    name: "Special Band",
+    sprite: Scarf,
+    stackSize: 1,
+    tier: 4
+  },
+  "Luminous Orb": {
+    name: "Luminous Orb",
+    sprite: Orb,
+    stackSize: 1,
+    tier: 4
   }
 };
 const ENEMY_DEFS = {
@@ -1558,6 +1579,12 @@ const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for nav
 const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
 const inventoryRef = React.useRef(inventory);
+const [itemEquipped, setItemEquipped] = React.useState(null);
+const [selectedAction, setSelectedAction] = React.useState('');
+const [selectedItemSprite, setSelectedItemSprite] = React.useState(null);
+const selectedItemSpriteRef = React.useRef(selectedItemSprite);
+const [willConsumeItemInventory, setWillConsumeItemInventory] = React.useState(false);
+const willConsumeItemInventoryRef = React.useRef(willConsumeItemInventory);
 const [inventoryFull, setInventoryFull] = React.useState(false);
 const getInventoryIndex = (inventory, ITEM_DEFS) => {
   return inventory.map((item, position) => ({
@@ -1574,6 +1601,7 @@ const willConsumeItemRef = React.useRef(willConsumeItem);
 
 // Move selection
 const [showItemActionMenu, setShowItemActionMenu] = React.useState(false);
+const showItemActionMenuRef = React.useRef(showItemActionMenu);
 const [showMoveSelector, setShowMoveSelector] = React.useState(false);
 const [usingEther, setUsingEther] = React.useState(false); // Track if using Ether
 const [selectedMove, setSelectedMove] = React.useState(0);
@@ -1586,7 +1614,8 @@ const moves = [
 
 // Item action selection
 const [itemActionIndex, setItemActionIndex] = React.useState(0);
-const itemActions = ["Use", "Throw", "Discard"];
+const itemActionsNormal = ["Use", "Throw", "Discard"];
+const itemActionsEquip = ["Equip", "Throw", "Discard"];
 
 // Checkboxes for options (proto)
 const [checkBox1, setCheckBox1] = React.useState(false);
@@ -1697,9 +1726,20 @@ React.useEffect(() => { enemy8PosRef.current = enemy8Pos ; }, [enemy8Pos]);
 React.useEffect(() => { playerPosRef.current = playerPos ; }, [playerPos]);
 React.useEffect(() => { willConsumeItemRef.current = willConsumeItem ; }, [willConsumeItem]);
 React.useEffect(() => { targetedRef.current = targeted ; }, [targeted]);
+React.useEffect(() => { selectedItemSpriteRef.current = selectedItemSprite ; }, [selectedItemSprite]);
+React.useEffect(() => { willConsumeItemInventoryRef.current = willConsumeItemInventory ; }, [willConsumeItemInventory]);
+
+//React effect to constantly compute selectedItemSprite
+
+React.useEffect(() =>
+{
+  if (itemSelected !== null && inventory[itemOrder - 1] !== null) {
+  setSelectedItemSprite(ITEM_DEFS[inventory[itemOrder - 1].name].sprite);
+  }
+}, [itemOrder, inventory, showToolbox]);
 
 
-// ...existing code...
+
 //Function declarations start here
 function getWallTileType(x, y, dungeon) {
     // Get neighbors (W = wall)
@@ -1892,6 +1932,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   const itemNamesTier1 = Object.keys(ITEM_DEFS).filter(name => ITEM_DEFS[name].tier === 1);
   const itemNamesTier2 = Object.keys(ITEM_DEFS).filter(name => ITEM_DEFS[name].tier === 2);
   const itemNamesTier3 = Object.keys(ITEM_DEFS).filter(name => ITEM_DEFS[name].tier === 3);
+  const itemNamesTier4 = Object.keys(ITEM_DEFS).filter(name => ITEM_DEFS[name].tier === 4);
 
   for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
     let idx = randInt(0, floorPositions.length);
@@ -1900,10 +1941,13 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
     let itemName;
     if (tierchosen <= 50 && itemNamesTier1.length > 0) {
       itemName = itemNamesTier1[randInt(0, itemNamesTier1.length)];
-    } else if (tierchosen <= 80 && itemNamesTier2.length > 0) {
+    } else if (tierchosen <= 75 && itemNamesTier2.length > 0) {
       itemName = itemNamesTier2[randInt(0, itemNamesTier2.length)];
-    } else if (tierchosen <= 100 && itemNamesTier3.length > 0) {
+    } else if (tierchosen <= 90 && itemNamesTier3.length > 0) {
       itemName = itemNamesTier3[randInt(0, itemNamesTier3.length)];
+    }
+      else if (tierchosen <= 100 && itemNamesTier4.length > 0) {
+      itemName = itemNamesTier4[randInt(0, itemNamesTier4.length)];
     }
     iLocations.push({
       ...loc,
@@ -2387,16 +2431,22 @@ if (validOptions[chosen] === 'upRight'){
 }
 return
 }
+function verifyItemUsed(item){
+  if (item === inventory[itemOrder - 1].name){
+    console.log(item, 'is the same as', inventory[itemOrder - 1].name)
+  }
+  else {
+    console.log(item, 'is not the same as', inventory[itemOrder - 1].name)
+  }
+}
 function verifyPlayerPosition(playerx, playery){
   if (playerx === playerPosRef.current.x && playery === playerPosRef.current.y){
     //console.log(playerx, 'is the same as', playerPosRef.current.x, 'and', playery, 'is the same as', playerPosRef.current.y)
-    return playerPos
   }
   else {
       //console.log(playerx, 'is not the same as', playerPosRef.current.x, 'or', playery, 'is not the same as', playerPosRef.current.y)
-      setPlayerPos( {x: playerx, y: playery} )
+      setPlayerPos( {x: playerx, y: playery} );
       //console.log('Correct after state change:', playerx === playerPosRef.current.x && playery === playerPosRef.current.y)
-      return playerPos
   }
 }
 function verifyEnemyPosition(enemyx, enemyy, key){
@@ -3198,6 +3248,7 @@ React.useEffect(() => {
 function useSelectedItem(target, item) {
   if (item === 'Life Seed') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setMaxPlayerHP(prev => prev + 5);
     setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
     addLogMessage('Used Life Seed! Max HP increased!');
@@ -3205,6 +3256,7 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Sleep Seed') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setIsSleeping(true);
     setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
     addLogMessage('Vaporeon fell asleep!');
@@ -3217,6 +3269,7 @@ function useSelectedItem(target, item) {
   else if (item === 'Warp Seed') {
     console.log(target);
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     const floorPositions = [];
     setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
     for (let y = 0; y < dungeon.length; y++) {
@@ -3384,6 +3437,7 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Joy Seed') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setExp(maxExp);
     setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
     addLogMessage('Used Joy Seed! Level increased!');
@@ -3391,6 +3445,7 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Pure Seed') {
     if (target === 'player') {
+    setWillConsumeItemInventory(true);
     const floorPositions = [];
     setPlayerHunger(prev => Math.min(prev + 3, maxPlayerHunger));
     for (let y = 0; y < dungeon.length; y++) {
@@ -3417,36 +3472,42 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Protein') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerAttack(prev => prev + 2);
     addLogMessage('Used Protein! Attack increased!');
     }
   }
   else if (item === 'Calcium') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerSpecialAttack(prev => prev + 2);
     addLogMessage('Used Calcium! Special Attack increased!');
     }
   }
   else if (item === 'Iron') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerDefense(prev => prev + 2);
     addLogMessage('Used Iron! Defense increased!');
     }
   }
   else if (item === 'Zinc') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerSpecialDefense(prev => prev + 2);
     addLogMessage('Used Zinc! Special Defense increased!');
     }
   }
   else if (item === 'Carbos') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerSpeed(prev => prev + 2);
     addLogMessage('Used Carbos! Speed increased!');
     }
   }
   else if (item === 'Max Ether') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setShowMoveSelector(true);
     setUsingEther(true);
     addLogMessage('Used Max Ether!');
@@ -3454,6 +3515,7 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Max Elixir') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     // Restore all moves' PP to max
     Object.keys(MOVE_DEFS).forEach(moveName => {
       MOVE_DEFS[moveName].ppcurr = MOVE_DEFS[moveName].ppmax;
@@ -3463,18 +3525,21 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Apple') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerHunger(prev => Math.min(prev + 50, maxPlayerHunger));
     addLogMessage('Ate an Apple! Hunger restored.');
     }
   }
   else if (item === 'Big Apple') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerHunger(prev => Math.min(prev + 80, maxPlayerHunger));
     addLogMessage('Ate a Big Apple! Hunger restored.');
     }
   }
   else if (item === 'Golden Apple') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setMaxPlayerHunger(prev => Math.min(prev + 20, 200));
     setPlayerHunger(prev => Math.min(prev + 100, maxPlayerHunger));
     addLogMessage('Ate a Golden Apple! Hunger restored and max hunger increased.');
@@ -3482,16 +3547,44 @@ function useSelectedItem(target, item) {
   }
   else if (item === 'Grimy Food') {
     if (target === 'player'){
+    setWillConsumeItemInventory(true);
     setPlayerHunger(prev => Math.min(prev + 30, maxPlayerHunger));
     addLogMessage('Ate Grimy Food! Hunger restored.');
     //TODO: Implement Grimy Food effects
+    }
+  }
+  //equips
+  else if (item === 'Special Band') {
+    if (target === 'player'){
+      setWillConsumeItemInventory(false);
+      if (itemEquipped !== 'Special Band') {
+      setItemEquipped('Special Band');
+      addLogMessage('Vaporeon equipped the Special Band!')
+      }
+      else if (itemEquipped === 'Special Band') {
+      setItemEquipped('');
+      addLogMessage('Vaporeon unequipped the Special Band!')
+      }
+    }
+  }
+  else if (item === 'Zinc Band') {
+    if (target === 'player'){
+      setWillConsumeItemInventory(false);
+      if (itemEquipped !== 'Zinc Band') {
+      setItemEquipped('Zinc Band');
+      addLogMessage('Vaporeon equipped the Zinc Band!')
+      }
+      else if (itemEquipped === 'Zinc Band') {
+      setItemEquipped('');
+      addLogMessage('Vaporeon unequipped the Zinc Band!')
+      }
     }
   }
   else {
     console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
     return;
   }
-  
+  if (willConsumeItemInventoryRef.current === true){
   setInventory(prev => {
     const idx = itemOrder - 1;
     if (idx < 0 || idx >= prev.length) return prev;
@@ -3508,6 +3601,7 @@ function useSelectedItem(target, item) {
     }
     return updated;
   });
+}
   setShowItemActionMenu(false);
 }
 function discardSelectedItem() {
@@ -3765,7 +3859,7 @@ function itemThrown(item) {
     const wallCheck4 = { x: wallCheck1.x * 4, y: wallCheck1.y * 4 };
     const wallCheck5 = { x: wallCheck1.x * 5, y: wallCheck1.y * 5 };
     const wallCheck6 = { x: wallCheck1.x * 6, y: wallCheck1.y * 6 };
-    verifyPlayerPosition(playerPos.x, playerPos.y)
+    verifyPlayerPosition(playerPosRef.current.x, playerPosRef.current.y)
     enemy1 ? verifyEnemyPosition(enemy1PosRef.current.x, enemy1PosRef.current.y, 1) : 0
     enemy2 ? verifyEnemyPosition(enemy2PosRef.current.x, enemy2PosRef.current.y, 2) : 0
     enemy3 ? verifyEnemyPosition(enemy3PosRef.current.x, enemy3PosRef.current.y, 3) : 0
@@ -4091,6 +4185,7 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
             addItemToInventory(itemHere.itemName || "Reviver Seed");
             setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
             setItemSelected(itemHere.id);
+            setSelectedItemSprite(itemHere.sprite);
             addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
           }
           else if (inventoryFull){
@@ -4228,17 +4323,29 @@ const handleKeyDown = (e) => {
             setDialogIndex(0);
             setTextSkipped(false);
         }
+        return;
       }
     }
+  if (showToolbox && !showItemActionMenu) {
+    if (e.key === 'w') {
+      itemSelectUp();
+      return;
+    }
+    if (e.key === 's') {
+      itemSelectDown();
+      return;
+    }
+    // Optionally handle other toolbox-specific keys here
+  }
   if (showToolbox && itemSelected !== null) {
     if (showItemActionMenu) {
       // Scroll through actions
       if (e.key === 'w') {
-        setItemActionIndex(prev => (prev - 1 + itemActions.length) % itemActions.length);
+        setItemActionIndex(prev => (prev - 1 + itemActionsNormal.length) % itemActionsNormal.length);
         return;
       }
       if (e.key === 's') {
-        setItemActionIndex(prev => (prev + 1) % itemActions.length);
+        setItemActionIndex(prev => (prev + 1) % itemActionsNormal.length);
         return;
       }
     }
@@ -4250,7 +4357,7 @@ const handleKeyDown = (e) => {
         }
       else if (showItemActionMenu){
         // Use the current value of itemActionIndex immediately
-        const selectedAction = itemActions[itemActionIndex];
+        const selectedAction = itemActionsNormal[itemActionIndex];
 
         if (selectedAction === 'Discard') {
           discardSelectedItem();
@@ -4287,6 +4394,7 @@ const handleKeyDown = (e) => {
             itemThrown(thrownItem);
           }
            } else if (selectedAction === 'Use') {
+          //verifyItemUsed(inventory[itemOrder - 1].name);
           useSelectedItem('player', inventory[itemOrder - 1].name);
           setShowItemActionMenu(false);
           setShowToolbox(false);
@@ -4311,10 +4419,11 @@ const handleKeyDown = (e) => {
   if (e.key === 'Shift') {
     updateKeyState('shift', true); // Set Shift pressed state to true
     setShowIndicators(prev => !prev); // show indicators
+    return;
   }
 
-  let newX = playerPos.x;
-  let newY = playerPos.y;
+  let newX = playerPosRef.current.x;
+  let newY = playerPosRef.current.y;
 
   // If toolbox is open, only handle item selection keys
   if (e.key === 'm' && !usingEther) {
@@ -4404,41 +4513,31 @@ const handleKeyDown = (e) => {
     // Optionally handle other move selector-specific keys here
     return;
   }
-  if (showToolbox) {
-    if (e.key === 'w') {
-      itemSelectUp();
-      return;
-    }
-    if (e.key === 's') {
-      itemSelectDown();
-      return;
-    }
-    // Optionally handle other toolbox-specific keys here
-    return;
-  }
-  switch (e.key) {
-    case 'Escape': // Escape key to toggle pause
-    if (!showDialog){
-      setIsPaused(prev => !prev);
-    }
-    return
-    break;
-  //up
-  case 'w':
-      if (isAiming){
-          setLastDirection('up');
-        }
-      else if (!ks.current.wHeld && !showToolbox){ newY -= 1; // Move up unless Shift is pressed
-        updateKeyState('wHeld', true);
-        setLastDirection('up');
-      }
-      break;
+  
+switch (e.key) {
+case 'Escape': // Escape key to toggle pause
+if (!showDialog){
+setIsPaused(prev => !prev);
+}
+return;
+break;
+//up
+case 'w':
+if (isAiming){
+setLastDirection('up');
+}
+else if (!showToolbox){ 
+newY -= 1; // Move up unless Shift is pressed
+updateKeyState('wHeld', true);
+setLastDirection('up');
+}
+break;
 case 'q':
 //up left
 if (isAiming){
   setLastDirection('up-left');
 }
-if (!ks.current.qHeld){
+if (!showToolbox){
 updateKeyState('qHeld', true);
 newY -=1;
 newX -=1;
@@ -4450,7 +4549,7 @@ case 's':
 if (isAiming){
 setLastDirection('down');
 }
-else if (!ks.current.sHeld && !showToolbox){ 
+else if (!showToolbox){ 
 newY += 1; // Move down unless Shift is pressed
 updateKeyState('sHeld', true);
 setLastDirection('down');
@@ -4461,7 +4560,7 @@ case 'c':
 if (isAiming){
   setLastDirection('down-right');
 }
-if (!ks.current.cHeld){
+if (!showToolbox){
 updateKeyState('cHeld', true);
 newY +=1;
 newX +=1;
@@ -4474,7 +4573,8 @@ if (isAiming){
 setLastDirection('left');
 }
 
-else if (!ks.current.aHeld){ newX -= 1; // Move left unless Shift is pressed
+else if (!showToolbox){ 
+newX -= 1; // Move left unless Shift is pressed
 updateKeyState('aHeld', true);
 setLastDirection('left');
 }
@@ -4484,7 +4584,7 @@ if (isAiming){
 setLastDirection('down-left');
 }
 //down left
-if (!ks.current.zHeld){
+if (!showToolbox){
 updateKeyState('zHeld', true);
 newY +=1;
 newX -=1;
@@ -4496,7 +4596,8 @@ case 'd':
 if (isAiming){
 setLastDirection('right');
 }
-else if (!ks.current.dHeld){ newX += 1; // Move right unless Shift is pressed
+else if (!showToolbox){ 
+newX += 1; // Move right unless Shift is pressed
 updateKeyState('dHeld', true);
 setLastDirection('right');
 }
@@ -4506,7 +4607,7 @@ if (isAiming){
   setLastDirection('up-right');
 }
 //up right
-if (!ks.current.eHeld){
+if (!showToolbox){
 updateKeyState('eHeld', true);
 newY -=1;
 newX +=1;
@@ -4531,7 +4632,7 @@ return;
 break;
 case 'l':
 //quick log
-//return
+return;
   break;
 }
 
@@ -4539,6 +4640,7 @@ case 'l':
 const moveCheck = (() => {
   if (isAiming) return { ok: false, reason: 'isAiming' };
   if (isPaused) return { ok: false, reason: 'isPaused' };
+  if (ks.current.sheld || ks.current.aheld || ks.current.dheld || ks.current.wheld || ks.current.qheld || ks.current.eheld || ks.current.zheld || ks.current.cheld) return {ok: false, reason: 'key held'}
   if (keyState.shift) return { ok: false, reason: 'shift held' };
   if (isSpinning) return { ok: false, reason: 'isSpinning' };
   if (usingAquaTail) return { ok: false, reason: 'usingAquaTail' };
@@ -4562,8 +4664,8 @@ const moveCheck = (() => {
 
 if (moveCheck.ok) {
   handleUnderneath(newX, newY);
-  setPlayerPos({ x: newX, y: newY });
   verifyPlayerPosition(newX, newY);
+  setPlayerPos({ x: newX, y: newY });
   confirmEnemyBehavior()
   advanceTicks();
   depleteHungerAfterTicks(hungerTicks);
@@ -5386,7 +5488,7 @@ return (
                         height: '50%',
                         left: '25%',
                         top: '25%',
-                        transform: ITEM_DEFS[itemHere.itemName].sprite !== Reviverseed ? 'scale(1.5)' : 'none'
+                        transform: ITEM_DEFS[itemHere.itemName].sprite !== Reviverseed && ITEM_DEFS[itemHere.itemName].sprite !== Scarf && ITEM_DEFS[itemHere.itemName].sprite !== Orb ? 'scale(1.5)' : 'none'
                       }} />
                     )}
                     {isBuffing && playerPos.x === colIndex && playerPos.y === rowIndex && (
@@ -6195,7 +6297,7 @@ return (
                 zIndex: 40,
                 pointerEvents: 'none',
                 objectFit: 'contain',
-                transform: p.sprite !== Reviverseed ? `scale(1.5)`: 'none'
+                transform: p.sprite !== Reviverseed && p.sprite !== Scarf && p.sprite !== Orb ? `scale(1.5)` : 'none'
               }}
             />
           ))))}
@@ -6744,7 +6846,17 @@ return (
                 zIndex: 200
               }}>
                 <ul style={{margin: 0, padding: 0, listStyle: 'none'}}>
-                  {itemActions.map((action, idx) => (
+                  {selectedItemSpriteRef.current !== Scarf ? itemActionsNormal.map((action, idx) => (
+                    <li key={action} style={{
+                      color: idx === itemActionIndex ? 'yellow' : 'white',
+                      fontWeight: idx === itemActionIndex ? 'bold' : 'normal',
+                      marginBottom: '6px',
+                      fontSize: '18px',
+                    }}>
+                      {action}
+                    </li>
+                  )) : 
+                  itemActionsEquip.map((action, idx) => (
                     <li key={action} style={{
                       color: idx === itemActionIndex ? 'yellow' : 'white',
                       fontWeight: idx === itemActionIndex ? 'bold' : 'normal',
@@ -6754,9 +6866,11 @@ return (
                       {action}
                     </li>
                   ))}
+
                 </ul>
               </div>
             )}
+
           </div>
         )}
         <div className="menu-itemSelector">
