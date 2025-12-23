@@ -513,6 +513,12 @@ const ITEM_DEFS = {
     stackSize: 1,
     tier: 4
   },
+  "Warp Scarf": {
+    name: "Warp Scarf",
+    sprite: Scarf,
+    stackSize: 1,
+    tier: 4
+  },
   "Luminous Orb": {
     name: "Luminous Orb",
     sprite: Orb,
@@ -1745,6 +1751,32 @@ React.useEffect(() => {
   itemEquipped === 'Zinc Band' ? setPlayerSpecialDefense(Math.round(basePlayerSpecialDefense * 1.3)) : setPlayerSpecialDefense(basePlayerSpecialDefense);
   setPlayerSpeed(basePlayerSpeed);
   }, [basePlayerHP, baseMaxPlayerHP, basePlayerSpecialAttack, basePlayerAttack, basePlayerDefense, basePlayerSpecialDefense, basePlayerSpeed, itemEquipped])
+React.useEffect(() => {
+  if (itemEquipped === 'Warp Scarf'){
+    const key = randInt(0, 10);
+    if (key === 9){
+      const floorPositions = [];
+      for (let y = 0; y < dungeon.length; y++) {
+      for (let x = 0; x < dungeon[0].length; x++) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== playerPos.x || y !== playerPos.y) && (itemTiles.some(itemTiles => itemTiles.x === x && itemTiles.y === y) === false) && (currencyTiles.some(currencyTiles => currencyTiles.x === x && currencyTiles.y === y) === false) && (enemy1 ? (enemy1Pos.x !== x || enemy1Pos.y !== y) : true) && (enemy2 ? (enemy2Pos.x !== x || enemy2Pos.y !== y) : true) && (enemy3 ? (enemy3Pos.x !== x || enemy3Pos.y !== y) : true) && (enemy4 ? (enemy4Pos.x !== x || enemy4Pos.y !== y) : true) && (enemy5 ? (enemy5Pos.x !== x || enemy5Pos.y !== y) : true) && (enemy6 ? (enemy6Pos.x !== x || enemy6Pos.y !== y) : true) && (enemy7 ? (enemy7Pos.x !== x || enemy7Pos.y !== y) : true) && (enemy8 ? (enemy8Pos.x !== x || enemy8Pos.y !== y) : true)) {
+          floorPositions.push({ x, y });
+        }
+      }
+    }
+    if (floorPositions.length > 0) {
+      const randIndex = randInt(0, floorPositions.length);
+      const newPos = floorPositions[randIndex];
+      setPlayerPos({ x: newPos.x, y: newPos.y });
+      cameraTargetRef.current = { x: newPos.x, y: newPos.y };
+      startCameraLoop();
+      addLogMessage('Vaporeon warped!');
+    } else {
+      addLogMessage('No valid locations to warp to!');
+    }
+    }
+  }
+
+}, [playerPos]);
 
 //React effect to constantly compute selectedItemSprite
 
@@ -1893,7 +1925,7 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
   let floorPositions = [];
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S') {
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y && !enemyHereTilesRef.current.find(tile => tile.x === x && tile.y === y && !itemTilesRef.current.find(tile => tile.x === x && tile.y === y))){
         floorPositions.push({ x, y });
       }
     }
@@ -3119,7 +3151,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
     if (!dungeonLocal[yy]) continue;
     for (let xx = minX; xx <= maxX; xx++) {
       const c = dungeonLocal[yy][xx];
-      if (typeof c !== 'undefined' && c !== 'W' && c !== 'S') roomFloorTiles.push({ x: xx, y: yy });
+      if (typeof c !== 'undefined' && c !== 'W' && c !== 'S' && c !== playerPos.x && c !== playerPos.y && !enemyHereTilesRef.current.find(tile => tile.x === xx && tile.y === yy && !itemTilesRef.current.find(tile => tile.x === xx && tile.y === yy))) roomFloorTiles.push({ x: xx, y: yy });
     }
   }
 
@@ -3591,6 +3623,33 @@ function useSelectedItem(target, item) {
       }
     }
   }
+  else if (item === 'Warp Scarf') {
+    if (target === 'player') {
+      setWillConsumeItemInventory(false);
+      if (itemEquipped !== 'Warp Scarf'){
+        setItemEquipped('Warp Scarf');
+        addLogMessage('Vaporeon equipped the Warp Scarf');
+      }
+      else if (itemEquipped === 'Warp Scarf'){
+        setItemEquipped('');
+        addLogMessage('Vaporeon unequipped the Warp Scarf');
+      }
+    }
+  }
+  else if (item === 'Luminous Orb'){
+    if (target === 'player'){
+    setWillConsumeItemInventory(true);
+    setExploredTiles(prev => {
+    const next = new Set(prev);
+    for (let yy = 0; yy < dungeon.length; yy++) {
+      for (let xx = 0; xx < dungeon[0].length; xx++) {
+        next.add(tileKey(xx, yy));
+      }
+    }
+    return next;
+  })
+  }
+}
   else {
     console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
     return;
