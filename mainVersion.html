@@ -1594,6 +1594,7 @@ const [flickerFrame, setFlickerFrame] = React.useState(0);
 const [inventory, setInventory] = React.useState([]);
 const inventoryRef = React.useRef(inventory);
 const [itemEquipped, setItemEquipped] = React.useState(null);
+const [itemEquippedId, setItemEquippedId] = React.useState(null);
 const [selectedAction, setSelectedAction] = React.useState('');
 const [selectedItemSprite, setSelectedItemSprite] = React.useState(null);
 const selectedItemSpriteRef = React.useRef(selectedItemSprite);
@@ -3288,7 +3289,7 @@ React.useEffect(() => {
   enemiesRef.current = enemies;
   enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite }));
 }, [enemies]);
-function useSelectedItem(target, item) {
+function useSelectedItem(target, item, id) {
   if (item === 'Life Seed') {
     if (target === 'player'){
     setWillConsumeItemInventory(true);
@@ -3602,10 +3603,12 @@ function useSelectedItem(target, item) {
       setWillConsumeItemInventory(false);
       if (itemEquipped !== 'Special Band') {
       setItemEquipped('Special Band');
+      setItemEquippedId(id);
       addLogMessage('Vaporeon equipped the Special Band!')
       }
       else if (itemEquipped === 'Special Band') {
       setItemEquipped('');
+      setItemEquippedId(null);
       addLogMessage('Vaporeon unequipped the Special Band!')
       }
     }
@@ -3616,9 +3619,11 @@ function useSelectedItem(target, item) {
       if (itemEquipped !== 'Zinc Band') {
       setItemEquipped('Zinc Band');
       addLogMessage('Vaporeon equipped the Zinc Band!')
+      setItemEquippedId(id);
       }
       else if (itemEquipped === 'Zinc Band') {
       setItemEquipped('');
+      setItemEquippedId(null);
       addLogMessage('Vaporeon unequipped the Zinc Band!')
       }
     }
@@ -3628,10 +3633,12 @@ function useSelectedItem(target, item) {
       setWillConsumeItemInventory(false);
       if (itemEquipped !== 'Warp Scarf'){
         setItemEquipped('Warp Scarf');
+        setItemEquippedId(id);
         addLogMessage('Vaporeon equipped the Warp Scarf');
       }
       else if (itemEquipped === 'Warp Scarf'){
         setItemEquipped('');
+        setItemEquippedId(null);
         addLogMessage('Vaporeon unequipped the Warp Scarf');
       }
     }
@@ -3676,7 +3683,15 @@ function useSelectedItem(target, item) {
   setShowItemActionMenu(false);
 }
 
-function discardSelectedItem() {
+function discardSelectedItem(item, id) {
+  if (itemEquipped === item && itemEquippedId === id) {
+    setItemEquipped('');
+    setItemEquippedId(null);
+    console.log('Item unequipped because it was discarded', 'Id:', id, 'Itemequipped', itemEquipped, 'ItemequippedId:', itemEquippedId);
+  }
+  else {
+    console.log('Item not unequipped because it was discarded', 'Id:', id, 'Itemequipped', itemEquipped, 'ItemequippedId:', itemEquippedId);
+  }
   setInventory(prev => {
     const idx = itemOrder - 1; // itemOrder is 1-based
     if (idx < 0 || idx >= prev.length) return prev;
@@ -3698,7 +3713,7 @@ function discardSelectedItem() {
 function addItemTile(item) {
   if (willConsumeItemRef.current === true){
   setWillConsumeItem(false) 
-  useSelectedItem(targetedRef.current, item.itemName)
+  useSelectedItem(targetedRef.current, item.itemName, itemOrder);
   return;
   }
   setItemTiles(prev => [...prev, item]);
@@ -3901,7 +3916,15 @@ function spawnProjectile(opts) {
   return id;
 }
 
-function itemThrown(item) {
+function itemThrown(item, id) {
+  if (item.name === itemEquipped && itemEquippedId === id) {
+    setItemEquipped('');
+    setItemEquippedId(null);
+    console.log('Item unequipped because it was thrown', 'Id:', id, 'Itemequipped', itemEquipped, 'ItemequippedId:', itemEquippedId);
+  }
+  else {
+    console.log('Item not unequipped because it was thrown', 'Id:', id, 'Itemequipped', itemEquipped, 'ItemequippedId:', itemEquippedId);
+  }
     const startPos = { x: playerPos.x + 0.25, y: playerPos.y}; // center of player's tile
     const dir = lastDirectionRef.current || 'right';
     const dirMap = {
@@ -4432,7 +4455,7 @@ const handleKeyDown = (e) => {
         const selectedAction = itemActionsNormal[itemActionIndex];
 
         if (selectedAction === 'Discard') {
-          discardSelectedItem();
+          discardSelectedItem(inventory[itemOrder - 1].name, itemOrder - 1);
         } else if (selectedAction === 'Throw') {
           const idx = itemOrder - 1;
           const thrownItem = inventory[idx];
@@ -4463,10 +4486,10 @@ const handleKeyDown = (e) => {
             setTimeout(() => setIsWalking(false), 1401);
       
             // actually throw the selected item
-            itemThrown(thrownItem);
+            itemThrown(thrownItem, itemOrder - 1);
           }
           } else if (selectedAction === 'Use') {
-          useSelectedItem('player', inventory[itemOrder - 1].name);
+          useSelectedItem('player', inventory[itemOrder - 1].name, itemOrder - 1);
           setShowItemActionMenu(false);
           setShowToolbox(false);
           setIsPaused(false);
