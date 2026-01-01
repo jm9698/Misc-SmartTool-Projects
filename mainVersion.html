@@ -305,6 +305,7 @@ const MOVE_DEFS = {
     name: "Acid Armor",
     type: "Poison",
     power: 0,
+    range: "Self",
     accuracy: 100,
     ppmax: 30,
     ppcurr: 30,
@@ -313,6 +314,8 @@ const MOVE_DEFS = {
   "Aqua Tail": {
     name: "Aqua Tail",
     type: "Water",
+    range: "1",
+    alignment: "radial",
     power: 90,
     accuracy: 90,
     ppmax: 10,
@@ -322,6 +325,8 @@ const MOVE_DEFS = {
   "Aurora Beam": {
     name: "Aurora Beam",
     type: "Ice",
+    range: "6",
+    alignment: "same-direction",
     power: 65,
     accuracy: 100,
     pp: 20,
@@ -330,6 +335,8 @@ const MOVE_DEFS = {
   "Bite": {
     name: "Bite",
     type: "Dark",
+    range: "1",
+    alignment: "same-direction",
     power: 60,
     accuracy: 100,
     pp: 25,
@@ -338,6 +345,8 @@ const MOVE_DEFS = {
   "Bubble Beam": {
     name: "Bubble Beam",
     type: "Water",
+    range: "6",
+    alignment: "same-direction",
     power: 65,
     accuracy: 100,
     pp: 20,
@@ -346,6 +355,8 @@ const MOVE_DEFS = {
   "Hydro Pump": {
     name: "Hydro Pump",
     type: "Water",
+    range: "10",
+    alignment: "same-direction",
     power: 110,
     accuracy: 80,
     pp: 5,
@@ -354,6 +365,8 @@ const MOVE_DEFS = {
   "Ice Beam": {
     name: "Ice Beam",
     type: "Ice",
+    range: "6",
+    alignment: "same-direction",
     power: 90,
     accuracy: 100,
     pp: 10,
@@ -362,6 +375,8 @@ const MOVE_DEFS = {
   "Muddy Water": {
     name: "Muddy Water",
     type: "Water",
+    range: "6",
+    alignment: "radial",
     power: 90,
     accuracy: 85,
     pp: 10,
@@ -371,6 +386,7 @@ const MOVE_DEFS = {
     name: 'Refresh',
     type: 'Normal',
     power: 0,
+    range: 'Self + Allies',
     accuracy: 100,
     ppmax: 20,
     ppcurr: 20,
@@ -380,10 +396,23 @@ const MOVE_DEFS = {
     name: "Water Pulse",
     type: "Water",
     power: 60,
+    range: "6",
+    alignment: "same-direction",
     accuracy: 100,
     ppmax: 20,
     ppcurr: 20,
     effect: "May confuse the target.",
+  },
+  "Rock Throw": {
+    name: "Rock Throw",
+    type: "Rock",
+    power: 50,
+    range: "2",
+    alignment: "same-direction",
+    accuracy: 100,
+    ppmax: 15,
+    ppcurr: 15,
+    effect: "No additional effect.",
   }
 };
 const ITEM_DEFS = {
@@ -538,7 +567,11 @@ const ENEMY_DEFS = {
     specialDefense: 90,
     defense: 90,
     speed: 60,
-    moves: [MOVE_DEFS['Acid Armor'], MOVE_DEFS['Aurora Beam'], MOVE_DEFS['Bite'], MOVE_DEFS['Moonblast']],
+    moves: [MOVE_DEFS['Rock Throw'],
+      MOVE_DEFS['Aurora Beam'],
+      MOVE_DEFS['Bite'],
+      MOVE_DEFS['Moonblast']
+    ],
     sprites: {
       downIdle: {
         frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
@@ -673,6 +706,40 @@ const ENEMY_DEFS = {
 
 }
 const MAX_INVENTORY_SLOTS = 10;
+// Enemy moves
+const rockThrowVfxFrames = [
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/000.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/001.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/002.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/003.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/004.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/005.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/006.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/007.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/008.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/009.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/010.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/011.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/012.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/013.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/014.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/015.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/016.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/017.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/018.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/019.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/020.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/021.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/022.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/023.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/024.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/025.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/026.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/027.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/028.png',
+'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/029.png'
+];
+
 // Enemy sprite URLs
   //Lunatone
     // Idle animation
@@ -1542,21 +1609,37 @@ const [enemy7IdleAnimIndex, setEnemy7IdleAnimIndex] = React.useState(0);
 const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
   // configure AI
   const [enemy1MoveBehavior, setEnemy1MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy1MoveBehaviorRef = React.useRef(enemy1MoveBehavior);
   const [enemy1AttackBehavior, setEnemy1AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy1AttackBehaviorRef = React.useRef(enemy1AttackBehavior);
   const [enemy2MoveBehavior, setEnemy2MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy2MoveBehaviorRef = React.useRef(enemy2MoveBehavior);
   const [enemy2AttackBehavior, setEnemy2AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy2AttackBehaviorRef = React.useRef(enemy2AttackBehavior);
   const [enemy3MoveBehavior, setEnemy3MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy3MoveBehaviorRef = React.useRef(enemy3MoveBehavior);
   const [enemy3AttackBehavior, setEnemy3AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy3AttackBehaviorRef = React.useRef(enemy3AttackBehavior);
   const [enemy4MoveBehavior, setEnemy4MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy4MoveBehaviorRef = React.useRef(enemy4MoveBehavior);
   const [enemy4AttackBehavior, setEnemy4AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy4AttackBehaviorRef = React.useRef(enemy4AttackBehavior);
   const [enemy5MoveBehavior, setEnemy5MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy5MoveBehaviorRef = React.useRef(enemy5MoveBehavior);
   const [enemy5AttackBehavior, setEnemy5AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy5AttackBehaviorRef = React.useRef(enemy5AttackBehavior);
   const [enemy6MoveBehavior, setEnemy6MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy6MoveBehaviorRef = React.useRef(enemy6MoveBehavior);
   const [enemy6AttackBehavior, setEnemy6AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy6AttackBehaviorRef = React.useRef(enemy6AttackBehavior);
   const [enemy7MoveBehavior, setEnemy7MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy7MoveBehaviorRef = React.useRef(enemy7MoveBehavior);
   const [enemy7AttackBehavior, setEnemy7AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy7AttackBehaviorRef = React.useRef(enemy7AttackBehavior);
   const [enemy8MoveBehavior, setEnemy8MoveBehavior] = React.useState(true); // Whether enemies move
+  const enemy8MoveBehaviorRef = React.useRef(enemy8MoveBehavior);
   const [enemy8AttackBehavior, setEnemy8AttackBehavior] = React.useState(false); // Whether enemies attack
+  const enemy8AttackBehaviorRef = React.useRef(enemy8AttackBehavior);
   const [enemy1LastDirection, setEnemy1LastDirection] = React.useState('down');
   const [enemy2LastDirection, setEnemy2LastDirection] = React.useState('down');
   const [enemy3LastDirection, setEnemy3LastDirection] = React.useState('down');
@@ -1743,6 +1826,22 @@ React.useEffect(() => { willConsumeItemRef.current = willConsumeItem ; }, [willC
 React.useEffect(() => { targetedRef.current = targeted ; }, [targeted]);
 React.useEffect(() => { selectedItemSpriteRef.current = selectedItemSprite ; }, [selectedItemSprite]);
 React.useEffect(() => { willConsumeItemInventoryRef.current = willConsumeItemInventory ; }, [willConsumeItemInventory]);
+React.useEffect(() => { enemy1MoveBehaviorRef.current = enemy1MoveBehavior ; }, [enemy1MoveBehavior]);
+React.useEffect(() => { enemy1AttackBehaviorRef.current = enemy1AttackBehavior ; }, [enemy1AttackBehavior]);
+React.useEffect(() => { enemy2MoveBehaviorRef.current = enemy2MoveBehavior ; }, [enemy2MoveBehavior]);
+React.useEffect(() => { enemy2AttackBehaviorRef.current = enemy2AttackBehavior ; }, [enemy2AttackBehavior]);
+React.useEffect(() => { enemy3MoveBehaviorRef.current = enemy3MoveBehavior ; }, [enemy3MoveBehavior]);
+React.useEffect(() => { enemy3AttackBehaviorRef.current = enemy3AttackBehavior ; }, [enemy3AttackBehavior]);
+React.useEffect(() => { enemy4MoveBehaviorRef.current = enemy4MoveBehavior ; }, [enemy4MoveBehavior]);
+React.useEffect(() => { enemy4AttackBehaviorRef.current = enemy4AttackBehavior ; }, [enemy4AttackBehavior]);
+React.useEffect(() => { enemy5MoveBehaviorRef.current = enemy5MoveBehavior ; }, [enemy5MoveBehavior]);
+React.useEffect(() => { enemy5AttackBehaviorRef.current = enemy5AttackBehavior ; }, [enemy5AttackBehavior]);
+React.useEffect(() => { enemy6MoveBehaviorRef.current = enemy6MoveBehavior ; }, [enemy6MoveBehavior]);
+React.useEffect(() => { enemy6AttackBehaviorRef.current = enemy6AttackBehavior ; }, [enemy6AttackBehavior]);
+React.useEffect(() => { enemy7MoveBehaviorRef.current = enemy7MoveBehavior ; }, [enemy7MoveBehavior]);
+React.useEffect(() => { enemy7AttackBehaviorRef.current = enemy7AttackBehavior ; }, [enemy7AttackBehavior]);
+React.useEffect(() => { enemy8MoveBehaviorRef.current = enemy8MoveBehavior ; }, [enemy8MoveBehavior]);
+React.useEffect(() => { enemy8AttackBehaviorRef.current = enemy8AttackBehavior ; }, [enemy8AttackBehavior]);
 React.useEffect(() => { 
   setPlayerHP(basePlayerHP);
   setMaxPlayerHP(baseMaxPlayerHP);
@@ -2025,6 +2124,197 @@ function polarToCartesian(cx, cy, r, angle) {
     x: cx + r * Math.cos(rad),
     y: cy + r * Math.sin(rad)
   };
+}
+function enemyUseMove(move, key){
+  key === 1 ? setEnemy1AttackBehavior(true) : key === 2 ? setEnemy2AttackBehavior(true) : key === 3 ? setEnemy3AttackBehavior(true) : key === 4 ? setEnemy4AttackBehavior(true) : key === 5 ? setEnemy5AttackBehavior(true) : key === 6 ? setEnemy6AttackBehavior(true) : key === 7 ? setEnemy7AttackBehavior(true) : key === 8 ? setEnemy8AttackBehavior(true) : null;
+  if (key === 1){
+    if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+      setEnemy1LastDirection('right');
+    } else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+      setEnemy1LastDirection('left');
+    } else if (enemy1PosRef.current.y < playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+      setEnemy1LastDirection('down');
+    } else if (enemy1PosRef.current.y > playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+      setEnemy1LastDirection('up');
+    }
+      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
+      setEnemy1LastDirection('downRight');
+    }
+      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
+      setEnemy1LastDirection('downLeft');
+    }
+      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+      setEnemy1LastDirection('upRight');
+    }
+      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+      setEnemy1LastDirection('upLeft');
+    }
+   //if (move === 'Rock Throw'){
+
+   //}
+  }
+  else if (key === 2){
+    if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+      setEnemy2LastDirection('right');
+    } else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+      setEnemy2LastDirection('left');
+    } else if (enemy2PosRef.current.y < playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+      setEnemy2LastDirection('down');
+    } else if (enemy2PosRef.current.y > playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+      setEnemy2LastDirection('up');
+    }
+      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
+      setEnemy2LastDirection('downRight');
+    }
+      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
+      setEnemy2LastDirection('downLeft');
+    }
+      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      setEnemy2LastDirection('upRight');
+    }
+      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      setEnemy2LastDirection('upLeft');
+    }
+  }
+  else if (key === 3){
+    if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+      setEnemy3LastDirection('right');
+    } else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+      setEnemy3LastDirection('left');
+    } else if (enemy3PosRef.current.y < playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+      setEnemy3LastDirection('down');
+    } else if (enemy3PosRef.current.y > playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+      setEnemy3LastDirection('up');
+    }
+      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
+      setEnemy3LastDirection('downRight');
+    }
+      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
+      setEnemy3LastDirection('downLeft');
+    }
+      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      setEnemy3LastDirection('upRight');
+    }
+      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      setEnemy3LastDirection('upLeft');
+    }
+  }
+  else if (key === 4){
+    if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+      setEnemy4LastDirection('right');
+    } else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+      setEnemy4LastDirection('left');
+    } else if (enemy4PosRef.current.y < playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+      setEnemy4LastDirection('down');
+    } else if (enemy4PosRef.current.y > playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+      setEnemy4LastDirection('up');
+    }
+      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
+      setEnemy4LastDirection('downRight');
+    }
+      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
+      setEnemy4LastDirection('downLeft');
+    }
+      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      setEnemy4LastDirection('upRight');
+    }
+      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      setEnemy4LastDirection('upLeft');
+    }
+  }
+  else if (key === 5){
+    if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      setEnemy5LastDirection('right');
+    } else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      setEnemy5LastDirection('left');
+    } else if (enemy5PosRef.current.y < playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+      setEnemy5LastDirection('down');
+    } else if (enemy5PosRef.current.y > playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+      setEnemy5LastDirection('up');
+    }
+      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
+      setEnemy5LastDirection('downRight');
+    }
+      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
+      setEnemy5LastDirection('downLeft');
+    }
+      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      setEnemy5LastDirection('upRight');
+    }
+      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      setEnemy5LastDirection('upLeft');
+    }
+  }
+  else if (key === 6){
+    if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      setEnemy6LastDirection('right');
+    } else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      setEnemy6LastDirection('left');
+    } else if (enemy6PosRef.current.y < playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+      setEnemy6LastDirection('down');
+    } else if (enemy6PosRef.current.y > playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+      setEnemy6LastDirection('up');
+    }
+      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
+      setEnemy6LastDirection('downRight');
+    }
+      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
+      setEnemy6LastDirection('downLeft');
+    }
+      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      setEnemy6LastDirection('upRight');
+    }
+      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      setEnemy6LastDirection('upLeft');
+    }
+  }
+  else if (key === 7){
+    if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      setEnemy7LastDirection('right');
+    } else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      setEnemy7LastDirection('left');
+    } else if (enemy7PosRef.current.y < playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+      setEnemy7LastDirection('down');
+    } else if (enemy7PosRef.current.y > playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+      setEnemy7LastDirection('up');
+    }
+      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      setEnemy7LastDirection('downRight');
+    }
+      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      setEnemy7LastDirection('downLeft');
+    }
+      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      setEnemy7LastDirection('upRight');
+    }
+      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      setEnemy7LastDirection('upLeft');
+    }
+  }
+  else if (key === 8){
+    if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      setEnemy8LastDirection('right');
+    } else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      setEnemy8LastDirection('left');
+    } else if (enemy8PosRef.current.y < playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+      setEnemy8LastDirection('down');
+    } else if (enemy8PosRef.current.y > playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+      setEnemy8LastDirection('up');
+    }
+      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
+      setEnemy8LastDirection('downRight');
+    }
+      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
+      setEnemy8LastDirection('downLeft');
+    }
+      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      setEnemy8LastDirection('upRight');
+    }
+      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      setEnemy8LastDirection('upLeft');
+    }
+  }
+  return;
 }
 function useMove(moveIndex) {
   const move = moves[moveIndex];
@@ -3044,85 +3334,157 @@ setEnemy8LastDirection('up')
 return
 }
 function confirmEnemyBehavior() {
-  if (enemy1 && enemy1MoveBehavior){
-    if (Math.abs(enemy1PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) < 15){
+  if (enemy1){
+    const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
+    if (enemy1Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy1Move1, 1);
+        console.log('triggered with', 'enemyx',enemy1PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy1PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy1Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy1PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) < 15 && enemy1MoveBehaviorRef.current === true){
       pursue(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
     }
-    else if (Math.abs(enemy1PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy1PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) >= 15 && enemy1MoveBehaviorRef.current === true){
       patrol(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
     }
   }
   //setTimeout(() => { 
-    if (enemy2 && enemy2MoveBehavior){
-    if (Math.abs(enemy2PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) < 15){
+    if (enemy2){
+    const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
+    if (enemy2Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy2Move1, 2);
+        console.log('triggered with', 'enemyx',enemy2PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy2PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy2Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy2PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) < 15 && enemy2MoveBehaviorRef.current === true){
       pursue(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)
     }
-    else if (Math.abs(enemy2PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy2PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) >= 15 && enemy2MoveBehaviorRef.current === true){
       patrol(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)  
     }}
    //}, (1000))
 
   //setTimeout(() => { 
-    if (enemy3 && enemy3MoveBehavior){
-    if (Math.abs(enemy3PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) < 15){
+    if (enemy3){
+    const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
+    if (enemy3Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy3Move1, 3);
+        console.log('triggered with', 'enemyx',enemy3PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy3PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy3Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy3PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) < 15 && enemy3MoveBehaviorRef.current === true){
       pursue(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)
     }
-    else if (Math.abs(enemy3PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy3PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) >= 15 && enemy3MoveBehaviorRef.current === true){
       patrol(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)  
     }
   }
 //}, (2000))
 
   //setTimeout(() => {
-    if (enemy4 && enemy4MoveBehavior){
-    if (Math.abs(enemy4PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) < 15){
+    if (enemy4){
+    const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
+    if (enemy4Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy4Move1, 4);
+        console.log('triggered with', 'enemyx',enemy4PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy4PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy4Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy4PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) < 15 && enemy4MoveBehaviorRef.current === true){
       pursue(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)
     }
-    else if (Math.abs(enemy4PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy4PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) >= 15 && enemy4MoveBehaviorRef.current === true){
       patrol(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)  
     }
   } 
 //}, (3000))
 
   //setTimeout(() => {
-    if (enemy5 && enemy5MoveBehavior){
-    if (Math.abs(enemy5PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) < 15){
+    if (enemy5){
+    const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
+    if (enemy5Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy5Move1, 5);
+        console.log('triggered with', 'enemyx',enemy5PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy5PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy5Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy5PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) < 15 && enemy5MoveBehaviorRef.current === true){
       pursue(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)
     }
-    else if (Math.abs(enemy5PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy5PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) >= 15 && enemy5MoveBehaviorRef.current === true){
       patrol(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)  
     }
   } 
 //}, (4000))
 
   //setTimeout(() => {
-  if (enemy6 && enemy6MoveBehavior){
-    if (Math.abs(enemy6PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) < 15){
+  if (enemy6){
+    const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
+    if (enemy6Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy6Move1, 6);
+        console.log('triggered with', 'enemyx',enemy6PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy6PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy6Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy6PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) < 15 && enemy6MoveBehaviorRef.current === true){
       pursue(enemy6PosRef.current.x, enemy6PosRef.current.y, 6)
     }
-    else if (Math.abs(enemy6PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy6PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) >= 15 && enemy6MoveBehaviorRef.current === true){
       patrol(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) 
     }
   } 
 //}, (5000))
 
   //setTimeout(() => {
-    if (enemy7 && enemy7MoveBehavior){
-    if (Math.abs(enemy7PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) < 15){
+    if (enemy7){
+    const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
+    if (enemy7Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy7Move1, 7);
+        console.log('triggered with', 'enemyx',enemy7PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy7PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy7Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy7PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) < 15 && enemy7MoveBehaviorRef.current === true){
       pursue(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)
     }
-    else if (Math.abs(enemy7PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy7PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) >= 15 && enemy7MoveBehaviorRef.current === true){
       patrol(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)  
     }
   } 
 //}, (6000))
 
   //setTimeout(() => {
-   if (enemy8 && enemy8MoveBehavior){
-    if (Math.abs(enemy8PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) < 15){
+   if (enemy8){
+    const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
+    if (enemy8Move1.alignment === 'same-direction') {
+      if (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y)) {
+        enemyUseMove(enemy8Move1, 8);
+        console.log('triggered with', 'enemyx',enemy8PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy8PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('range:', enemy8Move1.range)
+        return;
+      }
+    }
+    if (Math.abs(enemy8PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) < 15 && enemy8MoveBehaviorRef.current === true){
       pursue(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)
     }
-    else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15){
+    else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15 && enemy8MoveBehaviorRef.current === true){
       patrol(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)  
     }
   } 
