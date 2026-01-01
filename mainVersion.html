@@ -5303,6 +5303,35 @@ const generateDungeon = () => {
    const stateWidth = width, stateHeight = height;
    const { dungeon: newDungeon, playerStart, rooms } = generateProceduralDungeon(stateWidth, stateHeight);
  
+   // CRITICAL: Clear all accumulated state on floor change to prevent frame drops
+   // Clear projectiles that may have accumulated
+   setProjectiles([]);
+   
+   // Clear animation timers and indices to prevent stale references from previous floors
+   lastAnimTsRef.current = {
+     idle: { player: 0, enemy: 0 },
+     walk: 0,
+     spin: 0,
+     sleep: 0,
+     level: 0,
+     buff: 0,
+     aquaTail: 0,
+     dialog: 0
+   };
+   indicesRef.current = {
+     idle: { player: 0, enemy: 0 },
+     walk: 0,
+     spin: 0,
+     sleep: 0,
+     level: 0,
+     buff: 0,
+     aquaTail: 0,
+     dialog: 0
+   };
+   
+   // Clear log messages for clean floor transition
+   setActionLog([]);
+   
    setExploredTiles(() => {
      // ensure new Set object so drawMinimap treats it as change
      return new Set();
