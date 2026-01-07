@@ -1485,6 +1485,11 @@ const floorSprites = [
 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
 ];
 
+//Sfx
+const selectsfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Select1sfx.mp3');
+const declinesfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Decline1sfx.mp3');
+const affirmativesfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Affirmative1sfx.mp3');
+
 // Stair Sprite (proto)
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
 
@@ -1511,7 +1516,8 @@ const fpsRef = React.useRef(null);
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, []);
-
+const [audio, setAudio] = React.useState(null);
+const audioRef = React.useRef(audio);
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
@@ -1650,7 +1656,13 @@ const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
   const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
   const [validOptions, setValidOptions] = React.useState(null);
   const [chosen, setChosen] = React.useState(0);
-
+  // Attack booleans
+  const [rockThrow, setRockThrow] = React.useState(false);
+  const rockThrowRef = React.useRef(rockThrow);
+  const [rockThrowTransform, setRockThrowTransform] = React.useState('translatex(65%) translateY(-615%)'); // Store transform to prevent flickering
+  // Projectile continuous position for smooth rendering
+  const [projectilePos, setProjectilePos] = React.useState({ x: 0, y: 0 });
+  const projectilePosRef = React.useRef(projectilePos);
 // Menu states
 const [isPaused, setIsPaused] = React.useState(false); // New paused state
 const [showOptions, setShowOptions] = React.useState(false); // State for options menu
@@ -1771,6 +1783,8 @@ const [sleepSpriteIndex, setSleepSpriteIndex] = React.useState(0); // Index for 
 const [levelVfxIndex, setLevelVfxIndex] = React.useState(0); // Index for level up VFX animation
 const [buffVfxIndex, setBuffVfxIndex] = React.useState(0); // Index for buff VFX animation
 const [aquaTailIndex, setAquaTailIndex] = React.useState(0); // Index for Aqua Tail animation
+  // Enemy vfx indexes
+  const [rockThrowIndex, setRockThrowIndex] = React.useState(0); // Index for rock throw animation
   // Other
 const walkCooldownRef = React.useRef(null);
 
@@ -1805,6 +1819,23 @@ const ks = React.useRef(keyState); // For easier access
 const [projectiles, setProjectiles] = React.useState([]);
 const projectilesRef = React.useRef([]);
 projectilesRef.current = projectiles;
+
+// Auto-cleanup for stuck projectiles to prevent memory leaks
+React.useEffect(() => {
+  const cleanupInterval = setInterval(() => {
+    setProjectiles(prev => {
+      // Keep only projectiles created within the last 5 seconds to prevent memory buildup
+      const now = Date.now();
+      const MAX_AGE = 5000;
+      return prev.filter(p => {
+        const projAge = parseInt(p.id.split('_')[1]) || 0;
+        return (now - projAge) < MAX_AGE;
+      });
+    });
+  }, 1000);
+  
+  return () => clearInterval(cleanupInterval);
+}, []);
 
 //effects to update refs
 React.useEffect(() => { ks.current = keyState; }, [keyState]);
@@ -1842,6 +1873,8 @@ React.useEffect(() => { enemy7MoveBehaviorRef.current = enemy7MoveBehavior ; }, 
 React.useEffect(() => { enemy7AttackBehaviorRef.current = enemy7AttackBehavior ; }, [enemy7AttackBehavior]);
 React.useEffect(() => { enemy8MoveBehaviorRef.current = enemy8MoveBehavior ; }, [enemy8MoveBehavior]);
 React.useEffect(() => { enemy8AttackBehaviorRef.current = enemy8AttackBehavior ; }, [enemy8AttackBehavior]);
+React.useEffect(() => { rockThrowRef.current = rockThrow ; }, [rockThrow]);
+React.useEffect(() => { projectilePosRef.current = projectilePos ; }, [projectilePos]);
 React.useEffect(() => { 
   setPlayerHP(basePlayerHP);
   setMaxPlayerHP(baseMaxPlayerHP);
@@ -2059,6 +2092,18 @@ function generateSingleItem(position, item) {
 function beginItemTilesIndex(itemAdded) {
   setItemTilesIndex(itemAdded);
 }
+
+function playSound(soundFile) {
+  if (soundFile instanceof HTMLAudioElement) {
+    soundFile.currentTime = 0; // Restart from beginning
+    soundFile.play().catch((err) => {
+      console.error("Audio play failed:", err);
+    });
+  } else {
+    console.error("Invalid sound file passed to playSound()");
+  }
+}
+
 function updateItemTilesIndex(newIndex) {
   setItemTilesIndex(prev => [...prev, newIndex]);
   return newIndex;
@@ -2126,6 +2171,14 @@ function polarToCartesian(cx, cy, r, angle) {
   };
 }
 function enemyUseMove(move, key){
+  if (move.name === 'Rock Throw'){
+    setRockThrow(true);
+    setProjectilePos({ x: 0, y: 0 }); // Reset projectile position at start
+    // Set transform based on current player position at the moment of casting
+    const transformValue = playerPosRef.current.x < width/3 ? 'translatex(80%) translateY(-615%)' : 'translatex(65%) translateY(-615%)';
+    setRockThrowTransform(transformValue);
+    console.log(`Enemy ${key} used Rock Throw!`);
+  }
   key === 1 ? setEnemy1AttackBehavior(true) : key === 2 ? setEnemy2AttackBehavior(true) : key === 3 ? setEnemy3AttackBehavior(true) : key === 4 ? setEnemy4AttackBehavior(true) : key === 5 ? setEnemy5AttackBehavior(true) : key === 6 ? setEnemy6AttackBehavior(true) : key === 7 ? setEnemy7AttackBehavior(true) : key === 8 ? setEnemy8AttackBehavior(true) : null;
   if (key === 1){
     if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
@@ -2149,9 +2202,6 @@ function enemyUseMove(move, key){
       else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
       setEnemy1LastDirection('upLeft');
     }
-   //if (move === 'Rock Throw'){
-
-   //}
   }
   else if (key === 2){
     if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
@@ -2314,8 +2364,72 @@ function enemyUseMove(move, key){
       setEnemy8LastDirection('upLeft');
     }
   }
+  
+  setTimeout(() => {
+    key === 1 ? setEnemy1AttackBehavior(false) : key === 2 ? setEnemy2AttackBehavior(false) : key === 3 ? setEnemy3AttackBehavior(false) : key === 4 ? setEnemy4AttackBehavior(false) : key === 5 ? setEnemy5AttackBehavior(false) : key === 6 ? setEnemy6AttackBehavior(false) : key === 7 ? setEnemy7AttackBehavior(false) : key === 8 ? setEnemy8AttackBehavior(false) : null;
+    if (move.name === 'Rock Throw'){
+      setRockThrow(false);
+      setProjectilePos({ x: 0, y: 0 }); // Reset projectile position at end
+    }
+  }, 4600); // Duration of attack animation (Slighty longer than animation frame duration to ensure it completes)
   return;
 }
+React.useEffect(() => {
+  if (rockThrowRef.current === false) {
+    return;
+  }
+  
+  let animationFrameId = null;
+  
+  function updateProjectilePosition() {
+    if (rockThrowRef.current === false) return;
+    
+    // Update position towards target
+    const targetX = (enemy1AttackBehaviorRef.current ? enemy1PosRef.current.x - playerPosRef.current.x : enemy2AttackBehaviorRef.current ? enemy2PosRef.current.x - playerPosRef.current.x : enemy3AttackBehaviorRef.current ? enemy3PosRef.current.x - playerPosRef.current.x : enemy4AttackBehaviorRef.current ? enemy4PosRef.current.x - playerPosRef.current.x : enemy5AttackBehaviorRef.current ? enemy5PosRef.current.x - playerPosRef.current.x : enemy6AttackBehaviorRef.current ? enemy6PosRef.current.x - playerPosRef.current.x : enemy7AttackBehaviorRef.current ? enemy7PosRef.current.x - playerPosRef.current.x : enemy8AttackBehaviorRef.current ? enemy8PosRef.current.x - playerPosRef.current.x : 0);
+    const targetY = (enemy1AttackBehaviorRef.current ? enemy1PosRef.current.y - playerPosRef.current.y : enemy2AttackBehaviorRef.current ? enemy2PosRef.current.y - playerPosRef.current.y : enemy3AttackBehaviorRef.current ? enemy3PosRef.current.y - playerPosRef.current.y : enemy4AttackBehaviorRef.current ? enemy4PosRef.current.y - playerPosRef.current.y : enemy5AttackBehaviorRef.current ? enemy5PosRef.current.y - playerPosRef.current.y : enemy6AttackBehaviorRef.current ? enemy6PosRef.current.y - playerPosRef.current.y : enemy7AttackBehaviorRef.current ? enemy7PosRef.current.y - playerPosRef.current.y : enemy8AttackBehaviorRef.current ? enemy8PosRef.current.y - playerPosRef.current.y : 0);
+    
+    // Calculate position-based correction to counteract camera shift artifacts
+    const distancex = playerPosRef.current.x / (width) - 0.5;
+    const distancey = playerPosRef.current.y / (height) - 0.5;
+    
+    // Apply directional offset correction
+    // When player is off-center, projectiles shift in the opposite direction of player position
+    // So we counteract by adding a correction proportional to how far off-center the player is
+    const correctionX = distancex * 0.45; // Adjust this value to tune X-axis correction (0.45 recommended)
+    const correctionY = distancey * 0.5; // Adjust this value to tune Y-axis correction (0.25 recommended)
+    const adjustedTargetX = targetX + correctionX;
+    const adjustedTargetY = targetY + correctionY;
+    
+    if (Math.abs(projectilePosRef.current.x) > Math.abs(adjustedTargetX) && targetX !== 0 || Math.abs(projectilePosRef.current.y) > Math.abs(adjustedTargetY) && targetY !== 0){ 
+      return;
+    }
+    const dt = 0.04; // Approx. 60 FPS
+    const dx = adjustedTargetX * dt/3; // So it takes 3 seconds to reach target
+    const dy = adjustedTargetY * dt/3;
+    if (Math.abs(projectilePosRef.current.x) > Math.abs(adjustedTargetX) && targetX !== 0 || Math.abs(projectilePosRef.current.y) > Math.abs(adjustedTargetY) && targetY !== 0) {
+      //Reached target
+      setProjectilePos({ x: adjustedTargetX, y: adjustedTargetY });
+      return;
+    } 
+    else {
+      setProjectilePos(prev => ({
+        x: prev.x + dx,
+        y: prev.y + dy
+      }));
+    }
+    
+    animationFrameId = requestAnimationFrame(updateProjectilePosition);
+  }
+  
+  animationFrameId = requestAnimationFrame(updateProjectilePosition);
+  
+  return () => {
+    if (animationFrameId !== null) {
+      cancelAnimationFrame(animationFrameId);
+    }
+  };
+}, [rockThrow]);
+
 function useMove(moveIndex) {
   const move = moves[moveIndex];
   let specialDefenceGain = 10; // TODO: Add an initial state variable for this
@@ -3652,6 +3766,7 @@ React.useEffect(() => {
   enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite }));
 }, [enemies]);
 function useSelectedItem(target, item, id) {
+  playSound(affirmativesfx);
   if (item === 'Life Seed') {
     if (target === 'player'){
     setWillConsumeItemInventory(true);
@@ -4046,6 +4161,7 @@ function useSelectedItem(target, item, id) {
 }
 
 function discardSelectedItem(item, id) {
+  playSound(declinesfx);
   if (itemEquipped === item && itemEquippedId === id) {
     setItemEquipped('');
     setItemEquippedId(null);
@@ -4255,30 +4371,46 @@ function spawnProjectile(opts) {
   const { start, end, sprite, duration = 700, arcHeight = 2 } = opts;
   const id = 'proj_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
   const startTs = performance.now();
+  let animFrameId = null;
+  let timeoutId = null;
+  
   // add initial projectile
-  //setProjectiles(prev => [...prev, { id, sprite, x: start.x, y: start.y }]);
   setProjectiles(prev => [...prev, { id, sprite, x: playerPos.x + 0.25, y: playerPos.y + 0.25 }]);
+  
   function step(now) {
     const elapsed = now - startTs;
     const t = Math.min(1, elapsed / duration);
     const x = lerp(start.x, end.x, t);
     const y = lerp(start.y, end.y, t) - arcOffset(t, arcHeight);
 
-    setProjectiles(prev => prev.map(p => p.id === id ? { ...p, x, y } : p));
+    // Only update the specific projectile using findIndex for efficiency
+    setProjectiles(prev => {
+      const idx = prev.findIndex(p => p.id === id);
+      if (idx === -1) return prev;
+      const updated = [...prev];
+      updated[idx] = { ...updated[idx], x, y };
+      return updated;
+    });
 
     if (t < 1) {
-      requestAnimationFrame(step);
+      animFrameId = requestAnimationFrame(step);
     } else {
       // remove after a short delay
-      setTimeout(() => setProjectiles(prev => prev.filter(p => p.id !== id)), 50);
+      timeoutId = setTimeout(() => setProjectiles(prev => prev.filter(p => p.id !== id)), 50);
     }
   }
 
-  requestAnimationFrame(step);
-  return id;
+  animFrameId = requestAnimationFrame(step);
+  
+  // Return cleanup function
+  return () => {
+    if (animFrameId !== null) cancelAnimationFrame(animFrameId);
+    if (timeoutId !== null) clearTimeout(timeoutId);
+  };
 }
 
 function itemThrown(item, id) {
+  playSound(affirmativesfx);
   if (item.name === itemEquipped && itemEquippedId === id) {
     setItemEquipped('');
     setItemEquippedId(null);
@@ -4582,6 +4714,7 @@ function itemSelectDown() {
     let newOrder = itemOrder + 1;
     if (newOrder > natItemOrder) newOrder = 1;
     setItemOrder(newOrder);
+    playSound(selectsfx);
   }
 }
 function itemSelectUp() {
@@ -4589,6 +4722,7 @@ function itemSelectUp() {
     let newOrder = itemOrder - 1;
     if (newOrder < 1) newOrder = natItemOrder;
     setItemOrder(newOrder);
+    playSound(selectsfx);
   }
 }
 function takeStarvationDamage() {
@@ -5096,6 +5230,7 @@ return;
 const moveCheck = (() => {
   if (isAiming) return { ok: false, reason: 'isAiming' };
   if (isPaused) return { ok: false, reason: 'isPaused' };
+  if (enemy1AttackBehaviorRef.current === true || enemy2AttackBehaviorRef.current === true || enemy3AttackBehaviorRef.current === true || enemy4AttackBehaviorRef.current === true || enemy5AttackBehaviorRef.current === true || enemy6AttackBehaviorRef.current === true || enemy7AttackBehaviorRef.current === true || enemy8AttackBehaviorRef.current === true) return { ok: false, reason: 'enemy attacking' };
   if (ks.current.sheld || ks.current.aheld || ks.current.dheld || ks.current.wheld || ks.current.qheld || ks.current.eheld || ks.current.zheld || ks.current.cheld) return {ok: false, reason: 'key held'}
   if (keyState.shift) return { ok: false, reason: 'shift held' };
   if (isSpinning) return { ok: false, reason: 'isSpinning' };
@@ -5193,6 +5328,7 @@ const ANIM_TIMINGS = {
   level: 150,
   buff: 150,
   aquaTail: 150,
+  rockThrow: 150,
   dialog: dialogSpeed === 'Slow' ? 100 : dialogSpeed === 'Fast' ? 50 : 75,
 };
 
@@ -5209,6 +5345,7 @@ const lastAnimTsRef = React.useRef({
   level: 0,
   buff: 0,
   aquaTail: 0,
+  rockThrow: 0,
   dialog: 0
 });
 const indicesRef = React.useRef({
@@ -5222,6 +5359,7 @@ const indicesRef = React.useRef({
   level: 0,
   buff: 0,
   aquaTail: 0,
+  rockThrow: 0,
   dialog: 0
 });
 
@@ -5598,6 +5736,22 @@ React.useEffect(() => {
       }
     }
 
+    // Rock Throw VFX
+    const elapsedRockThrow = ts - (lastAnimTsRef.current.rockThrow || 0);
+    if (rockThrowRef.current === true) {
+      if (elapsedRockThrow >= ANIM_TIMINGS.rockThrow) {
+        lastAnimTsRef.current.rockThrow = ts;
+        indicesRef.current.rockThrow = (indicesRef.current.rockThrow + 1) % rockThrowVfxFrames.length;
+        setRockThrowIndex(indicesRef.current.rockThrow);
+      }  
+    }
+    else {
+      // reset rock throw animation when not active
+      lastAnimTsRef.current.rockThrow = ts;
+      indicesRef.current.rockThrow = 0;
+      setRockThrowIndex(0);
+    }
+
     // Level VFX
     const elapsedLevel = ts - (lastAnimTsRef.current.level || 0);
     if (isLevelingUp) {
@@ -5626,7 +5780,7 @@ React.useEffect(() => {
     if (animRafRef.current) cancelAnimationFrame(animRafRef.current);
     animRafRef.current = null;
   };
-}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail, dialogIndex, dialogSpeed]); // flags that change animation sets
+}, [isSpinning, isSleeping, isLevelingUp, isBuffing, usingAquaTail, dialogIndex, dialogSpeed, rockThrow]); // flags that change animation sets
 
 React.useEffect(()=> {
   if (!showDialog) {
@@ -5678,6 +5832,7 @@ const generateDungeon = () => {
      level: 0,
      buff: 0,
      aquaTail: 0,
+     rockThrow: 0,
      dialog: 0
    };
    indicesRef.current = {
@@ -5688,6 +5843,7 @@ const generateDungeon = () => {
      level: 0,
      buff: 0,
      aquaTail: 0,
+     rockThrow: 0,
      dialog: 0
    };
    
@@ -6788,7 +6944,27 @@ return (
           ))))}
           
         </div>
-        <div
+        {/* Floating Rock Throw Projectile - Renders at pixel-perfect position with decimals */}
+        {rockThrowRef.current && (
+          <img
+            src={rockThrowVfxFrames[rockThrowIndex]}
+            alt="Rock Throw"
+            style={{
+              position: 'absolute',
+              transformOrigin: 'center',
+              transform: rockThrowTransform,
+              width: '40px',
+              height: '40px',
+              pointerEvents: 'none',
+              objectFit: 'contain',
+              //willChange: 'transform',
+              left: minCol > 0 ? `${(enemy1AttackBehaviorRef.current === true ? (enemy1PosRef.current.x - projectilePosRef.current.x) - minCol : enemy2AttackBehaviorRef.current === true ? (enemy2PosRef.current.x - projectilePosRef.current.x) - minCol : enemy3AttackBehaviorRef.current === true ? (enemy3PosRef.current.x - projectilePosRef.current.x) - minCol : enemy4AttackBehaviorRef.current === true ? (enemy4PosRef.current.x - projectilePosRef.current.x) - minCol : enemy5AttackBehaviorRef.current === true ? (enemy5PosRef.current.x - projectilePosRef.current.x) - minCol : enemy6AttackBehaviorRef.current === true ? (enemy6PosRef.current.x - projectilePosRef.current.x) - minCol : enemy7AttackBehaviorRef.current === true ? (enemy7PosRef.current.x - projectilePosRef.current.x) - minCol : enemy8AttackBehaviorRef.current === true ? (enemy8PosRef.current.x - projectilePosRef.current.x) - minCol : 0) * 40}px` : `${(enemy1AttackBehaviorRef.current === true ? enemy1PosRef.current.x - projectilePosRef.current.x : enemy2AttackBehaviorRef.current === true ? enemy2PosRef.current.x - projectilePosRef.current.x : enemy3AttackBehaviorRef.current === true ? enemy3PosRef.current.x - projectilePosRef.current.x : enemy4AttackBehaviorRef.current === true ? enemy4PosRef.current.x - projectilePosRef.current.x : enemy5AttackBehaviorRef.current === true ? enemy5PosRef.current.x - projectilePosRef.current.x : enemy6AttackBehaviorRef.current === true ? enemy6PosRef.current.x - projectilePosRef.current.x : enemy7AttackBehaviorRef.current === true ? enemy7PosRef.current.x - projectilePosRef.current.x : enemy8AttackBehaviorRef.current === true ? enemy8PosRef.current.x - projectilePosRef.current.x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemy1AttackBehaviorRef.current === true ? (enemy1PosRef.current.y - projectilePosRef.current.y) - minRow : enemy2AttackBehaviorRef.current === true ? (enemy2PosRef.current.y - projectilePosRef.current.y) - minRow : enemy3AttackBehaviorRef.current === true ? (enemy3PosRef.current.y - projectilePosRef.current.y) - minRow : enemy4AttackBehaviorRef.current === true ? (enemy4PosRef.current.y - projectilePosRef.current.y) - minRow : enemy5AttackBehaviorRef.current === true ? (enemy5PosRef.current.y - projectilePosRef.current.y) - minRow : enemy6AttackBehaviorRef.current === true ? (enemy6PosRef.current.y - projectilePosRef.current.y) - minRow : enemy7AttackBehaviorRef.current === true ? (enemy7PosRef.current.y - projectilePosRef.current.y) - minRow : enemy8AttackBehaviorRef.current === true ? (enemy8PosRef.current.y - projectilePosRef.current.y) - minRow : 0) * 40}px` : `${(enemy1AttackBehaviorRef.current === true ? enemy1PosRef.current.y - projectilePosRef.current.y : enemy2AttackBehaviorRef.current === true ? enemy2PosRef.current.y - projectilePosRef.current.y : enemy3AttackBehaviorRef.current === true ? enemy3PosRef.current.y - projectilePosRef.current.y : enemy4AttackBehaviorRef.current === true ? enemy4PosRef.current.y - projectilePosRef.current.y : enemy5AttackBehaviorRef.current === true ? enemy5PosRef.current.y - projectilePosRef.current.y : enemy6AttackBehaviorRef.current === true ? enemy6PosRef.current.y - projectilePosRef.current.y : enemy7AttackBehaviorRef.current === true ? enemy7PosRef.current.y - projectilePosRef.current.y : enemy8AttackBehaviorRef.current === true ? enemy8PosRef.current.y - projectilePosRef.current.y : 0) * 40}px`,
+            }}
+          />
+        )}
+      </div>
+      <div
               style={{
                 position: 'absolute',
                 left: '50%',
@@ -7176,7 +7352,6 @@ return (
           alignItems: 'flex-start',
         }}>
           <img src={vaporeonPortraitNormal} alt="Vaporeon Portrait" className="w-16 h-16" />
-      </div>
       </div>
       {showDialog && !isPaused ? (
         <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center"
