@@ -652,6 +652,14 @@ const ENEMY_DEFS = {
       frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
       frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
       frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
+    },
+      sleep: {
+      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep000.png',
+      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep001.png',
+      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep002.png',
+      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep003.png',
+      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep004.png',
+      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep005.png'
     }
   },
 },
@@ -822,6 +830,14 @@ const lunatoneDownRightSprites = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
+]
+const lunatoneSleepSprites = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep000.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep001.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep002.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep003.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep004.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep005.png'
 ]
 // Vaporeon sprite URLs
   // Idle animations
@@ -1530,6 +1546,7 @@ const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
+const [whoseTurn, setWhoseTurn] = React.useState('player');
 
 // Level params
 const [level, setLevel] = React.useState(1);
@@ -1654,6 +1671,14 @@ const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
   const [enemy6LastDirection, setEnemy6LastDirection] = React.useState('down');
   const [enemy7LastDirection, setEnemy7LastDirection] = React.useState('down');
   const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
+  const [enemy1Sleeping, setEnemy1Sleeping] = React.useState(false);
+  const [enemy2Sleeping, setEnemy2Sleeping] = React.useState(false);
+  const [enemy3Sleeping, setEnemy3Sleeping] = React.useState(false);
+  const [enemy4Sleeping, setEnemy4Sleeping] = React.useState(false);
+  const [enemy5Sleeping, setEnemy5Sleeping] = React.useState(false);
+  const [enemy6Sleeping, setEnemy6Sleeping] = React.useState(false);
+  const [enemy7Sleeping, setEnemy7Sleeping] = React.useState(false);
+  const [enemy8Sleeping, setEnemy8Sleeping] = React.useState(false);
   const [validOptions, setValidOptions] = React.useState(null);
   const [chosen, setChosen] = React.useState(0);
   // Attack booleans
@@ -2487,6 +2512,9 @@ function useMove(moveIndex) {
     //Debug prototype for a move-handling function ^^^
     addLogMessage('Vaporeon used Aqua Tail!');
   }
+  confirmEnemyBehavior();
+  advanceTicks();
+  depleteHungerAfterTicks(hungerTicks);
 }
 function addItemToInventory(itemName) {
   const itemDef = ITEM_DEFS[itemName];
@@ -2530,7 +2558,46 @@ function addItemToInventory(itemName) {
 
 //AI functions
 function patrol(enemyx, enemyy, key){
-
+if (key === 1){
+if (enemy1Sleeping === true){
+  return;
+}
+}
+if (key === 2){
+if (enemy2Sleeping === true){
+  return;
+}
+}
+if (key === 3){
+if (enemy3Sleeping === true){
+  return;
+}
+}
+if (key === 4){
+if (enemy4Sleeping === true){
+  return;
+}
+}
+if (key === 5){
+if (enemy5Sleeping === true){
+  return;
+}
+}
+if (key === 6){
+if (enemy6Sleeping === true){
+  return;
+}
+}
+if (key === 7){
+if (enemy7Sleeping === true){
+  return;
+}
+}
+if (key === 8){
+if (enemy8Sleeping === true){
+  return;
+}
+}
 const tileUp = dungeon[enemyy - 1][enemyx]
 const tileDown = dungeon[enemyy + 1][enemyx]
 const tileRight = dungeon[enemyy][enemyx + 1]
@@ -2998,6 +3065,46 @@ function verifyEnemyPosition(enemyx, enemyy, key){
 
 function pursue(enemyx, enemyy, key){
 
+if (key === 1){
+if (enemy1Sleeping === true){
+  return;
+}
+}
+if (key === 2){
+if (enemy2Sleeping === true){
+  return;
+}
+}
+if (key === 3){
+if (enemy3Sleeping === true){
+  return;
+}
+}
+if (key === 4){
+if (enemy4Sleeping === true){
+  return;
+}
+}
+if (key === 5){
+if (enemy5Sleeping === true){
+  return;
+}
+}
+if (key === 6){
+if (enemy6Sleeping === true){
+  return;
+}
+}
+if (key === 7){
+if (enemy7Sleeping === true){
+  return;
+}
+}
+if (key === 8){
+if (enemy8Sleeping === true){
+  return;
+}
+}
 const tileUp = dungeon[enemyy - 1][enemyx]
 const tileDown = dungeon[enemyy + 1][enemyx]
 const tileRight = dungeon[enemyy][enemyx + 1]
@@ -3448,7 +3555,7 @@ setEnemy8LastDirection('up')
 return
 }
 function confirmEnemyBehavior() {
-  if (enemy1){
+  if (enemy1 && enemy1Sleeping === false){
     const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
     if (enemy1Move1.alignment === 'same-direction') {
       if (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y)) {
@@ -3466,7 +3573,7 @@ function confirmEnemyBehavior() {
     }
   }
   //setTimeout(() => { 
-    if (enemy2){
+    if (enemy2 && enemy2Sleeping === false){
     const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
     if (enemy2Move1.alignment === 'same-direction') {
       if (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y)) {
@@ -3485,7 +3592,7 @@ function confirmEnemyBehavior() {
    //}, (1000))
 
   //setTimeout(() => { 
-    if (enemy3){
+    if (enemy3 && enemy3Sleeping === false){
     const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
     if (enemy3Move1.alignment === 'same-direction') {
       if (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y)) {
@@ -3505,7 +3612,7 @@ function confirmEnemyBehavior() {
 //}, (2000))
 
   //setTimeout(() => {
-    if (enemy4){
+    if (enemy4 && enemy4Sleeping === false){
     const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
     if (enemy4Move1.alignment === 'same-direction') {
       if (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y)) {
@@ -3525,7 +3632,7 @@ function confirmEnemyBehavior() {
 //}, (3000))
 
   //setTimeout(() => {
-    if (enemy5){
+    if (enemy5 && enemy5Sleeping === false){
     const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
     if (enemy5Move1.alignment === 'same-direction') {
       if (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y)) {
@@ -3545,7 +3652,7 @@ function confirmEnemyBehavior() {
 //}, (4000))
 
   //setTimeout(() => {
-  if (enemy6){
+  if (enemy6 && enemy6Sleeping === false){
     const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
     if (enemy6Move1.alignment === 'same-direction') {
       if (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y)) {
@@ -3565,7 +3672,7 @@ function confirmEnemyBehavior() {
 //}, (5000))
 
   //setTimeout(() => {
-    if (enemy7){
+    if (enemy7 && enemy7Sleeping === false){
     const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
     if (enemy7Move1.alignment === 'same-direction') {
       if (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y)) {
@@ -3585,7 +3692,7 @@ function confirmEnemyBehavior() {
 //}, (6000))
 
   //setTimeout(() => {
-   if (enemy8){
+   if (enemy8 && enemy8Sleeping === false){
     const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
     if (enemy8Move1.alignment === 'same-direction') {
       if (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y)) {
@@ -3784,6 +3891,70 @@ function useSelectedItem(target, item, id) {
     setTimeout(() => {
       setIsSleeping(false);
       addLogMessage('Vaporeon woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy1'){
+    setEnemy1Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType1].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy1Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType1].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy2'){
+    setEnemy2Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType2].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy2Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType2].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy3'){
+    setEnemy3Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType3].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy3Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType3].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy4'){
+    setEnemy4Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType4].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy4Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType4].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy5'){
+    setEnemy5Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType5].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy5Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType5].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy6'){
+    setEnemy6Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType6].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy6Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType6].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy7'){
+    setEnemy7Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType7].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy7Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType7].name + ' woke up!');
+    }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
+  }
+  else if (target === 'enemy8'){
+    setEnemy8Sleeping(true);
+    addLogMessage(ENEMY_DEFS[enemyType8].name + ' fell asleep!');
+  setTimeout(() => {
+      setEnemy8Sleeping(false);
+      addLogMessage(ENEMY_DEFS[enemyType8].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   } 
@@ -4156,8 +4327,10 @@ function useSelectedItem(target, item, id) {
     return updated;
   });
 }
-
   setShowItemActionMenu(false);
+  confirmEnemyBehavior();
+  advanceTicks();
+  depleteHungerAfterTicks(hungerTicks);
 }
 
 function discardSelectedItem(item, id) {
@@ -5324,7 +5497,10 @@ const ANIM_TIMINGS = {
   idle: 500,
   walk: 300,
   spin: 150,
-  sleep: 500,
+  sleep: {
+  player: 500,
+  enemy: 500,
+  },
   level: 150,
   buff: 150,
   aquaTail: 150,
@@ -5341,7 +5517,10 @@ const lastAnimTsRef = React.useRef({
   },
   walk: 0,
   spin: 0,
-  sleep: 0,
+  sleep: {
+  player: 0,
+  enemy: 0,
+  },
   level: 0,
   buff: 0,
   aquaTail: 0,
@@ -5355,7 +5534,10 @@ const indicesRef = React.useRef({
   },
   walk: 0,
   spin: 0,
-  sleep: 0,
+  sleep: {
+  player: 0,
+  enemy: 0,
+  },
   level: 0,
   buff: 0,
   aquaTail: 0,
@@ -5477,7 +5659,7 @@ function normalizeAndCdn(url) {
       vaporeonAquaTailUpSprites, vaporeonAquaTailDownSprites, vaporeonAquaTailLeftSprites, vaporeonAquaTailRightSprites,
       vaporeonAquaTailUpRightSprites, vaporeonAquaTailUpLeftSprites, vaporeonAquaTailDownRightSprites, vaporeonAquaTailDownLeftSprites,
       lunatoneSprites, lunatoneUpSprites, lunatoneLeftSprites, lunatoneRightSprites,
-      lunatoneUpRightSprites, lunatoneUpLeftSprites, lunatoneDownLeftSprites, lunatoneDownRightSprites,
+      lunatoneUpRightSprites, lunatoneUpLeftSprites, lunatoneDownLeftSprites, lunatoneDownRightSprites, lunatoneSleepSprites,
       levelVfxFrames, buffVfxFrames,
       vaporeonUpSpinSprites, vaporeonRightSpinSprites // (repeat-safe)
     ];
@@ -5576,6 +5758,7 @@ React.useEffect(() => {
     ...lunatoneUpLeftSprites,
     ...lunatoneDownLeftSprites,
     ...lunatoneDownRightSprites,
+    ...lunatoneSleepSprites,
     ...levelVfxFrames,
     ...buffVfxFrames,
     ...DebugTextDialog
@@ -5623,15 +5806,31 @@ React.useEffect(() => {
     if (elapsedIdleEnemy >= ANIM_TIMINGS.idle) {
         lastAnimTsRef.current.idle.enemy = ts;
         indicesRef.current.idle.enemy = (indicesRef.current.idle.enemy + 1) % (enemyType1 === 'Lunatone' ? lunatoneSprites.length : vaporeonSprites.length);
+        if (enemy1Sleeping === false){
         setEnemy1IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy2Sleeping === false){
         setEnemy2IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy3Sleeping === false){
         setEnemy3IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy4Sleeping === false){
         setEnemy4IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy5Sleeping === false){
         setEnemy5IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy6Sleeping === false){
         setEnemy6IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy7Sleeping === false){
         setEnemy7IdleAnimIndex(indicesRef.current.idle.enemy);
+        }
+        if (enemy8Sleeping === false){
         setEnemy8IdleAnimIndex(indicesRef.current.idle.enemy);
       }
+    }
     if (!isWalkingRef.current && !isSpinning && !isSleeping && !isPausedRef.current) {
       if (elapsedIdlePlayer >= ANIM_TIMINGS.idle) {
         lastAnimTsRef.current.idle.player = ts;
@@ -5727,14 +5926,16 @@ React.useEffect(() => {
     }
 
     // Sleep
-    const elapsedSleep = ts - (lastAnimTsRef.current.sleep || 0);
+    const elapsedSleepPlayer = ts - (lastAnimTsRef.current.sleep.player || 0);
+    const elapsedSleepEnemy = ts - (lastAnimTsRef.current.sleep.enemy || 0);
     if (isSleeping) {
-      if (elapsedSleep >= ANIM_TIMINGS.sleep) {
-        lastAnimTsRef.current.sleep = ts;
-        indicesRef.current.sleep = (indicesRef.current.sleep + 1) % vaporeonSleepSprites.length;
-        setSleepSpriteIndex(indicesRef.current.sleep);
+      if (elapsedSleepPlayer >= ANIM_TIMINGS.sleep.player) {
+        lastAnimTsRef.current.sleep.player = ts;
+        indicesRef.current.sleep.player = (indicesRef.current.sleep.player + 1) % vaporeonSleepSprites.length;
+        setSleepSpriteIndex(indicesRef.current.sleep.player);
       }
     }
+
 
     // Rock Throw VFX
     const elapsedRockThrow = ts - (lastAnimTsRef.current.rockThrow || 0);
@@ -5828,7 +6029,7 @@ const generateDungeon = () => {
      idle: { player: 0, enemy: 0 },
      walk: 0,
      spin: 0,
-     sleep: 0,
+     sleep: { player: 0, enemy: 0 },
      level: 0,
      buff: 0,
      aquaTail: 0,
@@ -5839,7 +6040,7 @@ const generateDungeon = () => {
      idle: { player: 0, enemy: 0 },
      walk: 0,
      spin: 0,
-     sleep: 0,
+     sleep: { player: 0, enemy: 0 },
      level: 0,
      buff: 0,
      aquaTail: 0,
@@ -6183,7 +6384,20 @@ return (
                     )}
                     {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
                       <img
-                        src={enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 0
+                        src={
+                        enemy1Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame1 :
+                        enemy1Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame2 :
+                        enemy1Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame3 :
+                        enemy1Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame4 :
+                        enemy1Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame5 :
+                        enemy1Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType1].sprites.sleep.frame6 :
+                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : 
                         enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : 
                         enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : 
@@ -6268,7 +6482,20 @@ return (
 
                     {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
                       <img
-                        src={enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 0
+                        src={
+                        enemy2Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame1 :
+                        enemy2Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame2 :
+                        enemy2Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame3 :
+                        enemy2Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame4 :
+                        enemy2Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame5 :
+                        enemy2Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType2].sprites.sleep.frame6 :
+                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : 
                         enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : 
                         enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : 
@@ -6353,7 +6580,20 @@ return (
 
                     {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
                       <img
-                        src={enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 0
+                        src={
+                        enemy3Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame1 :
+                        enemy3Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame2 :
+                        enemy3Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame3 :
+                        enemy3Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame4 :
+                        enemy3Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame5 :
+                        enemy3Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType3].sprites.sleep.frame6 :
+                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : 
                         enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : 
                         enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : 
@@ -6438,7 +6678,20 @@ return (
 
                     {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
                       <img
-                        src={enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 0
+                        src={
+                        enemy4Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame1 :
+                        enemy4Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame2 :
+                        enemy4Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame3 :
+                        enemy4Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame4 :
+                        enemy4Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame5 :
+                        enemy4Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType4].sprites.sleep.frame6 :
+                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : 
                         enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : 
                         enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : 
@@ -6523,7 +6776,20 @@ return (
 
                     {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
                       <img
-                        src={enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 0
+                        src={
+                        enemy5Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame1 :
+                        enemy5Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame2 :
+                        enemy5Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame3 :
+                        enemy5Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame4 :
+                        enemy5Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame5 :
+                        enemy5Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType5].sprites.sleep.frame6 :
+                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : 
                         enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : 
                         enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : 
@@ -6608,7 +6874,20 @@ return (
 
                     {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
                       <img
-                        src={enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 0
+                        src={
+                        enemy6Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame1 :
+                        enemy6Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame2 :
+                        enemy6Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame3 :
+                        enemy6Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame4 :
+                        enemy6Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame5 :
+                        enemy6Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType6].sprites.sleep.frame6 :
+                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : 
                         enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : 
                         enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : 
@@ -6693,7 +6972,20 @@ return (
 
                     {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
                       <img
-                        src={enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 0
+                        src={
+                        enemy7Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame1 :
+                        enemy7Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame2 :
+                        enemy7Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame3 :
+                        enemy7Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame4 :
+                        enemy7Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame5 :
+                        enemy7Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType7].sprites.sleep.frame6 :
+                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : 
                         enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : 
                         enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : 
@@ -6778,7 +7070,20 @@ return (
 
                     {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
                       <img
-                        src={enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 0
+                        src={
+                        enemy8Sleeping === true && sleepSpriteIndex === 0 ?
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame1 :
+                        enemy8Sleeping === true && sleepSpriteIndex === 1 ? 
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame2 :
+                        enemy8Sleeping === true && sleepSpriteIndex === 2 ? 
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame3 :
+                        enemy8Sleeping === true && sleepSpriteIndex === 3 ? 
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame4 :
+                        enemy8Sleeping === true && sleepSpriteIndex === 4 ? 
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame5 :
+                        enemy8Sleeping === true && sleepSpriteIndex === 5 ? 
+                        ENEMY_DEFS[enemyType8].sprites.sleep.frame6 :
+                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 0
                         ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : 
                         enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : 
                         enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : 
