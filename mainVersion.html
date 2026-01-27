@@ -1547,8 +1547,6 @@ const width = randInt(minWidth, maxWidth + 1);
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
-const [whoseTurn, setWhoseTurn] = React.useState('player');
-const whoseTurnRef = React.useRef(whoseTurn);
 
 // Level params
 const [level, setLevel] = React.useState(1);
@@ -1665,6 +1663,24 @@ const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
   const enemy8MoveBehaviorRef = React.useRef(enemy8MoveBehavior);
   const [enemy8AttackBehavior, setEnemy8AttackBehavior] = React.useState(false); // Whether enemies attack
   const enemy8AttackBehaviorRef = React.useRef(enemy8AttackBehavior);
+  //Designated States to block movement
+  const [enemy1Attacking, setEnemy1Attacking] = React.useState(false);
+  const enemy1AttackingRef = React.useRef(enemy1Attacking);
+  const [enemy2Attacking, setEnemy2Attacking] = React.useState(false);
+  const enemy2AttackingRef = React.useRef(enemy2Attacking);
+  const [enemy3Attacking, setEnemy3Attacking] = React.useState(false);
+  const enemy3AttackingRef = React.useRef(enemy3Attacking);
+  const [enemy4Attacking, setEnemy4Attacking] = React.useState(false);
+  const enemy4AttackingRef = React.useRef(enemy4Attacking);
+  const [enemy5Attacking, setEnemy5Attacking] = React.useState(false);
+  const enemy5AttackingRef = React.useRef(enemy5Attacking);
+  const [enemy6Attacking, setEnemy6Attacking] = React.useState(false);
+  const enemy6AttackingRef = React.useRef(enemy6Attacking);
+  const [enemy7Attacking, setEnemy7Attacking] = React.useState(false);
+  const enemy7AttackingRef = React.useRef(enemy7Attacking);
+  const [enemy8Attacking, setEnemy8Attacking] = React.useState(false);
+  const enemy8AttackingRef = React.useRef(enemy8Attacking);
+  // Last direction faced
   const [enemy1LastDirection, setEnemy1LastDirection] = React.useState('down');
   const [enemy2LastDirection, setEnemy2LastDirection] = React.useState('down');
   const [enemy3LastDirection, setEnemy3LastDirection] = React.useState('down');
@@ -1900,8 +1916,15 @@ React.useEffect(() => { enemy7MoveBehaviorRef.current = enemy7MoveBehavior ; }, 
 React.useEffect(() => { enemy7AttackBehaviorRef.current = enemy7AttackBehavior ; }, [enemy7AttackBehavior]);
 React.useEffect(() => { enemy8MoveBehaviorRef.current = enemy8MoveBehavior ; }, [enemy8MoveBehavior]);
 React.useEffect(() => { enemy8AttackBehaviorRef.current = enemy8AttackBehavior ; }, [enemy8AttackBehavior]);
+React.useEffect(() => { enemy1AttackingRef.current = enemy1Attacking ; }, [enemy1Attacking]);
+React.useEffect(() => { enemy2AttackingRef.current = enemy2Attacking ; }, [enemy2Attacking]);
+React.useEffect(() => { enemy3AttackingRef.current = enemy3Attacking ; }, [enemy3Attacking]);
+React.useEffect(() => { enemy4AttackingRef.current = enemy4Attacking ; }, [enemy4Attacking]);
+React.useEffect(() => { enemy5AttackingRef.current = enemy5Attacking ; }, [enemy5Attacking]);
+React.useEffect(() => { enemy6AttackingRef.current = enemy6Attacking ; }, [enemy6Attacking]);
+React.useEffect(() => { enemy7AttackingRef.current = enemy7Attacking ; }, [enemy7Attacking]);
+React.useEffect(() => { enemy8AttackingRef.current = enemy8Attacking ; }, [enemy8Attacking]);
 React.useEffect(() => { rockThrowRef.current = rockThrow ; }, [rockThrow]);
-React.useEffect(() => { whoseTurnRef.current = whoseTurn ; }, [whoseTurn]);
 React.useEffect(() => { projectilePosRef.current = projectilePos ; }, [projectilePos]);
 React.useEffect(() => { 
   setPlayerHP(basePlayerHP);
@@ -1949,29 +1972,6 @@ React.useEffect(() =>
   }
 }, [itemOrder, inventory, showToolbox]);
 
-//React effect to handle turn order
-/*
-React.useEffect(() => {
-  if (whoseTurnRef.current === 'player') return; // Player turn handled elsewhere
-  if (whoseTurnRef.current === 'enemy1' && enemy1) {
-    confirmEnemyBehavior(1);
-  } else if (whoseTurnRef.current === 'enemy2' && enemy2) {
-    confirmEnemyBehavior(2);
-  } else if (whoseTurnRef.current === 'enemy3' && enemy3) {
-    confirmEnemyBehavior(3);
-  } else if (whoseTurnRef.current === 'enemy4' && enemy4) {
-    confirmEnemyBehavior(4);
-  } else if (whoseTurnRef.current === 'enemy5' && enemy5) {
-    confirmEnemyBehavior(5);
-  } else if (whoseTurnRef.current === 'enemy6' && enemy6) {
-    confirmEnemyBehavior(6);
-  } else if (whoseTurnRef.current === 'enemy7' && enemy7) {
-    confirmEnemyBehavior(7);
-  } else if (whoseTurnRef.current === 'enemy8' && enemy8) {
-    confirmEnemyBehavior(8);
-  }
-}, [whoseTurn]);
-*/
 
 //Function declarations start here
 function getWallTileType(x, y, dungeon) {
@@ -2419,6 +2419,7 @@ function enemyUseMove(move, key){
   }, turnIntervalMs);
   setTimeout(() => {
     key === 1 ? setEnemy1AttackBehavior(false) : key === 2 ? setEnemy2AttackBehavior(false) : key === 3 ? setEnemy3AttackBehavior(false) : key === 4 ? setEnemy4AttackBehavior(false) : key === 5 ? setEnemy5AttackBehavior(false) : key === 6 ? setEnemy6AttackBehavior(false) : key === 7 ? setEnemy7AttackBehavior(false) : key === 8 ? setEnemy8AttackBehavior(false) : null;
+    key === 1 ? setEnemy1Attacking(false) : key === 2 ? setEnemy2Attacking(false) : key === 3 ? setEnemy3Attacking(false) : key === 4 ? setEnemy4Attacking(false) : key === 5 ? setEnemy5Attacking(false) : key === 6 ? setEnemy6Attacking(false) : key === 7 ? setEnemy7Attacking(false) : key === 8 ? setEnemy8Attacking(false) : null;
     if (move.name === 'Rock Throw'){
       setRockThrow(false);
       setProjectilePos(prev => ({ ...prev, [key]: { x: 0, y: 0 } })); // Reset projectile position at end
@@ -2892,8 +2893,7 @@ function useMove(moveIndex) {
     }, 1501)
     addLogMessage('Vaporeon used Aqua Tail!');
   }
-  confirmEnemyBehavior(1);
-  setWhoseTurn('enemy1');
+  confirmEnemyBehavior(1, 0);
   advanceTicks();
   depleteHungerAfterTicks(hungerTicks);
 }
@@ -3938,26 +3938,18 @@ return
 function waitUntil(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-function confirmEnemyBehavior(key) {
+function confirmEnemyBehavior(key, move) {
   console.log('confirming behavior for enemy', key)
-  /*
-  if (projectilePosRef.current.x !== 0 && projectilePosRef.current.y !== 0){
-    waitUntil(1000).then(() => {
-      setWhoseTurn('enemy' + key);
-      rockThrowRef.current = false;
-      console.log('rock throwing resolved, player turn')
-    });
-  }
-  */
   if (key === 1 && enemy1 && enemy1Sleeping === false){
     const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
     if (enemy1Move1.alignment === 'same-direction') {
       if (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy1Move1, 1);
+        setEnemy1Attacking(true);
+        setTimeout(() => enemyUseMove(enemy1Move1, 1), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy1PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy1PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy1Move1.range)
-        setWhoseTurn('enemy2');
-        confirmEnemyBehavior(2);
+        console.log('triggered with key', key);
+        confirmEnemyBehavior(2, move + 1);
         return;
       }
     }
@@ -3967,18 +3959,18 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy1PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) >= 15 && enemy1MoveBehaviorRef.current === true){
       patrol(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
     }
-    confirmEnemyBehavior(2);
+    confirmEnemyBehavior(2, move);
   }
   //setTimeout(() => { 
     if (key === 2 && enemy2 && enemy2Sleeping === false){
     const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
     if (enemy2Move1.alignment === 'same-direction') {
       if (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy2Move1, 2);
+        setEnemy2Attacking(true);
+        setTimeout(() => enemyUseMove(enemy2Move1, 2), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy2PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy2PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy2Move1.range)
-        setWhoseTurn('enemy3');
-        confirmEnemyBehavior(3);
+        confirmEnemyBehavior(3, move + 1);
         return;
       }
     }
@@ -3988,8 +3980,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy2PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) >= 15 && enemy2MoveBehaviorRef.current === true){
       patrol(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)  
     }
-  setWhoseTurn('enemy3');
-  confirmEnemyBehavior(3);
+  confirmEnemyBehavior(3, move);
   }
    //}, (1000))
 
@@ -3998,11 +3989,11 @@ function confirmEnemyBehavior(key) {
     const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
     if (enemy3Move1.alignment === 'same-direction') {
       if (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy3Move1, 3);
+        setEnemy3Attacking(true);
+        setTimeout(() => enemyUseMove(enemy3Move1, 3), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy3PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy3PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy3Move1.range)
-        setWhoseTurn('enemy4');
-        confirmEnemyBehavior(4);
+        confirmEnemyBehavior(4, move + 1);
         return;
       }
     }
@@ -4012,8 +4003,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy3PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) >= 15 && enemy3MoveBehaviorRef.current === true){
       patrol(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)  
     }
-    setWhoseTurn('enemy4');
-    confirmEnemyBehavior(4);
+    confirmEnemyBehavior(4, move);
   }
 //}, (2000))
 
@@ -4022,11 +4012,11 @@ function confirmEnemyBehavior(key) {
     const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
     if (enemy4Move1.alignment === 'same-direction') {
       if (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy4Move1, 4);
+        setEnemy4Attacking(true);
+        setTimeout(() => enemyUseMove(enemy4Move1, 4), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy4PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy4PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy4Move1.range)
-        setWhoseTurn('enemy5');
-        confirmEnemyBehavior(5);
+        confirmEnemyBehavior(5, move + 1);
         return;
       }
     }
@@ -4036,8 +4026,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy4PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) >= 15 && enemy4MoveBehaviorRef.current === true){
       patrol(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)  
     }
-    setWhoseTurn('enemy5');
-    confirmEnemyBehavior(5);
+    confirmEnemyBehavior(5, move);
   } 
 //}, (3000))
 
@@ -4046,11 +4035,11 @@ function confirmEnemyBehavior(key) {
     const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
     if (enemy5Move1.alignment === 'same-direction') {
       if (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy5Move1, 5);
+        setEnemy5Attacking(true);
+        setTimeout(() => enemyUseMove(enemy5Move1, 5), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy5PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy5PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy5Move1.range)
-        setWhoseTurn('enemy6');
-        confirmEnemyBehavior(6);
+        confirmEnemyBehavior(6, move + 1);
         return;
       }
     }
@@ -4060,8 +4049,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy5PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) >= 15 && enemy5MoveBehaviorRef.current === true){
       patrol(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)  
     }
-    setWhoseTurn('enemy6');
-    confirmEnemyBehavior(6);
+    confirmEnemyBehavior(6, move);
   } 
 //}, (4000))
 
@@ -4070,11 +4058,11 @@ function confirmEnemyBehavior(key) {
     const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
     if (enemy6Move1.alignment === 'same-direction') {
       if (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy6Move1, 6);
+        setEnemy6Attacking(true);
+        setTimeout(() => enemyUseMove(enemy6Move1, 6), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy6PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy6PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy6Move1.range)
-        setWhoseTurn('enemy7');
-        confirmEnemyBehavior(7);
+        confirmEnemyBehavior(7, move + 1);
         return;
       }
     }
@@ -4084,8 +4072,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy6PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) >= 15 && enemy6MoveBehaviorRef.current === true){
       patrol(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) 
     }
-    setWhoseTurn('enemy7');
-    confirmEnemyBehavior(7);
+    confirmEnemyBehavior(7, move);
   } 
 //}, (5000))
 
@@ -4094,11 +4081,11 @@ function confirmEnemyBehavior(key) {
     const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
     if (enemy7Move1.alignment === 'same-direction') {
       if (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy7Move1, 7);
+        setEnemy7Attacking(true);
+        setTimeout(() => enemyUseMove(enemy7Move1, 7), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy7PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy7PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy7Move1.range)
-        setWhoseTurn('enemy8');
-        confirmEnemyBehavior(8);
+        confirmEnemyBehavior(8, move + 1);
         return;
       }
     }
@@ -4108,8 +4095,7 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy7PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) >= 15 && enemy7MoveBehaviorRef.current === true){
       patrol(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)  
     }
-    setWhoseTurn('enemy8');
-    confirmEnemyBehavior(8);
+    confirmEnemyBehavior(8, move);
   } 
 //}, (6000))
 
@@ -4118,7 +4104,8 @@ function confirmEnemyBehavior(key) {
     const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
     if (enemy8Move1.alignment === 'same-direction') {
       if (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y)) {
-        enemyUseMove(enemy8Move1, 8);
+        setEnemy8Attacking(true);
+        setTimeout(() => enemyUseMove(enemy8Move1, 8), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy8PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy8PosRef.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy8Move1.range)
         return;
@@ -4130,7 +4117,6 @@ function confirmEnemyBehavior(key) {
     else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15 && enemy8MoveBehaviorRef.current === true){
       patrol(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)  
     }
-    setWhoseTurn('player');
   } 
 //}, (7000))
 }
@@ -4751,8 +4737,7 @@ function useSelectedItem(target, item, id) {
   });
 }
   setShowItemActionMenu(false);
-  setWhoseTurn('enemy1');
-  confirmEnemyBehavior(1);
+  confirmEnemyBehavior(1, 0);
   advanceTicks();
   depleteHungerAfterTicks(hungerTicks);
 }
@@ -5828,7 +5813,7 @@ return;
 const moveCheck = (() => {
   if (isAiming) return { ok: false, reason: 'isAiming' };
   if (isPaused) return { ok: false, reason: 'isPaused' };
-  if (enemy1AttackBehaviorRef.current === true || enemy2AttackBehaviorRef.current === true || enemy3AttackBehaviorRef.current === true || enemy4AttackBehaviorRef.current === true || enemy5AttackBehaviorRef.current === true || enemy6AttackBehaviorRef.current === true || enemy7AttackBehaviorRef.current === true || enemy8AttackBehaviorRef.current === true) return { ok: false, reason: 'enemy attacking' };
+  if (enemy1AttackingRef.current === true || enemy2AttackingRef.current === true || enemy3AttackingRef.current === true || enemy4AttackingRef.current === true || enemy5AttackingRef.current === true || enemy6AttackingRef.current === true || enemy7AttackingRef.current === true || enemy8AttackingRef.current === true) return { ok: false, reason: 'enemy attacking' };
   if (ks.current.sheld || ks.current.aheld || ks.current.dheld || ks.current.wheld || ks.current.qheld || ks.current.eheld || ks.current.zheld || ks.current.cheld) return {ok: false, reason: 'key held'}
   if (keyState.shift) return { ok: false, reason: 'shift held' };
   if (isSpinning) return { ok: false, reason: 'isSpinning' };
@@ -5860,8 +5845,7 @@ if (moveCheck.ok) {
   setIsWalking(true);
   triggerWalkCooldown();
   updateCamera(newX, newY);
-  //setWhoseTurn('enemy1');
-  confirmEnemyBehavior(1);
+  confirmEnemyBehavior(1, 0);
 } else {
   console.log('Movement blocked:', moveCheck.reason,
     'new:', newX, newY,
