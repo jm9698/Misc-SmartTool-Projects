@@ -2846,16 +2846,31 @@ function useMove(moveIndex) {
   if (move.name === 'Acid Armor' && buffState === 1) {
     setPlayerSpecialDefense(prev => prev + specialDefenceGain);
     setIsBuffing(true);
-    setTimeout(() => setIsBuffing(false), 1650);
+    setTimeout(() => {
+      confirmEnemyBehavior(1, 0);
+      advanceTicks();
+      depleteHungerAfterTicks(hungerTicks);
+      setIsBuffing(false);
+    }, 1650);
     addLogMessage('Vaporeon used Acid Armor! Special Defense increased!');
   } else if (move.name === 'Acid Armor' && buffState < 4) {
     setPlayerSpecialDefense(prev => prev + specialDefenceGain);
     setIsBuffing(true);
-    setTimeout(() => setIsBuffing(false), 1650);
+    setTimeout(() => {
+      confirmEnemyBehavior(1, 0);
+      advanceTicks();
+      depleteHungerAfterTicks(hungerTicks);
+      setIsBuffing(false);
+    }, 1650);
     addLogMessage('Vaporeon used Acid Armor! Special Defense increased!');
   } else if (move.name === 'Acid Armor' && buffState >= 4) {
     setIsBuffing(true);
-    setTimeout(() => setIsBuffing(false), 1650);
+    setTimeout(() => {
+      confirmEnemyBehavior(1, 0);
+      advanceTicks();
+      depleteHungerAfterTicks(hungerTicks);
+      setIsBuffing(false);
+    }, 1650);
     addLogMessage('Vaporeon used Acid Armor, but her Special Defense can\'t go any higher!');
     return;
   }
@@ -2863,11 +2878,13 @@ function useMove(moveIndex) {
   if (move.name === 'Aqua Tail') {
     setIsWalking(false);
     const moveRange = 1
+    const willDie = 'null';
     setTimeout(() => setUsingAquaTail(true), 0);
     setTimeout(() => setUsingAquaTail(false), 1500); // Duration of Aqua Tail animation
     setTimeout(() => { 
     if (enemy1 && Math.abs(playerPosRef.current.x - enemy1PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy1PosRef.current.y) <= moveRange){
     setEnemy1Pos( {x: 2, y: 2} )
+    const willDie = 'enemy1';
    }
     if (enemy2 && Math.abs(playerPosRef.current.x - enemy2PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy2PosRef.current.y) <= moveRange){
     setEnemy2Pos( {x: 2, y: 2} )
@@ -2891,11 +2908,19 @@ function useMove(moveIndex) {
     setEnemy8Pos( {x: 2, y: 2} )
    }
     }, 1501)
+    setTimeout(() => {
+      if (willDie !== 'enemy1') {
+      confirmEnemyBehavior(1, 0);
+      }
+      else {
+        confirmEnemyBehavior(2, 0);
+      }
+      advanceTicks();
+      depleteHungerAfterTicks(hungerTicks);
+      setIsWalking(true);
+    }, 2000); // After Aqua Tail animation completes
     addLogMessage('Vaporeon used Aqua Tail!');
   }
-  confirmEnemyBehavior(1, 0);
-  advanceTicks();
-  depleteHungerAfterTicks(hungerTicks);
 }
 function addItemToInventory(itemName) {
   const itemDef = ITEM_DEFS[itemName];
