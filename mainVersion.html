@@ -3963,12 +3963,748 @@ return
 function waitUntil(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+function checkAttackPath(key) {
+  console.log('checking attack path for enemy', key);
+  const enemy1Move1 = enemy1 ? ENEMY_DEFS[enemyType1].moves[0] : null;
+  const enemy2Move1 = enemy2 ? ENEMY_DEFS[enemyType2].moves[0] : null;
+  const enemy3Move1 = enemy3 ? ENEMY_DEFS[enemyType3].moves[0] : null;
+  const enemy4Move1 = enemy4 ? ENEMY_DEFS[enemyType4].moves[0] : null;
+  const enemy5Move1 = enemy5 ? ENEMY_DEFS[enemyType5].moves[0] : null;
+  const enemy6Move1 = enemy6 ? ENEMY_DEFS[enemyType6].moves[0] : null;
+  const enemy7Move1 = enemy7 ? ENEMY_DEFS[enemyType7].moves[0] : null;
+  const enemy8Move1 = enemy8 ? ENEMY_DEFS[enemyType8].moves[0] : null;
+  const range1 = enemy1Move1 ? enemy1Move1.range : 0;
+  const range2 = enemy2Move1 ? enemy2Move1.range : 0;
+  const range3 = enemy3Move1 ? enemy3Move1.range : 0;
+  const range4 = enemy4Move1 ? enemy4Move1.range : 0;
+  const range5 = enemy5Move1 ? enemy5Move1.range : 0;
+  const range6 = enemy6Move1 ? enemy6Move1.range : 0;
+  const range7 = enemy7Move1 ? enemy7Move1.range : 0;
+  const range8 = enemy8Move1 ? enemy8Move1.range : 0;
+  const attackDirection = 'none';
+if (key === 1){
+  if (enemy1Move1.alignment === 'same-direction') {
+    if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking right1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y);
+    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y][enemy1PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking left1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y);
+    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y][enemy1PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy1PosRef.current.y < playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking down1 at', enemy1PosRef.current.x, enemy1PosRef.current.y + i);
+    if (enemy1PosRef.current.x === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy1PosRef.current.y > playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking up1 at', enemy1PosRef.current.x, enemy1PosRef.current.y - i);
+    if (enemy1PosRef.current.x === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking downright1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y + i);
+    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking downleft1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y + i);
+    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking upright1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y - i);
+    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking upleft1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y - i);
+    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 2){
+  if (enemy2Move1.alignment === 'same-direction') {
+    if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+    for (let i = 1; i <= range2; i++){
+    console.log('checking right2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y);
+    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y][enemy2PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking left2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y);
+    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y][enemy2PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy2PosRef.current.y < playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking down2 at', enemy2PosRef.current.x, enemy2PosRef.current.y + i);
+    if (enemy2PosRef.current.x === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy2PosRef.current.y > playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking up2 at', enemy2PosRef.current.x, enemy2PosRef.current.y - i);
+    if (enemy2PosRef.current.x === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking downright2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y + i);
+    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking downleft2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y + i);
+    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking upright2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y - i);
+    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking upleft2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y - i);
+    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 3){
+  if (enemy3Move1.alignment === 'same-direction') {
+    if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+    for (let i = 1; i <= range3; i++){
+    console.log('checking right3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y);
+    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y][enemy3PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking left3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y);
+    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y][enemy3PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy3PosRef.current.y < playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking down3 at', enemy3PosRef.current.x, enemy3PosRef.current.y + i);
+    if (enemy3PosRef.current.x === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy3PosRef.current.y > playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking up3 at', enemy3PosRef.current.x, enemy3PosRef.current.y - i);
+    if (enemy3PosRef.current.x === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking downright3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y + i);
+    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking downleft3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y + i);
+    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking upright3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y - i);
+    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking upleft3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y - i);
+    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 4){
+  if (enemy4Move1.alignment === 'same-direction') {
+    if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+    for (let i = 1; i <= range4; i++){
+    console.log('checking right4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y);
+    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y][enemy4PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking left4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y);
+    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y][enemy4PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy4PosRef.current.y < playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking down4 at', enemy4PosRef.current.x, enemy4PosRef.current.y + i);
+    if (enemy4PosRef.current.x === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy4PosRef.current.y > playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking up4 at', enemy4PosRef.current.x, enemy4PosRef.current.y - i);
+    if (enemy4PosRef.current.x === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking downright4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y + i);
+    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking downleft4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y + i);
+    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking upright4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y - i);
+    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking upleft4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y - i);
+    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 5){
+  if (enemy5Move1.alignment === 'same-direction') {
+    if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking right5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y);
+    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y][enemy5PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking left5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y);
+    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y][enemy5PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy5PosRef.current.y < playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking down5 at', enemy5PosRef.current.x, enemy5PosRef.current.y + i);
+    if (enemy5PosRef.current.x === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy5PosRef.current.y > playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking up5 at', enemy5PosRef.current.x, enemy5PosRef.current.y - i);
+    if (enemy5PosRef.current.x === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking downright5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y + i);
+    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking downleft5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y + i);
+    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x - i]  === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking upright5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y - i);
+    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking upleft5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y - i);
+    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 6){
+  if (enemy6Move1.alignment === 'same-direction') {
+    if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking right6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y);
+    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y][enemy6PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking left6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y);
+    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y][enemy6PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy6PosRef.current.y < playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking down6 at', enemy6PosRef.current.x, enemy6PosRef.current.y + i);
+    if (enemy6PosRef.current.x === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy6PosRef.current.y > playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking up6 at', enemy6PosRef.current.x, enemy6PosRef.current.y - i);
+    if (enemy6PosRef.current.x === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking downright6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y + i);
+    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking downleft6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y + i);
+    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking upright6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y - i);
+    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking upleft6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y - i);
+    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 7){
+  if (enemy7Move1.alignment === 'same-direction') {
+    if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+      console.log('checking right7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y);
+      if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+      if (dungeon[enemy7PosRef.current.y][enemy7PosRef.current.x + i] === 'W'){
+        return false;
+      }
+    }
+    } else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking left7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y);
+    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y][enemy7PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy7PosRef.current.y < playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking down7 at', enemy7PosRef.current.x, enemy7PosRef.current.y + i);
+    if (enemy7PosRef.current.x === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy7PosRef.current.y > playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking up7 at', enemy7PosRef.current.x, enemy7PosRef.current.y - i);
+    if (enemy7PosRef.current.x === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking downright7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y + i);
+    if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking downleft7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y + i);
+    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking upright7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y - i);
+    if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking upleft7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y - i);
+    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+if (key === 8){
+  if (enemy8Move1.alignment === 'same-direction') {
+    if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking right8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y);
+    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y][enemy8PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking left8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y);
+    if (enemy8PosRef.current.x - i === playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y][enemy8PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy8PosRef.current.y < playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking down8 at', enemy8PosRef.current.x, enemy8PosRef.current.y + i);
+    if (enemy8PosRef.current.x === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    } else if (enemy8PosRef.current.y > playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking up8 at', enemy8PosRef.current.x, enemy8PosRef.current.y - i);
+    if (enemy8PosRef.current.x === playerPosRef.current.x && enemy8PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking downright8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y + i);
+    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking downleft8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y + i);
+    if (enemy8PosRef.current.x - i === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking upright8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y - i);
+    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking upleft8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y - i);
+    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x - i] === 'W'){
+      return false;
+    }
+  }
+    }
+  }
+}
+
+return true;
+}
 function confirmEnemyBehavior(key, move) {
   console.log('confirming behavior for enemy', key)
   if (key === 1 && enemy1 && enemy1Sleeping === false){
+    const wallCheck = checkAttackPath(1);
+    console.log('wallcheck for enemy 1:', wallCheck)
     const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
     if (enemy1Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y))) {
         setEnemy1Attacking(true);
         setTimeout(() => enemyUseMove(enemy1Move1, 1), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy1PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy1PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -3989,8 +4725,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => { 
     if (key === 2 && enemy2 && enemy2Sleeping === false){
     const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
+    const wallCheck = checkAttackPath(2);
+    console.log('wallcheck for enemy 2:', wallCheck)
     if (enemy2Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y))) {
         setEnemy2Attacking(true);
         setTimeout(() => enemyUseMove(enemy2Move1, 2), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy2PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy2PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4012,8 +4750,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => { 
     if (key === 3 && enemy3 && enemy3Sleeping === false){
     const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
+    const wallCheck = checkAttackPath(3);
+    console.log('wallcheck for enemy 3:', wallCheck)
     if (enemy3Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y))) {
         setEnemy3Attacking(true);
         setTimeout(() => enemyUseMove(enemy3Move1, 3), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy3PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy3PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4035,8 +4775,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => {
     if (key === 4 && enemy4 && enemy4Sleeping === false){
     const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
+    const wallCheck = checkAttackPath(4);
+    console.log('wallcheck for enemy 4:', wallCheck)
     if (enemy4Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y))) {
         setEnemy4Attacking(true);
         setTimeout(() => enemyUseMove(enemy4Move1, 4), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy4PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy4PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4058,8 +4800,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => {
     if (key === 5 && enemy5 && enemy5Sleeping === false){
     const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
+    const wallCheck = checkAttackPath(5);
+    console.log('wallcheck for enemy 5:', wallCheck)
     if (enemy5Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y))) {
         setEnemy5Attacking(true);
         setTimeout(() => enemyUseMove(enemy5Move1, 5), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy5PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy5PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4081,8 +4825,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => {
   if (key === 6 && enemy6 && enemy6Sleeping === false){
     const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
+    const wallCheck = checkAttackPath(6);
+    console.log('wallcheck for enemy 6:', wallCheck)
     if (enemy6Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y))) {
         setEnemy6Attacking(true);
         setTimeout(() => enemyUseMove(enemy6Move1, 6), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy6PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy6PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4104,8 +4850,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => {
     if (key === 7 && enemy7 && enemy7Sleeping === false){
     const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
+    const wallCheck = checkAttackPath(7);
+    console.log('wallcheck for enemy 7:', wallCheck)
     if (enemy7Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y))) {
         setEnemy7Attacking(true);
         setTimeout(() => enemyUseMove(enemy7Move1, 7), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy7PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy7PosRef.current.y, 'playery', playerPosRef.current.y)
@@ -4127,8 +4875,10 @@ function confirmEnemyBehavior(key, move) {
   //setTimeout(() => {
    if (key === 8 && enemy8 && enemy8Sleeping === false){
     const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
+    const wallCheck = checkAttackPath(8);
+    console.log('wallcheck for enemy 8:', wallCheck)
     if (enemy8Move1.alignment === 'same-direction') {
-      if (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y)) {
+      if (wallCheck === true && (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y))) {
         setEnemy8Attacking(true);
         setTimeout(() => enemyUseMove(enemy8Move1, 8), ((4600 + turnIntervalMs) * (move)));
         console.log('triggered with', 'enemyx',enemy8PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy8PosRef.current.y, 'playery', playerPosRef.current.y)
