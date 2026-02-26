@@ -1,0 +1,14 @@
+{
+  "name": "dungeon-game-build",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/extract-and-build.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.22.0",
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0"
+  }
+}
