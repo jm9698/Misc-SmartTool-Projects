@@ -37,3 +37,9 @@ const transformed = babel.transformSync(jsx, {
 const outPath = path.join(outDir, 'bundle.js');
 fs.writeFileSync(outPath, transformed.code, 'utf8');
 console.log('Built', outPath);
+
+// After bundling, update the HTML
+let updatedHtml = html.replace(/<script\s+src=["']https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/babel-standalone\/6\.26\.0\/babel\.min\.js["']><\/script>\s*/i, '');
+updatedHtml = updatedHtml.replace(/<script\s+type=["']text\/babel["'][^>]*>[\s\S]*?<\/script>/i, '<script src="dist/bundle.js" defer></script>');
+fs.writeFileSync(htmlPath, updatedHtml, 'utf8');
+console.log('Updated HTML to load bundle and removed Babel standalone');
