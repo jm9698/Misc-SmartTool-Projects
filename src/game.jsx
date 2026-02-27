@@ -1,21 +1,106 @@
 
-// Utility to index inventory items with their definitions and positions
+// ========== SPRITE ATLAS SYSTEM ==========
+// Organized by category for future sprite sheet consolidation.
+// Each entry includes: url (current individual sprite), and atlas metadata (x, y, w, h) for future sheet consolidation.
 
-const Reviverseed = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png';
-const Apple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png';
-const Bigapple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Big%20Apple.png';
-const Goldenapple = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Golden%20Apple.png';
-const Grimyfood = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Grimy%20Food.png';
-const Maxether = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Ether.png';
-const Maxelixir = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Elixir.png';
-const Protein = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Protein.png';
-const Calcium = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Calcium.png';
-const Iron = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png';
-const Zinc = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png';
-const Carbos = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png';
-const Scarf = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Equips/Scarf.png';
-const Orb = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Orbs/Wonder_Orb.png';
-const GeoPebble = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Throwables/Arc/Geo_Pebble.png';
+const ItemAtlas = {
+  // Seeds
+  Reviverseed: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png',
+    atlas: { sheet: 'items-seeds', x: 0, y: 0, w: 32, h: 32 }
+  },
+  
+  // Food
+  Apple: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png',
+    atlas: { sheet: 'items-food', x: 0, y: 0, w: 32, h: 32 }
+  },
+  Bigapple: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Big%20Apple.png',
+    atlas: { sheet: 'items-food', x: 32, y: 0, w: 32, h: 32 }
+  },
+  Goldenapple: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Golden%20Apple.png',
+    atlas: { sheet: 'items-food', x: 64, y: 0, w: 32, h: 32 }
+  },
+  Grimyfood: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Grimy%20Food.png',
+    atlas: { sheet: 'items-food', x: 96, y: 0, w: 32, h: 32 }
+  },
+  
+  // Drinks
+  Maxether: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Ether.png',
+    atlas: { sheet: 'items-drinks', x: 0, y: 0, w: 32, h: 32 }
+  },
+  Maxelixir: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Elixir.png',
+    atlas: { sheet: 'items-drinks', x: 32, y: 0, w: 32, h: 32 }
+  },
+  Protein: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Protein.png',
+    atlas: { sheet: 'items-drinks', x: 64, y: 0, w: 32, h: 32 }
+  },
+  Calcium: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Calcium.png',
+    atlas: { sheet: 'items-drinks', x: 96, y: 0, w: 32, h: 32 }
+  },
+  Iron: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png',
+    atlas: { sheet: 'items-drinks', x: 128, y: 0, w: 32, h: 32 }
+  },
+  Zinc: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png',
+    atlas: { sheet: 'items-drinks', x: 160, y: 0, w: 32, h: 32 }
+  },
+  Carbos: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png',
+    atlas: { sheet: 'items-drinks', x: 192, y: 0, w: 32, h: 32 }
+  },
+  
+  // Equipment
+  Scarf: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Equips/Scarf.png',
+    atlas: { sheet: 'items-equips', x: 0, y: 0, w: 32, h: 32 }
+  },
+  
+  // Orbs
+  Orb: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Orbs/Wonder_Orb.png',
+    atlas: { sheet: 'items-orbs', x: 0, y: 0, w: 32, h: 32 }
+  },
+  
+  // Throwables
+  GeoPebble: {
+    url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Throwables/Arc/Geo_Pebble.png',
+    atlas: { sheet: 'items-throwables', x: 0, y: 0, w: 32, h: 32 }
+  }
+};
+
+// Helper function to get sprite URL (prefers atlas if available, falls back to individual URL)
+const getItemSprite = (itemName) => {
+  const item = ItemAtlas[itemName];
+  if (!item) return null;
+  // Currently returns individual URL; when atlases are created, can be updated to use atlas.sheet + coords
+  return item.url;
+};
+
+// Create compatibility aliases for existing code
+const Reviverseed = getItemSprite('Reviverseed');
+const Apple = getItemSprite('Apple');
+const Bigapple = getItemSprite('Bigapple');
+const Goldenapple = getItemSprite('Goldenapple');
+const Grimyfood = getItemSprite('Grimyfood');
+const Maxether = getItemSprite('Maxether');
+const Maxelixir = getItemSprite('Maxelixir');
+const Protein = getItemSprite('Protein');
+const Calcium = getItemSprite('Calcium');
+const Iron = getItemSprite('Iron');
+const Zinc = getItemSprite('Zinc');
+const Carbos = getItemSprite('Carbos');
+const Scarf = getItemSprite('Scarf');
+const Orb = getItemSprite('Orb');
+const GeoPebble = getItemSprite('GeoPebble');
 
 // Scene Dialog
   //Debug Text Dialog (Key = 0)
@@ -1077,15 +1162,29 @@ const wallSpriteDown = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-
 const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet000tl.png'; // Updated to new top left corner sprite
 const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
 const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
-const cornerSpriteBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png';
-const enclosedWallSprite1 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png';
-const enclosedWallSprite2 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png';
-const enclosedWallSprite3 = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png';
-const enclosedWallSprite4 ='https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png';
-const innerCornerTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topright.png';
-const innerCornerTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png';
-const innerCornerBottomRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png';
-const innerCornerBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png';
+const Sprites = {
+  tiles: {
+    cornerSpriteBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png',
+    enclosedWallSprite1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png',
+    enclosedWallSprite2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png',
+    enclosedWallSprite3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png',
+    enclosedWallSprite4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png',
+    innerCornerTopRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topright.png',
+    innerCornerTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png',
+    innerCornerBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png',
+    innerCornerBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png',
+  }
+};
+
+const cornerSpriteBottomRight = Sprites.tiles.cornerSpriteBottomRight;
+const enclosedWallSprite1 = Sprites.tiles.enclosedWallSprite1;
+const enclosedWallSprite2 = Sprites.tiles.enclosedWallSprite2;
+const enclosedWallSprite3 = Sprites.tiles.enclosedWallSprite3;
+const enclosedWallSprite4 = Sprites.tiles.enclosedWallSprite4;
+const innerCornerTopRight = Sprites.tiles.innerCornerTopRight;
+const innerCornerTopLeft = Sprites.tiles.innerCornerTopLeft;
+const innerCornerBottomRight = Sprites.tiles.innerCornerBottomRight;
+const innerCornerBottomLeft = Sprites.tiles.innerCornerBottomLeft;
 // Helper function to generate bar component URLs on demand
 const generateBarComponents = (category, formatFn) => {
   const urls = {};
@@ -1114,18 +1213,25 @@ const expBarComponent = generateBarComponents(
 // Item Selection indicator (proto)
 const itemSelector = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/itemSelector.png';
 
-// Floor Sprites (random rotation)
-const floorSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet116%233.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
+// Floor Sprites (random rotation) and sound effects grouped
+Sprites.floor = [
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet068%231.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet070%232.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet116%233.png',
+  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedfloorSpritesheet117%234.png'
 ];
 
-//Sfx
-const selectsfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Select1sfx.mp3');
-const declinesfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Decline1sfx.mp3');
-const affirmativesfx = new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Affirmative1sfx.mp3');
+Sprites.sfx = {
+  select: new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Select1sfx.mp3'),
+  decline: new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Decline1sfx.mp3'),
+  affirmative: new Audio('https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/sfx/general/Affirmative1sfx.mp3')
+};
+
+// compatibility aliases
+const floorSprites = Sprites.floor;
+const selectsfx = Sprites.sfx.select;
+const declinesfx = Sprites.sfx.decline;
+const affirmativesfx = Sprites.sfx.affirmative;
 
 // Stair Sprite (proto)
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
