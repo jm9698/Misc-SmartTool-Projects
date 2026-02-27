@@ -3,43 +3,41 @@ const path = require('path');
 const babel = require('@babel/core');
 
 const repoRoot = path.join(__dirname, '..');
-const htmlPath = path.join(repoRoot, 'mainVersion.html');
 const srcDir = path.join(repoRoot, 'src');
 const outDir = path.join(repoRoot, 'dist');
 
-if (!fs.existsSync(htmlPath)) {
-  console.error('mainVersion.html not found at', htmlPath);
-  process.exit(1);
-}
-
-const html = fs.readFileSync(htmlPath, 'utf8');
-const match = html.match(/<script\s+type=["']text\/babel["'][^>]*>([\s\S]*?)<\/script>/i);
-if (!match) {
-  console.error('No <script type="text/babel"> block found in mainVersion.html');
-  process.exit(1);
-}
-
-const jsx = match[1];
-if (!fs.existsSync(srcDir)) fs.mkdirSync(srcDir);
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
+if (!fs.existsSync(srcDir)) {
+  console.error('src directory not found at', srcDir);
+  process.exit(1);
+}
 
+// Prefer using an explicit source file `src/game.jsx` if present.
 const srcPath = path.join(srcDir, 'game.jsx');
-fs.writeFileSync(srcPath, jsx, 'utf8');
-console.log('Wrote', srcPath);
+if (!fs.existsSync(srcPath)) {
+  console.error('Source file not found:', srcPath);
+  console.error('Please ensure src/game.jsx exists or restore the <script type="text/babel"> block in mainVersion.html');
+  process.exit(1);
+}
+
+const jsx = fs.readFileSync(srcPath, 'utf8');
+console.log('Read', srcPath);
 
 // Transpile to plain JS bundle (single-file) using Babel programmatically
-const transformed = babel.transformSync(jsx, {
-  presets: ['@babel/preset-react', '@babel/preset-env'],
-  filename: 'game.jsx',
-  sourceMaps: false,
-});
+let transformed;
+try {
+  transformed = babel.transformSync(jsx, {
+    presets: ['@babel/preset-react', '@babel/preset-env'],
+    filename: 'game.jsx',
+    sourceMaps: false,
+  });
+} catch (err) {
+  console.error('Babel transform failed:', err);
+  process.exit(1);
+}
 
 const outPath = path.join(outDir, 'bundle.js');
 fs.writeFileSync(outPath, transformed.code, 'utf8');
 console.log('Built', outPath);
 
-// After bundling, update the HTML
-let updatedHtml = html.replace(/<script\s+src=["']https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/babel-standalone\/6\.26\.0\/babel\.min\.js["']><\/script>\s*/i, '');
-updatedHtml = updatedHtml.replace(/<script\s+type=["']text\/babel["'][^>]*>[\s\S]*?<\/script>/i, '<script src="dist/bundle.js" defer></script>');
-fs.writeFileSync(htmlPath, updatedHtml, 'utf8');
-console.log('Updated HTML to load bundle and removed Babel standalone');
+console.log('Build complete. Note: this script no longer modifies mainVersion.html.');
