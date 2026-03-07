@@ -2,87 +2,136 @@
 // ========== SPRITE ATLAS SYSTEM ==========
 // Organized by category for future sprite sheet consolidation.
 // Each entry includes: url (current individual sprite), and atlas metadata (x, y, w, h) for future sheet consolidation.
+const atlasCache = {};
+const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
+const loadAtlasImage = (atlasUrl) => {
+  if (!atlasCache[atlasUrl]) {
+    atlasCache[atlasUrl] = new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`Failed to load atlas: ${atlasUrl}`));
+      img.src = atlasUrl;
+    });
+  }
+  return atlasCache[atlasUrl];
+};
 
 const ItemAtlas = {
+  
   // Seeds
   Reviverseed: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png',
-    atlas: { sheet: 'items-seeds', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 107, y: 37, w: 16, h: 16 }
   },
   
   // Food
   Apple: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png',
-    atlas: { sheet: 'items-food', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 27, y: 37, w: 18, h: 18 }
   },
   Bigapple: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Big%20Apple.png',
-    atlas: { sheet: 'items-food', x: 32, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 47, y: 37, w: 18, h: 18 }
   },
   Goldenapple: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Golden%20Apple.png',
-    atlas: { sheet: 'items-food', x: 64, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 67, y: 37, w: 18, h: 18 }
   },
   Grimyfood: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Grimy%20Food.png',
-    atlas: { sheet: 'items-food', x: 96, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 87, y: 37, w: 18, h: 18 }
   },
   
   // Drinks
   Maxether: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Ether.png',
-    atlas: { sheet: 'items-drinks', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 41, y: 17, w: 18, h: 18 }
   },
   Maxelixir: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Elixir.png',
-    atlas: { sheet: 'items-drinks', x: 32, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 1, y: 37, w: 24, h: 24 }
   },
   Protein: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Protein.png',
-    atlas: { sheet: 'items-drinks', x: 64, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 81, y: 17, w: 18, h: 18 }
   },
   Calcium: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Calcium.png',
-    atlas: { sheet: 'items-drinks', x: 96, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 1, y: 17, w: 18, h: 18 }
   },
   Iron: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png',
-    atlas: { sheet: 'items-drinks', x: 128, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 61, y: 17, w: 18, h: 18 }
   },
   Zinc: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png',
-    atlas: { sheet: 'items-drinks', x: 160, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 101, y: 17, w: 18, h: 18 }
   },
   Carbos: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png',
-    atlas: { sheet: 'items-drinks', x: 192, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 21, y: 17, w: 18, h: 18 }
   },
   
   // Equipment
   Scarf: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Equips/Scarf.png',
-    atlas: { sheet: 'items-equips', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 8, y: 7, w: 16, h: 14 }
   },
   
   // Orbs
   Orb: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Orbs/Wonder_Orb.png',
-    atlas: { sheet: 'items-orbs', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 19, y: 1, w: 16, h: 14 }
   },
   
   // Throwables
   GeoPebble: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Throwables/Arc/Geo_Pebble.png',
-    atlas: { sheet: 'items-throwables', x: 0, y: 0, w: 32, h: 32 }
+    atlas: { sheet: itemAtlasUrl, x: 51, y: 1, w: 12, h: 9 }
   }
 };
 
-// Helper function to get sprite URL (prefers atlas if available, falls back to individual URL)
+// Helper function to get sprite URL (returns individual URL for backward compatibility)
 const getItemSprite = (itemName) => {
   const item = ItemAtlas[itemName];
   if (!item) return null;
-  // Currently returns individual URL; when atlases are created, can be updated to use atlas.sheet + coords
   return item.url;
+};
+
+// Get atlas metadata for a specific item key
+const getItemAtlasData = (itemName) => {
+  const item = ItemAtlas[itemName];
+  return item ? item.atlas : null;
+};
+
+// Map ItemDef name to ItemAtlas key for rendering
+const getAtlasKeyForItemName = (itemDefName) => {
+  const nameMap = {
+    'Reviver Seed': 'Reviverseed',
+    'Stun Seed': 'Reviverseed',
+    'Tiny Reviver Seed': 'Reviverseed',
+    'Sleep Seed': 'Reviverseed',
+    'Warp Seed': 'Reviverseed',
+    'Life Seed': 'Reviverseed',
+    'Pure Seed': 'Reviverseed',
+    'Joy Seed': 'Reviverseed',
+    'Apple': 'Apple',
+    'Big Apple': 'Bigapple',
+    'Golden Apple': 'Goldenapple',
+    'Grimy Food': 'Grimyfood',
+    'Max Ether': 'Maxether',
+    'Max Elixir': 'Maxelixir',
+    'Protein': 'Protein',
+    'Calcium': 'Calcium',
+    'Iron': 'Iron',
+    'Zinc': 'Zinc',
+    'Carbos': 'Carbos',
+    'Scarf': 'Scarf',
+    'Wonder Orb': 'Orb',
+    'Geo Pebble': 'GeoPebble'
+  };
+  return nameMap[itemDefName] || null;
 };
 
 // Create compatibility aliases for existing code
@@ -101,6 +150,59 @@ const Carbos = getItemSprite('Carbos');
 const Scarf = getItemSprite('Scarf');
 const Orb = getItemSprite('Orb');
 const GeoPebble = getItemSprite('GeoPebble');
+
+// ========== SPRITE CANVAS COMPONENT ==========
+// Renders a single sprite from an atlas using canvas drawImage
+const SpriteCanvas = React.memo(({ atlasKey, width = 40, height = 40, style = {} }) => {
+  const canvasRef = React.useRef(null);
+  
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const atlasData = getItemAtlasData(atlasKey);
+    if (!atlasData) return;
+    
+    const render = async () => {
+      try {
+        const atlasImg = await loadAtlasImage(atlasData.sheet);
+        const ctx = canvas.getContext('2d', { willReadFrequently: false });
+        
+        // Set canvas size
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw the sprite from atlas using drawImage with source and destination rects
+        ctx.drawImage(
+          atlasImg,
+          atlasData.x,      // source x
+          atlasData.y,      // source y
+          atlasData.w,      // source width
+          atlasData.h,      // source height
+          0,                // destination x
+          0,                // destination y
+          width,            // destination width
+          height            // destination height
+        );
+      } catch (err) {
+        console.error('Error rendering sprite:', err);
+      }
+    };
+    
+    render();
+  }, [atlasKey, width, height]);
+  
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        imageRendering: 'pixelated',
+        objectFit: 'contain',
+        ...style
+      }}
+    />
+  );
+});
 
 // Scene Dialog
   //Debug Text Dialog (Key = 0)
@@ -7234,17 +7336,26 @@ return (
                         top: '25%',
                       }} />
                     )}
-                    {itemHere && (
-                      <img src={ITEM_DEFS[itemHere.itemName].sprite} alt={itemHere.itemName} className="absolute w-full h-full" style={{
-                        zIndex: 5,
-                        objectFit: 'contain',
-                        width: '50%',
-                        height: '50%',
-                        left: '25%',
-                        top: '25%',
-                        transform: ITEM_DEFS[itemHere.itemName].sprite !== Reviverseed && ITEM_DEFS[itemHere.itemName].sprite !== Scarf && ITEM_DEFS[itemHere.itemName].sprite !== Orb ? 'scale(1.5)' : 'none'
-                      }} />
-                    )}
+                    {itemHere && (() => {
+                      const atlasKey = getAtlasKeyForItemName(itemHere.itemName);
+                      const shouldScale = atlasKey && !['Reviverseed', 'Scarf', 'Orb'].includes(atlasKey);
+                      return (
+                        <SpriteCanvas
+                          atlasKey={atlasKey}
+                          width={40}
+                          height={40}
+                          style={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: `translate(-50%, -50%) ${shouldScale ? 'scale(1.5)' : ''}`,
+                            zIndex: 5,
+                            width: '50%',
+                            height: '50%'
+                          }}
+                        />
+                      );
+                    })()}
                     {isBuffing && playerPos.x === colIndex && playerPos.y === rowIndex && (
                       <img
                         src={buffVfxFrames[buffVfxIndex]}
