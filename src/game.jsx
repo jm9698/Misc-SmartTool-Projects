@@ -4,6 +4,8 @@
 // Each entry includes: url (current individual sprite), and atlas metadata (x, y, w, h) for future sheet consolidation.
 const atlasCache = {};
 const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
+const vaporeonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/atlas/VaporeonAtlas.png';
+
 const loadAtlasImage = (atlasUrl) => {
   if (!atlasCache[atlasUrl]) {
     atlasCache[atlasUrl] = new Promise((resolve, reject) => {
@@ -91,6 +93,238 @@ const ItemAtlas = {
     atlas: { sheet: itemAtlasUrl, x: 51, y: 1, w: 12, h: 9 }
   }
 };
+const VaporeonAtlas = {
+  idle: {
+    down: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 217, w: 40, h: 56 }
+      }
+    },
+    left: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 217, w: 40, h: 56 }
+      }
+    },
+    right: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 337, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 379, y: 217, w: 40, h: 56 }
+      }
+    },
+    up: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 589, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 631, y: 217, w: 40, h: 56 }
+      }
+    },
+    downleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 217, w: 40, h: 56 }
+      }
+    },
+    downright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 217, w: 40, h: 56 }
+      }
+    },
+    upleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 421, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 463, y: 217, w: 40, h: 56 }
+      }
+    },
+    upright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 505, y: 217, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 547, y: 217, w: 40, h: 56 }
+      }
+    },
+  },
+  walk: {
+    down: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 337, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 379, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 421, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 463, y: 1, w: 40, h: 56 }
+      }
+    },
+    up: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 59, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 59, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 59, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 59, w: 40, h: 56 }
+      }
+    },
+    right: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 673, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 715, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 757, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 799, y: 1, w: 40, h: 56 }
+      }
+    },
+    left: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 505, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 547, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 589, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 631, y: 1, w: 40, h: 56 }
+      }
+    },
+    downleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 1, w: 40, h: 56 }
+      }
+    },
+    downright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 1, w: 40, h: 56 }
+      }
+    },
+    upleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 841, y: 1, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 883, y: 1, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 925, y: 1, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 967, y: 1, w: 40, h: 56 }
+      }
+    },
+    upright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 59, w: 40, h: 56 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 59, w: 40, h: 56 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 59, w: 40, h: 56 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png',
+      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 59, w: 40, h: 56 }
+      }
+    }
+  }
+};
+
+
 
 // Helper function to get sprite URL (returns individual URL for backward compatibility)
 const getItemSprite = (itemName) => {
@@ -98,11 +332,28 @@ const getItemSprite = (itemName) => {
   if (!item) return null;
   return item.url;
 };
+const getVaporeonSprite = (animation, direction, frame) => {
+  const animData = VaporeonAtlas[animation];
+  if (!animData) return null;
+  const dirData = animData[direction];
+  if (!dirData) return null;
+  const frameData = dirData[frame];
+  if (!frameData) return null;
+  return frameData.url;
+}
 
 // Get atlas metadata for a specific item key
 const getItemAtlasData = (itemName) => {
   const item = ItemAtlas[itemName];
   return item ? item.atlas : null;
+};
+const getVaporeonAtlasData = (animation, direction, frame) => {
+  const animData = VaporeonAtlas[animation];
+  if (!animData) return null;
+  const dirData = animData[direction];
+  if (!dirData) return null;
+  const frameData = dirData[frame];
+  return frameData ? frameData.atlas : null;
 };
 
 // Map ItemDef name to ItemAtlas key for rendering
@@ -154,14 +405,22 @@ const GeoPebble = getItemSprite('GeoPebble');
 
 // ========== SPRITE CANVAS COMPONENT ==========
 // Renders a single sprite from an atlas using canvas drawImage
-const SpriteCanvas = React.memo(({ atlasKey, width = 40, height = 40, style = {} }) => {
+const SpriteCanvas = React.memo(({ atlasKey, animation, direction, frame, width = 40, height = 40, style = {} }) => {
   const canvasRef = React.useRef(null);
   
   React.useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    const atlasData = getItemAtlasData(atlasKey);
+    let atlasData;
+    if (atlasKey) {
+      // Item atlas
+      atlasData = getItemAtlasData(atlasKey);
+    } else if (animation && direction && frame !== undefined) {
+      // Vaporeon atlas
+      atlasData = getVaporeonAtlasData(animation, direction, frame);
+    }
+    
     if (!atlasData) return;
     
     const render = async () => {
@@ -191,7 +450,7 @@ const SpriteCanvas = React.memo(({ atlasKey, width = 40, height = 40, style = {}
     };
     
     render();
-  }, [atlasKey, width, height]);
+  }, [atlasKey, animation, direction, frame, width, height]);
   
   return (
     <canvas
@@ -939,99 +1198,99 @@ const lunatoneSleepSprites = [
 // Vaporeon sprite URLs
   // Idle animations
 const vaporeonSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png'
+getVaporeonSprite('idle', 'down', 1),
+getVaporeonSprite('idle', 'down', 2),
 ];
 
 const vaporeonLeftSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png'
+getVaporeonSprite('idle', 'left', 1),
+getVaporeonSprite('idle', 'left', 2),
 ];
 
 const vaporeonRightSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png'
+getVaporeonSprite('idle', 'right', 1),
+getVaporeonSprite('idle', 'right', 2),
 ];
 
 const vaporeonUpSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png'
+getVaporeonSprite('idle', 'up', 1),
+getVaporeonSprite('idle', 'up', 2),
 ];
 
 const vaporeonDownLeftSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png'
+getVaporeonSprite('idle', 'downleft', 1),
+getVaporeonSprite('idle', 'downleft', 2),
 ];
 
 const vaporeonDownRightSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png'
+getVaporeonSprite('idle', 'downright', 1),
+getVaporeonSprite('idle', 'downright', 2),
 ];
 
 const vaporeonUpLeftSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png'
+getVaporeonSprite('idle', 'upleft', 1),
+getVaporeonSprite('idle', 'upleft', 2),
 ];
 
 const vaporeonUpRightSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png'
+getVaporeonSprite('idle', 'upright', 1),
+getVaporeonSprite('idle', 'upright', 2),
 ];
   // Walking animations
 const vaporeonDownWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png'
+getVaporeonSprite('walk', 'down', 1),
+getVaporeonSprite('walk', 'down', 2),
+getVaporeonSprite('walk', 'down', 3),
+getVaporeonSprite('walk', 'down', 4),
 ]
 
 const vaporeonUpWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png'
+getVaporeonSprite('walk', 'up', 1),
+getVaporeonSprite('walk', 'up', 2),
+getVaporeonSprite('walk', 'up', 3),
+getVaporeonSprite('walk', 'up', 4),
 ]
 
 const vaporeonLeftWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png'
+getVaporeonSprite('walk', 'left', 1),
+getVaporeonSprite('walk', 'left', 2),
+getVaporeonSprite('walk', 'left', 3),
+getVaporeonSprite('walk', 'left', 4),
 ]
 
 const vaporeonRightWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png'
+getVaporeonSprite('walk', 'right', 1),
+getVaporeonSprite('walk', 'right', 2),
+getVaporeonSprite('walk', 'right', 3),
+getVaporeonSprite('walk', 'right', 4),
 ]
 
 const vaporeonUpLeftWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png'
+getVaporeonSprite('walk', 'upleft', 1),
+getVaporeonSprite('walk', 'upleft', 2),
+getVaporeonSprite('walk', 'upleft', 3),
+getVaporeonSprite('walk', 'upleft', 4),
 ]
 
 const vaporeonUpRightWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png'
+getVaporeonSprite('walk', 'upright', 1),
+getVaporeonSprite('walk', 'upright', 2),
+getVaporeonSprite('walk', 'upright', 3),
+getVaporeonSprite('walk', 'upright', 4),
 ]
 
 const vaporeonDownLeftWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png'
+getVaporeonSprite('walk', 'downleft', 1),
+getVaporeonSprite('walk', 'downleft', 2),
+getVaporeonSprite('walk', 'downleft', 3),
+getVaporeonSprite('walk', 'downleft', 4),
 ]
 
 const vaporeonDownRightWalkSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png',
+getVaporeonSprite('walk', 'downright', 1),
+getVaporeonSprite('walk', 'downright', 2),
+getVaporeonSprite('walk', 'downright', 3),
+getVaporeonSprite('walk', 'downright', 4),
 
 ]
   // Spin animations
@@ -8260,56 +8519,100 @@ return (
                     ) : null}
 
                     {playerPos.x === colIndex && playerPos.y === rowIndex && (
-                      <img
-                        src={
-                          isSleeping
-                            ? vaporeonSleepSprites[sleepSpriteIndex]
-                            : isWalking
-                              ? (lastDirection === 'left' ? vaporeonLeftWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'right' ? vaporeonRightWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'up' ? vaporeonUpWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'down' ? vaporeonDownWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'up-left' ? vaporeonUpLeftWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'up-right' ? vaporeonUpRightWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'down-left' ? vaporeonDownLeftWalkSprites[walkSpriteIndex]
-                                : lastDirection === 'down-right' ? vaporeonDownRightWalkSprites[walkSpriteIndex]
-                                : vaporeonSprites[idleSpriteIndex])
-                              : isSpinning
-                                ? (lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
-                                  : vaporeonSprites[idleSpriteIndex])
-                              : usingAquaTail
-                                ? (lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
-                                  : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
-                                  : vaporeonSprites[idleSpriteIndex])
-                                : (lastDirection === 'left' ? vaporeonLeftSprites[idleSpriteIndex]
-                                  : lastDirection === 'right' ? vaporeonRightSprites[idleSpriteIndex]
-                                  : lastDirection === 'up' ? vaporeonUpSprites[idleSpriteIndex]
-                                  : lastDirection === 'down' ? vaporeonSprites[idleSpriteIndex]
-                                  : lastDirection === 'down-left' ? vaporeonDownLeftSprites[idleSpriteIndex]
-                                  : lastDirection === 'down-right' ? vaporeonDownRightSprites[idleSpriteIndex]
-                                  : lastDirection === 'up-left' ? vaporeonUpLeftSprites[idleSpriteIndex]
-                                  : lastDirection === 'up-right' ? vaporeonUpRightSprites[idleSpriteIndex]
-                                  : vaporeonSprites[idleSpriteIndex]) // Default sprite when not walking
-                        }
-                              alt="Vaporeon"
-                        className="player-sprite absolute"
-                        style={{
-                          transform: isSpinning ? 'scale(0.85)' : usingAquaTail ? 'scale(0.85)' : 'scale(1)'
-                        }}
+                      isSleeping ? (
+                        <img
+                          src={vaporeonSleepSprites[sleepSpriteIndex]}
+                          alt="Vaporeon"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: 'scale(1)'
+                          }}
                         />
+                      ) : isWalking ? (
+                        <SpriteCanvas
+                          animation="walk"
+                          direction={
+                            lastDirection === 'left' ? 'left'
+                            : lastDirection === 'right' ? 'right'
+                            : lastDirection === 'up' ? 'up'
+                            : lastDirection === 'down' ? 'down'
+                            : lastDirection === 'up-left' ? 'upleft'
+                            : lastDirection === 'up-right' ? 'upright'
+                            : lastDirection === 'down-left' ? 'downleft'
+                            : lastDirection === 'down-right' ? 'downright'
+                            : 'down'
+                          }
+                          frame={walkSpriteIndex + 1}
+                          width={40}
+                          height={56}
+                          alt="Vaporeon"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: 'scale(1)'
+                          }}
+                        />
+                      ) : isSpinning ? (
+                        <img
+                          src={
+                            lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
+                            : vaporeonSprites[idleSpriteIndex]
+                          }
+                          alt="Vaporeon"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: 'scale(0.85)'
+                          }}
+                        />
+                      ) : usingAquaTail ? (
+                        <img
+                          src={
+                            lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
+                            : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
+                            : vaporeonSprites[idleSpriteIndex]
+                          }
+                          alt="Vaporeon"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: 'scale(0.85)'
+                          }}
+                        />
+                      ) : (
+                        <SpriteCanvas
+                          animation="idle"
+                          direction={
+                            lastDirection === 'left' ? 'left'
+                            : lastDirection === 'right' ? 'right'
+                            : lastDirection === 'up' ? 'up'
+                            : lastDirection === 'down' ? 'down'
+                            : lastDirection === 'down-left' ? 'downleft'
+                            : lastDirection === 'down-right' ? 'downright'
+                            : lastDirection === 'up-left' ? 'upleft'
+                            : lastDirection === 'up-right' ? 'upright'
+                            : 'down'
+                          }
+                          frame={idleSpriteIndex + 1}
+                          width={40}
+                          height={56}
+                          alt="Vaporeon"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: 'scale(1)'
+                          }}
+                        />
+                      )
                     )}
                   </div>
                 )
