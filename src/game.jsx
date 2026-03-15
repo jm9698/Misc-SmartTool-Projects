@@ -128,7 +128,8 @@ const getAtlasKeyForItemName = (itemDefName) => {
     'Zinc': 'Zinc',
     'Carbos': 'Carbos',
     'Scarf': 'Scarf',
-    'Wonder Orb': 'Orb',
+    'Luminous Orb': 'Orb',
+    'Warp Orb': 'Orb',
     'Geo Pebble': 'GeoPebble'
   };
   return nameMap[itemDefName] || null;
@@ -643,6 +644,12 @@ const ITEM_DEFS = {
     sprite: Orb,
     stackSize: 1,
     tier: 4
+  },
+  "Warp Orb": {
+    name: "Warp Orb",
+    sprite: Orb,
+    stackSize: 1,
+    tier: 1
   }
 };
 const ENEMY_DEFS = {
@@ -1945,6 +1952,9 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
 
   // Shuffle and pick currencyCount locations
   for (let i = 0; i < currencyCount && floorPositions.length > 0; i++) {
+    floorPositions.splice(floorPositions.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y), 1); // Ensure player position is not included
+    floorPositions = floorPositions.filter(pos => !enemyHereTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
+    floorPositions = floorPositions.filter(pos => !itemTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure item positions are not included
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
     cLocations.push({
@@ -2009,6 +2019,9 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   const itemNamesTier4 = Object.keys(ITEM_DEFS).filter(name => ITEM_DEFS[name].tier === 4);
 
   for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
+    floorPositions.splice(floorPositions.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y), 1); // Ensure player position is not included
+    floorPositions = floorPositions.filter(pos => !enemyHereTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
+    floorPositions = floorPositions.filter(pos => !currencyTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure currency positions are not included
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
     let tierchosen = randInt(1, 100);
@@ -4747,6 +4760,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
   for (let yy = minY; yy <= maxY; yy++) {
     if (!dungeonLocal[yy]) continue;
     for (let xx = minX; xx <= maxX; xx++) {
+    if (room.center.x === xx && room.center.y === yy) continue; // skip room center to avoid blocking player spawn
       const c = dungeonLocal[yy][xx];
       if (typeof c !== 'undefined' && c !== 'W' && c !== 'S' && c !== playerPos.x && c !== playerPos.y && !enemyHereTilesRef.current.find(tile => tile.x === xx && tile.y === yy && !itemTilesRef.current.find(tile => tile.x === xx && tile.y === yy))) roomFloorTiles.push({ x: xx, y: yy });
     }
@@ -4786,6 +4800,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
         }
       }
     }
+    console.warn('spawnEnemy: no free tile found in room, scanning whole dungeon, found at', spawnX, spawnY);
   }
 
     // final fallback to room center clamped
@@ -5317,6 +5332,61 @@ function useSelectedItem(target, item, id) {
     return next;
   })
   }
+}
+else if (item === 'Warp Orb'){
+  if (target === 'player'){
+    setWillConsumeItemInventory(true);
+    const floorPositions = [];
+    for (let y = 0; y < dungeon.length; y++) {
+      for (let x = 0; x < dungeon[0].length; x++) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== playerPos.x || y !== playerPos.y)) {
+          floorPositions.push({ x, y });
+        }
+      }
+  }
+
+  if (floorPositions.length > 0) {
+      const randIndexPlayer = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexPlayer, 1); // Remove player's new position to avoid warping enemy there
+      const randIndexEnemy1 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy1, 1); // Remove enemy1's new position
+      const randIndexEnemy2 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy2, 1); // Remove enemy2's new position
+      const randIndexEnemy3 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy3, 1); // Remove enemy3's new position
+      const randIndexEnemy4 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy4, 1); // Remove enemy4's new position
+      const randIndexEnemy5 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy5, 1); // Remove enemy5's new position
+      const randIndexEnemy6 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy6, 1); // Remove enemy6's new position
+      const randIndexEnemy7 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy7, 1); // Remove enemy7's new position
+      const randIndexEnemy8 = randInt(0, floorPositions.length);
+      floorPositions.splice(randIndexEnemy8, 1); // Remove enemy8's new position
+      const newPosPlayer = floorPositions[randIndexPlayer];
+      const newPosEnemy1 = floorPositions[randIndexEnemy1];
+      const newPosEnemy2 = floorPositions[randIndexEnemy2];
+      const newPosEnemy3 = floorPositions[randIndexEnemy3];
+      const newPosEnemy4 = floorPositions[randIndexEnemy4];
+      const newPosEnemy5 = floorPositions[randIndexEnemy5];
+      const newPosEnemy6 = floorPositions[randIndexEnemy6];
+      const newPosEnemy7 = floorPositions[randIndexEnemy7];
+      const newPosEnemy8 = floorPositions[randIndexEnemy8];
+      setPlayerPos({ x: newPosPlayer.x, y: newPosPlayer.y });
+      enemy1.x !== 2 ? setEnemy1Pos({ x: newPosEnemy1.x, y: newPosEnemy1.y }) : null;
+      enemy2.x !== 2 ? setEnemy2Pos({ x: newPosEnemy2.x, y: newPosEnemy2.y }) : null;
+      enemy3.x !== 2 ? setEnemy3Pos({ x: newPosEnemy3.x, y: newPosEnemy3.y }) : null;
+      enemy4.x !== 2 ? setEnemy4Pos({ x: newPosEnemy4.x, y: newPosEnemy4.y }) : null;
+      enemy5.x !== 2 ? setEnemy5Pos({ x: newPosEnemy5.x, y: newPosEnemy5.y }) : null;
+      enemy6.x !== 2 ? setEnemy6Pos({ x: newPosEnemy6.x, y: newPosEnemy6.y }) : null;
+      enemy7.x !== 2 ? setEnemy7Pos({ x: newPosEnemy7.x, y: newPosEnemy7.y }) : null;
+      enemy8.x !== 2 ? setEnemy8Pos({ x: newPosEnemy8.x, y: newPosEnemy8.y }) : null;
+      addLogMessage('All Pokemon on the floor warped!');
+    } else {
+      addLogMessage('No valid locations to warp to!');
+    }
+}
 }
   else {
     console.log('Item use not implemented for:', inventory[itemOrder - 1].name);
@@ -8519,9 +8589,9 @@ return (
                 : 0.41 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.42 ? hungerBarComponent[41]
                 : 0.40 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.41 ? hungerBarComponent[40]
                 : 0.39 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.40 ? hungerBarComponent[39]
-                : 0.38 <= playerHunger / maxPlayerHuger && playerHungerr / maxPlayerHungerr < 0.39 ? hungerBarComponent[38]
-                : 0.37 <= playerHuger / maxPlayerHungerr && playerHungerr / maxPlayerHungerr < 0.38 ? hungerBarComponent[37]
-                : 0.36 <= playerHungerr / maxPlayerHungerr && playerHungerr / maxPlayerHungerr < 0.37 ? hungerBarComponent[36]
+                : 0.38 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.39 ? hungerBarComponent[38]
+                : 0.37 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.38 ? hungerBarComponent[37]
+                : 0.36 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.37 ? hungerBarComponent[36]
                 : 0.35 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.36 ? hungerBarComponent[35]
                 : 0.34 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.35 ? hungerBarComponent[34]
                 : 0.33 <= playerHunger / maxPlayerHunger && playerHunger / maxPlayerHunger < 0.34 ? hungerBarComponent[33]
