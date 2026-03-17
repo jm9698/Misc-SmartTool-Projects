@@ -2370,6 +2370,7 @@ var SpriteCanvas = React.memo(function (_ref) {
     ref: canvasRef,
     style: _objectSpread({
       imageRendering: 'smooth',
+      imageResolution: 'from-image 300dpi',
       objectFit: 'contain'
     }, style)
   });

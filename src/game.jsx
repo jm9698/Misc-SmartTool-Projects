@@ -1086,6 +1086,7 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, animation, direction, fram
       ref={canvasRef}
       style={{
         imageRendering: 'smooth',
+        imageResolution: 'from-image 300dpi',
         objectFit: 'contain',
         ...style
       }}
