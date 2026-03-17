@@ -4,7 +4,7 @@
 // Each entry includes: url (current individual sprite), and atlas metadata (x, y, w, h) for future sheet consolidation.
 const atlasCache = {};
 const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
-const vaporeonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/atlas/VaporeonAtlas.png';
+const pokemonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/PokemonAtlas.png';
 
 const loadAtlasImage = (atlasUrl) => {
   if (!atlasCache[atlasUrl]) {
@@ -93,86 +93,87 @@ const ItemAtlas = {
     atlas: { sheet: itemAtlasUrl, x: 51, y: 1, w: 12, h: 9 }
   }
 };
-const VaporeonAtlas = {
+const PokemonAtlas = {
+  Vaporeon: {
   idle: {
     down: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 169, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 211, y: 217, w: 40, h: 56 }
       }
     },
     left: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 253, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 295, y: 217, w: 40, h: 56 }
       }
     },
     right: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 337, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 337, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 379, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 379, y: 217, w: 40, h: 56 }
       }
     },
     up: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 589, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 589, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 631, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 631, y: 217, w: 40, h: 56 }
       }
     },
     downleft: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 43, y: 217, w: 40, h: 56 }
       }
     },
     downright: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 85, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 127, y: 217, w: 40, h: 56 }
       }
     },
     upleft: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 421, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 421, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 463, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 463, y: 217, w: 40, h: 56 }
       }
     },
     upright: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 505, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 505, y: 217, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 547, y: 217, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 547, y: 217, w: 40, h: 56 }
       }
     },
   },
@@ -180,148 +181,772 @@ const VaporeonAtlas = {
     down: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 337, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 337, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 379, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 379, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 421, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 421, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimD4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 463, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 463, y: 1, w: 40, h: 56 }
       }
     },
     up: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 169, y: 59, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 211, y: 59, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 253, y: 59, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimU4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 295, y: 59, w: 40, h: 56 }
       }
     },
     right: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 673, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 673, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 715, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 715, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 757, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 757, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimR4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 799, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 799, y: 1, w: 40, h: 56 }
       }
     },
     left: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 505, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 505, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 547, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 547, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 589, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 589, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimL4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 631, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 631, y: 1, w: 40, h: 56 }
       }
     },
     downleft: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 43, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 85, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBL4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 127, y: 1, w: 40, h: 56 }
       }
     },
     downright: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 169, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 169, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 211, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 211, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 253, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 253, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimBR4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 295, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 295, y: 1, w: 40, h: 56 }
       }
     },
     upleft: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 841, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 841, y: 1, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 883, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 883, y: 1, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 925, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 925, y: 1, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTL4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 967, y: 1, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 967, y: 1, w: 40, h: 56 }
       }
     },
     upright: {
       1: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR1Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 1, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 59, w: 40, h: 56 }
       },
       2: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR2Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 43, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 43, y: 59, w: 40, h: 56 }
       },
       3: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR3Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 85, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 85, y: 59, w: 40, h: 56 }
       },
       4: {
       url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/walk/WalkanimTR4Padded.png',
-      atlas: { sheet: vaporeonAtlasUrl, x: 127, y: 59, w: 40, h: 56 }
+      atlas: { sheet: pokemonAtlasUrl, x: 127, y: 59, w: 40, h: 56 }
       }
     }
-  }
+  },
+  spin:
+    {
+      down: {
+        1: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame1.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 915, y: 59, w: 32, h: 48 }
+        },
+        2: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame2.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 949, y: 59, w: 32, h: 48 }
+        },
+        3: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame3.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 983, y: 59, w: 32, h: 48 }
+        },
+        4: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame4.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 1, y: 117, w: 32, h: 48 }
+        },
+        5: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame5.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 35, y: 117, w: 32, h: 48 }
+        },
+        6: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame6.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 69, y: 117, w: 32, h: 48 }
+        },
+        7: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame7.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 103, y: 117, w: 32, h: 48 }
+        },
+        8: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame8.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 137, y: 117, w: 32, h: 48 }
+        },
+        9: {
+        url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame9.png',
+        atlas: { sheet: pokemonAtlasUrl, x: 171, y: 117, w: 32, h: 48 }
+        },
+    },
+    up: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 409, y: 167, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 443, y: 167, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 477, y: 167, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 511, y: 167, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 545, y: 167, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 579, y: 167, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 613, y: 167, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 647, y: 167, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 681, y: 167, w: 32, h: 48 }
+      }
+    },
+    left: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 205, y: 117, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 239, y: 117, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 273, y: 117, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 307, y: 117, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 341, y: 117, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 375, y: 117, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 409, y: 117, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 443, y: 117, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 477, y: 117, w: 32, h: 48 }
+      }
+    },
+    right: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 511, y: 117, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 545, y: 117, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 579, y: 117, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 613, y: 117, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 647, y: 117, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 681, y: 117, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 715, y: 117, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 749, y: 117, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 783, y: 117, w: 32, h: 48 }
+      }
+    },
+    downleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 783, y: 167, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 715, y: 167, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 749, y: 167, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 405, y: 59, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 439, y: 59, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 473, y: 59, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 507, y: 59, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 541, y: 59, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 575, y: 59, w: 32, h: 48 }
+      }
+    },
+    downright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 609, y: 59, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 643, y: 59, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 677, y: 59, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 711, y: 59, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 745, y: 59, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 779, y: 59, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 813, y: 59, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 847, y: 59, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 881, y: 59, w: 32, h: 48 }
+      }
+    },
+    upleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 817, y: 117, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 851, y: 117, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 885, y: 117, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 919, y: 117, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 953, y: 117, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 987, y: 117, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 167, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 35, y: 167, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 69, y: 167, w: 32, h: 48 }
+      }
+    },
+    upright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 103, y: 167, w: 32, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 137, y: 167, w: 32, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 171, y: 167, w: 32, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 205, y: 167, w: 32, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 239, y: 167, w: 32, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 273, y: 167, w: 32, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 307, y: 167, w: 32, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 341, y: 167, w: 32, h: 48 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame9.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 375, y: 167, w: 32, h: 48 }
+      }
+    },
+  },
+  sleep: {
+      none: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 337, y: 59, w: 32, h: 40 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 371, y: 59, w: 32, h: 40 }
+      },
+    }
+}
+},
+Lunatone: {
+  idle: {
+    down: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 817, y: 167, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 843, y: 167, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 869, y: 167, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 895, y: 167, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 921, y: 167, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 947, y: 167, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 973, y: 167, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 999, y: 167, w: 24, h: 48 }
+      },
+    },
+    up: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 495, y: 275, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 521, y: 275, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 547, y: 275, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 573, y: 275, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 599, y: 275, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 625, y: 275, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 651, y: 275, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 677, y: 275, w: 24, h: 48 }
+      }
+    },
+    left: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 79, y: 275, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 105, y: 275, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 131, y: 275, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 157, y: 275, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 183, y: 275, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 209, y: 275, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 235, y: 275, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 261, y: 275, w: 24, h: 48 }
+      }
+  },
+  right: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 287, y: 275, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 313, y: 275, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 339, y: 275, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 365, y: 275, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 391, y: 275, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 417, y: 275, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 443, y: 275, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 469, y: 275, w: 24, h: 48 }
+      }
+  },
+  downLeft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 673, y: 217, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 699, y: 217, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 725, y: 217, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 751, y: 217, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 777, y: 217, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 803, y: 217, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 829, y: 217, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 855, y: 217, w: 24, h: 48 }
+      }
+    },
+    downRight: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 881, y: 217, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 907, y: 217, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 933, y: 217, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 959, y: 217, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 985, y: 217, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 275, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 27, y: 275, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 53, y: 275, w: 24, h: 48 }
+      }
+    },
+    upLeft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 703, y: 275, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 729, y: 275, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 755, y: 275, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 781, y: 275, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 807, y: 275, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 833, y: 275, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 859, y: 275, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 885, y: 275, w: 24, h: 48 }
+      }
+    },
+    upRight: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight1.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 911, y: 275, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight2.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 937, y: 275, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight3.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 963, y: 275, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight4.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 989, y: 275, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight5.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 1, y: 325, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight6.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 27, y: 325, w: 24, h: 48 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight7.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 53, y: 325, w: 24, h: 48 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight8.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 79, y: 325, w: 24, h: 48 }
+      }
+    }
+},
+sleep: {
+  none: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep000.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 209, y: 325, w: 24, h: 48 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep001.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 235, y: 325, w: 24, h: 48 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep002.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 261, y: 325, w: 24, h: 48 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep003.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 287, y: 325, w: 24, h: 48 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep004.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 313, y: 325, w: 24, h: 48 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep005.png',
+      atlas: { sheet: pokemonAtlasUrl, x: 339, y: 325, w: 24, h: 48 }
+      }
+    }
+}
+}
 };
 
 
@@ -332,8 +957,10 @@ const getItemSprite = (itemName) => {
   if (!item) return null;
   return item.url;
 };
-const getVaporeonSprite = (animation, direction, frame) => {
-  const animData = VaporeonAtlas[animation];
+const getPokemonSprite = (pokemon, animation, direction, frame) => {
+  const pokemonData = PokemonAtlas[pokemon];
+  if (!pokemonData) return null;
+  const animData = PokemonAtlas[animation];
   if (!animData) return null;
   const dirData = animData[direction];
   if (!dirData) return null;
@@ -347,8 +974,10 @@ const getItemAtlasData = (itemName) => {
   const item = ItemAtlas[itemName];
   return item ? item.atlas : null;
 };
-const getVaporeonAtlasData = (animation, direction, frame) => {
-  const animData = VaporeonAtlas[animation];
+const getPokemonAtlasData = (pokemon, animation, direction, frame) => {
+  const pokemonData = PokemonAtlas[pokemon];
+  if (!pokemonData) return null;
+  const animData = pokemonData[animation];
   if (!animData) return null;
   const dirData = animData[direction];
   if (!dirData) return null;
@@ -405,7 +1034,7 @@ const GeoPebble = getItemSprite('GeoPebble');
 
 // ========== SPRITE CANVAS COMPONENT ==========
 // Renders a single sprite from an atlas using canvas drawImage
-const SpriteCanvas = React.memo(({ atlasKey, animation, direction, frame, width = 40, height = 40, style = {} }) => {
+const SpriteCanvas = React.memo(({ pokemon, atlasKey, animation, direction, frame, width = 40, height = 40, style = {} }) => {
   const canvasRef = React.useRef(null);
   
   React.useEffect(() => {
@@ -418,7 +1047,7 @@ const SpriteCanvas = React.memo(({ atlasKey, animation, direction, frame, width 
       atlasData = getItemAtlasData(atlasKey);
     } else if (animation && direction && frame !== undefined) {
       // Vaporeon atlas
-      atlasData = getVaporeonAtlasData(animation, direction, frame);
+      atlasData = getPokemonAtlasData(pokemon, animation, direction, frame);
     }
     
     if (!atlasData) return;
@@ -450,13 +1079,13 @@ const SpriteCanvas = React.memo(({ atlasKey, animation, direction, frame, width 
     };
     
     render();
-  }, [atlasKey, animation, direction, frame, width, height]);
+  }, [atlasKey, pokemon, animation, direction, frame, width, height]);
   
   return (
     <canvas
       ref={canvasRef}
       style={{
-        imageRendering: 'pixelated',
+        imageRendering: 'smooth',
         objectFit: 'contain',
         ...style
       }}
@@ -1108,279 +1737,280 @@ const rockThrowVfxFrames = [
   //Lunatone
     // Idle animation
 const lunatoneSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown8.png'
+  getPokemonSprite('Lunatone', 'idle', 'down', 1),
+  getPokemonSprite('Lunatone', 'idle', 'down', 2),
+  getPokemonSprite('Lunatone', 'idle', 'down', 3),
+  getPokemonSprite('Lunatone', 'idle', 'down', 4),
+  getPokemonSprite('Lunatone', 'idle', 'down', 5),
+  getPokemonSprite('Lunatone', 'idle', 'down', 6),
+  getPokemonSprite('Lunatone', 'idle', 'down', 7),
+  getPokemonSprite('Lunatone', 'idle', 'down', 8)
 ];
 const lunatoneUpSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp8.png'
+  getPokemonSprite('Lunatone', 'idle', 'up', 1),
+  getPokemonSprite('Lunatone', 'idle', 'up', 2),
+  getPokemonSprite('Lunatone', 'idle', 'up', 3),
+  getPokemonSprite('Lunatone', 'idle', 'up', 4),
+  getPokemonSprite('Lunatone', 'idle', 'up', 5),
+  getPokemonSprite('Lunatone', 'idle', 'up', 6),
+  getPokemonSprite('Lunatone', 'idle', 'up', 7),
+  getPokemonSprite('Lunatone', 'idle', 'up', 8)
 ];
 const lunatoneLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft8.png'
+  getPokemonSprite('Lunatone', 'idle', 'left', 1),
+  getPokemonSprite('Lunatone', 'idle', 'left', 2),
+  getPokemonSprite('Lunatone', 'idle', 'left', 3),
+  getPokemonSprite('Lunatone', 'idle', 'left', 4),
+  getPokemonSprite('Lunatone', 'idle', 'left', 5),
+  getPokemonSprite('Lunatone', 'idle', 'left', 6),
+  getPokemonSprite('Lunatone', 'idle', 'left', 7),
+  getPokemonSprite('Lunatone', 'idle', 'left', 8)
 ];
 const lunatoneRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight8.png'
-]
+  getPokemonSprite('Lunatone', 'idle', 'right', 1),
+  getPokemonSprite('Lunatone', 'idle', 'right', 2),
+  getPokemonSprite('Lunatone', 'idle', 'right', 3),
+  getPokemonSprite('Lunatone', 'idle', 'right', 4),
+  getPokemonSprite('Lunatone', 'idle', 'right', 5),
+  getPokemonSprite('Lunatone', 'idle', 'right', 6),
+  getPokemonSprite('Lunatone', 'idle', 'right', 7),
+  getPokemonSprite('Lunatone', 'idle', 'right', 8)
+];
 const lunatoneUpRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight8.png'
+  getPokemonSprite('Lunatone', 'idle', 'upright', 1),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 2),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 3),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 4),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 5),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 6),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 7),
+  getPokemonSprite('Lunatone', 'idle', 'upright', 8)
 ];
 const lunatoneUpLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft8.png'
-]
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 1),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 2),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 3),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 4),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 5),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 6),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 7),
+  getPokemonSprite('Lunatone', 'idle', 'upleft', 8)
+];
 const lunatoneDownLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft8.png'
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 1),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 2),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 3),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 4),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 5),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 6),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 7),
+  getPokemonSprite('Lunatone', 'idle', 'downleft', 8)
 ];
 const lunatoneDownRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
+  getPokemonSprite('Lunatone', 'idle', 'downright', 1),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 2),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 3),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 4),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 5),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 6),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 7),
+  getPokemonSprite('Lunatone', 'idle', 'downright', 8)
 ]
 const lunatoneSleepSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep005.png'
+  getPokemonSprite('Lunatone', 'sleep', 'none', 1),
+  getPokemonSprite('Lunatone', 'sleep', 'none', 2),
+  getPokemonSprite('Lunatone', 'sleep', 'none', 3),
+  getPokemonSprite('Lunatone', 'sleep', 'none', 4),
+  getPokemonSprite('Lunatone', 'sleep', 'none', 5),
+  getPokemonSprite('Lunatone', 'sleep', 'none', 6)
 ]
 // Vaporeon sprite URLs
   // Idle animations
+
 const vaporeonSprites = [
-getVaporeonSprite('idle', 'down', 1),
-getVaporeonSprite('idle', 'down', 2),
+getPokemonSprite('Vaporeon', 'idle', 'down', 1),
+getPokemonSprite('Vaporeon', 'idle', 'down', 2),
 ];
 
 const vaporeonLeftSprites = [
-getVaporeonSprite('idle', 'left', 1),
-getVaporeonSprite('idle', 'left', 2),
+getPokemonSprite('Vaporeon', 'idle', 'left', 1),
+getPokemonSprite('Vaporeon', 'idle', 'left', 2),
 ];
 
 const vaporeonRightSprites = [
-getVaporeonSprite('idle', 'right', 1),
-getVaporeonSprite('idle', 'right', 2),
+getPokemonSprite('Vaporeon', 'idle', 'right', 1),
+getPokemonSprite('Vaporeon', 'idle', 'right', 2),
 ];
 
 const vaporeonUpSprites = [
-getVaporeonSprite('idle', 'up', 1),
-getVaporeonSprite('idle', 'up', 2),
+getPokemonSprite('Vaporeon', 'idle', 'up', 1),
+getPokemonSprite('Vaporeon', 'idle', 'up', 2),
 ];
 
 const vaporeonDownLeftSprites = [
-getVaporeonSprite('idle', 'downleft', 1),
-getVaporeonSprite('idle', 'downleft', 2),
+getPokemonSprite('Vaporeon', 'idle', 'downleft', 1),
+getPokemonSprite('Vaporeon', 'idle', 'downleft', 2),
 ];
 
 const vaporeonDownRightSprites = [
-getVaporeonSprite('idle', 'downright', 1),
-getVaporeonSprite('idle', 'downright', 2),
+getPokemonSprite('Vaporeon', 'idle', 'downright', 1),
+getPokemonSprite('Vaporeon', 'idle', 'downright', 2),
 ];
 
 const vaporeonUpLeftSprites = [
-getVaporeonSprite('idle', 'upleft', 1),
-getVaporeonSprite('idle', 'upleft', 2),
+getPokemonSprite('Vaporeon', 'idle', 'upleft', 1),
+getPokemonSprite('Vaporeon', 'idle', 'upleft', 2),
 ];
 
 const vaporeonUpRightSprites = [
-getVaporeonSprite('idle', 'upright', 1),
-getVaporeonSprite('idle', 'upright', 2),
+getPokemonSprite('Vaporeon', 'idle', 'upright', 1),
+getPokemonSprite('Vaporeon', 'idle', 'upright', 2),
 ];
   // Walking animations
 const vaporeonDownWalkSprites = [
-getVaporeonSprite('walk', 'down', 1),
-getVaporeonSprite('walk', 'down', 2),
-getVaporeonSprite('walk', 'down', 3),
-getVaporeonSprite('walk', 'down', 4),
+getPokemonSprite('Vaporeon', 'walk', 'down', 1),
+getPokemonSprite('Vaporeon', 'walk', 'down', 2),
+getPokemonSprite('Vaporeon', 'walk', 'down', 3),
+getPokemonSprite('Vaporeon', 'walk', 'down', 4),
 ]
 
 const vaporeonUpWalkSprites = [
-getVaporeonSprite('walk', 'up', 1),
-getVaporeonSprite('walk', 'up', 2),
-getVaporeonSprite('walk', 'up', 3),
-getVaporeonSprite('walk', 'up', 4),
+getPokemonSprite('Vaporeon', 'walk', 'up', 1),
+getPokemonSprite('Vaporeon', 'walk', 'up', 2),
+getPokemonSprite('Vaporeon', 'walk', 'up', 3),
+getPokemonSprite('Vaporeon', 'walk', 'up', 4),
 ]
 
 const vaporeonLeftWalkSprites = [
-getVaporeonSprite('walk', 'left', 1),
-getVaporeonSprite('walk', 'left', 2),
-getVaporeonSprite('walk', 'left', 3),
-getVaporeonSprite('walk', 'left', 4),
+getPokemonSprite('Vaporeon', 'walk', 'left', 1),
+getPokemonSprite('Vaporeon', 'walk', 'left', 2),
+getPokemonSprite('Vaporeon', 'walk', 'left', 3),
+getPokemonSprite('Vaporeon', 'walk', 'left', 4),
 ]
 
 const vaporeonRightWalkSprites = [
-getVaporeonSprite('walk', 'right', 1),
-getVaporeonSprite('walk', 'right', 2),
-getVaporeonSprite('walk', 'right', 3),
-getVaporeonSprite('walk', 'right', 4),
+getPokemonSprite('Vaporeon', 'walk', 'right', 1),
+getPokemonSprite('Vaporeon', 'walk', 'right', 2),
+getPokemonSprite('Vaporeon', 'walk', 'right', 3),
+getPokemonSprite('Vaporeon', 'walk', 'right', 4),
 ]
 
 const vaporeonUpLeftWalkSprites = [
-getVaporeonSprite('walk', 'upleft', 1),
-getVaporeonSprite('walk', 'upleft', 2),
-getVaporeonSprite('walk', 'upleft', 3),
-getVaporeonSprite('walk', 'upleft', 4),
+getPokemonSprite('Vaporeon', 'walk', 'upleft', 1),
+getPokemonSprite('Vaporeon', 'walk', 'upleft', 2),
+getPokemonSprite('Vaporeon', 'walk', 'upleft', 3),
+getPokemonSprite('Vaporeon', 'walk', 'upleft', 4),
 ]
 
 const vaporeonUpRightWalkSprites = [
-getVaporeonSprite('walk', 'upright', 1),
-getVaporeonSprite('walk', 'upright', 2),
-getVaporeonSprite('walk', 'upright', 3),
-getVaporeonSprite('walk', 'upright', 4),
+getPokemonSprite('Vaporeon', 'walk', 'upright', 1),
+getPokemonSprite('Vaporeon', 'walk', 'upright', 2),
+getPokemonSprite('Vaporeon', 'walk', 'upright', 3),
+getPokemonSprite('Vaporeon', 'walk', 'upright', 4),
 ]
 
 const vaporeonDownLeftWalkSprites = [
-getVaporeonSprite('walk', 'downleft', 1),
-getVaporeonSprite('walk', 'downleft', 2),
-getVaporeonSprite('walk', 'downleft', 3),
-getVaporeonSprite('walk', 'downleft', 4),
+getPokemonSprite('Vaporeon', 'walk', 'downleft', 1),
+getPokemonSprite('Vaporeon', 'walk', 'downleft', 2),
+getPokemonSprite('Vaporeon', 'walk', 'downleft', 3),
+getPokemonSprite('Vaporeon', 'walk', 'downleft', 4),
 ]
 
 const vaporeonDownRightWalkSprites = [
-getVaporeonSprite('walk', 'downright', 1),
-getVaporeonSprite('walk', 'downright', 2),
-getVaporeonSprite('walk', 'downright', 3),
-getVaporeonSprite('walk', 'downright', 4),
+getPokemonSprite('Vaporeon', 'walk', 'downright', 1),
+getPokemonSprite('Vaporeon', 'walk', 'downright', 2),
+getPokemonSprite('Vaporeon', 'walk', 'downright', 3),
+getPokemonSprite('Vaporeon', 'walk', 'downright', 4),
 
 ]
   // Spin animations
 const vaporeonUpSpinSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame8.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'up', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'up', 9),
 ]
 const vaporeonUpRightSpinSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame8.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpRightSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'upright', 9)
 ]
 const vaporeonRightSpinSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame2.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame3.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame4.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame5.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame6.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame7.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame8.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonRightSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'right', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'right', 9)
 ]
 const vaporeonDownRightSpinSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame2.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame3.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame4.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame5.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame6.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame7.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame8.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownRightSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'downright', 9)
 ]
 const vaporeonDownSpinSprites = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame1.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame2.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame3.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame4.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame5.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame6.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame7.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame8.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'down', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'down', 9)
 ]
 const vaporeonDownLeftSpinSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/%20VaporeonDownLeftSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/%20VaporeonDownLeftSpinFrame3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame8.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonDownLeftSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'downleft', 9)
 ]
 const vaporeonLeftSpinSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame8.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonLeftSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'left', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'left', 9)
 ]
 const vaporeonUpLeftSpinSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame2.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame3.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame4.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame5.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame6.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame7.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame8.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/spin/VaporeonUpLeftSpinFrame9.png'
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 1),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 2),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 3),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 4),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 5),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 6),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 7),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 8),
+  getPokemonSprite('Vaporeon', 'spin', 'upleft', 9)
 ]
 // Aqua Tail vfx
  //up
@@ -1482,8 +2112,8 @@ const vaporeonUpLeftSpinSprites = [
 
 // Sleep animations
 const vaporeonSleepSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim1.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/sleep/sleepAnim2.png'
+  getPokemonSprite('Vaporeon', 'sleep', 'none', 1),
+  getPokemonSprite('Vaporeon', 'sleep', 'none', 2)
 ]
 // VFX animations
   // Level up VFX
@@ -3018,7 +3648,6 @@ function useMove(moveIndex) {
       }
       advanceTicks();
       depleteHungerAfterTicks(hungerTicks);
-      setIsWalking(true);
     }, 2000); // After Aqua Tail animation completes
     addLogMessage('Vaporeon used Aqua Tail!');
   }
@@ -6738,6 +7367,7 @@ break;
 case 'l':
 //quick log
 console.log(projectilePosRef.current);
+addItemToInventory('Sleep Seed');
 return;
   break;
 }
@@ -7068,6 +7698,10 @@ React.useEffect(() => {
     ...vaporeonLeftSprites,
     ...vaporeonRightSprites,
     ...vaporeonUpSprites,
+    ...vaporeonDownLeftSprites,
+    ...vaporeonDownRightSprites,
+    ...vaporeonUpLeftSprites,
+    ...vaporeonUpRightSprites,
     ...vaporeonDownWalkSprites,
     ...vaporeonUpWalkSprites,
     ...vaporeonLeftWalkSprites,
@@ -7276,6 +7910,13 @@ React.useEffect(() => {
         lastAnimTsRef.current.sleep.player = ts;
         indicesRef.current.sleep.player = (indicesRef.current.sleep.player + 1) % vaporeonSleepSprites.length;
         setSleepSpriteIndex(indicesRef.current.sleep.player);
+      }
+    }
+    if (enemy1Sleeping || enemy2Sleeping || enemy3Sleeping || enemy4Sleeping || enemy5Sleeping || enemy6Sleeping || enemy7Sleeping || enemy8Sleeping) {
+      if (elapsedSleepEnemy >= ANIM_TIMINGS.sleep.enemy) {
+        lastAnimTsRef.current.sleep.enemy = ts;
+        indicesRef.current.sleep.enemy = (indicesRef.current.sleep.enemy + 1) % vaporeonSleepSprites.length;
+        setSleepSpriteIndex(indicesRef.current.sleep.enemy);
       }
     }
 
@@ -7735,793 +8376,142 @@ return (
                       />
                     )}
                     {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
-                      <img
-                        src={
-                        enemy1Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame1 :
-                        enemy1Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame2 :
-                        enemy1Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame3 :
-                        enemy1Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame4 :
-                        enemy1Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame5 :
-                        enemy1Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType1].sprites.sleep.frame6 :
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame1 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame2 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame3 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame4 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame5 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame6 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame7 : 
-                        enemy1LastDirection === 'down' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downIdle.frame8 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame1 :
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame2 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame3 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame4 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame5 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame6 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame7 : 
-                        enemy1LastDirection === 'up' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upIdle.frame8 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame1 :
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame2 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame3 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame4 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame5 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame6 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame7 : 
-                        enemy1LastDirection === 'left' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.leftIdle.frame8 :
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame1 :
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame2 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame3 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame4 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame5 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame6 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame7 : 
-                        enemy1LastDirection === 'right' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.rightIdle.frame8 :
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame1 :
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame2 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame3 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame4 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame5 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame6 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame7 : 
-                        enemy1LastDirection === 'upRight' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upRightIdle.frame8 :
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame1 :
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame2 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame3 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame4 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame5 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame6 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame7 : 
-                        enemy1LastDirection === 'upLeft' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.upLeftIdle.frame8 :
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame1 :
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame2 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame3 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame4 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame5 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame6 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame7 : 
-                        enemy1LastDirection === 'downLeft' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downLeftIdle.frame8 :
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame1 :
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame2 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame3 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame4 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame5 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame6 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame7 : 
-                        enemy1LastDirection === 'downRight' && enemy1IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType1].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType1].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                        
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType1}
+                          animation={enemy1Sleeping ? "sleep" : "idle"}
+                          direction={enemy1Sleeping ? "none" : enemy1LastDirection}
+                          frame={enemy1Sleeping ? sleepSpriteIndex + 1 : enemy1IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy1"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
-                      <img
-                        src={
-                        enemy2Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame1 :
-                        enemy2Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame2 :
-                        enemy2Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame3 :
-                        enemy2Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame4 :
-                        enemy2Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame5 :
-                        enemy2Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType2].sprites.sleep.frame6 :
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame1 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame2 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame3 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame4 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame5 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame6 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame7 : 
-                        enemy2LastDirection === 'down' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downIdle.frame8 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame1 :
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame2 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame3 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame4 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame5 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame6 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame7 : 
-                        enemy2LastDirection === 'up' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upIdle.frame8 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame1 :
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame2 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame3 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame4 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame5 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame6 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame7 : 
-                        enemy2LastDirection === 'left' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.leftIdle.frame8 :
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame1 :
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame2 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame3 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame4 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame5 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame6 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame7 : 
-                        enemy2LastDirection === 'right' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.rightIdle.frame8 :
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame1 :
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame2 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame3 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame4 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame5 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame6 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame7 : 
-                        enemy2LastDirection === 'upRight' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upRightIdle.frame8 :
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame1 :
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame2 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame3 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame4 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame5 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame6 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame7 : 
-                        enemy2LastDirection === 'upLeft' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.upLeftIdle.frame8 :
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame1 :
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame2 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame3 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame4 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame5 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame6 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame7 : 
-                        enemy2LastDirection === 'downLeft' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downLeftIdle.frame8 :
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame1 :
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame2 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame3 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame4 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame5 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame6 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame7 : 
-                        enemy2LastDirection === 'downRight' && enemy2IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType2].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType2].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                        
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType2}
+                          animation={enemy2Sleeping ? "sleep" : "idle"}
+                          direction={enemy2Sleeping ? "none" : enemy2LastDirection}
+                          frame={enemy2Sleeping ? sleepSpriteIndex + 1 : enemy2IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy2"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
-                      <img
-                        src={
-                        enemy3Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame1 :
-                        enemy3Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame2 :
-                        enemy3Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame3 :
-                        enemy3Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame4 :
-                        enemy3Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame5 :
-                        enemy3Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType3].sprites.sleep.frame6 :
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame1 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame2 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame3 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame4 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame5 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame6 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame7 : 
-                        enemy3LastDirection === 'down' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downIdle.frame8 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame1 :
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame2 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame3 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame4 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame5 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame6 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame7 : 
-                        enemy3LastDirection === 'up' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upIdle.frame8 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame1 :
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame2 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame3 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame4 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame5 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame6 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame7 : 
-                        enemy3LastDirection === 'left' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.leftIdle.frame8 :
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame1 :
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame2 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame3 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame4 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame5 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame6 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame7 : 
-                        enemy3LastDirection === 'right' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.rightIdle.frame8 :
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame1 :
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame2 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame3 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame4 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame5 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame6 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame7 : 
-                        enemy3LastDirection === 'upRight' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upRightIdle.frame8 :
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame1 :
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame2 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame3 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame4 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame5 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame6 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame7 : 
-                        enemy3LastDirection === 'upLeft' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.upLeftIdle.frame8 :
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame1 :
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame2 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame3 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame4 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame5 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame6 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame7 : 
-                        enemy3LastDirection === 'downLeft' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downLeftIdle.frame8 :
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame1 :
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame2 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame3 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame4 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame5 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame6 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame7 : 
-                        enemy3LastDirection === 'downRight' && enemy3IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType3].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType3].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                        
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType3}
+                          animation={enemy3Sleeping ? "sleep" : "idle"}
+                          direction={enemy3Sleeping ? "none" : enemy3LastDirection}
+                          frame={enemy3Sleeping ? sleepSpriteIndex + 1 : enemy3IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy3"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
-                      <img
-                        src={
-                        enemy4Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame1 :
-                        enemy4Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame2 :
-                        enemy4Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame3 :
-                        enemy4Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame4 :
-                        enemy4Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame5 :
-                        enemy4Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType4].sprites.sleep.frame6 :
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame1 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame2 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame3 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame4 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame5 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame6 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame7 : 
-                        enemy4LastDirection === 'down' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downIdle.frame8 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame1 :
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame2 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame3 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame4 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame5 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame6 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame7 : 
-                        enemy4LastDirection === 'up' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upIdle.frame8 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame1 :
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame2 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame3 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame4 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame5 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame6 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame7 : 
-                        enemy4LastDirection === 'left' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.leftIdle.frame8 :
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame1 :
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame2 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame3 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame4 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame5 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame6 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame7 : 
-                        enemy4LastDirection === 'right' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.rightIdle.frame8 :
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame1 :
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame2 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame3 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame4 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame5 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame6 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame7 : 
-                        enemy4LastDirection === 'upRight' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upRightIdle.frame8 :
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame1 :
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame2 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame3 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame4 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame5 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame6 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame7 : 
-                        enemy4LastDirection === 'upLeft' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.upLeftIdle.frame8 :
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame1 :
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame2 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame3 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame4 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame5 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame6 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame7 : 
-                        enemy4LastDirection === 'downLeft' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downLeftIdle.frame8 :
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame1 :
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame2 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame3 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame4 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame5 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame6 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame7 : 
-                        enemy4LastDirection === 'downRight' && enemy4IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType4].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType4].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                       
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType4}
+                          animation={enemy4Sleeping ? "sleep" : "idle"}
+                          direction={enemy4Sleeping ? "none" : enemy4LastDirection}
+                          frame={enemy4Sleeping ? sleepSpriteIndex + 1 : enemy4IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy4"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
-                      <img
-                        src={
-                        enemy5Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame1 :
-                        enemy5Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame2 :
-                        enemy5Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame3 :
-                        enemy5Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame4 :
-                        enemy5Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame5 :
-                        enemy5Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType5].sprites.sleep.frame6 :
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame1 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame2 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame3 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame4 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame5 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame6 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame7 : 
-                        enemy5LastDirection === 'down' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downIdle.frame8 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame1 :
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame2 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame3 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame4 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame5 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame6 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame7 : 
-                        enemy5LastDirection === 'up' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upIdle.frame8 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame1 :
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame2 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame3 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame4 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame5 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame6 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame7 : 
-                        enemy5LastDirection === 'left' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.leftIdle.frame8 :
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame1 :
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame2 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame3 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame4 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame5 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame6 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame7 : 
-                        enemy5LastDirection === 'right' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.rightIdle.frame8 :
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame1 :
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame2 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame3 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame4 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame5 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame6 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame7 : 
-                        enemy5LastDirection === 'upRight' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upRightIdle.frame8 :
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame1 :
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame2 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame3 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame4 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame5 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame6 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame7 : 
-                        enemy5LastDirection === 'upLeft' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.upLeftIdle.frame8 :
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame1 :
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame2 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame3 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame4 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame5 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame6 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame7 : 
-                        enemy5LastDirection === 'downLeft' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downLeftIdle.frame8 :
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame1 :
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame2 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame3 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame4 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame5 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame6 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame7 : 
-                        enemy5LastDirection === 'downRight' && enemy5IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType5].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType5].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                       
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType5}
+                          animation={enemy5Sleeping ? "sleep" : "idle"}
+                          direction={enemy5Sleeping ? "none" : enemy5LastDirection}
+                          frame={enemy5Sleeping ? sleepSpriteIndex + 1 : enemy5IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy5"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
-                      <img
-                        src={
-                        enemy6Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame1 :
-                        enemy6Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame2 :
-                        enemy6Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame3 :
-                        enemy6Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame4 :
-                        enemy6Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame5 :
-                        enemy6Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType6].sprites.sleep.frame6 :
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame1 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame2 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame3 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame4 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame5 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame6 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame7 : 
-                        enemy6LastDirection === 'down' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downIdle.frame8 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame1 :
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame2 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame3 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame4 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame5 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame6 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame7 : 
-                        enemy6LastDirection === 'up' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upIdle.frame8 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame1 :
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame2 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame3 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame4 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame5 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame6 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame7 : 
-                        enemy6LastDirection === 'left' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.leftIdle.frame8 :
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame1 :
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame2 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame3 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame4 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame5 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame6 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame7 : 
-                        enemy6LastDirection === 'right' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.rightIdle.frame8 :
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame1 :
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame2 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame3 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame4 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame5 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame6 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame7 : 
-                        enemy6LastDirection === 'upRight' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upRightIdle.frame8 :
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame1 :
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame2 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame3 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame4 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame5 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame6 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame7 : 
-                        enemy6LastDirection === 'upLeft' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.upLeftIdle.frame8 :
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame1 :
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame2 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame3 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame4 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame5 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame6 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame7 : 
-                        enemy6LastDirection === 'downLeft' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downLeftIdle.frame8 :
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame1 :
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame2 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame3 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame4 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame5 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame6 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame7 : 
-                        enemy6LastDirection === 'downRight' && enemy6IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType6].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType6].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                       
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType6}
+                          animation={enemy6Sleeping ? "sleep" : "idle"}
+                          direction={enemy6Sleeping ? "none" : enemy6LastDirection}
+                          frame={enemy6Sleeping ? sleepSpriteIndex + 1 : enemy6IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy6"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
-                      <img
-                        src={
-                        enemy7Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame1 :
-                        enemy7Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame2 :
-                        enemy7Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame3 :
-                        enemy7Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame4 :
-                        enemy7Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame5 :
-                        enemy7Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType7].sprites.sleep.frame6 :
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame1 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame2 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame3 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame4 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame5 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame6 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame7 : 
-                        enemy7LastDirection === 'down' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downIdle.frame8 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame1 :
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame2 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame3 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame4 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame5 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame6 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame7 : 
-                        enemy7LastDirection === 'up' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upIdle.frame8 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame1 :
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame2 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame3 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame4 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame5 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame6 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame7 : 
-                        enemy7LastDirection === 'left' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.leftIdle.frame8 :
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame1 :
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame2 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame3 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame4 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame5 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame6 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame7 : 
-                        enemy7LastDirection === 'right' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.rightIdle.frame8 :
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame1 :
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame2 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame3 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame4 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame5 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame6 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame7 : 
-                        enemy7LastDirection === 'upRight' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upRightIdle.frame8 :
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame1 :
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame2 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame3 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame4 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame5 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame6 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame7 : 
-                        enemy7LastDirection === 'upLeft' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.upLeftIdle.frame8 :
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame1 :
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame2 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame3 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame4 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame5 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame6 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame7 : 
-                        enemy7LastDirection === 'downLeft' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downLeftIdle.frame8 :
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame1 :
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame2 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame3 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame4 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame5 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame6 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame7 : 
-                        enemy7LastDirection === 'downRight' && enemy7IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType7].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType7].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                       
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType7}
+                          animation={enemy7Sleeping ? "sleep" : "idle"}
+                          direction={enemy7Sleeping ? "none" : enemy7LastDirection}
+                          frame={enemy7Sleeping ? sleepSpriteIndex + 1 : enemy7IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy7"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
-                      <img
-                        src={
-                        enemy8Sleeping === true && sleepSpriteIndex === 0 ?
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame1 :
-                        enemy8Sleeping === true && sleepSpriteIndex === 1 ? 
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame2 :
-                        enemy8Sleeping === true && sleepSpriteIndex === 2 ? 
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame3 :
-                        enemy8Sleeping === true && sleepSpriteIndex === 3 ? 
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame4 :
-                        enemy8Sleeping === true && sleepSpriteIndex === 4 ? 
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame5 :
-                        enemy8Sleeping === true && sleepSpriteIndex === 5 ? 
-                        ENEMY_DEFS[enemyType8].sprites.sleep.frame6 :
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame1 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame2 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame3 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame4 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame5 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame6 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame7 : 
-                        enemy8LastDirection === 'down' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downIdle.frame8 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame1 :
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame2 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame3 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame4 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame5 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame6 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame7 : 
-                        enemy8LastDirection === 'up' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upIdle.frame8 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame1 :
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame2 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame3 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame4 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame5 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame6 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame7 : 
-                        enemy8LastDirection === 'left' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.leftIdle.frame8 :
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame1 :
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame2 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame3 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame4 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame5 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame6 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame7 : 
-                        enemy8LastDirection === 'right' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.rightIdle.frame8 :
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame1 :
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame2 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame3 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame4 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame5 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame6 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame7 : 
-                        enemy8LastDirection === 'upRight' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upRightIdle.frame8 :
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame1 :
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame2 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame3 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame4 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame5 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame6 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame7 : 
-                        enemy8LastDirection === 'upLeft' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.upLeftIdle.frame8 :
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame1 :
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame2 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame3 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame4 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame5 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame6 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame7 : 
-                        enemy8LastDirection === 'downLeft' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downLeftIdle.frame8 :
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 0
-                        ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame1 :
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 1 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame2 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 2 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame3 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 3 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame4 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 4 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame5 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 5 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame6 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 6 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame7 : 
-                        enemy8LastDirection === 'downRight' && enemy8IdleAnimIndex === 7 ? ENEMY_DEFS[enemyType8].sprites.downRightIdle.frame8 :
-                        ENEMY_DEFS[enemyType8].sprites.downIdle.frame1}
-                        alt="Enemy"
-                        className="enemy-sprite absolute"
-                        style={{
-                        position: 'absolute',
-                        transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
-                      
-                      }}
-                      />
+                      <SpriteCanvas
+                          pokemon={enemyType8}
+                          animation={enemy8Sleeping ? "sleep" : "idle"}
+                          direction={enemy8Sleeping ? "none" : enemy8LastDirection}
+                          frame={enemy8Sleeping ? sleepSpriteIndex + 1 : enemy8IdleAnimIndex + 1}
+                          width={24}
+                          height={48}
+                          alt="Enemy8"
+                          className="player-sprite absolute"
+                          style={{
+                            transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                          }}
+                        />
                     ) : null}
 
                     {playerPos.x === colIndex && playerPos.y === rowIndex && (
                       isSleeping ? (
-                        <img
-                          src={vaporeonSleepSprites[sleepSpriteIndex]}
+                        <SpriteCanvas
+                          pokemon="Vaporeon"
+                          animation="sleep"
+                          direction="none"
+                          frame={sleepSpriteIndex + 1}
+                          width={32}
+                          height={40}
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
@@ -8530,6 +8520,7 @@ return (
                         />
                       ) : isWalking ? (
                         <SpriteCanvas
+                          pokemon="Vaporeon"
                           animation="walk"
                           direction={
                             lastDirection === 'left' ? 'left'
@@ -8552,18 +8543,23 @@ return (
                           }}
                         />
                       ) : isSpinning ? (
-                        <img
-                          src={
-                            lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
-                            : vaporeonSprites[idleSpriteIndex]
+                        <SpriteCanvas
+                          pokemon="Vaporeon"
+                          animation="spin"
+                          direction={
+                            lastDirection === 'left' ? 'left'
+                            : lastDirection === 'right' ? 'right'
+                            : lastDirection === 'up' ? 'up'
+                            : lastDirection === 'down' ? 'down'
+                            : lastDirection === 'up-left' ? 'upleft'
+                            : lastDirection === 'up-right' ? 'upright'
+                            : lastDirection === 'down-left' ? 'downleft'
+                            : lastDirection === 'down-right' ? 'downright'
+                            : 'down'
                           }
+                          frame={spinSpriteIndex + 1}
+                          width={40}
+                          height={56}
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
@@ -8571,18 +8567,23 @@ return (
                           }}
                         />
                       ) : usingAquaTail ? (
-                        <img
-                          src={
-                            lastDirection === 'left' ? vaporeonLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'right' ? vaporeonRightSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up' ? vaporeonUpSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down' ? vaporeonDownSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up-left' ? vaporeonUpLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'up-right' ? vaporeonUpRightSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down-left' ? vaporeonDownLeftSpinSprites[spinSpriteIndex]
-                            : lastDirection === 'down-right' ? vaporeonDownRightSpinSprites[spinSpriteIndex]
-                            : vaporeonSprites[idleSpriteIndex]
+                        <SpriteCanvas
+                          pokemon="Vaporeon"
+                          animation="spin"
+                          direction={
+                            lastDirection === 'left' ? 'left'
+                            : lastDirection === 'right' ? 'right'
+                            : lastDirection === 'up' ? 'up'
+                            : lastDirection === 'down' ? 'down'
+                            : lastDirection === 'up-left' ? 'upleft'
+                            : lastDirection === 'up-right' ? 'upright'
+                            : lastDirection === 'down-left' ? 'downleft'
+                            : lastDirection === 'down-right' ? 'downright'
+                            : 'down'
                           }
+                          frame={spinSpriteIndex + 1}
+                          width={40}
+                          height={56}
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
@@ -8591,6 +8592,7 @@ return (
                         />
                       ) : (
                         <SpriteCanvas
+                          pokemon="Vaporeon"
                           animation="idle"
                           direction={
                             lastDirection === 'left' ? 'left'
