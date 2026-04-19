@@ -5,6 +5,7 @@
 const atlasCache = {};
 const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
 const pokemonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/PokemonAtlas.png';
+const vfxAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/VfxAtlas.png';
 
 const loadAtlasImage = (atlasUrl) => {
   if (!atlasCache[atlasUrl]) {
@@ -949,7 +950,438 @@ sleep: {
 }
 };
 
-
+const vfxAtlas = {
+  AquaTail: {
+    down: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/004ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 371, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/003ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 371, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/002ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 371, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/001ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 889, y: 297, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/000ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 815, y: 297, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/008ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 371, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/007ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 371, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/006ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 371, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/005ATDown.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 371, w: 72, h: 72 }
+      }
+    },
+    up: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/004ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 667, y: 75, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/003ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 593, y: 75, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/002ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 75, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/001ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 75, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/000ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 75, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/008ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 149, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/007ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 889, y: 75, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/006ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 815, y: 75, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/005ATUp.png',
+      atlas: { sheet: vfxAtlasUrl, x: 741, y: 75, w: 72, h: 72 }
+      }
+    },
+    left: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/004ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 223, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/003ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 223, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/002ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 889, y: 149, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/001ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 815, y: 149, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/000ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 741, y: 149, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/008ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 223, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/007ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 223, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/006ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 223, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/005ATLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 223, w: 72, h: 72 }
+      }
+    },
+    right: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/004ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 149, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/003ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 149, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/002ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 149, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/001ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 149, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/000ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 149, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/008ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 667, y: 149, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/007ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 593, y: 149, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/006ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 149, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/005ATRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 149, w: 72, h: 72 }
+      }
+    },
+    downleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/004ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 297, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/003ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 297, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/002ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 297, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/001ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 297, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/000ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 297, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/008ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 741, y: 297, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/007ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 667, y: 297, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/006ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 593, y: 297, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/005ATDownLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 297, w: 72, h: 72 }
+      }
+    },
+    downright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/004ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 741, y: 223, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/003ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 667, y: 223, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/002ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 593, y: 223, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/001ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 223, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/000ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 223, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/008ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 297, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/007ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 297, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/006ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 889, y: 223, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/005ATDownRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 815, y: 223, w: 72, h: 72 }
+      }
+    },
+    upleft: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/004ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 75, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/003ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 889, y: 1, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/002ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 815, y: 1, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/001ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 741, y: 1, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/000ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 667, y: 1, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/008ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 75, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/007ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 75, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/006ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 75, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/005ATUpLeft.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 75, w: 72, h: 72 }
+      }
+    },
+    upright: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/004ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 297, y: 1, w: 72, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/003ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 223, y: 1, w: 72, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/002ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 149, y: 1, w: 72, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/001ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 75, y: 1, w: 72, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/000ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 1, w: 72, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/008ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 593, y: 1, w: 72, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/007ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 1, w: 72, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/006ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 445, y: 1, w: 72, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/005ATUpRight.png',
+      atlas: { sheet: vfxAtlasUrl, x: 371, y: 1, w: 72, h: 72 }
+      }
+    }
+  },
+  RockThrow: {
+    none: {
+      1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/000RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 519, y: 371, w: 64, h: 72 }
+      },
+      2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/001RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 585, y: 371, w: 64, h: 72 }
+      },
+      3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/002RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 651, y: 371, w: 64, h: 72 }
+      },
+      4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/003RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 717, y: 371, w: 64, h: 72 }
+      },
+      5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/004RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 783, y: 371, w: 64, h: 72 }
+      },
+      6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/005RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 849, y: 371, w: 64, h: 72 }
+      },
+      7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/006RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 915, y: 371, w: 64, h: 72 }
+      },
+      8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/007RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 371, w: 64, h: 72 }
+      },
+      9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/008RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 67, y: 371, w: 64, h: 72 }
+      },
+      10: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/009RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 133, y: 371, w: 64, h: 72 }
+      },
+      11: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/010RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 199, y: 371, w: 64, h: 72 }
+      },
+      12: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/011RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 265, y: 371, w: 64, h: 72 }
+      },
+      13: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/012RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 331, y: 371, w: 64, h: 72 }
+      },
+      14: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/013RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 397, y: 371, w: 64, h: 72 }
+      },
+      15: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/014RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 463, y: 371, w: 64, h: 72 }
+      },
+      16: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/015RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 529, y: 371, w: 64, h: 72 }
+      },
+      17: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/016RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 595, y: 371, w: 64, h: 72 }
+      },
+      18: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/017RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 661, y: 371, w: 64, h: 72 }
+      },
+      19: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/018RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 727, y: 371, w: 64, h: 72 }
+      },
+      20: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/019RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 793, y: 371, w: 64, h: 72 }
+      },
+      21: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/020RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 859, y: 371, w: 64, h: 72 }
+      },
+      22: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/021RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 925, y: 371, w: 64, h: 72 }
+      },
+      23: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/022RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 1, y: 443, w: 64, h: 72 }
+      },
+      24: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/023RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 67, y: 443, w: 64, h: 72 }
+      },
+      25: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/024RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 133, y: 443, w: 64, h: 72 }
+      },
+      26: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/025RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 199, y: 443, w: 64, h: 72 }
+      },
+      27: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/026RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 265, y: 443, w: 64, h: 72 }
+      },
+      28: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/027RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 331, y: 443, w: 64, h: 72 }
+      },
+      29: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/028RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 397, y: 443, w: 64, h: 72 }
+      },
+      30: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/029RT.png',
+      atlas: { sheet: vfxAtlasUrl, x: 463, y: 443, w: 64, h: 72 }
+      }
+  }
+  }
+};
 
 // Helper function to get sprite URL (returns individual URL for backward compatibility)
 const getItemSprite = (itemName) => {
@@ -968,7 +1400,15 @@ const getPokemonSprite = (pokemon, animation, direction, frame) => {
   if (!frameData) return null;
   return frameData.url;
 }
-
+const getVfxSprite = (sprite, direction, frame) => {
+const spriteData = vfxAtlas[sprite];
+if (!spriteData) return null;
+const dirData = spriteData[direction];
+if (!dirData) return null;
+const frameData = dirData[frame];
+if (!frameData) return null;
+return frameData.url;
+}
 // Get atlas metadata for a specific item key
 const getItemAtlasData = (itemName) => {
   const item = ItemAtlas[itemName];
@@ -980,6 +1420,14 @@ const getPokemonAtlasData = (pokemon, animation, direction, frame) => {
   const animData = pokemonData[animation];
   if (!animData) return null;
   const dirData = animData[direction];
+  if (!dirData) return null;
+  const frameData = dirData[frame];
+  return frameData ? frameData.atlas : null;
+};
+const getVfxAtlasData = (sprite, direction, frame) => {
+  const spriteData = vfxAtlas[sprite];
+  if (!spriteData) return null;
+  const dirData = spriteData[direction];
   if (!dirData) return null;
   const frameData = dirData[frame];
   return frameData ? frameData.atlas : null;
@@ -1034,7 +1482,7 @@ const GeoPebble = getItemSprite('GeoPebble');
 
 // ========== SPRITE CANVAS COMPONENT ==========
 // Renders a single sprite from an atlas using canvas drawImage
-const SpriteCanvas = React.memo(({ pokemon, atlasKey, animation, direction, frame, width = 40, height = 40, style = {} }) => {
+const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, direction, frame, width = 40, height = 40, style = {}, className }) => {
   const canvasRef = React.useRef(null);
   
   React.useEffect(() => {
@@ -1048,6 +1496,9 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, animation, direction, fram
     } else if (animation && direction && frame !== undefined) {
       // Vaporeon atlas
       atlasData = getPokemonAtlasData(pokemon, animation, direction, frame);
+    }
+    else if (sprite && direction && frame !== undefined){
+      atlasData = getVfxAtlasData(sprite, direction, frame);
     }
     
     if (!atlasData) return;
@@ -1079,15 +1530,17 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, animation, direction, fram
     };
     
     render();
-  }, [atlasKey, pokemon, animation, direction, frame, width, height]);
+  }, [atlasKey, pokemon, sprite, animation, direction, frame, width, height]);
   
   return (
     <canvas
       ref={canvasRef}
+      className={className}
       style={{
         imageRendering: 'smooth',
         imageResolution: 'from-image 300dpi',
         objectFit: 'contain',
+        zIndex: 20,
         ...style
       }}
     />
@@ -1702,36 +2155,36 @@ const ENEMY_DEFS = {
 const MAX_INVENTORY_SLOTS = 10;
 // Enemy moves
 const rockThrowVfxFrames = [
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/000.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/001.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/002.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/003.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/004.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/005.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/006.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/007.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/008.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/009.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/010.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/011.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/012.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/013.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/014.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/015.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/016.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/017.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/018.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/019.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/020.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/021.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/022.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/023.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/024.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/025.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/026.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/027.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/028.png',
-'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/move%20vfx%20frames/Rock%20Throw/029.png'
+getVfxSprite('RockThrow', 'none', 1),
+getVfxSprite('RockThrow', 'none', 2),
+getVfxSprite('RockThrow', 'none', 3),
+getVfxSprite('RockThrow', 'none', 4),
+getVfxSprite('RockThrow', 'none', 5),
+getVfxSprite('RockThrow', 'none', 6),
+getVfxSprite('RockThrow', 'none', 7),
+getVfxSprite('RockThrow', 'none', 8),
+getVfxSprite('RockThrow', 'none', 9),
+getVfxSprite('RockThrow', 'none', 10),
+getVfxSprite('RockThrow', 'none', 11),
+getVfxSprite('RockThrow', 'none', 12),
+getVfxSprite('RockThrow', 'none', 13),
+getVfxSprite('RockThrow', 'none', 14),
+getVfxSprite('RockThrow', 'none', 15),
+getVfxSprite('RockThrow', 'none', 16),
+getVfxSprite('RockThrow', 'none', 17),
+getVfxSprite('RockThrow', 'none', 18),
+getVfxSprite('RockThrow', 'none', 19),
+getVfxSprite('RockThrow', 'none', 20),
+getVfxSprite('RockThrow', 'none', 21),
+getVfxSprite('RockThrow', 'none', 22),
+getVfxSprite('RockThrow', 'none', 23),
+getVfxSprite('RockThrow', 'none', 24),
+getVfxSprite('RockThrow', 'none', 25),
+getVfxSprite('RockThrow', 'none', 26),
+getVfxSprite('RockThrow', 'none', 27),
+getVfxSprite('RockThrow', 'none', 28),
+getVfxSprite('RockThrow', 'none', 29),
+getVfxSprite('RockThrow', 'none', 30),
 ];
 
 // Enemy sprite URLs
@@ -2015,100 +2468,101 @@ const vaporeonUpLeftSpinSprites = [
 ]
 // Aqua Tail vfx
  //up
+ //4 -> 0; 8 -> 5
  const vaporeonAquaTailUpSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up/005.png'
+  getVfxSprite('AquaTail', 'up', 1),
+  getVfxSprite('AquaTail', 'up', 2),
+  getVfxSprite('AquaTail', 'up', 3),
+  getVfxSprite('AquaTail', 'up', 4),
+  getVfxSprite('AquaTail', 'up', 5),
+  getVfxSprite('AquaTail', 'up', 6),
+  getVfxSprite('AquaTail', 'up', 7),
+  getVfxSprite('AquaTail', 'up', 8),
+  getVfxSprite('AquaTail', 'up', 9)
 ]
  //down
  const vaporeonAquaTailDownSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down/005.png'
+  getVfxSprite('AquaTail', 'down', 1),
+  getVfxSprite('AquaTail', 'down', 2),
+  getVfxSprite('AquaTail', 'down', 3),
+  getVfxSprite('AquaTail', 'down', 4),
+  getVfxSprite('AquaTail', 'down', 5),
+  getVfxSprite('AquaTail', 'down', 6),
+  getVfxSprite('AquaTail', 'down', 7),
+  getVfxSprite('AquaTail', 'down', 8),
+  getVfxSprite('AquaTail', 'down', 9)
 ]
  //left
  const vaporeonAquaTailLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/left/005.png'
+  getVfxSprite('AquaTail', 'left', 1),
+  getVfxSprite('AquaTail', 'left', 2),
+  getVfxSprite('AquaTail', 'left', 3),
+  getVfxSprite('AquaTail', 'left', 4),
+  getVfxSprite('AquaTail', 'left', 5),
+  getVfxSprite('AquaTail', 'left', 6),
+  getVfxSprite('AquaTail', 'left', 7),
+  getVfxSprite('AquaTail', 'left', 8),
+  getVfxSprite('AquaTail', 'left', 9)
 ]
  //right
  const vaporeonAquaTailRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/right/005.png'
+  getVfxSprite('AquaTail', 'right', 1),
+  getVfxSprite('AquaTail', 'right', 2),
+  getVfxSprite('AquaTail', 'right', 3),
+  getVfxSprite('AquaTail', 'right', 4),
+  getVfxSprite('AquaTail', 'right', 5),
+  getVfxSprite('AquaTail', 'right', 6),
+  getVfxSprite('AquaTail', 'right', 7),
+  getVfxSprite('AquaTail', 'right', 8),
+  getVfxSprite('AquaTail', 'right', 9)
 ]
  //up-right
  const vaporeonAquaTailUpRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-right/005.png'
+  getVfxSprite('AquaTail', 'upright', 1),
+  getVfxSprite('AquaTail', 'upright', 2),
+  getVfxSprite('AquaTail', 'upright', 3),
+  getVfxSprite('AquaTail', 'upright', 4),
+  getVfxSprite('AquaTail', 'upright', 5),
+  getVfxSprite('AquaTail', 'upright', 6),
+  getVfxSprite('AquaTail', 'upright', 7),
+  getVfxSprite('AquaTail', 'upright', 8),
+  getVfxSprite('AquaTail', 'upright', 9)
 ]
  //up-left
  const vaporeonAquaTailUpLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/up-left/005.png'
+  getVfxSprite('AquaTail', 'upleft', 1),
+  getVfxSprite('AquaTail', 'upleft', 2),
+  getVfxSprite('AquaTail', 'upleft', 3),
+  getVfxSprite('AquaTail', 'upleft', 4),
+  getVfxSprite('AquaTail', 'upleft', 5),
+  getVfxSprite('AquaTail', 'upleft', 6),
+  getVfxSprite('AquaTail', 'upleft', 7),
+  getVfxSprite('AquaTail', 'upleft', 8),
+  getVfxSprite('AquaTail', 'upleft', 9)
 ]
  //down-right
  const vaporeonAquaTailDownRightSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-right/005.png'
+  getVfxSprite('AquaTail', 'downright', 1),
+  getVfxSprite('AquaTail', 'downright', 2),
+  getVfxSprite('AquaTail', 'downright', 3),
+  getVfxSprite('AquaTail', 'downright', 4),
+  getVfxSprite('AquaTail', 'downright', 5),
+  getVfxSprite('AquaTail', 'downright', 6),
+  getVfxSprite('AquaTail', 'downright', 7),
+  getVfxSprite('AquaTail', 'downright', 8),
+  getVfxSprite('AquaTail', 'downright', 9)
 ]
  //down-left
  const vaporeonAquaTailDownLeftSprites = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/move%20vfx%20frames/Aqua%20Tail/down-left/005.png'
+  getVfxSprite('AquaTail', 'downleft', 1),
+  getVfxSprite('AquaTail', 'downleft', 2),
+  getVfxSprite('AquaTail', 'downleft', 3),
+  getVfxSprite('AquaTail', 'downleft', 4),
+  getVfxSprite('AquaTail', 'downleft', 5),
+  getVfxSprite('AquaTail', 'downleft', 6),
+  getVfxSprite('AquaTail', 'downleft', 7),
+  getVfxSprite('AquaTail', 'downleft', 8),
+  getVfxSprite('AquaTail', 'downleft', 9)
 ]
 
 // Sleep animations
@@ -7367,8 +7821,8 @@ return;
 break;
 case 'l':
 //quick log
-console.log(projectilePosRef.current);
 addItemToInventory('Sleep Seed');
+console.log(usingAquaTail);
 return;
   break;
 }
@@ -7774,7 +8228,6 @@ React.useEffect(() => {
   const uniq = Array.from(new Set(allSprites.filter(Boolean)));
   preloadImages(uniq);
 }, []);
-
 // rAF animation driver
 React.useEffect(() => {
   function step(ts) {
@@ -8319,7 +8772,7 @@ return (
                             position: 'absolute',
                             left: '50%',
                             top: '50%',
-                            transform: `translate(-50%, -50%) ${shouldScale ? 'scale(1.5)' : ''}`,
+                            transform: `translate(-50%, -50%) ${shouldScale ? 'scale(1.4)' : ''}`,
                             zIndex: 5,
                             width: '50%',
                             height: '50%'
@@ -8341,27 +8794,32 @@ return (
                       />
                     )}
                     {usingAquaTail && playerPos.x === colIndex && playerPos.y === rowIndex && (
-                      <img
-                        src={
-                          lastDirection === 'up' ? vaporeonAquaTailUpSprites[aquaTailIndex] 
-                          : lastDirection === 'down' ? vaporeonAquaTailDownSprites[aquaTailIndex]
-                          : lastDirection === 'left' ? vaporeonAquaTailLeftSprites[aquaTailIndex]
-                          : lastDirection === 'right' ? vaporeonAquaTailRightSprites[aquaTailIndex]
-                          : lastDirection === 'up-left' ? vaporeonAquaTailUpLeftSprites[aquaTailIndex]
-                          : lastDirection === 'up-right' ? vaporeonAquaTailUpRightSprites[aquaTailIndex]
-                          : lastDirection === 'down-left' ? vaporeonAquaTailDownLeftSprites[aquaTailIndex]
-                          : lastDirection === 'down-right' ? vaporeonAquaTailDownRightSprites[aquaTailIndex]
-                          : vaporeonAquaTailDownSprites[aquaTailIndex]
-                        }
-                        alt="Aqua Tail"
-                        className="absolute w-full h-full"
-                        style={{
-                          transform: 'translateY(-10%) scale(2.0)',
-                          zIndex: 31,
-                          pointerEvents: 'none',
-                          animation: 'aqua-tail-fade 6s forwards',
-                        }}
-                      />
+                      <SpriteCanvas
+                          sprite="AquaTail"
+                          direction={
+                            lastDirection === 'left' ? 'left'
+                            : lastDirection === 'right' ? 'right'
+                            : lastDirection === 'up' ? 'up'
+                            : lastDirection === 'down' ? 'down'
+                            : lastDirection === 'up-left' ? 'upleft'
+                            : lastDirection === 'up-right' ? 'upright'
+                            : lastDirection === 'down-left' ? 'downleft'
+                            : lastDirection === 'down-right' ? 'downright'
+                            : 'down'
+                          }
+                          frame={aquaTailIndex + 1}
+                          width={72}
+                          height={72}
+                          alt="Aqua Tail"
+                          className="aqua-tail absolute"
+                          style={{
+                            transform: 'translateY(-25%) translateX(-20%) scale(1.2)',
+                            //transform: 'translateY(-10%) scale(2.0)',
+                            zIndex: 21,
+                            pointerEvents: 'none',
+                            //animation: 'aqua-tail-fade 6s forwards',
+                          }}
+                        />
                     )}
                     {isLevelingUp && playerPos.x === colIndex && playerPos.y === rowIndex && (
                       <img
@@ -8387,7 +8845,7 @@ return (
                           alt="Enemy1"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8403,7 +8861,7 @@ return (
                           alt="Enemy2"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8419,7 +8877,7 @@ return (
                           alt="Enemy3"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8435,7 +8893,7 @@ return (
                           alt="Enemy4"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8451,7 +8909,7 @@ return (
                           alt="Enemy5"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8467,7 +8925,7 @@ return (
                           alt="Enemy6"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8483,7 +8941,7 @@ return (
                           alt="Enemy7"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8499,7 +8957,7 @@ return (
                           alt="Enemy8"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.1) translateY(4px) translateX(8px)' : 'none',
+                            transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -8540,7 +8998,7 @@ return (
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
-                            transform: 'scale(1)'
+                            transform: 'scale(1.2)'
                           }}
                         />
                       ) : isSpinning ? (
@@ -8564,7 +9022,8 @@ return (
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
-                            transform: 'scale(0.85)'
+                            zIndex: 32,
+                            transform: 'scale(1)'
                           }}
                         />
                       ) : usingAquaTail ? (
@@ -8588,7 +9047,8 @@ return (
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
-                            transform: 'scale(0.85)'
+                            zIndex: 40,
+                            transform: 'scale(1)'
                           }}
                         />
                       ) : (
@@ -8612,7 +9072,7 @@ return (
                           alt="Vaporeon"
                           className="player-sprite absolute"
                           style={{
-                            transform: 'scale(1)'
+                            transform: 'scale(1.2)'
                           }}
                         />
                       )
