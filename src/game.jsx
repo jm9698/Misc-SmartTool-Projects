@@ -6,6 +6,7 @@ const atlasCache = {};
 const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
 const pokemonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/PokemonAtlas.png';
 const vfxAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/VfxAtlas.png';
+const DMGAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/atlas/DMG%20Atlas.png';
 
 const loadAtlasImage = (atlasUrl) => {
   if (!atlasCache[atlasUrl]) {
@@ -19,9 +20,56 @@ const loadAtlasImage = (atlasUrl) => {
   }
   return atlasCache[atlasUrl];
 };
-
+const DMGAtlas = {
+  DMG1: {
+    1: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG1.png',
+      atlas: { sheet: DMGAtlasUrl, x: 169, y: 60, w: 40, h: 57 }
+    },
+    2: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG2.png',
+      atlas: { sheet: DMGAtlasUrl, x: 127, y: 60, w: 40, h: 57 }
+    },
+    3: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG3.png',
+      atlas: { sheet: DMGAtlasUrl, x: 85, y: 60, w: 40, h: 57 }
+    },
+    4: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG4.png',
+      atlas: { sheet: DMGAtlasUrl, x: 43, y: 60, w: 40, h: 57 }
+    },
+    5: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG5.png',
+      atlas: { sheet: DMGAtlasUrl, x: 1, y: 60, w: 40, h: 57 }
+    },
+    6: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG6.png',
+      atlas: { sheet: DMGAtlasUrl, x: 211, y: 1, w: 40, h: 57 }
+    },
+    7: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG7.png',
+      atlas: { sheet: DMGAtlasUrl, x: 169, y: 1, w: 40, h: 57 }
+    },
+    8: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG8.png',
+      atlas: { sheet: DMGAtlasUrl, x: 127, y: 1, w: 40, h: 57 }
+    },
+    9: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG9.png',
+      atlas: { sheet: DMGAtlasUrl, x: 85, y: 1, w: 40, h: 57 }
+    },
+    10: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG10.png',
+      atlas: { sheet: DMGAtlasUrl, x: 43, y: 1, w: 40, h: 57 }
+    },
+    11: {
+      url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/DMG11.png',
+      atlas: { sheet: DMGAtlasUrl, x: 1, y: 1, w: 40, h: 57 }
+    }
+  }
+};
 const ItemAtlas = {
-  
+
   // Seeds
   Reviverseed: {
     url: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png',
@@ -1389,6 +1437,13 @@ const getItemSprite = (itemName) => {
   if (!item) return null;
   return item.url;
 };
+const getDMGSprite = (dmgSprite, frame) => {
+  const spriteData = DMGAtlas[dmgSprite];
+  if (!spriteData) return null;
+  const frameData = spriteData[frame];
+  if (!frameData) return null;
+  return frameData.url;
+};
 const getPokemonSprite = (pokemon, animation, direction, frame) => {
   const pokemonData = PokemonAtlas[pokemon];
   if (!pokemonData) return null;
@@ -1430,6 +1485,12 @@ const getVfxAtlasData = (sprite, direction, frame) => {
   const dirData = spriteData[direction];
   if (!dirData) return null;
   const frameData = dirData[frame];
+  return frameData ? frameData.atlas : null;
+};
+const getDMGAtlasData = (dmgSprite, frame) => {
+  const spriteData = DMGAtlas[dmgSprite];
+  if (!spriteData) return null;
+  const frameData = spriteData[frame];
   return frameData ? frameData.atlas : null;
 };
 
@@ -1500,7 +1561,10 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     else if (sprite && direction && frame !== undefined){
       atlasData = getVfxAtlasData(sprite, direction, frame);
     }
-    
+    else if (sprite === 'DMG1' && frame !== undefined){
+      atlasData = getDMGAtlasData(sprite, frame);
+    }
+
     if (!atlasData) return;
     
     const render = async () => {
@@ -2571,6 +2635,20 @@ const vaporeonSleepSprites = [
   getPokemonSprite('Vaporeon', 'sleep', 'none', 2)
 ]
 // VFX animations
+
+const DMG1VfxFrames = [
+  getDMGSprite('DMG1', 1),
+  getDMGSprite('DMG1', 2),
+  getDMGSprite('DMG1', 3),
+  getDMGSprite('DMG1', 4),
+  getDMGSprite('DMG1', 5),
+  getDMGSprite('DMG1', 6),
+  getDMGSprite('DMG1', 7),
+  getDMGSprite('DMG1', 8),
+  getDMGSprite('DMG1', 9),
+  getDMGSprite('DMG1', 10),
+  getDMGSprite('DMG1', 11)
+]
   // Level up VFX
 const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame1.png',
@@ -2728,6 +2806,35 @@ const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 const [zoomLevel, setZoomLevel] = React.useState(1);
 
+//DMG VFX
+const [DMGVfx0, setDMGVfx0] = React.useState({ DMG: null, Active: false });
+const DMGVfx0Ref = React.useRef(DMGVfx0);
+const [DMGVfx1, setDMGVfx1] = React.useState({ DMG: null, Active: false });
+const DMGVfx1Ref = React.useRef(DMGVfx1);
+const [DMGVfx2, setDMGVfx2] = React.useState({ DMG: null, Active: false });
+const DMGVfx2Ref = React.useRef(DMGVfx2);
+const [DMGVfx3, setDMGVfx3] = React.useState({ DMG: null, Active: false });
+const DMGVfx3Ref = React.useRef(DMGVfx3);
+const [DMGVfx4, setDMGVfx4] = React.useState({ DMG: null, Active: false });
+const DMGVfx4Ref = React.useRef(DMGVfx4);
+const [DMGVfx5, setDMGVfx5] = React.useState({ DMG: null, Active: false });
+const DMGVfx5Ref = React.useRef(DMGVfx5);
+const [DMGVfx6, setDMGVfx6] = React.useState({ DMG: null, Active: false });
+const DMGVfx6Ref = React.useRef(DMGVfx6);
+const [DMGVfx7, setDMGVfx7] = React.useState({ DMG: null, Active: false });
+const DMGVfx7Ref = React.useRef(DMGVfx7);
+const [DMGVfx8, setDMGVfx8] = React.useState({ DMG: null, Active: false });
+const DMGVfx8Ref = React.useRef(DMGVfx8);
+  //Indexes
+const [DMGVfx0Index, setDMGVfx0Index] = React.useState(0);
+const [DMGVfx1Index, setDMGVfx1Index] = React.useState(0);
+const [DMGVfx2Index, setDMGVfx2Index] = React.useState(0);
+const [DMGVfx3Index, setDMGVfx3Index] = React.useState(0);
+const [DMGVfx4Index, setDMGVfx4Index] = React.useState(0);
+const [DMGVfx5Index, setDMGVfx5Index] = React.useState(0);
+const [DMGVfx6Index, setDMGVfx6Index] = React.useState(0);
+const [DMGVfx7Index, setDMGVfx7Index] = React.useState(0);
+const [DMGVfx8Index, setDMGVfx8Index] = React.useState(0);
 // Level params
 const [level, setLevel] = React.useState(1);
 const [exp, setExp] = React.useState(0);
@@ -2810,6 +2917,55 @@ const [enemy5IdleAnimIndex, setEnemy5IdleAnimIndex] = React.useState(0);
 const [enemy6IdleAnimIndex, setEnemy6IdleAnimIndex] = React.useState(0);
 const [enemy7IdleAnimIndex, setEnemy7IdleAnimIndex] = React.useState(0);
 const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
+  // stats (placeholder)
+const [enemy1HP, setEnemy1HP] = React.useState(2);
+const [enemy1MaxHP, setEnemy1MaxHP] = React.useState(2);
+const [enemy1Attack, setEnemy1Attack] = React.useState(0);
+const [enemy1Defense, setEnemy1Defense] = React.useState(0);
+const [enemy1SpecialDefense, setEnemy1SpecialDefense] = React.useState(0);
+const [enemy1Speed, setEnemy1Speed] = React.useState(0);
+const [enemy2HP, setEnemy2HP] = React.useState(2);
+const [enemy2MaxHP, setEnemy2MaxHP] = React.useState(2);
+const [enemy2Attack, setEnemy2Attack] = React.useState(0);
+const [enemy2Defense, setEnemy2Defense] = React.useState(0);
+const [enemy2SpecialDefense, setEnemy2SpecialDefense] = React.useState(0);
+const [enemy2Speed, setEnemy2Speed] = React.useState(0);
+const [enemy3HP, setEnemy3HP] = React.useState(2);
+const [enemy3MaxHP, setEnemy3MaxHP] = React.useState(2);
+const [enemy3Attack, setEnemy3Attack] = React.useState(0);
+const [enemy3Defense, setEnemy3Defense] = React.useState(0);
+const [enemy3SpecialDefense, setEnemy3SpecialDefense] = React.useState(0);
+const [enemy3Speed, setEnemy3Speed] = React.useState(0);
+const [enemy4HP, setEnemy4HP] = React.useState(2);
+const [enemy4MaxHP, setEnemy4MaxHP] = React.useState(2);
+const [enemy4Attack, setEnemy4Attack] = React.useState(0);
+const [enemy4Defense, setEnemy4Defense] = React.useState(0);
+const [enemy4SpecialDefense, setEnemy4SpecialDefense] = React.useState(0);
+const [enemy4Speed, setEnemy4Speed] = React.useState(0);
+const [enemy5HP, setEnemy5HP] = React.useState(2);
+const [enemy5MaxHP, setEnemy5MaxHP] = React.useState(2);
+const [enemy5Attack, setEnemy5Attack] = React.useState(0);
+const [enemy5Defense, setEnemy5Defense] = React.useState(0);
+const [enemy5SpecialDefense, setEnemy5SpecialDefense] = React.useState(0);
+const [enemy5Speed, setEnemy5Speed] = React.useState(0);
+const [enemy6HP, setEnemy6HP] = React.useState(2);
+const [enemy6MaxHP, setEnemy6MaxHP] = React.useState(2);
+const [enemy6Attack, setEnemy6Attack] = React.useState(0);
+const [enemy6Defense, setEnemy6Defense] = React.useState(0);
+const [enemy6SpecialDefense, setEnemy6SpecialDefense] = React.useState(0);
+const [enemy6Speed, setEnemy6Speed] = React.useState(0);
+const [enemy7HP, setEnemy7HP] = React.useState(2);
+const [enemy7MaxHP, setEnemy7MaxHP] = React.useState(2);
+const [enemy7Attack, setEnemy7Attack] = React.useState(0);
+const [enemy7Defense, setEnemy7Defense] = React.useState(0);
+const [enemy7SpecialDefense, setEnemy7SpecialDefense] = React.useState(0);
+const [enemy7Speed, setEnemy7Speed] = React.useState(0);
+const [enemy8HP, setEnemy8HP] = React.useState(2);
+const [enemy8MaxHP, setEnemy8MaxHP] = React.useState(2);
+const [enemy8Attack, setEnemy8Attack] = React.useState(0);
+const [enemy8Defense, setEnemy8Defense] = React.useState(0);
+const [enemy8SpecialDefense, setEnemy8SpecialDefense] = React.useState(0);
+const [enemy8Speed, setEnemy8Speed] = React.useState(0);
   // configure AI
   const [enemy1MoveBehavior, setEnemy1MoveBehavior] = React.useState(true); // Whether enemies move
   const enemy1MoveBehaviorRef = React.useRef(enemy1MoveBehavior);
@@ -3104,6 +3260,15 @@ React.useEffect(() => { enemy5AttackingRef.current = enemy5Attacking ; }, [enemy
 React.useEffect(() => { enemy6AttackingRef.current = enemy6Attacking ; }, [enemy6Attacking]);
 React.useEffect(() => { enemy7AttackingRef.current = enemy7Attacking ; }, [enemy7Attacking]);
 React.useEffect(() => { enemy8AttackingRef.current = enemy8Attacking ; }, [enemy8Attacking]);
+React.useEffect(() => { DMGVfx0Ref.current = DMGVfx0 ; }, [DMGVfx0]);
+React.useEffect(() => { DMGVfx1Ref.current = DMGVfx1 ; }, [DMGVfx1]);
+React.useEffect(() => { DMGVfx2Ref.current = DMGVfx2 ; }, [DMGVfx2]);
+React.useEffect(() => { DMGVfx3Ref.current = DMGVfx3 ; }, [DMGVfx3]);
+React.useEffect(() => { DMGVfx4Ref.current = DMGVfx4 ; }, [DMGVfx4]);
+React.useEffect(() => { DMGVfx5Ref.current = DMGVfx5 ; }, [DMGVfx5]);
+React.useEffect(() => { DMGVfx6Ref.current = DMGVfx6 ; }, [DMGVfx6]);
+React.useEffect(() => { DMGVfx7Ref.current = DMGVfx7 ; }, [DMGVfx7]);
+React.useEffect(() => { DMGVfx8Ref.current = DMGVfx8 ; }, [DMGVfx8]);
 React.useEffect(() => { rockThrowRef.current = rockThrow ; }, [rockThrow]);
 React.useEffect(() => { projectilePosRef.current = projectilePos ; }, [projectilePos]);
 React.useEffect(() => { 
@@ -3406,6 +3571,89 @@ function polarToCartesian(cx, cy, r, angle) {
     y: cy + r * Math.sin(rad)
   };
 }
+function dealDMG(DMG, target, targetWillDie) {
+  if (target === 'player') {
+    setPlayerHP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx0({DMG: DMG, Active: true, X: playerPosRef.current.x, Y: playerPosRef.current.y - 1});
+  }
+  if (target === 'enemy1') {
+    setEnemy1HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx1({DMG: DMG, Active: true, X: enemy1PosRef.current.x, Y: enemy1PosRef.current.y - 1});
+    console.log('Enemy1HP:', enemy1HP);
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType1].name + ' fainted!');
+      setEnemy1Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy2') {
+    setEnemy2HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx2({DMG: DMG, Active: true, X: enemy2PosRef.current.x, Y: enemy2PosRef.current.y - 1});
+    console.log('Enemy2HP:', DMGVfx2Ref.current);
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType2].name + ' fainted!');
+      setEnemy2Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy3') {
+    setEnemy3HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx3({DMG: DMG, Active: true, X: enemy3PosRef.current.x, Y: enemy3PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType3].name + ' fainted!');
+      setEnemy3Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy4') {
+    setEnemy4HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx4({DMG: DMG, Active: true, X: enemy4PosRef.current.x, Y: enemy4PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType4].name + ' fainted!');
+      setEnemy4Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy5') {
+    setEnemy5HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx5({DMG: DMG, Active: true, X: enemy5PosRef.current.x, Y: enemy5PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType5].name + ' fainted!');
+      setEnemy5Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy6') {
+    setEnemy6HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx6({DMG: DMG, Active: true, X: enemy6PosRef.current.x, Y: enemy6PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType6].name + ' fainted!');
+      setEnemy6Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy7') {
+    setEnemy7HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx7({DMG: DMG, Active: true, X: enemy7PosRef.current.x, Y: enemy7PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType7].name + ' fainted!');
+      setEnemy7Pos({x: 2, y: 2});
+    }
+  }
+  if (target === 'enemy8') {
+    setEnemy8HP(prev => Math.max(prev - DMG, 0));
+    setDMGVfx8({DMG: DMG, Active: true, X: enemy8PosRef.current.x, Y: enemy8PosRef.current.y - 1});
+    if (targetWillDie) {
+      addLogMessage(ENEMY_DEFS[enemyType8].name + ' fainted!');
+      setEnemy8Pos({x: 2, y: 2});
+    }
+  }
+  setTimeout(() => {
+      setDMGVfx0(prev => ({ ...prev, Active: false }));
+      setDMGVfx1(prev => ({ ...prev, Active: false }));
+      setDMGVfx2(prev => ({ ...prev, Active: false }));
+      setDMGVfx3(prev => ({ ...prev, Active: false }));
+      setDMGVfx4(prev => ({ ...prev, Active: false }));
+      setDMGVfx5(prev => ({ ...prev, Active: false }));
+      setDMGVfx6(prev => ({ ...prev, Active: false }));
+      setDMGVfx7(prev => ({ ...prev, Active: false }));
+      setDMGVfx8(prev => ({ ...prev, Active: false }));
+    }, 1400); // DMG numbers last for 1400ms
+}
 function enemyUseMove(move, key){
   key === 1 ? setEnemy1AttackBehavior(true) : key === 2 ? setEnemy2AttackBehavior(true) : key === 3 ? setEnemy3AttackBehavior(true) : key === 4 ? setEnemy4AttackBehavior(true) : key === 5 ? setEnemy5AttackBehavior(true) : key === 6 ? setEnemy6AttackBehavior(true) : key === 7 ? setEnemy7AttackBehavior(true) : key === 8 ? setEnemy8AttackBehavior(true) : null;
   setTimeout(() => {
@@ -3415,7 +3663,7 @@ function enemyUseMove(move, key){
     // Set transform based on current player position at the moment of casting
     const transformValue = playerPosRef.current.x < width/3 ? 'translatex(80%) translateY(-615%)' : 'translatex(65%) translateY(-615%)';
     setRockThrowTransform(transformValue);
-    key === 1 ? addLogMessage(ENEMY_DEFS[enemyType1].name + ' used Rock Throw!') : key === 2 ? addLogMessage(ENEMY_DEFS[enemyType1].name + ' used Rock Throw!') : key === 3 ? addLogMessage(ENEMY_DEFS[enemyType3].name + ' used Rock Throw!') : key === 4 ? addLogMessage(ENEMY_DEFS[enemyType4].name + ' used Rock Throw!') : key === 5 ? addLogMessage(ENEMY_DEFS[enemyType5].name + ' used Rock Throw!') : key === 6 ? addLogMessage(ENEMY_DEFS[enemyType6].name + ' used Rock Throw!') : key === 7 ? addLogMessage(ENEMY_DEFS[enemyType7].name + ' used Rock Throw!') : key === 8 ? addLogMessage(ENEMY_DEFS[enemyType8].name + ' used Rock Throw!') : null;
+    key === 1 ? addLogMessage(ENEMY_DEFS[enemyType1].name + ' used Rock Throw!') : key === 2 ? addLogMessage(ENEMY_DEFS[enemyType2].name + ' used Rock Throw!') : key === 3 ? addLogMessage(ENEMY_DEFS[enemyType3].name + ' used Rock Throw!') : key === 4 ? addLogMessage(ENEMY_DEFS[enemyType4].name + ' used Rock Throw!') : key === 5 ? addLogMessage(ENEMY_DEFS[enemyType5].name + ' used Rock Throw!') : key === 6 ? addLogMessage(ENEMY_DEFS[enemyType6].name + ' used Rock Throw!') : key === 7 ? addLogMessage(ENEMY_DEFS[enemyType7].name + ' used Rock Throw!') : key === 8 ? addLogMessage(ENEMY_DEFS[enemyType8].name + ' used Rock Throw!') : null;
     console.log(`Enemy ${key} used Rock Throw!`);
   }
   if (key === 1){
@@ -4064,43 +4312,116 @@ function useMove(moveIndex) {
   if (move.name === 'Aqua Tail') {
     setIsWalking(false);
     const moveRange = 1
-    const willDie = 'null';
+    const target = 'null'
+    const targetWillDie = 'null';
+    const DMG = 'null'
     setTimeout(() => setUsingAquaTail(true), 0);
     setTimeout(() => setUsingAquaTail(false), 1500); // Duration of Aqua Tail animation
     setTimeout(() => { 
     if (enemy1 && Math.abs(playerPosRef.current.x - enemy1PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy1PosRef.current.y) <= moveRange){
-    setEnemy1Pos( {x: 2, y: 2} )
-    const willDie = 'enemy1';
+    const target = target !== 'null' || target !== undefined ? 'enemy1' : 'enemy1';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy1HP - DMG <= 0 ? 'enemy1' : 'null';
+    dealDMG(DMG, 'enemy1', targetWillDie === 'enemy1' ? true : false);
    }
     if (enemy2 && Math.abs(playerPosRef.current.x - enemy2PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy2PosRef.current.y) <= moveRange){
-    setEnemy2Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy2' : 'enemy2';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy2HP - DMG <= 0 ? 'enemy2' : 'null';
+    dealDMG(DMG, 'enemy2', targetWillDie === 'enemy2' ? true : false);
    }
     if (enemy3 && Math.abs(playerPosRef.current.x - enemy3PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy3PosRef.current.y) <= moveRange){
-    setEnemy3Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy3' : 'enemy3';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy3HP - DMG <= 0 ? 'enemy3' : 'null';
+    dealDMG(DMG, 'enemy3', targetWillDie === 'enemy3' ? true : false);
    }
     if (enemy4 && Math.abs(playerPosRef.current.x - enemy4PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy4PosRef.current.y) <= moveRange){
-    setEnemy4Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy4' : 'enemy4';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy4HP - DMG <= 0 ? 'enemy4' : 'null';
+    dealDMG(DMG, target, targetWillDie === 'enemy4' ? true : false);
    }
    if (enemy5 && Math.abs(playerPosRef.current.x - enemy5PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy5PosRef.current.y) <= moveRange){
-    setEnemy5Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy5' : 'enemy5';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy5HP - DMG <= 0 ? 'enemy5' : 'null';
+    dealDMG(DMG, target, targetWillDie === 'enemy5' ? true : false);
    }
    if (enemy6 && Math.abs(playerPosRef.current.x - enemy6PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy6PosRef.current.y) <= moveRange){
-    setEnemy6Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy6' : 'enemy6';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy6HP - DMG <= 0 ? 'enemy6' : 'null';
+    dealDMG(DMG, target, targetWillDie === 'enemy6' ? true : false);
    }
    if (enemy7 && Math.abs(playerPosRef.current.x - enemy7PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy7PosRef.current.y) <= moveRange){
-    setEnemy7Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy7' : 'enemy7';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy7HP - DMG <= 0 ? 'enemy7' : 'null';
+    dealDMG(DMG, target, targetWillDie === 'enemy7' ? true : false);
    }
    if (enemy8 && Math.abs(playerPosRef.current.x - enemy8PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy8PosRef.current.y) <= moveRange){
-    setEnemy8Pos( {x: 2, y: 2} )
+    const target = target !== 'null' || target !== undefined ? 'enemy8' : 'enemy8';
+    const DMG = 1 // Placeholder damage value, replace with actual calculation
+    const targetWillDie = enemy8HP - DMG <= 0 ? 'enemy8' : 'null';
+    dealDMG(DMG, target, targetWillDie === 'enemy8' ? true : false);
    }
     }, 1501)
     setTimeout(() => {
-      if (willDie !== 'enemy1') {
-      confirmEnemyBehavior(1, 0);
+      /*
+      if (targetWillDie === 'enemy1'){
+        dealDMG(DMG, enemy1, true);
+      }
+      else if (target === 'enemy1'){
+        dealDMG(DMG, enemy1, false);
       }
       else {
-        confirmEnemyBehavior(2, 0);
+        dealDMG(DMG, enemy1, false);
       }
+      if (targetWillDie === 'enemy2'){
+        dealDMG(DMG, enemy2, true);
+      }
+      else if (target === 'enemy2'){
+        dealDMG(DMG, enemy2, false)
+      }
+      if (targetWillDie === 'enemy3'){
+        dealDMG(DMG, enemy3, true);
+      }
+      else if (target === 'enemy3'){
+        dealDMG(DMG, enemy3, false)
+      }
+      if (targetWillDie === 'enemy4'){
+        dealDMG(DMG, enemy4, true);
+      }
+      else if (target === 'enemy4'){
+        dealDMG(DMG, enemy4, false)
+      }
+      if (targetWillDie === 'enemy5'){
+        dealDMG(DMG, enemy5, true);
+      }
+      else if (target === 'enemy5'){
+        dealDMG(DMG, enemy5, false)
+      }
+      if (targetWillDie === 'enemy6'){
+        dealDMG(DMG, enemy6, true);
+      }
+      else if (target === 'enemy6'){
+        dealDMG(DMG, enemy6, false)
+      }
+      if (targetWillDie === 'enemy7'){
+        dealDMG(DMG, enemy7, true);
+      }
+      else if (target === 'enemy7'){
+        dealDMG(DMG, enemy7, false)
+      }
+      if (targetWillDie === 'enemy8'){
+        dealDMG(DMG, enemy8, true);
+      }
+      else if (target === 'enemy8'){
+        dealDMG(DMG, enemy8, false)
+      }
+      */
+      targetWillDie !== 'enemy1' ? confirmEnemyBehavior(1, 0) : confirmEnemyBehavior (2, 0);
       advanceTicks();
       depleteHungerAfterTicks(hungerTicks);
     }, 2000); // After Aqua Tail animation completes
@@ -7822,7 +8143,7 @@ break;
 case 'l':
 //quick log
 addItemToInventory('Sleep Seed');
-console.log(usingAquaTail);
+console.log(DMGVfx0Ref.current, DMGVfx1Ref.current, DMGVfx2Ref.current, DMGVfx3Ref.current, DMGVfx4Ref.current, DMGVfx5Ref.current, DMGVfx6Ref.current, DMGVfx7Ref.current, DMGVfx8Ref.current);
 return;
   break;
 }
@@ -7931,6 +8252,7 @@ const ANIM_TIMINGS = {
   },
   level: 150,
   buff: 150,
+  DMG: 150,
   aquaTail: 150,
   rockThrow: 150,
   dialog: dialogSpeed === 'Slow' ? 100 : dialogSpeed === 'Fast' ? 50 : 75,
@@ -7951,6 +8273,7 @@ const lastAnimTsRef = React.useRef({
   },
   level: 0,
   buff: 0,
+  DMG: 0,
   aquaTail: 0,
   rockThrow: 0,
   dialog: 0
@@ -7968,6 +8291,7 @@ const indicesRef = React.useRef({
   },
   level: 0,
   buff: 0,
+  DMG: 0,
   aquaTail: 0,
   rockThrow: 0,
   dialog: 0
@@ -8410,7 +8734,71 @@ React.useEffect(() => {
         setBuffVfxIndex(indicesRef.current.buff);
       }
     }
-
+    // DMG VFX
+    const elapsedDMG = ts - (lastAnimTsRef.current.DMG || 0);
+    if (DMGVfx0Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx0Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx0Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx1Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx1Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx1Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx2Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx2Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx2Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx3Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx3Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx3Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx4Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx4Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx4Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx5Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx5Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx5Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx6Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx6Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx6Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx7Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx7Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx7Index(indicesRef.current.DMG);
+      }
+    }
+    if (DMGVfx8Ref.current.Active === true) {
+      if (elapsedDMG >= ANIM_TIMINGS.DMG) {
+      lastAnimTsRef.current.DMG = ts;
+      DMGVfx8Ref.current.DMG === 1 ? indicesRef.current.DMG = (indicesRef.current.DMG + 1) % DMG1VfxFrames.length : null;
+      setDMGVfx8Index(indicesRef.current.DMG);
+      }
+    }
     animRafRef.current = requestAnimationFrame(step);
   }
 
@@ -8454,6 +8842,23 @@ React.useEffect(() => {
   setSpinSpriteIndex(0);
 }, [isSpinning]);
 
+
+React.useEffect(() => {
+  if (DMGVfx0Ref.current.Active === true || DMGVfx1Ref.current.Active === true || DMGVfx2Ref.current.Active === true || DMGVfx3Ref.current.Active === true || DMGVfx4Ref.current.Active === true || DMGVfx5Ref.current.Active === true || DMGVfx6Ref.current.Active === true || DMGVfx7Ref.current.Active === true || DMGVfx8Ref.current.Active === true) return;
+  const now = performance.now();
+  lastAnimTsRef.current.DMG = now;
+  indicesRef.current.DMG = 0;
+  setDMGVfx0Index(0);
+  setDMGVfx1Index(0);
+  setDMGVfx2Index(0);
+  setDMGVfx3Index(0);
+  setDMGVfx4Index(0);
+  setDMGVfx5Index(0);
+  setDMGVfx6Index(0);
+  setDMGVfx7Index(0);
+  setDMGVfx8Index(0);
+}, [DMGVfx0Ref.current.Active, DMGVfx1Ref.current.Active, DMGVfx2Ref.current.Active, DMGVfx3Ref.current.Active, DMGVfx4Ref.current.Active, DMGVfx5Ref.current.Active, DMGVfx6Ref.current.Active, DMGVfx7Ref.current.Active, DMGVfx8Ref.current.Active]);
+
 const generateDungeon = () => {
    const stateWidth = width, stateHeight = height;
    const { dungeon: newDungeon, playerStart, rooms } = generateProceduralDungeon(stateWidth, stateHeight);
@@ -8472,6 +8877,7 @@ const generateDungeon = () => {
      buff: 0,
      aquaTail: 0,
      rockThrow: 0,
+     DMG: 0,
      dialog: 0
    };
    indicesRef.current = {
@@ -8483,7 +8889,8 @@ const generateDungeon = () => {
      buff: 0,
      aquaTail: 0,
      rockThrow: 0,
-     dialog: 0
+     dialog: 0,
+     DMG: 0
    };
    
    // Clear log messages for clean floor transition
@@ -9083,6 +9490,169 @@ return (
             </div>
           );
           })}
+
+          {DMGVfx0.Active === true && DMGVfx0.X === playerPosRef.current.x && DMGVfx0.Y === playerPosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx0Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx0.X - minCol) * 40}px` : `${DMGVfx0.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx0.Y - minRow) * 40}px` : `${DMGVfx0.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx0Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx1.Active === true && DMGVfx1.X === enemy1PosRef.current.x && DMGVfx1.Y === enemy1PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx1Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx1.X - minCol) * 40}px` : `${DMGVfx1.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx1.Y - minRow) * 40}px` : `${DMGVfx1.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx1Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx2.Active === true && DMGVfx2.X === enemy2PosRef.current.x && DMGVfx2.Y === enemy2PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx2Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx2.X - minCol) * 40}px` : `${DMGVfx2.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx2.Y - minRow) * 40}px` : `${DMGVfx2.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx2Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx3.Active === true && DMGVfx3.X === enemy3PosRef.current.x && DMGVfx3.Y === enemy3PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx3Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx3.X - minCol) * 40}px` : `${DMGVfx3.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx3.Y - minRow) * 40}px` : `${DMGVfx3.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx3Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx4.Active === true && DMGVfx4.X === enemy4PosRef.current.x && DMGVfx4.Y === enemy4PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx4Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx4.X - minCol) * 40}px` : `${DMGVfx4.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx4.Y - minRow) * 40}px` : `${DMGVfx4.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx4Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx5.Active === true && DMGVfx5.X === enemy5PosRef.current.x && DMGVfx5.Y === enemy5PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx5Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx5.X - minCol) * 40}px` : `${DMGVfx5.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx5.Y - minRow) * 40}px` : `${DMGVfx5.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx5Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx6.Active === true && DMGVfx6.X === enemy6PosRef.current.x && DMGVfx6.Y === enemy6PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx6Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx6.X - minCol) * 40}px` : `${DMGVfx6.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx6.Y - minRow) * 40}px` : `${DMGVfx6.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx6Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx7.Active === true && DMGVfx7.X === enemy7PosRef.current.x && DMGVfx7.Y === enemy7PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx7Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx7.X - minCol) * 40}px` : `${DMGVfx7.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx7.Y - minRow) * 40}px` : `${DMGVfx7.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx7Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
+          {DMGVfx8.Active === true && DMGVfx8.X === enemy8PosRef.current.x && DMGVfx8.Y === enemy8PosRef.current.y - 1 && (
+            <SpriteCanvas
+              sprite="DMG1"
+              frame={DMGVfx8Index + 1}
+              alt="DMG"
+              width={40}
+              height={57}
+              style={{
+                position: 'absolute',
+                left: minCol > 0 ? `${(DMGVfx8.X - minCol) * 40}px` : `${DMGVfx8.X * 40}px`,
+                top: minRow > 0 ? `${(DMGVfx8.Y - minRow) * 40}px` : `${DMGVfx8.Y * 40}px`,
+                opacity: 1/(0.8 + DMGVfx8Index), // fade out over time
+                zIndex: 50,
+                pointerEvents: 'none',
+                transformOrigin: 'center'
+              }}
+            />
+          )}
 
           {/* Render projectiles inside the dungeon so they follow camera transform */}
           
