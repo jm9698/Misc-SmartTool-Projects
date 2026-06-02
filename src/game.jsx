@@ -3026,13 +3026,21 @@ const [enemy8Speed, setEnemy8Speed] = React.useState(0);
   const [enemy7LastDirection, setEnemy7LastDirection] = React.useState('down');
   const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
   const [enemy1Sleeping, setEnemy1Sleeping] = React.useState(false);
+  const enemy1SleepingRef = React.useRef(enemy1Sleeping);
   const [enemy2Sleeping, setEnemy2Sleeping] = React.useState(false);
+  const enemy2SleepingRef = React.useRef(enemy2Sleeping);
   const [enemy3Sleeping, setEnemy3Sleeping] = React.useState(false);
+  const enemy3SleepingRef = React.useRef(enemy3Sleeping);
   const [enemy4Sleeping, setEnemy4Sleeping] = React.useState(false);
+  const enemy4SleepingRef = React.useRef(enemy4Sleeping);
   const [enemy5Sleeping, setEnemy5Sleeping] = React.useState(false);
+  const enemy5SleepingRef = React.useRef(enemy5Sleeping);
   const [enemy6Sleeping, setEnemy6Sleeping] = React.useState(false);
+  const enemy6SleepingRef = React.useRef(enemy6Sleeping);
   const [enemy7Sleeping, setEnemy7Sleeping] = React.useState(false);
+  const enemy7SleepingRef = React.useRef(enemy7Sleeping);
   const [enemy8Sleeping, setEnemy8Sleeping] = React.useState(false);
+  const enemy8SleepingRef = React.useRef(enemy8Sleeping);
   const [validOptions, setValidOptions] = React.useState(null);
   const [chosen, setChosen] = React.useState(0);
   // Attack booleans
@@ -3260,6 +3268,14 @@ React.useEffect(() => { enemy5AttackingRef.current = enemy5Attacking ; }, [enemy
 React.useEffect(() => { enemy6AttackingRef.current = enemy6Attacking ; }, [enemy6Attacking]);
 React.useEffect(() => { enemy7AttackingRef.current = enemy7Attacking ; }, [enemy7Attacking]);
 React.useEffect(() => { enemy8AttackingRef.current = enemy8Attacking ; }, [enemy8Attacking]);
+React.useEffect(() => { enemy1SleepingRef.current = enemy1Sleeping ; }, [enemy1Sleeping]);
+React.useEffect(() => { enemy2SleepingRef.current = enemy2Sleeping ; }, [enemy2Sleeping]);
+React.useEffect(() => { enemy3SleepingRef.current = enemy3Sleeping ; }, [enemy3Sleeping]);
+React.useEffect(() => { enemy4SleepingRef.current = enemy4Sleeping ; }, [enemy4Sleeping]);
+React.useEffect(() => { enemy5SleepingRef.current = enemy5Sleeping ; }, [enemy5Sleeping]);
+React.useEffect(() => { enemy6SleepingRef.current = enemy6Sleeping ; }, [enemy6Sleeping]);
+React.useEffect(() => { enemy7SleepingRef.current = enemy7Sleeping ; }, [enemy7Sleeping]);
+React.useEffect(() => { enemy8SleepingRef.current = enemy8Sleeping ; }, [enemy8Sleeping]);
 React.useEffect(() => { DMGVfx0Ref.current = DMGVfx0 ; }, [DMGVfx0]);
 React.useEffect(() => { DMGVfx1Ref.current = DMGVfx1 ; }, [DMGVfx1]);
 React.useEffect(() => { DMGVfx2Ref.current = DMGVfx2 ; }, [DMGVfx2]);
@@ -6205,7 +6221,7 @@ return true;
 }
 function confirmEnemyBehavior(key, move) {
   console.log('confirming behavior for enemy', key)
-  if (key === 1 && enemy1 && enemy1Sleeping === false){
+  if (key === 1 && enemy1 && enemy1SleepingRef.current === false){
     const wallCheck = checkAttackPath(1);
     console.log('wallcheck for enemy 1:', wallCheck)
     const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
@@ -6228,8 +6244,11 @@ function confirmEnemyBehavior(key, move) {
     }
     confirmEnemyBehavior(2, move);
   }
-  //setTimeout(() => { 
-    if (key === 2 && enemy2 && enemy2Sleeping === false){
+  else if (key === 1 && enemy1 && enemy1SleepingRef.current === true){
+    confirmEnemyBehavior(2, move);
+    return;
+  }
+    if (key === 2 && enemy2 && enemy2SleepingRef.current === false){
     const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
     const wallCheck = checkAttackPath(2);
     console.log('wallcheck for enemy 2:', wallCheck)
@@ -6251,10 +6270,12 @@ function confirmEnemyBehavior(key, move) {
     }
   confirmEnemyBehavior(3, move);
   }
-   //}, (1000))
+  else if (key === 2 && enemy2 && enemy2SleepingRef.current === true){
+    confirmEnemyBehavior(3, move);
+    return;
+  }
 
-  //setTimeout(() => { 
-    if (key === 3 && enemy3 && enemy3Sleeping === false){
+    if (key === 3 && enemy3 && enemy3SleepingRef.current === false){
     const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
     const wallCheck = checkAttackPath(3);
     console.log('wallcheck for enemy 3:', wallCheck)
@@ -6276,10 +6297,12 @@ function confirmEnemyBehavior(key, move) {
     }
     confirmEnemyBehavior(4, move);
   }
-//}, (2000))
+  else if (key === 3 && enemy3 && enemy3SleepingRef.current === true){
+    confirmEnemyBehavior(4, move);
+    return;
+  }
 
-  //setTimeout(() => {
-    if (key === 4 && enemy4 && enemy4Sleeping === false){
+    if (key === 4 && enemy4 && enemy4SleepingRef.current === false){
     const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
     const wallCheck = checkAttackPath(4);
     console.log('wallcheck for enemy 4:', wallCheck)
@@ -6301,10 +6324,12 @@ function confirmEnemyBehavior(key, move) {
     }
     confirmEnemyBehavior(5, move);
   } 
-//}, (3000))
+  else if (key === 4 && enemy4 && enemy4SleepingRef.current === true){
+    confirmEnemyBehavior(5, move);
+    return;
+  }
 
-  //setTimeout(() => {
-    if (key === 5 && enemy5 && enemy5Sleeping === false){
+    if (key === 5 && enemy5 && enemy5SleepingRef.current === false){
     const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
     const wallCheck = checkAttackPath(5);
     console.log('wallcheck for enemy 5:', wallCheck)
@@ -6325,11 +6350,13 @@ function confirmEnemyBehavior(key, move) {
       patrol(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)  
     }
     confirmEnemyBehavior(6, move);
-  } 
-//}, (4000))
+  }
+  else if (key === 5 && enemy5 && enemy5SleepingRef.current === true){
+    confirmEnemyBehavior(6, move);
+    return;
+  }
 
-  //setTimeout(() => {
-  if (key === 6 && enemy6 && enemy6Sleeping === false){
+  if (key === 6 && enemy6 && enemy6SleepingRef.current === false){
     const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
     const wallCheck = checkAttackPath(6);
     console.log('wallcheck for enemy 6:', wallCheck)
@@ -6350,11 +6377,13 @@ function confirmEnemyBehavior(key, move) {
       patrol(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) 
     }
     confirmEnemyBehavior(7, move);
-  } 
-//}, (5000))
+  }
+  else if (key === 6 && enemy6 && enemy6SleepingRef.current === true){
+    confirmEnemyBehavior(7, move);
+    return;
+  }
 
-  //setTimeout(() => {
-    if (key === 7 && enemy7 && enemy7Sleeping === false){
+    if (key === 7 && enemy7 && enemy7SleepingRef.current === false){
     const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
     const wallCheck = checkAttackPath(7);
     console.log('wallcheck for enemy 7:', wallCheck)
@@ -6375,11 +6404,13 @@ function confirmEnemyBehavior(key, move) {
       patrol(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)  
     }
     confirmEnemyBehavior(8, move);
-  } 
-//}, (6000))
+  }
+  else if (key === 7 && enemy7 && enemy7SleepingRef.current === true){
+    confirmEnemyBehavior(8, move);
+    return;
+  }
 
-  //setTimeout(() => {
-   if (key === 8 && enemy8 && enemy8Sleeping === false){
+   if (key === 8 && enemy8 && enemy8SleepingRef.current === false){
     const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
     const wallCheck = checkAttackPath(8);
     console.log('wallcheck for enemy 8:', wallCheck)
@@ -6398,8 +6429,7 @@ function confirmEnemyBehavior(key, move) {
     else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15 && enemy8MoveBehaviorRef.current === true){
       patrol(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)  
     }
-  } 
-//}, (7000))
+  }
 }
 
 
@@ -7078,6 +7108,7 @@ else if (item === 'Warp Orb'){
   confirmEnemyBehavior(1, 0);
   advanceTicks();
   depleteHungerAfterTicks(hungerTicks);
+  setTargeted('');
 }
 
 function discardSelectedItem(item, id) {
@@ -7614,6 +7645,13 @@ function itemThrown(item, id) {
     });
 
       setTimeout(() => addItemTile({ itemName: item.name, x: endPos.x - 0.25, y: endPos.y - 0.25 }), 1250);
+    if (targetedRef.current !== 'enemy1' && targetedRef.current !== 'enemy2' && targetedRef.current !== 'enemy3' && targetedRef.current !== 'enemy4' && targetedRef.current !== 'enemy5' && targetedRef.current !== 'enemy6' && targetedRef.current !== 'enemy7' && targetedRef.current !== 'enemy8') {
+      confirmEnemyBehavior(1, 0);
+      console.log('Throwcase triggered');
+    }
+    else {
+      console.log('Throwcase not triggered')
+    }
 
   }
 React.useEffect(() => {
@@ -8143,6 +8181,7 @@ break;
 case 'l':
 //quick log
 addItemToInventory('Sleep Seed');
+addItemToInventory('Warp Seed');
 console.log(DMGVfx0Ref.current, DMGVfx1Ref.current, DMGVfx2Ref.current, DMGVfx3Ref.current, DMGVfx4Ref.current, DMGVfx5Ref.current, DMGVfx6Ref.current, DMGVfx7Ref.current, DMGVfx8Ref.current);
 return;
   break;
@@ -8374,12 +8413,6 @@ function normalizeAndCdn(url) {
 // Apply normalization to known sprite collections and defs so preload uses CDN-safe URLs
 (function normalizeAllSprites() {
   try {
-    // Normalize ITEM_DEFS sprites
-    /*
-    Object.keys(ITEM_DEFS).forEach(k => {
-      if (ITEM_DEFS[k] && ITEM_DEFS[k].sprite) ITEM_DEFS[k].sprite = normalizeAndCdn(ITEM_DEFS[k].sprite);
-    });
-    */
     // Normalize enemy defs (nested frame objects and arrays)
     Object.keys(ENEMY_DEFS).forEach(enemyKey => {
       const e = ENEMY_DEFS[enemyKey];
