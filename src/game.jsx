@@ -85,7 +85,7 @@ const TextAtlas = {
     r: { atlas: { sheet: textAtlasUrl, x: 851, y: 307, w: 32, h: 32 } },
     s: { atlas: { sheet: textAtlasUrl, x: 171, y: 341, w: 32, h: 32 } },
     t: { atlas: { sheet: textAtlasUrl, x: 511, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 681, y: 341, w: 32, h: 32 } },
+    u: { atlas: { sheet: textAtlasUrl, x: 851, y: 341, w: 32, h: 32 } },
     v: { atlas: { sheet: textAtlasUrl, x: 171, y: 375, w: 32, h: 32 } },
     w: { atlas: { sheet: textAtlasUrl, x: 511, y: 375, w: 32, h: 32 } },
     x: { atlas: { sheet: textAtlasUrl, x: 851, y: 375, w: 32, h: 32 } },
@@ -168,7 +168,7 @@ const TextAtlas = {
     r: { atlas: { sheet: textAtlasUrl, x: 885, y: 307, w: 32, h: 32 } },
     s: { atlas: { sheet: textAtlasUrl, x: 205, y: 341, w: 32, h: 32 } },
     t: { atlas: { sheet: textAtlasUrl, x: 545, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 715, y: 341, w: 32, h: 32 } },
+    u: { atlas: { sheet: textAtlasUrl, x: 885, y: 341, w: 32, h: 32 } },
     v: { atlas: { sheet: textAtlasUrl, x: 205, y: 375, w: 32, h: 32 } },
     w: { atlas: { sheet: textAtlasUrl, x: 545, y: 375, w: 32, h: 32 } },
     x: { atlas: { sheet: textAtlasUrl, x: 885, y: 375, w: 32, h: 32 } },
@@ -251,7 +251,7 @@ const TextAtlas = {
     r: { atlas: { sheet: textAtlasUrl, x: 919, y: 307, w: 32, h: 32 } },
     s: { atlas: { sheet: textAtlasUrl, x: 239, y: 341, w: 32, h: 32 } },
     t: { atlas: { sheet: textAtlasUrl, x: 579, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 749, y: 341, w: 32, h: 32 } },
+    u: { atlas: { sheet: textAtlasUrl, x: 919, y: 341, w: 32, h: 32 } },
     v: { atlas: { sheet: textAtlasUrl, x: 239, y: 375, w: 32, h: 32 } },
     w: { atlas: { sheet: textAtlasUrl, x: 579, y: 375, w: 32, h: 32 } },
     x: { atlas: { sheet: textAtlasUrl, x: 919, y: 375, w: 32, h: 32 } },
@@ -334,7 +334,7 @@ const TextAtlas = {
     r: { atlas: { sheet: textAtlasUrl, x: 953, y: 307, w: 32, h: 32 } },
     s: { atlas: { sheet: textAtlasUrl, x: 273, y: 341, w: 32, h: 32 } },
     t: { atlas: { sheet: textAtlasUrl, x: 613, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 783, y: 341, w: 32, h: 32 } },
+    u: { atlas: { sheet: textAtlasUrl, x: 953, y: 341, w: 32, h: 32 } },
     v: { atlas: { sheet: textAtlasUrl, x: 273, y: 375, w: 32, h: 32 } },
     w: { atlas: { sheet: textAtlasUrl, x: 613, y: 375, w: 32, h: 32 } },
     x: { atlas: { sheet: textAtlasUrl, x: 953, y: 375, w: 32, h: 32 } },
@@ -417,7 +417,7 @@ const TextAtlas = {
     r: { atlas: { sheet: textAtlasUrl, x: 987, y: 307, w: 32, h: 32 } },
     s: { atlas: { sheet: textAtlasUrl, x: 307, y: 341, w: 32, h: 32 } },
     t: { atlas: { sheet: textAtlasUrl, x: 647, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 817, y: 341, w: 32, h: 32 } },
+    u: { atlas: { sheet: textAtlasUrl, x: 987, y: 341, w: 32, h: 32 } },
     v: { atlas: { sheet: textAtlasUrl, x: 307, y: 375, w: 32, h: 32 } },
     w: { atlas: { sheet: textAtlasUrl, x: 647, y: 375, w: 32, h: 32 } },
     x: { atlas: { sheet: textAtlasUrl, x: 987, y: 375, w: 32, h: 32 } },
@@ -1042,7 +1042,10 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
       atlasData = getTextAtlasData(color, text);
     }
 
-    if (!atlasData) return;
+    if (!atlasData) {
+      console.log('SpriteCanvas missing atlasData', { color, text });
+      return;
+    }
     
     const render = async () => {
       try {
@@ -1071,7 +1074,7 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     };
     
     render();
-  }, [atlasKey, pokemon, sprite, animation, direction, frame, width, height]);
+  }, [atlasKey, pokemon, sprite, animation, direction, frame, width, height, color, text]);
   
   return (
     <canvas
@@ -1087,192 +1090,8 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     />
   );
 });
-
-// Scene Dialog
-  //Debug Text Dialog (Key = 0)
-const DebugTextDialog = [
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_001.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_002.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_003.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_004.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_005.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_006.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_007.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_008.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_009.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_010.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_011.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_012.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_013.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_014.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_015.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_016.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_017.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_018.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_019.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_020.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_021.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_022.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_023.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_024.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_025.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_026.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_027.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_028.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_029.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_030.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_031.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_032.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_033.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_034.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_035.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_036.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_037.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_038.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_039.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_040.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_041.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_042.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_043.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_044.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_045.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_046.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_047.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_048.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_049.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_050.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_051.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_052.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_053.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_054.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_055.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_056.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_057.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_058.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_059.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_060.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_061.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_062.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_063.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_064.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_065.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_066.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_067.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_068.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_069.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_070.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_071.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_072.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_073.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_074.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_075.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_076.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_077.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_078.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_079.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_080.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_081.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_082.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_083.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_084.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_085.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_086.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_087.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_088.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_089.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_090.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_091.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_092.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_093.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_094.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_095.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_096.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_097.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_098.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_099.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_100.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_101.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_102.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_103.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_104.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_105.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_106.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_107.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_108.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_109.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_110.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_111.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_112.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_113.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_114.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_115.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_116.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_117.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_118.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_119.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_120.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_121.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_122.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_123.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_124.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_125.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_126.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_127.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_128.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_129.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_130.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_131.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_132.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_133.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_134.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_135.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_136.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_137.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_138.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_139.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_140.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_141.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_142.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_143.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_144.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_145.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_146.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_147.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_148.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_149.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_150.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_151.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_152.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_153.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_154.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_155.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_156.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_157.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_158.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_159.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_160.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_161.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_162.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_163.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_164.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_165.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_166.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_167.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_168.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_169.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_170.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_171.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_172.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_173.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_174.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_175.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_176.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_177.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_178.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_179.png',
-  'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_180.png'
-]
+const VaporeonShouting = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png';
+const EeveeCrying = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_025.png';
 
 const MOVE_DEFS = {
   "Acid Armor": {
@@ -2203,7 +2022,7 @@ const Text = {
     colon: getTextSprite('Black', ':'),
     questionMark: getTextSprite('Black', '?'),
     exclamationPoint: getTextSprite('Black', '!'),
-    accente: getTextSprite('Black', 'é'),
+    accentE: getTextSprite('Black', 'é'),
     elipse: getTextSprite('Black', '...'),
     altElipse: getTextSprite('Black', '...2')
   },
@@ -2283,7 +2102,7 @@ const Text = {
     colon: getTextSprite('White', ':'),
     questionMark: getTextSprite('White', '?'),
     exclamationPoint: getTextSprite('White', '!'),
-    accente: getTextSprite('White', 'é'),
+    accentE: getTextSprite('White', 'é'),
     elipse: getTextSprite('White', '...'),
     altElipse: getTextSprite('White', '...2')
   },
@@ -2363,7 +2182,7 @@ const Text = {
     colon: getTextSprite('Red', ':'),
     questionMark: getTextSprite('Red', '?'),
     exclamationPoint: getTextSprite('Red', '!'),
-    accente: getTextSprite('Red', 'é'),
+    accentE: getTextSprite('Red', 'é'),
     elipse: getTextSprite('Red', '...'),
     altElipse: getTextSprite('Red', '...2')
   },
@@ -2443,7 +2262,7 @@ const Text = {
     colon: getTextSprite('Blue', ':'),
     questionMark: getTextSprite('Blue', '?'),
     exclamationPoint: getTextSprite('Blue', '!'),
-    accente: getTextSprite('Blue', 'é'),
+    accentE: getTextSprite('Blue', 'é'),
     elipse: getTextSprite('Blue', '...'),
     altElipse: getTextSprite('Blue', '...2')
   },
@@ -2523,7 +2342,7 @@ const Text = {
     colon: getTextSprite('Yellow', ':'),
     questionMark: getTextSprite('Yellow', '?'),
     exclamationPoint: getTextSprite('Yellow', '!'),
-    accente: getTextSprite('Yellow', 'é'),
+    accentE: getTextSprite('Yellow', 'é'),
     elipse: getTextSprite('Yellow', '...'),
     altElipse: getTextSprite('Yellow', '...2')
   }
@@ -2999,10 +2818,117 @@ const [checkBox2, setCheckBox2] = React.useState(false);
 const [checkBox3, setCheckBox3] = React.useState(false);
 
 // Scene params
+const [textArray, setTextArray] = React.useState([]); // Array of text segments for dialog
+const textArrayRef = React.useRef(textArray);
+const [selectedPortrait, setSelectedPortrait] = React.useState('Vaporeon_Shouting')
+const [dialogSpeed, setDialogSpeed] = React.useState(125); //100 ms for fast, 125 ms for normal, and 150 ms for slow
+const selectedPortraitRef = React.useRef(selectedPortrait)
+const verticalTranslationArray = {'a': '0px', 'b': '-0.7px', 'c': '0px', 'd': '-0.7px', 'e': '0px', 'f': '-0.7px', 'g': '0.5px', 'h': '-0.7px', 'i': '-0.75px', 'j': '-1.05px', 'k': '-0.35px', 'l': '-0.7px', 'm': '0px', 'n': '0px', 'o': '0px', 'p': '-0.35px', 'q': '-0.35px', 'r': '0px', 's': '0px', 't': '-0.7px', 'u': '0px', 'v': '0px', 'w': '0px', 'x': '0px', 'y': '0.35px', 'z': '0px'};
+const dimensionArray = {'Width': {'a': '8.378px', 'b': '8.378px', 'c': '8.378px', 'd': '8.378px', 'e': '8.378px', 'f': '8.378px', 'g': '8.378px', 'h': '8.378px', 'i': '4.378px', 'j': '4.378px', 'k': '8.378px', 'l': '4.378px', 'm': '14.378px', 'n': '8.378px', 'o': '8.378px', 'p': '8.378px', 'q': '8.378px', 'r': '8.378px', 's': '8.378px', 't': '6.378px', 'u': '8.378px', 'v': '10.378px', 'w': '14.378px', 'x': '10.378px', 'y': '8.378px', 'z': '8.378px', 'A': '10.378px', 'B': '10.378px', 'C': '10.378px', 'D': '10.378px', 'E': '8.378px', 'F': '8.378px', 'G': '10.378px', 'H': '10.378px', 'I': '6.378px', 'J': '10.378px', 'K': '10.378px', 'L': '8.378px', 'M': '14.378px', 'N': '10.378px', 'O': '10.378px', 'P': '10.378px', 'Q': '10.378px', 'R': '10.378px', 'S': '10.378px', 'T': '10.378px', 'U': '10.378px', 'V': '10.378px', 'W': '18.378px', 'X': '10.378px', 'Y': '10.378px', 'Z': '10.378px', ' ': textSpacing, '': '0px'}, 'Height': {'a': '12.378px', 'b': '16.378px', 'c': '12.378px', 'd': '16.378px', 'e': '12.378px', 'f': '16.378px', 'g': '14.378px', 'h': '16.378px', 'i': '16.378px', 'j': '18.378px', 'k': '16.378px', 'l': '16.378px', 'm': '12.378px', 'n': '12.378px', 'o': '12.378px', 'p': '14.378px', 'q': '14.378px', 'r': '12.378px', 's': '12.378px', 't': '16.378px', 'u': '12.378px', 'v': '12.378px', 'w': '12.378px', 'x': '12.378px', 'y': '14.378px', 'z': '12.378px', ' ': textSpacing, '': '0px'} }
+const textSpacing = '8px';
+const [space1, setSpace1] = React.useState(''); // States for all possible locations of text to store characters
+const space1Ref = React.useRef(space1);
+const [space2, setSpace2] = React.useState('');
+const space2Ref = React.useRef(space2);
+const [space3, setSpace3] = React.useState('');
+const space3Ref = React.useRef(space3);
+const [space4, setSpace4] = React.useState('');
+const space4Ref = React.useRef(space4);
+const [space5, setSpace5] = React.useState('');
+const space5Ref = React.useRef(space5);
+const [space6, setSpace6] = React.useState('');
+const space6Ref = React.useRef(space6);
+const [space7, setSpace7] = React.useState('');
+const space7Ref = React.useRef(space7);
+const [space8, setSpace8] = React.useState('');
+const space8Ref = React.useRef(space8);
+const [space9, setSpace9] = React.useState('');
+const space9Ref = React.useRef(space9);
+const [space10, setSpace10] = React.useState('');
+const space10Ref = React.useRef(space10);
+const [space11, setSpace11] = React.useState('');
+const space11Ref = React.useRef(space11);
+const [space12, setSpace12] = React.useState('');
+const space12Ref = React.useRef(space12);
+const [space13, setSpace13] = React.useState('');
+const space13Ref = React.useRef(space13);
+const [space14, setSpace14] = React.useState('');
+const space14Ref = React.useRef(space14);
+const [space15, setSpace15] = React.useState('');
+const space15Ref = React.useRef(space15);
+const [space16, setSpace16] = React.useState('');
+const space16Ref = React.useRef(space16);
+const [space17, setSpace17] = React.useState('');
+const space17Ref = React.useRef(space17);
+const [space18, setSpace18] = React.useState('');
+const space18Ref = React.useRef(space18);
+const [space19, setSpace19] = React.useState('');
+const space19Ref = React.useRef(space19);
+const [space20, setSpace20] = React.useState('');
+const space20Ref = React.useRef(space20);
+const [space21, setSpace21] = React.useState('');
+const space21Ref = React.useRef(space21);
+const [space22, setSpace22] = React.useState('');
+const space22Ref = React.useRef(space22);
+const [space23, setSpace23] = React.useState('');
+const space23Ref = React.useRef(space23);
+const [space24, setSpace24] = React.useState('');
+const space24Ref = React.useRef(space24);
+const [space25, setSpace25] = React.useState('');
+const space25Ref = React.useRef(space25);
+const [space26, setSpace26] = React.useState('');
+const space26Ref = React.useRef(space26);
+const [space27, setSpace27] = React.useState('');
+const space27Ref = React.useRef(space27);
+const [space28, setSpace28] = React.useState('');
+const space28Ref = React.useRef(space28);
+const [space29, setSpace29] = React.useState('');
+const space29Ref = React.useRef(space29);
+const [space30, setSpace30] = React.useState('');
+const space30Ref = React.useRef(space30);
+const [space31, setSpace31] = React.useState('');
+const space31Ref = React.useRef(space31);
+const [space32, setSpace32] = React.useState('');
+const space32Ref = React.useRef(space32);
+const [space33, setSpace33] = React.useState('');
+const space33Ref = React.useRef(space33);
+const [space34, setSpace34] = React.useState('');
+const space34Ref = React.useRef(space34);
+const [space35, setSpace35] = React.useState('');
+const space35Ref = React.useRef(space35);
+const [space36, setSpace36] = React.useState('');
+const space36Ref = React.useRef(space36);
+const [space37, setSpace37] = React.useState('');
+const space37Ref = React.useRef(space37);
+const [space38, setSpace38] = React.useState('');
+const space38Ref = React.useRef(space38);
+const [space39, setSpace39] = React.useState('');
+const space39Ref = React.useRef(space39);
+const [space40, setSpace40] = React.useState('');
+const space40Ref = React.useRef(space40);
+const [space41, setSpace41] = React.useState('');
+const space41Ref = React.useRef(space41);
+const [space42, setSpace42] = React.useState('');
+const space42Ref = React.useRef(space42);
+const [space43, setSpace43] = React.useState('');
+const space43Ref = React.useRef(space43);
+const [space44, setSpace44] = React.useState('');
+const space44Ref = React.useRef(space44);
+const [space45, setSpace45] = React.useState('');
+const space45Ref = React.useRef(space45);
+const [space46, setSpace46] = React.useState('');
+const space46Ref = React.useRef(space46);
+const [space47, setSpace47] = React.useState('');
+const space47Ref = React.useRef(space47);
+const [space48, setSpace48] = React.useState('');
+const space48Ref = React.useRef(space48);
+const [space49, setSpace49] = React.useState('');
+const space49Ref = React.useRef(space49);
+const [space50, setSpace50] = React.useState('');
+const space50Ref = React.useRef(space50);
 const [dialogIndex, setDialogIndex] = React.useState(0); // Index for dialog progression
 const [showDialog, setShowDialog] = React.useState(false); // State to show
 const [dialogKey, setDialogKey] = React.useState(0); // Key for dialog content
-const [dialogSpeed, setDialogSpeed] = React.useState('Normal'); // Speed of dialog text
 const [textSkipped, setTextSkipped] = React.useState(false); // Track if text was skipped
 const [textAdvance, setTextAdvance] = React.useState(false); // Track if text should advance
 const [textStopped, setTextStopped] = React.useState(false); // Track if text advancement is stopped
@@ -3164,6 +3090,58 @@ React.useEffect(() => { DMGVfx5Ref.current = DMGVfx5 ; }, [DMGVfx5]);
 React.useEffect(() => { DMGVfx6Ref.current = DMGVfx6 ; }, [DMGVfx6]);
 React.useEffect(() => { DMGVfx7Ref.current = DMGVfx7 ; }, [DMGVfx7]);
 React.useEffect(() => { DMGVfx8Ref.current = DMGVfx8 ; }, [DMGVfx8]);
+React.useEffect(() => { textArrayRef.current = textArray ; }, [textArray]);
+React.useEffect(() => { space1Ref.current = space1 ; }, [space1]);
+React.useEffect(() => { space2Ref.current = space2 ; }, [space2]);
+React.useEffect(() => { space3Ref.current = space3 ; }, [space3]);
+React.useEffect(() => { space4Ref.current = space4 ; }, [space4]);
+React.useEffect(() => { space5Ref.current = space5 ; }, [space5]);
+React.useEffect(() => { space6Ref.current = space6 ; }, [space6]);
+React.useEffect(() => { space7Ref.current = space7 ; }, [space7]);
+React.useEffect(() => { space8Ref.current = space8 ; }, [space8]);
+React.useEffect(() => { space9Ref.current = space9 ; }, [space9]);
+React.useEffect(() => { space10Ref.current = space10 ; }, [space10]);
+React.useEffect(() => { space11Ref.current = space11 ; }, [space11]);
+React.useEffect(() => { space12Ref.current = space12 ; }, [space12]);
+React.useEffect(() => { space13Ref.current = space13 ; }, [space13]);
+React.useEffect(() => { space14Ref.current = space14 ; }, [space14]);
+React.useEffect(() => { space15Ref.current = space15 ; }, [space15]);
+React.useEffect(() => { space16Ref.current = space16 ; }, [space16]);
+React.useEffect(() => { space17Ref.current = space17 ; }, [space17]);
+React.useEffect(() => { space18Ref.current = space18 ; }, [space18]);
+React.useEffect(() => { space19Ref.current = space19 ; }, [space19]);
+React.useEffect(() => { space20Ref.current = space20 ; }, [space20]);
+React.useEffect(() => { space21Ref.current = space21 ; }, [space21]);
+React.useEffect(() => { space22Ref.current = space22 ; }, [space22]);
+React.useEffect(() => { space23Ref.current = space23 ; }, [space23]);
+React.useEffect(() => { space24Ref.current = space24 ; }, [space24]);
+React.useEffect(() => { space25Ref.current = space25 ; }, [space25]);
+React.useEffect(() => { space26Ref.current = space26 ; }, [space26]);
+React.useEffect(() => { space27Ref.current = space27 ; }, [space27]);
+React.useEffect(() => { space28Ref.current = space28 ; }, [space28]);
+React.useEffect(() => { space29Ref.current = space29 ; }, [space29]);
+React.useEffect(() => { space30Ref.current = space30 ; }, [space30]);
+React.useEffect(() => { space31Ref.current = space31 ; }, [space31]);
+React.useEffect(() => { space32Ref.current = space32 ; }, [space32]);
+React.useEffect(() => { space33Ref.current = space33 ; }, [space33]);
+React.useEffect(() => { space34Ref.current = space34 ; }, [space34]);
+React.useEffect(() => { space35Ref.current = space35 ; }, [space35]);
+React.useEffect(() => { space36Ref.current = space36 ; }, [space36]);
+React.useEffect(() => { space37Ref.current = space37 ; }, [space37]);
+React.useEffect(() => { space38Ref.current = space38 ; }, [space38]);
+React.useEffect(() => { space39Ref.current = space39 ; }, [space39]);
+React.useEffect(() => { space40Ref.current = space40 ; }, [space40]);
+React.useEffect(() => { space41Ref.current = space41 ; }, [space41]);
+React.useEffect(() => { space42Ref.current = space42 ; }, [space42]);
+React.useEffect(() => { space43Ref.current = space43 ; }, [space43]);
+React.useEffect(() => { space44Ref.current = space44 ; }, [space44]);
+React.useEffect(() => { space45Ref.current = space45 ; }, [space45]);
+React.useEffect(() => { space46Ref.current = space46 ; }, [space46]);
+React.useEffect(() => { space47Ref.current = space47 ; }, [space47]);
+React.useEffect(() => { space48Ref.current = space48 ; }, [space48]);
+React.useEffect(() => { space49Ref.current = space49 ; }, [space49]);
+React.useEffect(() => { space50Ref.current = space50 ; }, [space50]);
+React.useEffect(() => { selectedPortraitRef.current = selectedPortrait ; }, [selectedPortrait])
 React.useEffect(() => { rockThrowRef.current = rockThrow ; }, [rockThrow]);
 React.useEffect(() => { projectilePosRef.current = projectilePos ; }, [projectilePos]);
 React.useEffect(() => { 
@@ -7535,13 +7513,135 @@ function itemThrown(item, id) {
   }
 
   function generateText(text, color) {
-    const textArray = [];
-    for (let i = 0; i < text.length; i++) {
-      let char = text[i];
-      textArray.push([i, char, color])
+    const segments = Array.from(text).map(char => ({ char, color }));
+    console.log('generateText:', { text, color, segments });
+    for (let i = 0; i < segments.length; i++){
+      setTimeout(() => i === 0 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 1);
+      setTimeout(() => i === 1 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 2);
+      setTimeout(() => i === 2 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 3);
+      setTimeout(() => i === 3 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 4);
+      setTimeout(() => i === 4 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 5);
+      setTimeout(() => i === 5 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 6);
+      setTimeout(() => i === 6 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 7);
+      setTimeout(() => i === 7 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 8);
+      setTimeout(() => i === 8 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 9);
+      setTimeout(() => i === 9 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 10);
+      setTimeout(() => i === 10 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 11);
+      setTimeout(() => i === 11 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 12);
+      setTimeout(() => i === 12 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 13);
+      setTimeout(() => i === 13 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 14);
+      setTimeout(() => i === 14 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 15);
+      setTimeout(() => i === 15 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 16);
+      setTimeout(() => i === 16 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 17);
+      setTimeout(() => i === 17 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 18);
+      setTimeout(() => i === 18 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 19);
+      setTimeout(() => i === 19 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 20);
+      setTimeout(() => i === 20 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 21);
+      setTimeout(() => i === 21 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 22);
+      setTimeout(() => i === 22 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 23);
+      setTimeout(() => i === 23 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 24);
+      setTimeout(() => i === 24 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 25);
+      setTimeout(() => i === 25 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 26);
+      setTimeout(() => i === 26 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 27);
+      setTimeout(() => i === 27 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 28);
+      setTimeout(() => i === 28 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 29);
+      setTimeout(() => i === 29 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 30);
+      setTimeout(() => i === 30 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 31);
+      setTimeout(() => i === 31 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 32);
+      setTimeout(() => i === 32 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 33);
+      setTimeout(() => i === 33 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 34);
+      setTimeout(() => i === 34 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 35);
+      setTimeout(() => i === 35 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 36);
+      setTimeout(() => i === 36 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 37);
+      setTimeout(() => i === 37 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 38);
+      setTimeout(() => i === 38 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 39);
+      setTimeout(() => i === 39 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 40);
+      setTimeout(() => i === 40 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 41);
+      setTimeout(() => i === 41 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 42);
+      setTimeout(() => i === 42 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 43);
+      setTimeout(() => i === 43 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 44);
+      setTimeout(() => i === 44 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 45);
+      setTimeout(() => i === 45 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 46);
+      setTimeout(() => i === 46 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 47);
+      setTimeout(() => i === 47 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 48);
+      setTimeout(() => i === 48 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 49);
+      setTimeout(() => i === 49 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 50);
     }
-    return textArray;
+    return segments;
   }
+/*
+  React.useEffect(() => {
+    if (!Array.isArray(textArray) || textArray.length === 0) return;
+    for (let i = 0; i < textArray.length; i++) {
+      setTimeout(() => i === 0 ? setSpace1(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 1 ? setSpace2(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 2 ? setSpace3(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 3 ? setSpace4(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 4 ? setSpace5(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 5 ? setSpace6(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 6 ? setSpace7(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 7 ? setSpace8(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 8 ? setSpace9(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 9 ? setSpace10(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 10 ? setSpace11(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 11 ? setSpace12(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 12 ? setSpace13(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 13 ? setSpace14(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 14 ? setSpace15(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 15 ? setSpace16(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 16 ? setSpace17(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 17 ? setSpace18(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 18 ? setSpace19(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 19 ? setSpace20(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 20 ? setSpace21(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 21 ? setSpace22(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 22 ? setSpace23(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 23 ? setSpace24(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 24 ? setSpace25(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 25 ? setSpace26(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 26 ? setSpace27(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 27 ? setSpace28(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 28 ? setSpace29(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 29 ? setSpace30(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 30 ? setSpace31(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 31 ? setSpace32(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 32 ? setSpace33(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 33 ? setSpace34(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 34 ? setSpace35(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 35 ? setSpace36(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 36 ? setSpace37(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 37 ? setSpace38(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 38 ? setSpace39(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 39 ? setSpace40(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 40 ? setSpace41(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 41 ? setSpace42(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 42 ? setSpace43(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 43 ? setSpace44(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 44 ? setSpace45(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 45 ? setSpace46(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 46 ? setSpace47(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 47 ? setSpace48(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 48 ? setSpace49(textArray[i].char) : null), dialogSpeed * (i+1);
+      setTimeout(() => i === 49 ? setSpace50(textArray[i].char) : null), dialogSpeed * (i+1);
+    }
+  }, [textArray]);
+*/
+  function getDialogLeft(index) {
+    const spacing = parseFloat(textSpacing) || 0;
+    let left = 0;
+    for (let i = 0; i < index; i++) {
+      const char = textArray[i]?.char || '';
+      const width = parseFloat(dimensionArray.Width[char] || '0') || 0;
+      left += width / 2 + spacing;
+    }
+    return `${left}px`;
+  }
+
+  function getDialogTop(char) {
+    const offset = verticalTranslationArray[char];
+    return offset != null ? offset : '0px';
+  }
+
 React.useEffect(() => {
   setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
 }, [inventory]);
@@ -8052,6 +8152,8 @@ setLastDirection('up-right');
 break;
 case 'p': // debug for exp
 setShowDialog(true);
+//generateText("abcdefghijklmnopqrstuvwxyz", "Black")
+generateText("Hewwo I am Vaporeon", "Black")
 return
 break;
 case 'Shift': // Shift key to toggle aim mode
@@ -8070,7 +8172,17 @@ case 'l':
 //quick log
 addItemToInventory('Sleep Seed');
 addItemToInventory('Warp Seed');
-console.log(generateText("Eevee is a fluffy goober", 'Black'));
+console.log('1st level:', dimensionArray)
+console.log('2nd level:', dimensionArray.Width)
+console.log('3rd level:', dimensionArray.Width[space1Ref.current])
+console.log('calculation:', (`${parseFloat(dimensionArray.Width[space1Ref.current]) - parseFloat(dimensionArray.Width[space3Ref.current]) + 12}px`))
+console.log('pieces:', '12px', dimensionArray.Width[space1Ref.current], dimensionArray.Width[space3Ref.current])
+//console.log(generateText("Eevee is a fluffy goober", 'Black'));
+console.log('space 1:', space1Ref.current)
+console.log('space 2:', space2Ref.current)
+console.log('space 3:', space3Ref.current)
+console.log('space 4:', space4Ref.current)
+console.log('space 5:', space5Ref.current)
 return;
   break;
 }
@@ -8438,7 +8550,6 @@ React.useEffect(() => {
     ...lunatoneSleepSprites,
     ...levelVfxFrames,
     ...buffVfxFrames,
-    ...DebugTextDialog
   ];
   // Add single-file sprites
   const singleSprites = [Pokedollar, stairSprite, itemSelector, vaporeonPortraitNormal];
@@ -8529,7 +8640,7 @@ React.useEffect(() => {
     const elapsedDialog = ts - (lastAnimTsRef.current.dialog || 0);
     if (showDialogRef.current) {
         if (textAdvanceRef.current) {
-          indicesRef.current.dialog = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
+          indicesRef.current.dialog = (indicesRef.current.dialog + 1) % textArray.length;
           setDialogIndex(indicesRef.current.dialog);
           setTextAdvanceAndRef(false);
           setTextStopped(false);
@@ -8537,39 +8648,19 @@ React.useEffect(() => {
         }
         if (textSkippedRef.current && !textStoppedRef.current) {
           if (indicesRef.current.dialog < debugStops.firstStop - 1){
-          indicesRef.current.dialog = (debugStops.firstStop - 1) % DebugTextDialog.length;
+          indicesRef.current.dialog = textArray.length;
           setDialogIndex(indicesRef.current.dialog);
           setTextSkipped(false);
-          }
-          else if (indicesRef.current.dialog < debugStops.secondStop - 1 && indicesRef.current.dialog >= debugStops.firstStop - 1){
-            indicesRef.current.dialog = (debugStops.secondStop - 1) % DebugTextDialog.length;
-            setDialogIndex(indicesRef.current.dialog);
-            setTextSkipped(false);
-          }
-          else if (indicesRef.current.dialog < debugStops.thirdStop - 1 && indicesRef.current.dialog >= debugStops.secondStop - 1){
-            indicesRef.current.dialog = (debugStops.thirdStop - 1) % DebugTextDialog.length;
-            setDialogIndex(indicesRef.current.dialog);
-            setTextSkipped(false);
-          }
-          else if (indicesRef.current.dialog < debugStops.fourtHPtop - 1 && indicesRef.current.dialog >= debugStops.thirdStop - 1){
-            indicesRef.current.dialog = (debugStops.fourtHPtop - 1) % DebugTextDialog.length;
-            setDialogIndex(indicesRef.current.dialog);
-            setTextSkipped(false);
           }
         }
         else if (!textStoppedRef.current && elapsedDialog >= ANIM_TIMINGS.dialog) {
         lastAnimTsRef.current.dialog = ts;
         if (dialogKey === 0) {
-          const next = (indicesRef.current.dialog + 1) % DebugTextDialog.length;
-          if (next === debugStops.firstStop - 1 || next === debugStops.secondStop - 1 || next === debugStops.thirdStop - 1 || next === debugStops.fourtHPtop - 1) {
+          const next = (indicesRef.current.dialog + 1) % textArray.length;
             indicesRef.current.dialog = next;
             setDialogIndex(indicesRef.current.dialog);
             setTextStopped(true);
             setTextSkipped(false);
-          } else {
-            indicesRef.current.dialog = next;
-            setDialogIndex(indicesRef.current.dialog);
-          }
         } 
       }
     }
@@ -10161,20 +10252,49 @@ return (
         }}>
           <img src={vaporeonPortraitNormal} alt="Vaporeon Portrait" className="w-16 h-16" />
       </div>
-      {showDialog && !isPaused ? (
-        <div className="absolute bottom-0 left-0 w-full h-full flex items-center justify-center"
+      
+      {showDialog && !isPaused && selectedPortraitRef.current === 'Vaporeon_Shouting' ? (
+        <div className="text box"
         style={{
-          zIndex: 1000,
-          width: '50%',
-          height: '75%',
-          marginLeft: '25%'
+          position: 'absolute',
+          top: '55%',
+          left:'40%',
+          zIndex: 9999,
+          transform: 'scale(2.5)'
         }}>
-            <img
-            src={DebugTextDialog[dialogIndex]}
-            alt="Dialog"
-            className="absolute w-full h-full"
-        
-                      />
+        <img src={VaporeonShouting} alt="text box"/>
+          </div>
+      ) : null}
+
+      {showDialog && !isPaused && textArray.length > 0 ? (
+        <div className="first char"
+          style={{
+            position: 'absolute',
+            top: '83.75%',
+            left: '37.75%',
+            width: '32px',
+            height: '32px',
+            zIndex: 10000,
+            //border: '2px dashed magenta',
+            //backgroundColor: 'rgba(255,0,255,0.05)'
+          }}
+        >
+          {textArray.map((segment, index) => (
+            <SpriteCanvas
+              key={`dialog-char-${index}`}
+              text={segment.char}
+              color={'Black'}
+              alt="Dialog"
+              className="absolute w-full h-full"
+              style={{
+                position: 'absolute',
+                top: getDialogTop(segment.char),
+                left: getDialogLeft(index),
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          ))}
         </div>
       ) : null}
     {isPaused && !showOptions && !showMoves && !showToolbox && !showStatus && (
@@ -10224,16 +10344,16 @@ return (
           type='radio'
           name="dialogSpeed"
           value={dialogSpeed}
-          onChange={(e) => setDialogSpeed('Slow')}
-          checked={dialogSpeed === 'Slow'}
+          onChange={(e) => setDialogSpeed(200)}
+          checked={dialogSpeed === 200}
           style={{width: '100%'}}
           />
           'Normal' <input
           type='radio'
           name="dialogSpeed"
           value={dialogSpeed}
-          onChange={(e) => setDialogSpeed('Normal')}
-          checked={dialogSpeed === 'Normal'}
+          onChange={(e) => setDialogSpeed(100)}
+          checked={dialogSpeed === 100}
           style={{width: '100%'}}
         />
           'Fast'
@@ -10241,8 +10361,8 @@ return (
           type='radio'
           name="dialogSpeed"
           value={dialogSpeed}
-          onChange={(e) => setDialogSpeed('Fast')}
-          checked={dialogSpeed === 'Fast'}
+          onChange={(e) => setDialogSpeed(50)}
+          checked={dialogSpeed === 50}
           style={{width: '100%'}}
           />
            </label>
