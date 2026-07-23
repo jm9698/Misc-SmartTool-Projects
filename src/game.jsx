@@ -2384,6 +2384,7 @@ const vaporeonPortraitNormal = 'https://raw.githubusercontent.com/jm9698/Misc-Sm
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Currency/Pokedollar.png'; // Replace with your sprite URL
 
 // Wall sprites
+/*
 const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
 const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
 const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
@@ -2391,8 +2392,26 @@ const wallSpriteDown = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-
 const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet000tl.png'; // Updated to new top left corner sprite
 const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
 const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
+*/
 const Sprites = {
   tiles: {
+    wallSpriteLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    wallSpriteRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    wallSpriteDown: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    wallSpriteUp: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    cornerSpriteTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    cornerSpriteTopRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    cornerSpriteBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    cornerSpriteBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    enclosedWallSprite1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    enclosedWallSprite2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    enclosedWallSprite3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    enclosedWallSprite4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    innerCornerTopRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    innerCornerTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    innerCornerBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    innerCornerBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%231.png',
+    /*
     cornerSpriteBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png',
     enclosedWallSprite1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png',
     enclosedWallSprite2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png',
@@ -2402,9 +2421,16 @@ const Sprites = {
     innerCornerTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png',
     innerCornerBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png',
     innerCornerBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png',
+    */
   }
 };
-
+const wallSpriteLeft = Sprites.tiles.wallSpriteLeft;
+const wallSpriteRight = Sprites.tiles.wallSpriteRight;
+const wallSpriteDown = Sprites.tiles.wallSpriteDown;
+const wallSpriteUp = Sprites.tiles.wallSpriteUp;
+const cornerSpriteTopLeft = Sprites.tiles.cornerSpriteTopLeft;
+const cornerSpriteTopRight = Sprites.tiles.cornerSpriteTopRight;
+const cornerSpriteBottomLeft = Sprites.tiles.cornerSpriteBottomLeft;
 const cornerSpriteBottomRight = Sprites.tiles.cornerSpriteBottomRight;
 const enclosedWallSprite1 = Sprites.tiles.enclosedWallSprite1;
 const enclosedWallSprite2 = Sprites.tiles.enclosedWallSprite2;
@@ -2820,6 +2846,7 @@ const [checkBox3, setCheckBox3] = React.useState(false);
 // Scene params
 const [textArray, setTextArray] = React.useState([]); // Array of text segments for dialog
 const textArrayRef = React.useRef(textArray);
+const topLineCapacity = 415 //Amount of pixel space on the top line
 const [selectedPortrait, setSelectedPortrait] = React.useState('Vaporeon_Shouting')
 const [dialogSpeed, setDialogSpeed] = React.useState(125); //100 ms for fast, 125 ms for normal, and 150 ms for slow
 const selectedPortraitRef = React.useRef(selectedPortrait)
@@ -7511,130 +7538,297 @@ function itemThrown(item, id) {
     }
 
   }
-
-  function generateText(text, color) {
-    const segments = Array.from(text).map(char => ({ char, color }));
-    console.log('generateText:', { text, color, segments });
-    for (let i = 0; i < segments.length; i++){
-      setTimeout(() => i === 0 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 1);
-      setTimeout(() => i === 1 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 2);
-      setTimeout(() => i === 2 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 3);
-      setTimeout(() => i === 3 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 4);
-      setTimeout(() => i === 4 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 5);
-      setTimeout(() => i === 5 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 6);
-      setTimeout(() => i === 6 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 7);
-      setTimeout(() => i === 7 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 8);
-      setTimeout(() => i === 8 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 9);
-      setTimeout(() => i === 9 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 10);
-      setTimeout(() => i === 10 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 11);
-      setTimeout(() => i === 11 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 12);
-      setTimeout(() => i === 12 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 13);
-      setTimeout(() => i === 13 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 14);
-      setTimeout(() => i === 14 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 15);
-      setTimeout(() => i === 15 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 16);
-      setTimeout(() => i === 16 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 17);
-      setTimeout(() => i === 17 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 18);
-      setTimeout(() => i === 18 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 19);
-      setTimeout(() => i === 19 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 20);
-      setTimeout(() => i === 20 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 21);
-      setTimeout(() => i === 21 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 22);
-      setTimeout(() => i === 22 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 23);
-      setTimeout(() => i === 23 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 24);
-      setTimeout(() => i === 24 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 25);
-      setTimeout(() => i === 25 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 26);
-      setTimeout(() => i === 26 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 27);
-      setTimeout(() => i === 27 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 28);
-      setTimeout(() => i === 28 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 29);
-      setTimeout(() => i === 29 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 30);
-      setTimeout(() => i === 30 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 31);
-      setTimeout(() => i === 31 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 32);
-      setTimeout(() => i === 32 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 33);
-      setTimeout(() => i === 33 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 34);
-      setTimeout(() => i === 34 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 35);
-      setTimeout(() => i === 35 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 36);
-      setTimeout(() => i === 36 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 37);
-      setTimeout(() => i === 37 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 38);
-      setTimeout(() => i === 38 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 39);
-      setTimeout(() => i === 39 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 40);
-      setTimeout(() => i === 40 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 41);
-      setTimeout(() => i === 41 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 42);
-      setTimeout(() => i === 42 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 43);
-      setTimeout(() => i === 43 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 44);
-      setTimeout(() => i === 44 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 45);
-      setTimeout(() => i === 45 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 46);
-      setTimeout(() => i === 46 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 47);
-      setTimeout(() => i === 47 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 48);
-      setTimeout(() => i === 48 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 49);
-      setTimeout(() => i === 49 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * 50);
-    }
-    return segments;
+  function waitUntil(conditionFn, interval = 100) {
+    return new Promise((resolve) => {
+     const timer = setInterval(() => {
+       if (conditionFn()) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, interval);
+   });
   }
-/*
-  React.useEffect(() => {
-    if (!Array.isArray(textArray) || textArray.length === 0) return;
-    for (let i = 0; i < textArray.length; i++) {
-      setTimeout(() => i === 0 ? setSpace1(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 1 ? setSpace2(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 2 ? setSpace3(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 3 ? setSpace4(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 4 ? setSpace5(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 5 ? setSpace6(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 6 ? setSpace7(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 7 ? setSpace8(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 8 ? setSpace9(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 9 ? setSpace10(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 10 ? setSpace11(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 11 ? setSpace12(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 12 ? setSpace13(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 13 ? setSpace14(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 14 ? setSpace15(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 15 ? setSpace16(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 16 ? setSpace17(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 17 ? setSpace18(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 18 ? setSpace19(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 19 ? setSpace20(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 20 ? setSpace21(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 21 ? setSpace22(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 22 ? setSpace23(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 23 ? setSpace24(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 24 ? setSpace25(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 25 ? setSpace26(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 26 ? setSpace27(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 27 ? setSpace28(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 28 ? setSpace29(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 29 ? setSpace30(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 30 ? setSpace31(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 31 ? setSpace32(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 32 ? setSpace33(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 33 ? setSpace34(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 34 ? setSpace35(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 35 ? setSpace36(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 36 ? setSpace37(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 37 ? setSpace38(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 38 ? setSpace39(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 39 ? setSpace40(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 40 ? setSpace41(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 41 ? setSpace42(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 42 ? setSpace43(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 43 ? setSpace44(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 44 ? setSpace45(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 45 ? setSpace46(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 46 ? setSpace47(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 47 ? setSpace48(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 48 ? setSpace49(textArray[i].char) : null), dialogSpeed * (i+1);
-      setTimeout(() => i === 49 ? setSpace50(textArray[i].char) : null), dialogSpeed * (i+1);
+  function generateText(text, color, text2, color2, skip) {
+    const segments = Array.from(text).map(char => ({ char, color }));
+    const segments2 = text2 !== null ? Array.from(text2).map(char2 => ({ char2, color2 })) : null 
+    if (skip !== true){
+    for (let i = 0; i < segments.length; i++){
+      setTimeout(() => i === 0 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 1 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 2 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 3 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 4 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 5 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 6 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 7 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 8 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 9 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 10 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 11 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 12 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 13 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 14 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 15 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 16 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 17 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 18 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 19 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 20 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 21 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 22 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 23 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 24 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 25 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 26 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 27 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 28 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 29 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 30 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 31 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 32 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 33 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 34 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 35 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 36 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 37 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 38 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 39 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 40 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 41 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 42 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 43 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 44 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 45 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 46 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 47 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 48 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 49 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === segments.length - 1 && text2 !== null && color2 !== null ? generateText("", "Black", text2, color2, true) : null, dialogSpeed * (i+1));
     }
-  }, [textArray]);
-*/
-  function getDialogLeft(index) {
+  }
+  else if (skip === true){
+    for (let i = 0; i < segments2.length; i++){
+      console.log('loop:', i, 'segments2:', segments2);
+      setTimeout(() => i === 0 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 1 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 2 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 3 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 4 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 5 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 6 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 7 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 8 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 9 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 10 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 11 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 12 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 13 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 14 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 15 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 16 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 17 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 18 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 19 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 20 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 21 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 22 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 23 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 24 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 25 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 26 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 27 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 28 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 29 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 30 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 31 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 32 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 33 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 34 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 35 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 36 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 37 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 38 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 39 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 40 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 41 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 42 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 43 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 44 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 45 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 46 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 47 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 48 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 49 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 50 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 51 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 52 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 53 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 54 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 55 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 56 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 57 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 58 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 59 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 60 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 61 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 62 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 63 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 64 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 65 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 66 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 67 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 68 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 69 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 70 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 71 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 72 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 73 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 74 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 75 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 76 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 77 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 78 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 79 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 80 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 81 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 82 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 83 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 84 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 85 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 86 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 87 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 88 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 89 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 90 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 91 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 92 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 93 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 94 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 95 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 96 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 97 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 98 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 99 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 100 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 101 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 102 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 103 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 104 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 105 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 106 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 107 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 108 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 109 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 110 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 111 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 112 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 113 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 114 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 115 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 116 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 117 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 118 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 119 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 120 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 121 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 122 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 123 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 124 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 125 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 126 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 127 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 128 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 129 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 130 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 131 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 132 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 133 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 134 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 135 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 136 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 137 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 138 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 139 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 140 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 141 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 142 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 143 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 144 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 145 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 146 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 147 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 148 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 149 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+      setTimeout(() => i === 150 ? setTextArray(prev => [...prev, segments2[i]]) : null, dialogSpeed * (i+1));
+  }
+  }
+  return segments
+}
+function getDialogLine(text){
+  const spacing = parseFloat(textSpacing) || 0;
+  let charArray = Array.from(text).map(char => ({ char }));
+  let spaces = {count: charArray.filter(c => c.char === ' ').length, indices: charArray.map((c, i) => c.char === ' ' ? i : -1).filter(i => i !== -1)};
+  let wordArray = [];
+  let left = 0;
+  let line = 1;
+  for (let i = 0; i < spaces.count + 1; i++) {
+  i === 0 ? wordArray.push(charArray.slice(0, spaces.indices[i]).map(c => c.char).join(''), { 'line': line }) : wordArray.push(charArray.slice(spaces.indices[i - 1] + 1, spaces.indices[i]).map(c => c.char).join(''), { 'line': 1 });
+  }
+  for (let i = 0; i < wordArray.length; i++) {
+    let word = wordArray[i];
+    let chars = Array.from(word).map(char => ({ char }));
+    let wordWidth = chars.reduce((acc, c) => acc + (parseFloat(dimensionArray.Width[c.char] || '0') || 0) / 2 + spacing, 0);
+    left += wordWidth;
+    console.log(`Word: ${word}, Width: ${wordWidth}, Left: ${left}, Line: ${line}`);
+    if (left >= topLineCapacity + 130 && line === 2) {
+      wordArray = wordArray.slice(i).concat(wordArray.slice(0, i).map(w => ({ ...w, line: 3 })));
+      line = 3;
+    }
+    else if (left >= topLineCapacity) {
+      wordArray = wordArray.slice(i)
+      line = 2;
+    }
+  }
+  return {wordArray, charArray, spaces, left};
+}
+  function getDialogLeft(index, checkLeft, checkLine, returnLeft, returnLine, lines) {
     const spacing = parseFloat(textSpacing) || 0;
     let left = 0;
+    let line = lines ? lines : 1;
+    for (let i = 0; i < index; i++) {
+      const char = textArray[i]?.char || textArray[i]?.char2 || '';
+      const width = parseFloat(dimensionArray.Width[char] || '0') || 0;
+      left += width / 2 + spacing;
+      if (left >= topLineCapacity && line === 2){
+      console.log("Reached Line 3")
+      left -= topLineCapacity + 130
+      line = 3
+      if (returnLine === true && returnLeft === true) return [ lineRef.current, left + (topLineCapacity + 125) ]
+      if (returnLine === true) return line
+      if (returnLeft === true) return left + (topLineCapacity + 125)
+      }
+      else if (left >= topLineCapacity){
+      left -= topLineCapacity + 130
+      line = 2
+      if (returnLine === true && returnLeft === true) return [ lineRef.current, left + (topLineCapacity + 125) ]
+      if (returnLine === true) return line
+      if (returnLeft === true) return left + (topLineCapacity + 125)
+      }
+    }
+    if (returnLeft === true) return left
+    if (returnLine === true) return line
+    return `${left}px`;
+  }
+
+  function getLengthSummation(index) {
+    const spacing = parseFloat(textSpacing) || 0;
+    let totalLength = 0;
     for (let i = 0; i < index; i++) {
       const char = textArray[i]?.char || '';
       const width = parseFloat(dimensionArray.Width[char] || '0') || 0;
-      left += width / 2 + spacing;
+      totalLength += width / 2 + spacing;
     }
-    return `${left}px`;
+    return totalLength;
   }
 
   function getDialogTop(char) {
@@ -8152,8 +8346,7 @@ setLastDirection('up-right');
 break;
 case 'p': // debug for exp
 setShowDialog(true);
-//generateText("abcdefghijklmnopqrstuvwxyz", "Black")
-generateText("Hewwo I am Vaporeon", "Black")
+generateText("Eevee", "Yellow", ", have you heard what's going on in the Purity Forest? It has been said that almost all of the Pokemon who enter never return...", "White", false);
 return
 break;
 case 'Shift': // Shift key to toggle aim mode
@@ -8172,17 +8365,7 @@ case 'l':
 //quick log
 addItemToInventory('Sleep Seed');
 addItemToInventory('Warp Seed');
-console.log('1st level:', dimensionArray)
-console.log('2nd level:', dimensionArray.Width)
-console.log('3rd level:', dimensionArray.Width[space1Ref.current])
-console.log('calculation:', (`${parseFloat(dimensionArray.Width[space1Ref.current]) - parseFloat(dimensionArray.Width[space3Ref.current]) + 12}px`))
-console.log('pieces:', '12px', dimensionArray.Width[space1Ref.current], dimensionArray.Width[space3Ref.current])
-//console.log(generateText("Eevee is a fluffy goober", 'Black'));
-console.log('space 1:', space1Ref.current)
-console.log('space 2:', space2Ref.current)
-console.log('space 3:', space3Ref.current)
-console.log('space 4:', space4Ref.current)
-console.log('space 5:', space5Ref.current)
+console.log(getDialogLine("I'm a test string to see if the dialog line function works properly. It should split this into multiple lines if it exceeds the top line capacity."));
 return;
   break;
 }
@@ -10283,13 +10466,29 @@ return (
             <SpriteCanvas
               key={`dialog-char-${index}`}
               text={segment.char}
-              color={'Black'}
+              color={segment.color}
               alt="Dialog"
               className="absolute w-full h-full"
               style={{
                 position: 'absolute',
-                top: getDialogTop(segment.char),
                 left: getDialogLeft(index),
+                top: getLengthSummation(index) >= 320 && getLengthSummation(index) < 705 ? `${parseFloat(getDialogTop(segment.char)) + 30}px` : getLengthSummation(index) >= 705 ? `${parseFloat(getDialogTop(segment.char)) + 60}px` : getDialogTop(segment.char),
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          ))}
+          {textArray.map((segment2, index) => (
+            <SpriteCanvas
+              key={`dialog-char-${index}`}
+              text={segment2.char2}
+              color={segment2.color2}
+              alt="Dialog"
+              className="absolute w-full h-full"
+              style={{
+                position: 'absolute',
+                left: getDialogLeft(index),
+                top: getLengthSummation(index) >= 320 && getLengthSummation(index) < 705 ? `${parseFloat(getDialogTop(segment2.char2)) + 30}px` : getLengthSummation(index) >= 705 ? `${parseFloat(getDialogTop(segment2.char2)) + 60}px` : getDialogTop(segment2.char2),
                 width: '100%',
                 height: '100%',
               }}
