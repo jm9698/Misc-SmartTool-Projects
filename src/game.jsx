@@ -2487,15 +2487,15 @@ const selectsfx = Sprites.sfx.select;
 const declinesfx = Sprites.sfx.decline;
 const affirmativesfx = Sprites.sfx.affirmative;
 
-// Stair Sprite (proto)
+//Stair Sprite (proto)
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
-// Turn interval in milliseconds
+//Turn interval in milliseconds
 const turnIntervalMs = 500;
 
 // ====== GAME COMPONENT STARTS HERE ======
 
 const Game = () => {
-// FPS counter
+//FPS counter
 const fpsRef = React.useRef(null); 
   React.useEffect(() => {
     let rafId = 0;
@@ -2517,23 +2517,23 @@ const fpsRef = React.useRef(null);
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, []);
-// Start React state declarations here
+//Start React state declarations here
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
 const VIEW_COLUMN_BUFFER = 0; // render one extra column on each side to avoid tile pop-in -> Marked for removal
-// Consts to control the size of the dungeon
+//Consts to control the size of the dungeon
 const minHeight = 65;
 const maxHeight = 75;
 const minWidth = 65;
 const maxWidth = 75;
 const height = randInt(minHeight, maxHeight + 1);
 const width = randInt(minWidth, maxWidth + 1);
-//
+//Initialize stair position and floor count
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
 
-//DMG VFX
+//DMG VFX, Split for each enemy slot
 const [DMGVfx0, setDMGVfx0] = React.useState({ DMG: null, Active: false });
 const DMGVfx0Ref = React.useRef(DMGVfx0);
 const [DMGVfx1, setDMGVfx1] = React.useState({ DMG: null, Active: false });
@@ -2552,7 +2552,7 @@ const [DMGVfx7, setDMGVfx7] = React.useState({ DMG: null, Active: false });
 const DMGVfx7Ref = React.useRef(DMGVfx7);
 const [DMGVfx8, setDMGVfx8] = React.useState({ DMG: null, Active: false });
 const DMGVfx8Ref = React.useRef(DMGVfx8);
-  //Indexes
+//Indexes for DMG VFX frames
 const [DMGVfx0Index, setDMGVfx0Index] = React.useState(0);
 const [DMGVfx1Index, setDMGVfx1Index] = React.useState(0);
 const [DMGVfx2Index, setDMGVfx2Index] = React.useState(0);
@@ -2587,15 +2587,15 @@ const [playerSpeed, setPlayerSpeed] = React.useState(basePlayerSpeed);
 // Hunger params
 const [playerHunger, setPlayerHunger] = React.useState(100);
 const [maxPlayerHunger, setMaxPlayerHunger] = React.useState(100);
-const [hungerTicks, setHungerTicks] = React.useState(0);
-const [hungry, setHungry] = React.useState(false);
-const [isStarving, setIsStarving] = React.useState(false);
-const [warned, setWarned] = React.useState(false);
+const [hungerTicks, setHungerTicks] = React.useState(0); // Ticks since last hunger decrease
+const [hungry, setHungry] = React.useState(false); // 20% hunger or below - not binded yet
+const [isStarving, setIsStarving] = React.useState(false); // State to control starvation damage
+const [warned, setWarned] = React.useState(false); // True if the player has been warned about low hunger, returns false after restoring hunger
 
 // Enemy params
 const [enemies, setEnemies] = React.useState([]);
-const enemiesRef = React.useRef(enemies); 
-const enemyCount = randInt(1, 2); // 1 to 2 enemies per room
+const enemiesRef = React.useRef(enemies); //marked for removal
+const enemyCount = randInt(1, 2); // 1 enemy per room
 const [enemyTypes, setEnemyTypes] = React.useState(Object.keys(ENEMY_DEFS));
 const [enemyType, setEnemyType] = React.useState(enemyTypes[randInt(0, enemyTypes.length)]);
 const [enemyType1, setEnemyType1] = React.useState(null);
@@ -2608,8 +2608,9 @@ const [enemyType7, setEnemyType7] = React.useState(null);
 const [enemyType8, setEnemyType8] = React.useState(null);
 const [enemyHere, setEnemyHere] = React.useState(null);
 const [enemyHereTiles, setEnemyHereTiles] = React.useState([]);
-const enemyHereTilesRef = React.useRef([]);
-const [enemiesState, setEnemiesState] = React.useState([])
+const enemyHereTilesRef = React.useRef([]); //used to track enemy positions and omit them from currency/item rendering
+const [enemiesState, setEnemiesState] = React.useState([]) //marked for removal
+// Basic booleans to track which enemy slots are filled
 const [enemy1, setEnemy1] = React.useState(false);
 const [enemy2, setEnemy2] = React.useState(false);
 const [enemy3, setEnemy3] = React.useState(false);
@@ -2618,6 +2619,7 @@ const [enemy5, setEnemy5] = React.useState(false);
 const [enemy6, setEnemy6] = React.useState(false);
 const [enemy7, setEnemy7] = React.useState(false);
 const [enemy8, setEnemy8] = React.useState(false);
+// Track enemy positions for each slot
 const [enemy1Pos, setEnemy1Pos] = React.useState({ x: 0, y: 0 });
 const [enemy2Pos, setEnemy2Pos] = React.useState({ x: 0, y: 0 });
 const [enemy3Pos, setEnemy3Pos] = React.useState({ x: 0, y: 0 });
@@ -2752,6 +2754,7 @@ const [enemy8Speed, setEnemy8Speed] = React.useState(0);
   const [enemy6LastDirection, setEnemy6LastDirection] = React.useState('down');
   const [enemy7LastDirection, setEnemy7LastDirection] = React.useState('down');
   const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
+  //Status booleans
   const [enemy1Sleeping, setEnemy1Sleeping] = React.useState(false);
   const enemy1SleepingRef = React.useRef(enemy1Sleeping);
   const [enemy2Sleeping, setEnemy2Sleeping] = React.useState(false);
@@ -2771,7 +2774,7 @@ const [enemy8Speed, setEnemy8Speed] = React.useState(0);
   const [validOptions, setValidOptions] = React.useState(null);
   const [chosen, setChosen] = React.useState(0);
   // Attack booleans
-  const [rockThrow, setRockThrow] = React.useState(false);
+  const [rockThrow, setRockThrow] = React.useState(false); //Should rock throw display
   const rockThrowRef = React.useRef(rockThrow);
   const [rockThrowTransform, setRockThrowTransform] = React.useState('translatex(65%) translateY(-615%)'); // Store transform to prevent flickering
   // Projectile continuous position for smooth rendering
@@ -2786,38 +2789,39 @@ const [showToolbox, setShowToolbox] = React.useState(false); // State for toolbo
 const isPausedRef = React.useRef(isPaused);
 
 // Currency
-const [currencyTiles, setCurrencyTiles] = React.useState([]);
-const [currency, setCurrency] = React.useState(0);
+const [currencyTiles, setCurrencyTiles] = React.useState([]); //Initialize Currency tiles
+const [currency, setCurrency] = React.useState(0); //Quantity of Currency collected
 const currencyTilesRef = React.useRef(currencyTiles);
 
 // Item tiles and inventory
-const [itemTiles, setItemTiles] = React.useState([]);
+const [itemTiles, setItemTiles] = React.useState([]); //Initialize item tiles
 const itemTilesRef = React.useRef(itemTiles);
 const [itemTilesIndex, setItemTilesIndex] = React.useState([]); // Index for cycling through item tiles
 const [itemTilesIndexRef, setItemTilesIndexRef] = React.useState([]);
-const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items
-const [itemOrder, setItemOrder] = React.useState(0);
+const [natItemOrder, setNatItemOrder] = React.useState(0); // Natural item order for cycling through items (Also tracks the number of items in the inventory)
+const [itemOrder, setItemOrder] = React.useState(0); // Position based item order when cycling through items (Tracks the itemSelected index in the inventory)
 const [itemSelected, setItemSelected] = React.useState(null); // Index of selected item in inventory
 const [inventoryIndex, setInventoryIndex] = React.useState([]); // Index for navigating inventory
-const [flickerFrame, setFlickerFrame] = React.useState(0);
-const [inventory, setInventory] = React.useState([]);
+const [flickerFrame, setFlickerFrame] = React.useState(0); // Frame for flickering effect for itemSelector icon
+const [inventory, setInventory] = React.useState([]); // Tracks the items in the inventory (array of item objects)
 const inventoryRef = React.useRef(inventory);
-const [itemEquipped, setItemEquipped] = React.useState(null);
-const [itemEquippedId, setItemEquippedId] = React.useState(null);
-const [selectedAction, setSelectedAction] = React.useState('');
-const [selectedItemSprite, setSelectedItemSprite] = React.useState(null);
+const [itemEquipped, setItemEquipped] = React.useState(null); // Tracks the currently equipped item (item object)
+const [itemEquippedId, setItemEquippedId] = React.useState(null); // Tracks the order of the currently equipped item (Used to handle duplicate equips in the inventory)
+const [selectedAction, setSelectedAction] = React.useState(''); // Tracks the selected action for the item (Use, Throw, Discard, Equip)
+const [selectedItemSprite, setSelectedItemSprite] = React.useState(null); // Tracks the sprite of the selected item (Used to display the item in the inventory)
 const selectedItemSpriteRef = React.useRef(selectedItemSprite);
 const [willConsumeItemInventory, setWillConsumeItemInventory] = React.useState(false);
 const willConsumeItemInventoryRef = React.useRef(willConsumeItemInventory);
 const [inventoryFull, setInventoryFull] = React.useState(false);
-const getInventoryIndex = (inventory, ITEM_DEFS) => {
-  return inventory.map((item, position) => ({
-    item,
-    itemDef: ITEM_DEFS[item.name],
-    position
-  }));
-};
-  // States for tracking thrown item behavior
+
+const getInventoryIndex = (inventory, ITEM_DEFS) => { //Marked for removal
+  return inventory.map((item, position) => ({ //^^
+    item, //^^
+    itemDef: ITEM_DEFS[item.name], //^^
+    position //^^
+  })); //^^
+}; //^^
+// States for tracking thrown item behavior
 const [targeted, setTargeted] = React.useState('');
 const targetedRef = React.useRef(targeted);
 const [willConsumeItem, setWillConsumeItem] = React.useState(false);
@@ -6412,7 +6416,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
 
   return enemyObj;
 }
-function updateEnemyPosition(tilex, tiley) {
+function updateEnemyPosition(tilex, tiley) { // Function marked for removal
   const enemy = enemiesRef.current.find(enemy => enemy.posx.x === tilex && enemy.posy.y === tiley);
   if (enemy) {
     setEnemyHere(enemy);
@@ -6478,8 +6482,8 @@ else if (enemyCount < 9) {
 }
 
 React.useEffect(() => {
-  enemiesRef.current = enemies;
-  enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite }));
+  enemiesRef.current = enemies; //marked for removal
+  enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite })); //marked for removal
 }, [enemies]);
 function useSelectedItem(target, item, id) {
   playSound(affirmativesfx);
@@ -7840,9 +7844,9 @@ function getDialogLine(text){
     return offset != null ? offset : '0px';
   }
 
-React.useEffect(() => {
-  setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS));
-}, [inventory]);
+React.useEffect(() => { //Marked for removal
+  setInventoryIndex(getInventoryIndex(inventory, ITEM_DEFS)); //^^
+}, [inventory]); //^^
 
 // Flicker effect: toggle flickerFrame every 500ms if itemSelected is not null
   React.useEffect(() => {
