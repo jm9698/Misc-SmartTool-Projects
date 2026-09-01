@@ -1,7 +1,6 @@
 
 // ========== SPRITE ATLAS SYSTEM ==========
-// Organized by category for future sprite sheet consolidation.
-// Each entry includes: url (current individual sprite), and atlas metadata (x, y, w, h) for future sheet consolidation.
+
 const atlasCache = {};
 const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
 const pokemonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/PokemonAtlas.png';
@@ -891,7 +890,7 @@ const vfxAtlas = {
   }
 };
 
-// Helper function to get sprite URL (returns individual URL for backward compatibility)
+// Helper functions to retrieve sprite URLs based on requirements
 const getItemSprite = (itemName) => {
   const itemdata = ItemAtlas[itemName];
   if (!itemdata) return null;
@@ -932,7 +931,7 @@ const getTextSprite = (color, text) => {
   return textData.url;
 }
 
-// Get atlas metadata for a specific item key
+// Get atlas metadata for a specific item key (Generally unused)
 const getItemAtlasData = (itemName) => {
   const item = ItemAtlas[itemName];
   return item ? item.atlas : null;
@@ -1015,7 +1014,7 @@ const Scarf = getItemSprite('Scarf');
 const Orb = getItemSprite('Orb');
 const GeoPebble = getItemSprite('GeoPebble');
 
-// ========== SPRITE CANVAS COMPONENT ==========
+// ========== CANVAS COMPONENTS ==========
 // Renders a single sprite from an atlas using canvas drawImage
 const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, direction, frame, color, text, width = 40, height = 40, style = {}, className }) => {
   const canvasRef = React.useRef(null);
@@ -1090,8 +1089,72 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     />
   );
 });
-const VaporeonShouting = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png';
-const EeveeCrying = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_025.png';
+
+const tileImageCache = {};
+const tileImagePromises = {};
+
+const loadTileImage = (src) => {
+  if (!src) return Promise.resolve(null);
+  if (tileImagePromises[src]) return tileImagePromises[src];
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  const promise = new Promise((resolve) => {
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(img);
+    img.src = src;
+  });
+
+  tileImageCache[src] = img;
+  tileImagePromises[src] = promise;
+  return promise;
+};
+
+const TileCanvas = React.memo(({ src, alt, className, style = {}, width = 40, height = 40 }) => {
+  const canvasRef = React.useRef(null);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    const canvas = canvasRef.current;
+    if (!canvas || !src) return;
+
+    const render = async () => {
+      const img = await loadTileImage(src);
+      if (cancelled || !canvas || !img) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.clearRect(0, 0, width, height);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, 0, 0, width, height);
+    };
+
+    render();
+    return () => {
+      cancelled = true;
+    };
+  }, [src, width, height]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={className}
+      alt={alt}
+      style={{
+        display: 'block',
+        imageRendering: 'pixelated',
+        width,
+        height,
+        ...style,
+      }}
+    />
+  );
+});
+
+// ========== DEFINITIONS ==========
 
 const MOVE_DEFS = {
   "Acid Armor": {
@@ -1462,54 +1525,6 @@ const ENEMY_DEFS = {
     }
   },
 },
-/*
-  'Vaporeon': {
-    name: 'Vaporeon',
-    type: 'Water',
-    maxHp: 130,
-    hp: 130,
-    attack: 65,
-    specialAttack: 110,
-    specialDefense: 95,
-    defense: 60,
-    speed: 65,
-    moves: [MOVE_DEFS['Bubble Beam'], MOVE_DEFS['Hydro Pump'], MOVE_DEFS['Ice Beam'], MOVE_DEFS['Water Pulse']],
-    sprites: {
-      downIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimD2.png',
-      },
-      upIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimU2.png',
-      },
-      leftIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimL2.png',
-      },
-      rightIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimR2.png',
-      },
-      downLeftIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBL2.png',
-      },
-      downRightIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimBR2.png',
-      },
-      upLeftIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTL2.png',
-      },
-      upRightIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/idle/IdleanimTR2.png',
-      }
-    }
-  }
-    */
 
 }
 const MAX_INVENTORY_SLOTS = 10;
@@ -1546,6 +1561,10 @@ getVfxSprite('RockThrow', 'none', 28),
 getVfxSprite('RockThrow', 'none', 29),
 getVfxSprite('RockThrow', 'none', 30),
 ];
+
+// Text Portraits
+const VaporeonShouting = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png';
+const EeveeCrying = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_025.png';
 
 // Enemy sprite URLs
   //Lunatone
@@ -1931,7 +1950,6 @@ const vaporeonSleepSprites = [
   getPokemonSprite('Vaporeon', 'sleep', 'none', 2)
 ]
 // VFX animations
-
 const DMG1VfxFrames = [
   getDMGSprite('DMG1', 1),
   getDMGSprite('DMG1', 2),
@@ -2384,15 +2402,7 @@ const vaporeonPortraitNormal = 'https://raw.githubusercontent.com/jm9698/Misc-Sm
 const Pokedollar = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Currency/Pokedollar.png'; // Replace with your sprite URL
 
 // Wall sprites
-/*
-const wallSpriteLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet164l.png';
-const wallSpriteRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet167r.png';
-const wallSpriteUp = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet001u.png';
-const wallSpriteDown = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet186d.png';
-const cornerSpriteTopLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet000tl.png'; // Updated to new top left corner sprite
-const cornerSpriteTopRight = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet003tr.png'; // Updated to new top right corner sprite
-const cornerSpriteBottomLeft = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet124bl.png'; // Updated to new bottom left corner sprite
-*/
+
 const Sprites = {
   tiles: {
     wallSpriteLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%232%20(Left%20Shadow).png',
@@ -2411,17 +2421,6 @@ const Sprites = {
     innerCornerTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%232%20(TL%20Shadow).png',
     innerCornerBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%232%20(BR%20Shadow).png',
     innerCornerBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Test%20Tile%20%232%20(BL%20Shadow).png',
-    /*
-    cornerSpriteBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/EditedwallSpritesheet159br.png',
-    enclosedWallSprite1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full1.png',
-    enclosedWallSprite2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full2.png',
-    enclosedWallSprite3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full3.png',
-    enclosedWallSprite4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick%20Wall%20Full4.png',
-    innerCornerTopRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topright.png',
-    innerCornerTopLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_topleft.png',
-    innerCornerBottomRight: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomright.png',
-    innerCornerBottomLeft: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Tiles/Area1/Brick_Wall_inner_corner_bottomleft.png',
-    */
   }
 };
 const wallSpriteLeft = Sprites.tiles.wallSpriteLeft;
@@ -2440,6 +2439,7 @@ const innerCornerTopRight = Sprites.tiles.innerCornerTopRight;
 const innerCornerTopLeft = Sprites.tiles.innerCornerTopLeft;
 const innerCornerBottomRight = Sprites.tiles.innerCornerBottomRight;
 const innerCornerBottomLeft = Sprites.tiles.innerCornerBottomLeft;
+
 // Helper function to generate bar component URLs on demand
 const generateBarComponents = (category, formatFn) => {
   const urls = {};
@@ -2465,7 +2465,6 @@ const expBarComponent = generateBarComponents(
   (i) => `expBar${i}%25`
 );
 // Item Selection indicator (proto)
-// Item Selection indicator (proto)
 const itemSelector = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/itemSelector.png';
 
 // Floor Sprites (random rotation) and sound effects grouped
@@ -2490,11 +2489,14 @@ const affirmativesfx = Sprites.sfx.affirmative;
 
 // Stair Sprite (proto)
 const stairSprite = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/StairsWithTile.png';
+// Turn interval in milliseconds
 const turnIntervalMs = 500;
 
+// ====== GAME COMPONENT STARTS HERE ======
+
 const Game = () => {
-// Start React state declarations here
-const fpsRef = React.useRef(null);
+// FPS counter
+const fpsRef = React.useRef(null); 
   React.useEffect(() => {
     let rafId = 0;
     let frames = 0;
@@ -2515,20 +2517,21 @@ const fpsRef = React.useRef(null);
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, []);
-const [audio, setAudio] = React.useState(null);
-const audioRef = React.useRef(audio);
+// Start React state declarations here
 const [dungeon, setDungeon] = React.useState([]);
 const dungeonRef = React.useRef(null);
 const VIEW_RADIUS = 15; // 15 tiles each direction -> 31x31 viewport
+const VIEW_COLUMN_BUFFER = 0; // render one extra column on each side to avoid tile pop-in -> Marked for removal
+// Consts to control the size of the dungeon
 const minHeight = 65;
 const maxHeight = 75;
 const minWidth = 65;
 const maxWidth = 75;
 const height = randInt(minHeight, maxHeight + 1);
 const width = randInt(minWidth, maxWidth + 1);
+//
 const [stairs, setStairs] = React.useState({ x: 0, y: 0 });
 const [floor, setFloor] = React.useState(1);
-const [zoomLevel, setZoomLevel] = React.useState(1);
 
 //DMG VFX
 const [DMGVfx0, setDMGVfx0] = React.useState({ DMG: null, Active: false });
@@ -3019,7 +3022,7 @@ const [minimapSize, setMinimapSize] = React.useState(200)
 const tileKey = (x, y) => `${x},${y}`;
 
 // Camera params
-const [cameraTransform, setCameraTransform] = React.useState('');
+const cameraTransformRef = React.useRef('');
 const cameraTargetRef = React.useRef({ x: playerPos.x, y: playerPos.y });
 const cameraPosRef = React.useRef({ x: playerPos.x, y: playerPos.y });
 const cameraRafRef = React.useRef(null);
@@ -7045,15 +7048,16 @@ function startCameraLoop() {
     const ny = lerp(cur.y, tgt.y, t);
     cameraPosRef.current = { x: nx, y: ny };
 
-    // compute pixel offsets like original logic but use current lerped pos
-    const offsetX = (20 - nx) * 0.5 + 20;   //1
-    const offsetY = (-20 - ny) * 0.5 - 225;  //-8.5
-    const newTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
+    // Snap the camera transform to whole pixels to avoid subpixel seams
+    // between adjacent tiles when the map is moved or zoomed.
+    const offsetX = Math.round((20 - nx) * 0.5 + 20);
+    const offsetY = Math.round((-20 - ny) * 0.5 - 225);
+    const newTransform = `translate(${offsetX}px, ${offsetY}px)`;
 
 
     if (dungeonRef.current && dungeonRef.current.style.transform !== newTransform) {
+      cameraTransformRef.current = newTransform;
       dungeonRef.current.style.transform = newTransform;
-      setCameraTransform(newTransform);
     }
 
     // stop when close enough
@@ -7104,7 +7108,7 @@ function revealRoomIfEntered(pos) {
   if (r) revealRoom(r);
 }
 
-// draw minimap to canvas (simple, fast)
+// draw minimap to canvas
 function drawMinimap() {
   const canvas = minimapCanvasRef.current;
   if (!canvas || !dungeon || dungeon.length === 0) return;
@@ -9181,13 +9185,13 @@ const generateDungeon = () => {
   cameraTargetRef.current = { x: playerStart.x, y: playerStart.y };
   // Immediately apply the transform to the DOM node (if available) so we don't
   // briefly display the previous floor's camera position.
-  const offsetX = (20 - playerStart.x) * 0.5 + 20;
-  const offsetY = (-20 - playerStart.y) * 0.5 - 225;
-  //5
-  //-12
-  const immediateTransform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomLevel})`;
-  if (dungeonRef.current) dungeonRef.current.style.transform = immediateTransform;
-  setCameraTransform(immediateTransform);
+  const offsetX = Math.round((20 - playerStart.x) * 0.5 + 20);
+  const offsetY = Math.round((-20 - playerStart.y) * 0.5 - 225);
+  const immediateTransform = `translate(${offsetX}px, ${offsetY}px)`;
+  if (dungeonRef.current) {
+    cameraTransformRef.current = immediateTransform;
+    dungeonRef.current.style.transform = immediateTransform;
+  }
   updateCamera(playerStart.x, playerStart.y);
 };
 
@@ -9234,10 +9238,32 @@ const lineCoordinates = showIndicators ? getLineCoordinates(lastDirection) : [];
 const safeDungeon = Array.isArray(dungeon) && dungeon.length ? dungeon : [[]];
 const rows = safeDungeon.length;
 const cols = (safeDungeon[0] && safeDungeon[0].length) || 0;
-const minRow = Math.max(0, Math.floor((playerPos && playerPos.y) ? playerPos.y : 0) - VIEW_RADIUS);
-const maxRow = Math.min(Math.max(0, rows - 1), Math.floor((playerPos && playerPos.y) ? playerPos.y : 0) + VIEW_RADIUS);
-const minCol = Math.max(0, Math.floor((playerPos && playerPos.x) ? playerPos.x : 0) - VIEW_RADIUS);
-const maxCol = Math.min(Math.max(0, cols - 1), Math.floor((playerPos && playerPos.x) ? playerPos.x : 0) + VIEW_RADIUS);
+const playerX = Math.floor((playerPos && playerPos.x) ? playerPos.x : 0);
+const playerY = Math.floor((playerPos && playerPos.y) ? playerPos.y : 0);
+
+// Calculate the visible range of rows and columns based on the player's position and view radius
+const minRow = Math.max(0, playerY - VIEW_RADIUS - VIEW_COLUMN_BUFFER);
+const maxRow = Math.min(Math.max(0, rows - 1), playerY + VIEW_RADIUS + VIEW_COLUMN_BUFFER);
+const minCol = Math.max(0, playerX - VIEW_RADIUS - VIEW_COLUMN_BUFFER);
+const maxCol = Math.min(Math.max(0, cols - 1), playerX + VIEW_RADIUS + VIEW_COLUMN_BUFFER);
+
+React.useEffect(() => {
+  if (!dungeon.length) return;
+  const preloadSprites = new Set();
+  for (let row = minRow; row <= maxRow; row++) {
+    for (let col = minCol; col <= maxCol; col++) {
+      const cell = safeDungeon[row]?.[col];
+      if (cell === 'W') {
+        const sprite = wallSpriteMap[getWallTileType(col, row, dungeon)];
+        if (sprite) preloadSprites.add(sprite);
+      }
+    }
+  }
+  preloadSprites.forEach((sprite) => {
+    loadTileImage(sprite);
+  });
+}, [dungeon, minRow, maxRow, minCol, maxCol]);
+
 return (
   <div>
     <div ref={fpsRef} className="fpsCounter" aria-live="polite">FPS: --</div>
@@ -9322,7 +9348,7 @@ return (
       />
       <div className="dungeon-container">
         <div className="dungeon" ref={dungeonRef} style={{ 
-          transform: cameraTransform,
+          transform: cameraTransformRef.current,
           width: '7680px',
           height: '7680px',
         }}>
@@ -9345,9 +9371,9 @@ return (
                 return (
                   <div key={colIndex} className={`dungeon-cell relative w-10 h-10 ${isIndicatorVisible && showIndicators ? 'red-border' : ''}`}>
                     {cell === 'W' ? (
-                      <img src={wallSprite} alt="Wall" className="wall absolute" />
+                      <TileCanvas src={wallSprite} alt="Wall" className="wall absolute" width={40} height={40} />
                     ) : (
-                      <img src={cell} alt="Floor" className="floor absolute" />
+                      <img src={cell} alt="Floor" className="floor absolute" draggable="false" />
                     )}
                     {cell === 'S' && (
                       <img src={stairSprite} alt="Stairs" className="stair absolute" />
@@ -9875,9 +9901,6 @@ return (
         </div>
         {/* Floating Rock Throw Projectile - Renders at pixel-perfect position with decimals */}
         {rockThrowRef.current && (
-          ///
-          ///
-          ///
           <SpriteCanvas
             sprite="RockThrow"
             direction="none"
