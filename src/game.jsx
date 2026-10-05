@@ -1,1018 +1,21 @@
-
-// ========== SPRITE ATLAS SYSTEM ==========
-
-const atlasCache = {};
-const itemAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/atlas/ItemAtlasTest.png';
-const pokemonAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/PokemonAtlas.png';
-const vfxAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/atlas/VfxAtlas.png';
-const DMGAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/General%20sprites/DMG/atlas/DMG%20Atlas.png';
-const textAtlasUrl = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Lang/Atlas/TextAtlas.png';
-
-const loadAtlasImage = (atlasUrl) => {
-  if (!atlasCache[atlasUrl]) {
-    atlasCache[atlasUrl] = new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error(`Failed to load atlas: ${atlasUrl}`));
-      img.src = atlasUrl;
-    });
-  }
-  return atlasCache[atlasUrl];
-};
-
-const TextAtlas = {
-  Black: {
-    // Accent
-    accentE: { atlas: { sheet: textAtlasUrl, x: 1, y: 1, w: 32, h: 32 } },
-    // Numbers
-    '0': { atlas: { sheet: textAtlasUrl, x: 341, y: 1, w: 32, h: 32 } },
-    '1': { atlas: { sheet: textAtlasUrl, x: 511, y: 1, w: 32, h: 32 } },
-    '2': { atlas: { sheet: textAtlasUrl, x: 681, y: 1, w: 32, h: 32 } },
-    '3': { atlas: { sheet: textAtlasUrl, x: 851, y: 1, w: 32, h: 32 } },
-    '4': { atlas: { sheet: textAtlasUrl, x: 1, y: 35, w: 32, h: 32 } },
-    '5': { atlas: { sheet: textAtlasUrl, x: 171, y: 35, w: 32, h: 32 } },
-    '6': { atlas: { sheet: textAtlasUrl, x: 341, y: 35, w: 32, h: 32 } },
-    '7': { atlas: { sheet: textAtlasUrl, x: 511, y: 35, w: 32, h: 32 } },
-    '8': { atlas: { sheet: textAtlasUrl, x: 681, y: 35, w: 32, h: 32 } },
-    '9': { atlas: { sheet: textAtlasUrl, x: 851, y: 35, w: 32, h: 32 } },
-    // Uppercase letters
-    A: { atlas: { sheet: textAtlasUrl, x: 1, y: 69, w: 32, h: 32 } },
-    B: { atlas: { sheet: textAtlasUrl, x: 341, y: 69, w: 32, h: 32 } },
-    C: { atlas: { sheet: textAtlasUrl, x: 681, y: 69, w: 32, h: 32 } },
-    D: { atlas: { sheet: textAtlasUrl, x: 1, y: 137, w: 32, h: 32 } },
-    E: { atlas: { sheet: textAtlasUrl, x: 341, y: 137, w: 32, h: 32 } },
-    F: { atlas: { sheet: textAtlasUrl, x: 1, y: 171, w: 32, h: 32 } },
-    G: { atlas: { sheet: textAtlasUrl, x: 341, y: 171, w: 32, h: 32 } },
-    H: { atlas: { sheet: textAtlasUrl, x: 681, y: 171, w: 32, h: 32 } },
-    I: { atlas: { sheet: textAtlasUrl, x: 1, y: 205, w: 32, h: 32 } },
-    J: { atlas: { sheet: textAtlasUrl, x: 341, y: 205, w: 32, h: 32 } },
-    K: { atlas: { sheet: textAtlasUrl, x: 681, y: 205, w: 32, h: 32 } },
-    L: { atlas: { sheet: textAtlasUrl, x: 1, y: 239, w: 32, h: 32 } },
-    M: { atlas: { sheet: textAtlasUrl, x: 341, y: 239, w: 32, h: 32 } },
-    N: { atlas: { sheet: textAtlasUrl, x: 851, y: 239, w: 32, h: 32 } },
-    O: { atlas: { sheet: textAtlasUrl, x: 171, y: 273, w: 32, h: 32 } },
-    P: { atlas: { sheet: textAtlasUrl, x: 511, y: 273, w: 32, h: 32 } },
-    Q: { atlas: { sheet: textAtlasUrl, x: 171, y: 307, w: 32, h: 32 } },
-    R: { atlas: { sheet: textAtlasUrl, x: 681, y: 307, w: 32, h: 32 } },
-    S: { atlas: { sheet: textAtlasUrl, x: 1, y: 341, w: 32, h: 32 } },
-    T: { atlas: { sheet: textAtlasUrl, x: 341, y: 341, w: 32, h: 32 } },
-    U: { atlas: { sheet: textAtlasUrl, x: 681, y: 341, w: 32, h: 32 } },
-    V: { atlas: { sheet: textAtlasUrl, x: 1, y: 375, w: 32, h: 32 } },
-    W: { atlas: { sheet: textAtlasUrl, x: 341, y: 375, w: 32, h: 32 } },
-    X: { atlas: { sheet: textAtlasUrl, x: 681, y: 375, w: 32, h: 32 } },
-    Y: { atlas: { sheet: textAtlasUrl, x: 1, y: 409, w: 32, h: 32 } },
-    Z: { atlas: { sheet: textAtlasUrl, x: 341, y: 409, w: 32, h: 32 } },
-    // Lowercase letters
-    a: { atlas: { sheet: textAtlasUrl, x: 171, y: 69, w: 32, h: 32 } },
-    b: { atlas: { sheet: textAtlasUrl, x: 511, y: 69, w: 32, h: 32 } },
-    c: { atlas: { sheet: textAtlasUrl, x: 851, y: 69, w: 32, h: 32 } },
-    d: { atlas: { sheet: textAtlasUrl, x: 171, y: 137, w: 32, h: 32 } },
-    e: { atlas: { sheet: textAtlasUrl, x: 511, y: 137, w: 32, h: 32 } },
-    f: { atlas: { sheet: textAtlasUrl, x: 171, y: 171, w: 32, h: 32 } },
-    g: { atlas: { sheet: textAtlasUrl, x: 511, y: 171, w: 32, h: 32 } },
-    h: { atlas: { sheet: textAtlasUrl, x: 851, y: 171, w: 32, h: 32 } },
-    i: { atlas: { sheet: textAtlasUrl, x: 171, y: 205, w: 32, h: 32 } },
-    j: { atlas: { sheet: textAtlasUrl, x: 511, y: 205, w: 32, h: 32 } },
-    k: { atlas: { sheet: textAtlasUrl, x: 851, y: 205, w: 32, h: 32 } },
-    l: { atlas: { sheet: textAtlasUrl, x: 171, y: 239, w: 32, h: 32 } },
-    m: { atlas: { sheet: textAtlasUrl, x: 681, y: 239, w: 32, h: 32 } },
-    n: { atlas: { sheet: textAtlasUrl, x: 1, y: 273, w: 32, h: 32 } },
-    o: { atlas: { sheet: textAtlasUrl, x: 341, y: 273, w: 32, h: 32 } },
-    p: { atlas: { sheet: textAtlasUrl, x: 1, y: 307, w: 32, h: 32 } },
-    q: { atlas: { sheet: textAtlasUrl, x: 341, y: 307, w: 32, h: 32 } },
-    r: { atlas: { sheet: textAtlasUrl, x: 851, y: 307, w: 32, h: 32 } },
-    s: { atlas: { sheet: textAtlasUrl, x: 171, y: 341, w: 32, h: 32 } },
-    t: { atlas: { sheet: textAtlasUrl, x: 511, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 851, y: 341, w: 32, h: 32 } },
-    v: { atlas: { sheet: textAtlasUrl, x: 171, y: 375, w: 32, h: 32 } },
-    w: { atlas: { sheet: textAtlasUrl, x: 511, y: 375, w: 32, h: 32 } },
-    x: { atlas: { sheet: textAtlasUrl, x: 851, y: 375, w: 32, h: 32 } },
-    y: { atlas: { sheet: textAtlasUrl, x: 171, y: 409, w: 32, h: 32 } },
-    z: { atlas: { sheet: textAtlasUrl, x: 511, y: 409, w: 32, h: 32 } },
-    // Symbols
-    '!': { atlas: { sheet: textAtlasUrl, x: 171, y: 1, w: 32, h: 32 } },
-    '(': { atlas: { sheet: textAtlasUrl, x: 1, y: 103, w: 32, h: 32 } },
-    ')': { atlas: { sheet: textAtlasUrl, x: 171, y: 103, w: 32, h: 32 } },
-    '"': { atlas: { sheet: textAtlasUrl, x: 341, y: 103, w: 32, h: 32 } },
-    "'": { atlas: { sheet: textAtlasUrl, x: 511, y: 103, w: 32, h: 32 } },
-    ':': { atlas: { sheet: textAtlasUrl, x: 681, y: 103, w: 32, h: 32 } },
-    ',': { atlas: { sheet: textAtlasUrl, x: 851, y: 103, w: 32, h: 32 } },
-    '.': { atlas: { sheet: textAtlasUrl, x: 681, y: 273, w: 32, h: 32 } },
-    '?': { atlas: { sheet: textAtlasUrl, x: 511, y: 307, w: 32, h: 32 } },
-    '-': { atlas: { sheet: textAtlasUrl, x: 511, y: 239, w: 32, h: 32 } },
-    '+': { atlas: { sheet: textAtlasUrl, x: 851, y: 273, w: 32, h: 32 } },
-    '...': { atlas: { sheet: textAtlasUrl, x: 681, y: 137, w: 32, h: 32 } },
-    '...2': { atlas: { sheet: textAtlasUrl, x: 851, y: 137, w: 32, h: 32 } }
-  },
-  Blue: {
-    // Accent
-    accentE: { atlas: { sheet: textAtlasUrl, x: 35, y: 1, w: 32, h: 32 } },
-    // Numbers
-    '0': { atlas: { sheet: textAtlasUrl, x: 375, y: 1, w: 32, h: 32 } },
-    '1': { atlas: { sheet: textAtlasUrl, x: 545, y: 1, w: 32, h: 32 } },
-    '2': { atlas: { sheet: textAtlasUrl, x: 715, y: 1, w: 32, h: 32 } },
-    '3': { atlas: { sheet: textAtlasUrl, x: 885, y: 1, w: 32, h: 32 } },
-    '4': { atlas: { sheet: textAtlasUrl, x: 35, y: 35, w: 32, h: 32 } },
-    '5': { atlas: { sheet: textAtlasUrl, x: 205, y: 35, w: 32, h: 32 } },
-    '6': { atlas: { sheet: textAtlasUrl, x: 375, y: 35, w: 32, h: 32 } },
-    '7': { atlas: { sheet: textAtlasUrl, x: 545, y: 35, w: 32, h: 32 } },
-    '8': { atlas: { sheet: textAtlasUrl, x: 715, y: 35, w: 32, h: 32 } },
-    '9': { atlas: { sheet: textAtlasUrl, x: 885, y: 35, w: 32, h: 32 } },
-    // Uppercase letters
-    A: { atlas: { sheet: textAtlasUrl, x: 35, y: 69, w: 32, h: 32 } },
-    B: { atlas: { sheet: textAtlasUrl, x: 375, y: 69, w: 32, h: 32 } },
-    C: { atlas: { sheet: textAtlasUrl, x: 715, y: 69, w: 32, h: 32 } },
-    D: { atlas: { sheet: textAtlasUrl, x: 35, y: 137, w: 32, h: 32 } },
-    E: { atlas: { sheet: textAtlasUrl, x: 375, y: 137, w: 32, h: 32 } },
-    F: { atlas: { sheet: textAtlasUrl, x: 35, y: 171, w: 32, h: 32 } },
-    G: { atlas: { sheet: textAtlasUrl, x: 375, y: 171, w: 32, h: 32 } },
-    H: { atlas: { sheet: textAtlasUrl, x: 715, y: 171, w: 32, h: 32 } },
-    I: { atlas: { sheet: textAtlasUrl, x: 35, y: 205, w: 32, h: 32 } },
-    J: { atlas: { sheet: textAtlasUrl, x: 375, y: 205, w: 32, h: 32 } },
-    K: { atlas: { sheet: textAtlasUrl, x: 715, y: 205, w: 32, h: 32 } },
-    L: { atlas: { sheet: textAtlasUrl, x: 35, y: 239, w: 32, h: 32 } },
-    M: { atlas: { sheet: textAtlasUrl, x: 375, y: 239, w: 32, h: 32 } },
-    N: { atlas: { sheet: textAtlasUrl, x: 885, y: 239, w: 32, h: 32 } },
-    O: { atlas: { sheet: textAtlasUrl, x: 205, y: 273, w: 32, h: 32 } },
-    P: { atlas: { sheet: textAtlasUrl, x: 545, y: 273, w: 32, h: 32 } },
-    Q: { atlas: { sheet: textAtlasUrl, x: 205, y: 307, w: 32, h: 32 } },
-    R: { atlas: { sheet: textAtlasUrl, x: 715, y: 307, w: 32, h: 32 } },
-    S: { atlas: { sheet: textAtlasUrl, x: 35, y: 341, w: 32, h: 32 } },
-    T: { atlas: { sheet: textAtlasUrl, x: 375, y: 341, w: 32, h: 32 } },
-    U: { atlas: { sheet: textAtlasUrl, x: 715, y: 341, w: 32, h: 32 } },
-    V: { atlas: { sheet: textAtlasUrl, x: 35, y: 375, w: 32, h: 32 } },
-    W: { atlas: { sheet: textAtlasUrl, x: 375, y: 375, w: 32, h: 32 } },
-    X: { atlas: { sheet: textAtlasUrl, x: 715, y: 375, w: 32, h: 32 } },
-    Y: { atlas: { sheet: textAtlasUrl, x: 35, y: 409, w: 32, h: 32 } },
-    Z: { atlas: { sheet: textAtlasUrl, x: 375, y: 409, w: 32, h: 32 } },
-    // Lowercase letters
-    a: { atlas: { sheet: textAtlasUrl, x: 205, y: 69, w: 32, h: 32 } },
-    b: { atlas: { sheet: textAtlasUrl, x: 545, y: 69, w: 32, h: 32 } },
-    c: { atlas: { sheet: textAtlasUrl, x: 885, y: 69, w: 32, h: 32 } },
-    d: { atlas: { sheet: textAtlasUrl, x: 205, y: 137, w: 32, h: 32 } },
-    e: { atlas: { sheet: textAtlasUrl, x: 545, y: 137, w: 32, h: 32 } },
-    f: { atlas: { sheet: textAtlasUrl, x: 205, y: 171, w: 32, h: 32 } },
-    g: { atlas: { sheet: textAtlasUrl, x: 545, y: 171, w: 32, h: 32 } },
-    h: { atlas: { sheet: textAtlasUrl, x: 885, y: 171, w: 32, h: 32 } },
-    i: { atlas: { sheet: textAtlasUrl, x: 205, y: 205, w: 32, h: 32 } },
-    j: { atlas: { sheet: textAtlasUrl, x: 545, y: 205, w: 32, h: 32 } },
-    k: { atlas: { sheet: textAtlasUrl, x: 885, y: 205, w: 32, h: 32 } },
-    l: { atlas: { sheet: textAtlasUrl, x: 205, y: 239, w: 32, h: 32 } },
-    m: { atlas: { sheet: textAtlasUrl, x: 715, y: 239, w: 32, h: 32 } },
-    n: { atlas: { sheet: textAtlasUrl, x: 35, y: 273, w: 32, h: 32 } },
-    o: { atlas: { sheet: textAtlasUrl, x: 375, y: 273, w: 32, h: 32 } },
-    p: { atlas: { sheet: textAtlasUrl, x: 35, y: 307, w: 32, h: 32 } },
-    q: { atlas: { sheet: textAtlasUrl, x: 375, y: 307, w: 32, h: 32 } },
-    r: { atlas: { sheet: textAtlasUrl, x: 885, y: 307, w: 32, h: 32 } },
-    s: { atlas: { sheet: textAtlasUrl, x: 205, y: 341, w: 32, h: 32 } },
-    t: { atlas: { sheet: textAtlasUrl, x: 545, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 885, y: 341, w: 32, h: 32 } },
-    v: { atlas: { sheet: textAtlasUrl, x: 205, y: 375, w: 32, h: 32 } },
-    w: { atlas: { sheet: textAtlasUrl, x: 545, y: 375, w: 32, h: 32 } },
-    x: { atlas: { sheet: textAtlasUrl, x: 885, y: 375, w: 32, h: 32 } },
-    y: { atlas: { sheet: textAtlasUrl, x: 205, y: 409, w: 32, h: 32 } },
-    z: { atlas: { sheet: textAtlasUrl, x: 545, y: 409, w: 32, h: 32 } },
-    // Symbols
-    '!': { atlas: { sheet: textAtlasUrl, x: 205, y: 1, w: 32, h: 32 } },
-    '(': { atlas: { sheet: textAtlasUrl, x: 35, y: 103, w: 32, h: 32 } },
-    ')': { atlas: { sheet: textAtlasUrl, x: 205, y: 103, w: 32, h: 32 } },
-    '"': { atlas: { sheet: textAtlasUrl, x: 375, y: 103, w: 32, h: 32 } },
-    "'": { atlas: { sheet: textAtlasUrl, x: 545, y: 103, w: 32, h: 32 } },
-    ':': { atlas: { sheet: textAtlasUrl, x: 715, y: 103, w: 32, h: 32 } },
-    ',': { atlas: { sheet: textAtlasUrl, x: 885, y: 103, w: 32, h: 32 } },
-    '.': { atlas: { sheet: textAtlasUrl, x: 715, y: 273, w: 32, h: 32 } },
-    '?': { atlas: { sheet: textAtlasUrl, x: 545, y: 307, w: 32, h: 32 } },
-    '-': { atlas: { sheet: textAtlasUrl, x: 545, y: 239, w: 32, h: 32 } },
-    '+': { atlas: { sheet: textAtlasUrl, x: 885, y: 273, w: 32, h: 32 } },
-    '...': { atlas: { sheet: textAtlasUrl, x: 715, y: 137, w: 32, h: 32 } },
-    '...2': { atlas: { sheet: textAtlasUrl, x: 885, y: 137, w: 32, h: 32 } }
-  },
-  Red: {
-    // Accent
-    accentE: { atlas: { sheet: textAtlasUrl, x: 69, y: 1, w: 32, h: 32 } },
-    // Numbers
-    '0': { atlas: { sheet: textAtlasUrl, x: 409, y: 1, w: 32, h: 32 } },
-    '1': { atlas: { sheet: textAtlasUrl, x: 579, y: 1, w: 32, h: 32 } },
-    '2': { atlas: { sheet: textAtlasUrl, x: 749, y: 1, w: 32, h: 32 } },
-    '3': { atlas: { sheet: textAtlasUrl, x: 919, y: 1, w: 32, h: 32 } },
-    '4': { atlas: { sheet: textAtlasUrl, x: 69, y: 35, w: 32, h: 32 } },
-    '5': { atlas: { sheet: textAtlasUrl, x: 239, y: 35, w: 32, h: 32 } },
-    '6': { atlas: { sheet: textAtlasUrl, x: 409, y: 35, w: 32, h: 32 } },
-    '7': { atlas: { sheet: textAtlasUrl, x: 579, y: 35, w: 32, h: 32 } },
-    '8': { atlas: { sheet: textAtlasUrl, x: 749, y: 35, w: 32, h: 32 } },
-    '9': { atlas: { sheet: textAtlasUrl, x: 919, y: 35, w: 32, h: 32 } },
-    // Uppercase letters
-    A: { atlas: { sheet: textAtlasUrl, x: 69, y: 69, w: 32, h: 32 } },
-    B: { atlas: { sheet: textAtlasUrl, x: 409, y: 69, w: 32, h: 32 } },
-    C: { atlas: { sheet: textAtlasUrl, x: 749, y: 69, w: 32, h: 32 } },
-    D: { atlas: { sheet: textAtlasUrl, x: 69, y: 137, w: 32, h: 32 } },
-    E: { atlas: { sheet: textAtlasUrl, x: 409, y: 137, w: 32, h: 32 } },
-    F: { atlas: { sheet: textAtlasUrl, x: 69, y: 171, w: 32, h: 32 } },
-    G: { atlas: { sheet: textAtlasUrl, x: 409, y: 171, w: 32, h: 32 } },
-    H: { atlas: { sheet: textAtlasUrl, x: 749, y: 171, w: 32, h: 32 } },
-    I: { atlas: { sheet: textAtlasUrl, x: 69, y: 205, w: 32, h: 32 } },
-    J: { atlas: { sheet: textAtlasUrl, x: 409, y: 205, w: 32, h: 32 } },
-    K: { atlas: { sheet: textAtlasUrl, x: 749, y: 205, w: 32, h: 32 } },
-    L: { atlas: { sheet: textAtlasUrl, x: 69, y: 239, w: 32, h: 32 } },
-    M: { atlas: { sheet: textAtlasUrl, x: 409, y: 239, w: 32, h: 32 } },
-    N: { atlas: { sheet: textAtlasUrl, x: 919, y: 239, w: 32, h: 32 } },
-    O: { atlas: { sheet: textAtlasUrl, x: 239, y: 273, w: 32, h: 32 } },
-    P: { atlas: { sheet: textAtlasUrl, x: 579, y: 273, w: 32, h: 32 } },
-    Q: { atlas: { sheet: textAtlasUrl, x: 239, y: 307, w: 32, h: 32 } },
-    R: { atlas: { sheet: textAtlasUrl, x: 749, y: 307, w: 32, h: 32 } },
-    S: { atlas: { sheet: textAtlasUrl, x: 69, y: 341, w: 32, h: 32 } },
-    T: { atlas: { sheet: textAtlasUrl, x: 409, y: 341, w: 32, h: 32 } },
-    U: { atlas: { sheet: textAtlasUrl, x: 749, y: 341, w: 32, h: 32 } },
-    V: { atlas: { sheet: textAtlasUrl, x: 69, y: 375, w: 32, h: 32 } },
-    W: { atlas: { sheet: textAtlasUrl, x: 409, y: 375, w: 32, h: 32 } },
-    X: { atlas: { sheet: textAtlasUrl, x: 749, y: 375, w: 32, h: 32 } },
-    Y: { atlas: { sheet: textAtlasUrl, x: 69, y: 409, w: 32, h: 32 } },
-    Z: { atlas: { sheet: textAtlasUrl, x: 409, y: 409, w: 32, h: 32 } },
-    // Lowercase letters
-    a: { atlas: { sheet: textAtlasUrl, x: 239, y: 69, w: 32, h: 32 } },
-    b: { atlas: { sheet: textAtlasUrl, x: 579, y: 69, w: 32, h: 32 } },
-    c: { atlas: { sheet: textAtlasUrl, x: 919, y: 69, w: 32, h: 32 } },
-    d: { atlas: { sheet: textAtlasUrl, x: 239, y: 137, w: 32, h: 32 } },
-    e: { atlas: { sheet: textAtlasUrl, x: 579, y: 137, w: 32, h: 32 } },
-    f: { atlas: { sheet: textAtlasUrl, x: 239, y: 171, w: 32, h: 32 } },
-    g: { atlas: { sheet: textAtlasUrl, x: 579, y: 171, w: 32, h: 32 } },
-    h: { atlas: { sheet: textAtlasUrl, x: 919, y: 171, w: 32, h: 32 } },
-    i: { atlas: { sheet: textAtlasUrl, x: 239, y: 205, w: 32, h: 32 } },
-    j: { atlas: { sheet: textAtlasUrl, x: 579, y: 205, w: 32, h: 32 } },
-    k: { atlas: { sheet: textAtlasUrl, x: 919, y: 205, w: 32, h: 32 } },
-    l: { atlas: { sheet: textAtlasUrl, x: 239, y: 239, w: 32, h: 32 } },
-    m: { atlas: { sheet: textAtlasUrl, x: 749, y: 239, w: 32, h: 32 } },
-    n: { atlas: { sheet: textAtlasUrl, x: 69, y: 273, w: 32, h: 32 } },
-    o: { atlas: { sheet: textAtlasUrl, x: 409, y: 273, w: 32, h: 32 } },
-    p: { atlas: { sheet: textAtlasUrl, x: 69, y: 307, w: 32, h: 32 } },
-    q: { atlas: { sheet: textAtlasUrl, x: 409, y: 307, w: 32, h: 32 } },
-    r: { atlas: { sheet: textAtlasUrl, x: 919, y: 307, w: 32, h: 32 } },
-    s: { atlas: { sheet: textAtlasUrl, x: 239, y: 341, w: 32, h: 32 } },
-    t: { atlas: { sheet: textAtlasUrl, x: 579, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 919, y: 341, w: 32, h: 32 } },
-    v: { atlas: { sheet: textAtlasUrl, x: 239, y: 375, w: 32, h: 32 } },
-    w: { atlas: { sheet: textAtlasUrl, x: 579, y: 375, w: 32, h: 32 } },
-    x: { atlas: { sheet: textAtlasUrl, x: 919, y: 375, w: 32, h: 32 } },
-    y: { atlas: { sheet: textAtlasUrl, x: 239, y: 409, w: 32, h: 32 } },
-    z: { atlas: { sheet: textAtlasUrl, x: 579, y: 409, w: 32, h: 32 } },
-    // Symbols
-    '!': { atlas: { sheet: textAtlasUrl, x: 239, y: 1, w: 32, h: 32 } },
-    '(': { atlas: { sheet: textAtlasUrl, x: 69, y: 103, w: 32, h: 32 } },
-    ')': { atlas: { sheet: textAtlasUrl, x: 239, y: 103, w: 32, h: 32 } },
-    '"': { atlas: { sheet: textAtlasUrl, x: 409, y: 103, w: 32, h: 32 } },
-    "'": { atlas: { sheet: textAtlasUrl, x: 579, y: 103, w: 32, h: 32 } },
-    ':': { atlas: { sheet: textAtlasUrl, x: 749, y: 103, w: 32, h: 32 } },
-    ',': { atlas: { sheet: textAtlasUrl, x: 919, y: 103, w: 32, h: 32 } },
-    '.': { atlas: { sheet: textAtlasUrl, x: 749, y: 273, w: 32, h: 32 } },
-    '?': { atlas: { sheet: textAtlasUrl, x: 579, y: 307, w: 32, h: 32 } },
-    '-': { atlas: { sheet: textAtlasUrl, x: 579, y: 239, w: 32, h: 32 } },
-    '+': { atlas: { sheet: textAtlasUrl, x: 919, y: 273, w: 32, h: 32 } },
-    '...': { atlas: { sheet: textAtlasUrl, x: 749, y: 137, w: 32, h: 32 } },
-    '...2': { atlas: { sheet: textAtlasUrl, x: 919, y: 137, w: 32, h: 32 } }
-  },
-  White: {
-    // Accent
-    accentE: { atlas: { sheet: textAtlasUrl, x: 103, y: 1, w: 32, h: 32 } },
-    // Numbers
-    '0': { atlas: { sheet: textAtlasUrl, x: 443, y: 1, w: 32, h: 32 } },
-    '1': { atlas: { sheet: textAtlasUrl, x: 613, y: 1, w: 32, h: 32 } },
-    '2': { atlas: { sheet: textAtlasUrl, x: 783, y: 1, w: 32, h: 32 } },
-    '3': { atlas: { sheet: textAtlasUrl, x: 953, y: 1, w: 32, h: 32 } },
-    '4': { atlas: { sheet: textAtlasUrl, x: 103, y: 35, w: 32, h: 32 } },
-    '5': { atlas: { sheet: textAtlasUrl, x: 273, y: 35, w: 32, h: 32 } },
-    '6': { atlas: { sheet: textAtlasUrl, x: 443, y: 35, w: 32, h: 32 } },
-    '7': { atlas: { sheet: textAtlasUrl, x: 613, y: 35, w: 32, h: 32 } },
-    '8': { atlas: { sheet: textAtlasUrl, x: 783, y: 35, w: 32, h: 32 } },
-    '9': { atlas: { sheet: textAtlasUrl, x: 953, y: 35, w: 32, h: 32 } },
-    // Uppercase letters
-    A: { atlas: { sheet: textAtlasUrl, x: 103, y: 69, w: 32, h: 32 } },
-    B: { atlas: { sheet: textAtlasUrl, x: 443, y: 69, w: 32, h: 32 } },
-    C: { atlas: { sheet: textAtlasUrl, x: 783, y: 69, w: 32, h: 32 } },
-    D: { atlas: { sheet: textAtlasUrl, x: 103, y: 137, w: 32, h: 32 } },
-    E: { atlas: { sheet: textAtlasUrl, x: 443, y: 137, w: 32, h: 32 } },
-    F: { atlas: { sheet: textAtlasUrl, x: 103, y: 171, w: 32, h: 32 } },
-    G: { atlas: { sheet: textAtlasUrl, x: 443, y: 171, w: 32, h: 32 } },
-    H: { atlas: { sheet: textAtlasUrl, x: 783, y: 171, w: 32, h: 32 } },
-    I: { atlas: { sheet: textAtlasUrl, x: 103, y: 205, w: 32, h: 32 } },
-    J: { atlas: { sheet: textAtlasUrl, x: 443, y: 205, w: 32, h: 32 } },
-    K: { atlas: { sheet: textAtlasUrl, x: 783, y: 205, w: 32, h: 32 } },
-    L: { atlas: { sheet: textAtlasUrl, x: 103, y: 239, w: 32, h: 32 } },
-    M: { atlas: { sheet: textAtlasUrl, x: 443, y: 239, w: 32, h: 32 } },
-    N: { atlas: { sheet: textAtlasUrl, x: 953, y: 239, w: 32, h: 32 } },
-    O: { atlas: { sheet: textAtlasUrl, x: 273, y: 273, w: 32, h: 32 } },
-    P: { atlas: { sheet: textAtlasUrl, x: 613, y: 273, w: 32, h: 32 } },
-    Q: { atlas: { sheet: textAtlasUrl, x: 273, y: 307, w: 32, h: 32 } },
-    R: { atlas: { sheet: textAtlasUrl, x: 783, y: 307, w: 32, h: 32 } },
-    S: { atlas: { sheet: textAtlasUrl, x: 103, y: 341, w: 32, h: 32 } },
-    T: { atlas: { sheet: textAtlasUrl, x: 443, y: 341, w: 32, h: 32 } },
-    U: { atlas: { sheet: textAtlasUrl, x: 783, y: 341, w: 32, h: 32 } },
-    V: { atlas: { sheet: textAtlasUrl, x: 103, y: 375, w: 32, h: 32 } },
-    W: { atlas: { sheet: textAtlasUrl, x: 443, y: 375, w: 32, h: 32 } },
-    X: { atlas: { sheet: textAtlasUrl, x: 783, y: 375, w: 32, h: 32 } },
-    Y: { atlas: { sheet: textAtlasUrl, x: 103, y: 409, w: 32, h: 32 } },
-    Z: { atlas: { sheet: textAtlasUrl, x: 443, y: 409, w: 32, h: 32 } },
-    // Lowercase letters
-    a: { atlas: { sheet: textAtlasUrl, x: 273, y: 69, w: 32, h: 32 } },
-    b: { atlas: { sheet: textAtlasUrl, x: 613, y: 69, w: 32, h: 32 } },
-    c: { atlas: { sheet: textAtlasUrl, x: 953, y: 69, w: 32, h: 32 } },
-    d: { atlas: { sheet: textAtlasUrl, x: 273, y: 137, w: 32, h: 32 } },
-    e: { atlas: { sheet: textAtlasUrl, x: 613, y: 137, w: 32, h: 32 } },
-    f: { atlas: { sheet: textAtlasUrl, x: 273, y: 171, w: 32, h: 32 } },
-    g: { atlas: { sheet: textAtlasUrl, x: 613, y: 171, w: 32, h: 32 } },
-    h: { atlas: { sheet: textAtlasUrl, x: 953, y: 171, w: 32, h: 32 } },
-    i: { atlas: { sheet: textAtlasUrl, x: 273, y: 205, w: 32, h: 32 } },
-    j: { atlas: { sheet: textAtlasUrl, x: 613, y: 205, w: 32, h: 32 } },
-    k: { atlas: { sheet: textAtlasUrl, x: 953, y: 205, w: 32, h: 32 } },
-    l: { atlas: { sheet: textAtlasUrl, x: 273, y: 239, w: 32, h: 32 } },
-    m: { atlas: { sheet: textAtlasUrl, x: 783, y: 239, w: 32, h: 32 } },
-    n: { atlas: { sheet: textAtlasUrl, x: 103, y: 273, w: 32, h: 32 } },
-    o: { atlas: { sheet: textAtlasUrl, x: 443, y: 273, w: 32, h: 32 } },
-    p: { atlas: { sheet: textAtlasUrl, x: 103, y: 307, w: 32, h: 32 } },
-    q: { atlas: { sheet: textAtlasUrl, x: 443, y: 307, w: 32, h: 32 } },
-    r: { atlas: { sheet: textAtlasUrl, x: 953, y: 307, w: 32, h: 32 } },
-    s: { atlas: { sheet: textAtlasUrl, x: 273, y: 341, w: 32, h: 32 } },
-    t: { atlas: { sheet: textAtlasUrl, x: 613, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 953, y: 341, w: 32, h: 32 } },
-    v: { atlas: { sheet: textAtlasUrl, x: 273, y: 375, w: 32, h: 32 } },
-    w: { atlas: { sheet: textAtlasUrl, x: 613, y: 375, w: 32, h: 32 } },
-    x: { atlas: { sheet: textAtlasUrl, x: 953, y: 375, w: 32, h: 32 } },
-    y: { atlas: { sheet: textAtlasUrl, x: 273, y: 409, w: 32, h: 32 } },
-    z: { atlas: { sheet: textAtlasUrl, x: 613, y: 409, w: 32, h: 32 } },
-    // Symbols
-    '!': { atlas: { sheet: textAtlasUrl, x: 273, y: 1, w: 32, h: 32 } },
-    '(': { atlas: { sheet: textAtlasUrl, x: 103, y: 103, w: 32, h: 32 } },
-    ')': { atlas: { sheet: textAtlasUrl, x: 273, y: 103, w: 32, h: 32 } },
-    '"': { atlas: { sheet: textAtlasUrl, x: 443, y: 103, w: 32, h: 32 } },
-    "'": { atlas: { sheet: textAtlasUrl, x: 613, y: 103, w: 32, h: 32 } },
-    ':': { atlas: { sheet: textAtlasUrl, x: 783, y: 103, w: 32, h: 32 } },
-    ',': { atlas: { sheet: textAtlasUrl, x: 953, y: 103, w: 32, h: 32 } },
-    '.': { atlas: { sheet: textAtlasUrl, x: 783, y: 273, w: 32, h: 32 } },
-    '?': { atlas: { sheet: textAtlasUrl, x: 613, y: 307, w: 32, h: 32 } },
-    '-': { atlas: { sheet: textAtlasUrl, x: 613, y: 239, w: 32, h: 32 } },
-    '+': { atlas: { sheet: textAtlasUrl, x: 953, y: 273, w: 32, h: 32 } },
-    '...': { atlas: { sheet: textAtlasUrl, x: 783, y: 137, w: 32, h: 32 } },
-    '...2': { atlas: { sheet: textAtlasUrl, x: 953, y: 137, w: 32, h: 32 } }
-  },
-  Yellow: {
-    // Accent
-    accentE: { atlas: { sheet: textAtlasUrl, x: 137, y: 1, w: 32, h: 32 } },
-    // Numbers
-    '0': { atlas: { sheet: textAtlasUrl, x: 477, y: 1, w: 32, h: 32 } },
-    '1': { atlas: { sheet: textAtlasUrl, x: 647, y: 1, w: 32, h: 32 } },
-    '2': { atlas: { sheet: textAtlasUrl, x: 817, y: 1, w: 32, h: 32 } },
-    '3': { atlas: { sheet: textAtlasUrl, x: 987, y: 1, w: 32, h: 32 } },
-    '4': { atlas: { sheet: textAtlasUrl, x: 137, y: 35, w: 32, h: 32 } },
-    '5': { atlas: { sheet: textAtlasUrl, x: 307, y: 35, w: 32, h: 32 } },
-    '6': { atlas: { sheet: textAtlasUrl, x: 477, y: 35, w: 32, h: 32 } },
-    '7': { atlas: { sheet: textAtlasUrl, x: 647, y: 35, w: 32, h: 32 } },
-    '8': { atlas: { sheet: textAtlasUrl, x: 817, y: 35, w: 32, h: 32 } },
-    '9': { atlas: { sheet: textAtlasUrl, x: 987, y: 35, w: 32, h: 32 } },
-    // Uppercase letters
-    A: { atlas: { sheet: textAtlasUrl, x: 137, y: 69, w: 32, h: 32 } },
-    B: { atlas: { sheet: textAtlasUrl, x: 477, y: 69, w: 32, h: 32 } },
-    C: { atlas: { sheet: textAtlasUrl, x: 817, y: 69, w: 32, h: 32 } },
-    D: { atlas: { sheet: textAtlasUrl, x: 137, y: 137, w: 32, h: 32 } },
-    E: { atlas: { sheet: textAtlasUrl, x: 477, y: 137, w: 32, h: 32 } },
-    F: { atlas: { sheet: textAtlasUrl, x: 137, y: 171, w: 32, h: 32 } },
-    G: { atlas: { sheet: textAtlasUrl, x: 477, y: 171, w: 32, h: 32 } },
-    H: { atlas: { sheet: textAtlasUrl, x: 817, y: 171, w: 32, h: 32 } },
-    I: { atlas: { sheet: textAtlasUrl, x: 137, y: 205, w: 32, h: 32 } },
-    J: { atlas: { sheet: textAtlasUrl, x: 477, y: 205, w: 32, h: 32 } },
-    K: { atlas: { sheet: textAtlasUrl, x: 817, y: 205, w: 32, h: 32 } },
-    L: { atlas: { sheet: textAtlasUrl, x: 137, y: 239, w: 32, h: 32 } },
-    M: { atlas: { sheet: textAtlasUrl, x: 477, y: 239, w: 32, h: 32 } },
-    N: { atlas: { sheet: textAtlasUrl, x: 987, y: 239, w: 32, h: 32 } },
-    O: { atlas: { sheet: textAtlasUrl, x: 307, y: 273, w: 32, h: 32 } },
-    P: { atlas: { sheet: textAtlasUrl, x: 647, y: 273, w: 32, h: 32 } },
-    Q: { atlas: { sheet: textAtlasUrl, x: 307, y: 307, w: 32, h: 32 } },
-    R: { atlas: { sheet: textAtlasUrl, x: 817, y: 307, w: 32, h: 32 } },
-    S: { atlas: { sheet: textAtlasUrl, x: 137, y: 341, w: 32, h: 32 } },
-    T: { atlas: { sheet: textAtlasUrl, x: 477, y: 341, w: 32, h: 32 } },
-    U: { atlas: { sheet: textAtlasUrl, x: 817, y: 341, w: 32, h: 32 } },
-    V: { atlas: { sheet: textAtlasUrl, x: 137, y: 375, w: 32, h: 32 } },
-    W: { atlas: { sheet: textAtlasUrl, x: 477, y: 375, w: 32, h: 32 } },
-    X: { atlas: { sheet: textAtlasUrl, x: 817, y: 375, w: 32, h: 32 } },
-    Y: { atlas: { sheet: textAtlasUrl, x: 137, y: 409, w: 32, h: 32 } },
-    Z: { atlas: { sheet: textAtlasUrl, x: 477, y: 409, w: 32, h: 32 } },
-    // Lowercase letters
-    a: { atlas: { sheet: textAtlasUrl, x: 307, y: 69, w: 32, h: 32 } },
-    b: { atlas: { sheet: textAtlasUrl, x: 647, y: 69, w: 32, h: 32 } },
-    c: { atlas: { sheet: textAtlasUrl, x: 987, y: 69, w: 32, h: 32 } },
-    d: { atlas: { sheet: textAtlasUrl, x: 307, y: 137, w: 32, h: 32 } },
-    e: { atlas: { sheet: textAtlasUrl, x: 647, y: 137, w: 32, h: 32 } },
-    f: { atlas: { sheet: textAtlasUrl, x: 307, y: 171, w: 32, h: 32 } },
-    g: { atlas: { sheet: textAtlasUrl, x: 647, y: 171, w: 32, h: 32 } },
-    h: { atlas: { sheet: textAtlasUrl, x: 987, y: 171, w: 32, h: 32 } },
-    i: { atlas: { sheet: textAtlasUrl, x: 307, y: 205, w: 32, h: 32 } },
-    j: { atlas: { sheet: textAtlasUrl, x: 647, y: 205, w: 32, h: 32 } },
-    k: { atlas: { sheet: textAtlasUrl, x: 987, y: 205, w: 32, h: 32 } },
-    l: { atlas: { sheet: textAtlasUrl, x: 307, y: 239, w: 32, h: 32 } },
-    m: { atlas: { sheet: textAtlasUrl, x: 817, y: 239, w: 32, h: 32 } },
-    n: { atlas: { sheet: textAtlasUrl, x: 137, y: 273, w: 32, h: 32 } },
-    o: { atlas: { sheet: textAtlasUrl, x: 477, y: 273, w: 32, h: 32 } },
-    p: { atlas: { sheet: textAtlasUrl, x: 137, y: 307, w: 32, h: 32 } },
-    q: { atlas: { sheet: textAtlasUrl, x: 477, y: 307, w: 32, h: 32 } },
-    r: { atlas: { sheet: textAtlasUrl, x: 987, y: 307, w: 32, h: 32 } },
-    s: { atlas: { sheet: textAtlasUrl, x: 307, y: 341, w: 32, h: 32 } },
-    t: { atlas: { sheet: textAtlasUrl, x: 647, y: 341, w: 32, h: 32 } },
-    u: { atlas: { sheet: textAtlasUrl, x: 987, y: 341, w: 32, h: 32 } },
-    v: { atlas: { sheet: textAtlasUrl, x: 307, y: 375, w: 32, h: 32 } },
-    w: { atlas: { sheet: textAtlasUrl, x: 647, y: 375, w: 32, h: 32 } },
-    x: { atlas: { sheet: textAtlasUrl, x: 987, y: 375, w: 32, h: 32 } },
-    y: { atlas: { sheet: textAtlasUrl, x: 307, y: 409, w: 32, h: 32 } },
-    z: { atlas: { sheet: textAtlasUrl, x: 647, y: 409, w: 32, h: 32 } },
-    // Symbols
-    '!': { atlas: { sheet: textAtlasUrl, x: 307, y: 1, w: 32, h: 32 } },
-    '(': { atlas: { sheet: textAtlasUrl, x: 137, y: 103, w: 32, h: 32 } },
-    ')': { atlas: { sheet: textAtlasUrl, x: 307, y: 103, w: 32, h: 32 } },
-    '"': { atlas: { sheet: textAtlasUrl, x: 477, y: 103, w: 32, h: 32 } },
-    "'": { atlas: { sheet: textAtlasUrl, x: 647, y: 103, w: 32, h: 32 } },
-    ':': { atlas: { sheet: textAtlasUrl, x: 817, y: 103, w: 32, h: 32 } },
-    ',': { atlas: { sheet: textAtlasUrl, x: 987, y: 103, w: 32, h: 32 } },
-    '.': { atlas: { sheet: textAtlasUrl, x: 817, y: 273, w: 32, h: 32 } },
-    '?': { atlas: { sheet: textAtlasUrl, x: 647, y: 307, w: 32, h: 32 } },
-    '-': { atlas: { sheet: textAtlasUrl, x: 647, y: 239, w: 32, h: 32 } },
-    '+': { atlas: { sheet: textAtlasUrl, x: 987, y: 273, w: 32, h: 32 } },
-    '...': { atlas: { sheet: textAtlasUrl, x: 817, y: 137, w: 32, h: 32 } },
-    '...2': { atlas: { sheet: textAtlasUrl, x: 987, y: 137, w: 32, h: 32 } }
-  }
-}
-
-const DMGAtlas = {
-  DMG1: {
-    1: { atlas: { sheet: DMGAtlasUrl, x: 169, y: 60, w: 40, h: 57 } },
-    2: { atlas: { sheet: DMGAtlasUrl, x: 127, y: 60, w: 40, h: 57 } },
-    3: { atlas: { sheet: DMGAtlasUrl, x: 85, y: 60, w: 40, h: 57 } },
-    4: { atlas: { sheet: DMGAtlasUrl, x: 43, y: 60, w: 40, h: 57 } },
-    5: { atlas: { sheet: DMGAtlasUrl, x: 1, y: 60, w: 40, h: 57 } },
-    6: { atlas: { sheet: DMGAtlasUrl, x: 211, y: 1, w: 40, h: 57 } },
-    7: { atlas: { sheet: DMGAtlasUrl, x: 169, y: 1, w: 40, h: 57 } },
-    8: { atlas: { sheet: DMGAtlasUrl, x: 127, y: 1, w: 40, h: 57 } },
-    9: { atlas: { sheet: DMGAtlasUrl, x: 85, y: 1, w: 40, h: 57 } },
-    10: { atlas: { sheet: DMGAtlasUrl, x: 43, y: 1, w: 40, h: 57 } },
-    11: { atlas: { sheet: DMGAtlasUrl, x: 1, y: 1, w: 40, h: 57 } }
-  }
-}
-const ItemAtlas = {
-
-  // Seeds
-  Reviverseed: { atlas: { sheet: itemAtlasUrl, x: 107, y: 37, w: 16, h: 16 } },
-  
-  // Food
-  Apple: { atlas: { sheet: itemAtlasUrl, x: 27, y: 37, w: 18, h: 18 } },
-  Bigapple: { atlas: { sheet: itemAtlasUrl, x: 47, y: 37, w: 18, h: 18 } },
-  Goldenapple: { atlas: { sheet: itemAtlasUrl, x: 67, y: 37, w: 18, h: 18 } },
-  Grimyfood: { atlas: { sheet: itemAtlasUrl, x: 87, y: 37, w: 18, h: 18 } },
-  
-  // Drinks
-  Maxether: { atlas: { sheet: itemAtlasUrl, x: 41, y: 17, w: 18, h: 18 } },
-  Maxelixir: { atlas: { sheet: itemAtlasUrl, x: 1, y: 37, w: 24, h: 24 } },
-  Protein: { atlas: { sheet: itemAtlasUrl, x: 81, y: 17, w: 18, h: 18 } },
-  Calcium: { atlas: { sheet: itemAtlasUrl, x: 1, y: 17, w: 18, h: 18 } },
-  Iron: { atlas: { sheet: itemAtlasUrl, x: 61, y: 17, w: 18, h: 18 } },
-  Zinc: { atlas: { sheet: itemAtlasUrl, x: 101, y: 17, w: 18, h: 18 } },
-  Carbos: { atlas: { sheet: itemAtlasUrl, x: 21, y: 17, w: 18, h: 18 } },
-  
-  // Equipment
-  Scarf: { atlas: { sheet: itemAtlasUrl, x: 8, y: 7, w: 16, h: 14 } },
-  
-  // Orbs
-  Orb: { atlas: { sheet: itemAtlasUrl, x: 19, y: 1, w: 16, h: 14 } },
-  
-  // Throwables
-  GeoPebble: { atlas: { sheet: itemAtlasUrl, x: 51, y: 1, w: 12, h: 9 } }
-};
-const PokemonAtlas = {
-  Vaporeon: {
-  idle: {
-    down: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 169, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 211, y: 217, w: 40, h: 56 } } 
-    },
-    left: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 253, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 295, y: 217, w: 40, h: 56 } } 
-    },
-    right: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 337, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 379, y: 217, w: 40, h: 56 } } 
-    },
-    up: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 589, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 631, y: 217, w: 40, h: 56 } } 
-    },
-    downleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 43, y: 217, w: 40, h: 56 } } 
-    },
-    downright: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 85, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 127, y: 217, w: 40, h: 56 } } 
-    },
-    upleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 421, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 463, y: 217, w: 40, h: 56 } } 
-    },
-    upright: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 505, y: 217, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 547, y: 217, w: 40, h: 56 } } 
-    }
-  },
-  walk: {
-    down: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 337, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 379, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 421, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 463, y: 1, w: 40, h: 56 } } 
-    },
-    up: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 169, y: 59, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 211, y: 59, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 253, y: 59, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 295, y: 59, w: 40, h: 56 } } 
-    },
-    right: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 673, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 715, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 757, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 799, y: 1, w: 40, h: 56 } } 
-    },
-    left: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 505, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 547, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 589, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 631, y: 1, w: 40, h: 56 } } 
-    },
-    downleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 43, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 85, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 127, y: 1, w: 40, h: 56 } } 
-    },
-    downright: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 169, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 211, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 253, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 295, y: 1, w: 40, h: 56 } } 
-    },
-    upleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 841, y: 1, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 883, y: 1, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 925, y: 1, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 967, y: 1, w: 40, h: 56 } } 
-    },
-    upright: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 59, w: 40, h: 56 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 43, y: 59, w: 40, h: 56 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 85, y: 59, w: 40, h: 56 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 127, y: 59, w: 40, h: 56 } } 
-    }
-  },
-  spin:
-    {
-    down: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 915, y: 59, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 949, y: 59, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 983, y: 59, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 117, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 35, y: 117, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 69, y: 117, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 103, y: 117, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 137, y: 117, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 171, y: 117, w: 32, h: 48 } } 
-    },
-    up: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 409, y: 167, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 443, y: 167, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 477, y: 167, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 511, y: 167, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 545, y: 167, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 579, y: 167, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 613, y: 167, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 647, y: 167, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 681, y: 167, w: 32, h: 48 } } 
-    },
-    left: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 205, y: 117, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 239, y: 117, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 273, y: 117, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 307, y: 117, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 341, y: 117, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 375, y: 117, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 409, y: 117, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 443, y: 117, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 477, y: 117, w: 32, h: 48 } } 
-    },
-    right: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 511, y: 117, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 545, y: 117, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 579, y: 117, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 613, y: 117, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 647, y: 117, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 681, y: 117, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 715, y: 117, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 749, y: 117, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 783, y: 117, w: 32, h: 48 } } 
-    },
-    downleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 783, y: 167, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 715, y: 167, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 749, y: 167, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 405, y: 59, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 439, y: 59, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 473, y: 59, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 507, y: 59, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 541, y: 59, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 575, y: 59, w: 32, h: 48 } } 
-    },
-    downright: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 609, y: 59, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 643, y: 59, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 677, y: 59, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 711, y: 59, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 745, y: 59, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 779, y: 59, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 813, y: 59, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 847, y: 59, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 881, y: 59, w: 32, h: 48 } } 
-    },
-    upleft: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 817, y: 117, w: 32, h: 48 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 851, y: 117, w: 32, h: 48 } }, 
-    3: { atlas: { sheet: pokemonAtlasUrl, x: 885, y: 117, w: 32, h: 48 } }, 
-    4: { atlas: { sheet: pokemonAtlasUrl, x: 919, y: 117, w: 32, h: 48 } }, 
-    5: { atlas: { sheet: pokemonAtlasUrl, x: 953, y: 117, w: 32, h: 48 } }, 
-    6: { atlas: { sheet: pokemonAtlasUrl, x: 987, y: 117, w: 32, h: 48 } }, 
-    7: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 167, w: 32, h: 48 } }, 
-    8: { atlas: { sheet: pokemonAtlasUrl, x: 35, y: 167, w: 32, h: 48 } }, 
-    9: { atlas: { sheet: pokemonAtlasUrl, x: 69, y: 167, w: 32, h: 48 } } 
-    },
-    upright: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 103, y: 167, w: 32, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 137, y: 167, w: 32, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 171, y: 167, w: 32, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 205, y: 167, w: 32, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 239, y: 167, w: 32, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 273, y: 167, w: 32, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 307, y: 167, w: 32, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 341, y: 167, w: 32, h: 48 } },
-      9: { atlas: { sheet: pokemonAtlasUrl, x: 375, y: 167, w: 32, h: 48 } }
-    },
-  },
-  sleep: { 
-  none: { 
-    1: { atlas: { sheet: pokemonAtlasUrl, x: 337, y: 59, w: 32, h: 40 } }, 
-    2: { atlas: { sheet: pokemonAtlasUrl, x: 371, y: 59, w: 32, h: 40 } } 
-  } 
-}
-},
-Lunatone: {
-  idle: {
-    down: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 817, y: 167, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 843, y: 167, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 869, y: 167, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 895, y: 167, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 921, y: 167, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 947, y: 167, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 973, y: 167, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 999, y: 167, w: 24, h: 48 } }
-    },
-    up: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 495, y: 275, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 521, y: 275, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 547, y: 275, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 573, y: 275, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 599, y: 275, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 625, y: 275, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 651, y: 275, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 677, y: 275, w: 24, h: 48 } }
-    },
-    left: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 79, y: 275, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 105, y: 275, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 131, y: 275, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 157, y: 275, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 183, y: 275, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 209, y: 275, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 235, y: 275, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 261, y: 275, w: 24, h: 48 } }
-    },
-    right: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 287, y: 275, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 313, y: 275, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 339, y: 275, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 365, y: 275, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 391, y: 275, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 417, y: 275, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 443, y: 275, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 469, y: 275, w: 24, h: 48 } }
-    },
-    downLeft: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 673, y: 217, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 699, y: 217, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 725, y: 217, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 751, y: 217, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 777, y: 217, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 803, y: 217, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 829, y: 217, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 855, y: 217, w: 24, h: 48 } }
-    },
-    downRight: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 881, y: 217, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 907, y: 217, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 933, y: 217, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 959, y: 217, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 985, y: 217, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 275, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 27, y: 275, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 53, y: 275, w: 24, h: 48 } }
-    },
-    upLeft: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 703, y: 275, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 729, y: 275, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 755, y: 275, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 781, y: 275, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 807, y: 275, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 833, y: 275, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 859, y: 275, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 885, y: 275, w: 24, h: 48 } }
-    },
-    upRight: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 911, y: 275, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 937, y: 275, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 963, y: 275, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 989, y: 275, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 1, y: 325, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 27, y: 325, w: 24, h: 48 } },
-      7: { atlas: { sheet: pokemonAtlasUrl, x: 53, y: 325, w: 24, h: 48 } },
-      8: { atlas: { sheet: pokemonAtlasUrl, x: 79, y: 325, w: 24, h: 48 } }
-    }
-},
-sleep: {
-  none: {
-      1: { atlas: { sheet: pokemonAtlasUrl, x: 209, y: 325, w: 24, h: 48 } },
-      2: { atlas: { sheet: pokemonAtlasUrl, x: 235, y: 325, w: 24, h: 48 } },
-      3: { atlas: { sheet: pokemonAtlasUrl, x: 261, y: 325, w: 24, h: 48 } },
-      4: { atlas: { sheet: pokemonAtlasUrl, x: 287, y: 325, w: 24, h: 48 } },
-      5: { atlas: { sheet: pokemonAtlasUrl, x: 313, y: 325, w: 24, h: 48 } },
-      6: { atlas: { sheet: pokemonAtlasUrl, x: 339, y: 325, w: 24, h: 48 } }
-    }
-}
-}
-};
-
-const vfxAtlas = {
-  AquaTail: {
-    down: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 371, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 371, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 371, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 889, y: 297, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 815, y: 297, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 371, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 371, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 371, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 371, w: 72, h: 72 } }
-    },
-    up: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 667, y: 75, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 593, y: 75, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 75, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 75, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 75, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 149, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 889, y: 75, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 815, y: 75, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 741, y: 75, w: 72, h: 72 } }
-    },
-    left: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 223, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 223, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 889, y: 149, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 815, y: 149, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 741, y: 149, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 223, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 223, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 223, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 223, w: 72, h: 72 } }
-    },
-    right: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 149, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 149, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 149, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 149, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 149, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 667, y: 149, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 593, y: 149, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 149, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 149, w: 72, h: 72 } }
-    },
-    downleft: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 297, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 297, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 297, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 297, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 297, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 741, y: 297, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 667, y: 297, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 593, y: 297, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 297, w: 72, h: 72 } }
-    },
-    downright: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 741, y: 223, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 667, y: 223, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 593, y: 223, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 223, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 223, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 297, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 297, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 889, y: 223, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 815, y: 223, w: 72, h: 72 } }
-    },
-    upleft: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 75, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 889, y: 1, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 815, y: 1, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 741, y: 1, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 667, y: 1, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 75, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 75, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 75, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 75, w: 72, h: 72 } }
-    },
-    upright: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 297, y: 1, w: 72, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 223, y: 1, w: 72, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 149, y: 1, w: 72, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 75, y: 1, w: 72, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 1, w: 72, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 593, y: 1, w: 72, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 1, w: 72, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 445, y: 1, w: 72, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 371, y: 1, w: 72, h: 72 } }
-    }
-  },
-  RockThrow: {
-    none: {
-      1: { atlas: { sheet: vfxAtlasUrl, x: 519, y: 371, w: 64, h: 72 } },
-      2: { atlas: { sheet: vfxAtlasUrl, x: 585, y: 371, w: 64, h: 72 } },
-      3: { atlas: { sheet: vfxAtlasUrl, x: 651, y: 371, w: 64, h: 72 } },
-      4: { atlas: { sheet: vfxAtlasUrl, x: 717, y: 371, w: 64, h: 72 } },
-      5: { atlas: { sheet: vfxAtlasUrl, x: 783, y: 371, w: 64, h: 72 } },
-      6: { atlas: { sheet: vfxAtlasUrl, x: 849, y: 371, w: 64, h: 72 } },
-      7: { atlas: { sheet: vfxAtlasUrl, x: 915, y: 371, w: 64, h: 72 } },
-      8: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 445, w: 64, h: 72 } },
-      9: { atlas: { sheet: vfxAtlasUrl, x: 67, y: 445, w: 64, h: 72 } },
-      10: { atlas: { sheet: vfxAtlasUrl, x: 133, y: 445, w: 64, h: 72 } },
-      11: { atlas: { sheet: vfxAtlasUrl, x: 199, y: 445, w: 64, h: 72 } },
-      12: { atlas: { sheet: vfxAtlasUrl, x: 265, y: 445, w: 64, h: 72 } },
-      13: { atlas: { sheet: vfxAtlasUrl, x: 331, y: 445, w: 64, h: 72 } },
-      14: { atlas: { sheet: vfxAtlasUrl, x: 397, y: 445, w: 64, h: 72 } },
-      15: { atlas: { sheet: vfxAtlasUrl, x: 463, y: 445, w: 64, h: 72 } },
-      16: { atlas: { sheet: vfxAtlasUrl, x: 529, y: 445, w: 64, h: 72 } },
-      17: { atlas: { sheet: vfxAtlasUrl, x: 595, y: 445, w: 64, h: 72 } },
-      18: { atlas: { sheet: vfxAtlasUrl, x: 661, y: 445, w: 64, h: 72 } },
-      19: { atlas: { sheet: vfxAtlasUrl, x: 727, y: 445, w: 64, h: 72 } },
-      20: { atlas: { sheet: vfxAtlasUrl, x: 793, y: 445, w: 64, h: 72 } },
-      21: { atlas: { sheet: vfxAtlasUrl, x: 859, y: 445, w: 64, h: 72 } },
-      22: { atlas: { sheet: vfxAtlasUrl, x: 925, y: 445, w: 64, h: 72 } },
-      23: { atlas: { sheet: vfxAtlasUrl, x: 1, y: 519, w: 64, h: 72 } },
-      24: { atlas: { sheet: vfxAtlasUrl, x: 67, y: 519, w: 64, h: 72 } },
-      25: { atlas: { sheet: vfxAtlasUrl, x: 133, y: 519, w: 64, h: 72 } },
-      26: { atlas: { sheet: vfxAtlasUrl, x: 199, y: 519, w: 64, h: 72 } },
-      27: { atlas: { sheet: vfxAtlasUrl, x: 265, y: 519, w: 64, h: 72 } },
-      28: { atlas: { sheet: vfxAtlasUrl, x: 331, y: 519, w: 64, h: 72 } },
-      29: { atlas: { sheet: vfxAtlasUrl, x: 397, y: 519, w: 64, h: 72 } },
-      30: { atlas: { sheet: vfxAtlasUrl, x: 463, y: 519, w: 64, h: 72 } }
-  }
-  }
-};
-
-// Helper functions to retrieve sprite URLs based on requirements
-const getItemSprite = (itemName) => {
-  const itemdata = ItemAtlas[itemName];
-  if (!itemdata) return null;
-  return itemdata.url;
-};
-const getDMGSprite = (dmgSprite, frame) => {
-  const spriteData = DMGAtlas[dmgSprite];
-  if (!spriteData) return null;
-  const frameData = spriteData[frame];
-  if (!frameData) return null;
-  return frameData.url;
-};
-const getPokemonSprite = (pokemon, animation, direction, frame) => {
-  const pokemonData = PokemonAtlas[pokemon];
-  if (!pokemonData) return null;
-  const animData = PokemonAtlas[animation];
-  if (!animData) return null;
-  const dirData = animData[direction];
-  if (!dirData) return null;
-  const frameData = dirData[frame];
-  if (!frameData) return null;
-  return frameData.url;
-}
-const getVfxSprite = (sprite, direction, frame) => {
-const spriteData = vfxAtlas[sprite];
-if (!spriteData) return null;
-const dirData = spriteData[direction];
-if (!dirData) return null;
-const frameData = dirData[frame];
-if (!frameData) return null;
-return frameData.url;
-}
-const getTextSprite = (color, text) => {
-  const colorData = TextAtlas[color];
-  if (!colorData) return null;
-  const textData = colorData[text];
-  if (!textData) return null;
-  return textData.url;
-}
-
-// Get atlas metadata for a specific item key (Generally unused)
-const getItemAtlasData = (itemName) => {
-  const item = ItemAtlas[itemName];
-  return item ? item.atlas : null;
-};
-const getPokemonAtlasData = (pokemon, animation, direction, frame) => {
-  const pokemonData = PokemonAtlas[pokemon];
-  if (!pokemonData) return null;
-  const animData = pokemonData[animation];
-  if (!animData) return null;
-  const dirData = animData[direction];
-  if (!dirData) return null;
-  const frameData = dirData[frame];
-  return frameData ? frameData.atlas : null;
-};
-const getVfxAtlasData = (sprite, direction, frame) => {
-  const spriteData = vfxAtlas[sprite];
-  if (!spriteData) return null;
-  const dirData = spriteData[direction];
-  if (!dirData) return null;
-  const frameData = dirData[frame];
-  return frameData ? frameData.atlas : null;
-};
-const getDMGAtlasData = (dmgSprite, frame) => {
-  const spriteData = DMGAtlas[dmgSprite];
-  if (!spriteData) return null;
-  const frameData = spriteData[frame];
-  return frameData ? frameData.atlas : null;
-};
-const getTextAtlasData = (color, text) => {
-  const colorData = TextAtlas[color];
-  if (!colorData) return null;
-  const textData = colorData[text];
-  return textData ? textData.atlas : null;
-};
-
-// Map ItemDef name to ItemAtlas key for rendering
-const getAtlasKeyForItemName = (itemDefName) => {
-  const nameMap = {
-    'Reviver Seed': 'Reviverseed',
-    'Stun Seed': 'Reviverseed',
-    'Tiny Reviver Seed': 'Reviverseed',
-    'Sleep Seed': 'Reviverseed',
-    'Warp Seed': 'Reviverseed',
-    'Life Seed': 'Reviverseed',
-    'Pure Seed': 'Reviverseed',
-    'Joy Seed': 'Reviverseed',
-    'Apple': 'Apple',
-    'Big Apple': 'Bigapple',
-    'Golden Apple': 'Goldenapple',
-    'Grimy Food': 'Grimyfood',
-    'Max Ether': 'Maxether',
-    'Max Elixir': 'Maxelixir',
-    'Protein': 'Protein',
-    'Calcium': 'Calcium',
-    'Iron': 'Iron',
-    'Zinc': 'Zinc',
-    'Carbos': 'Carbos',
-    'Scarf': 'Scarf',
-    'Luminous Orb': 'Orb',
-    'Warp Orb': 'Orb',
-    'Geo Pebble': 'GeoPebble'
-  };
-  return nameMap[itemDefName] || null;
-};
+import { AtlasSubsystem, ItemAtlas, PokemonAtlas, vfxAtlas, DMGAtlas, TextAtlas } from './AtlasSubsystem.jsx';
 
 // Create compatibility aliases for existing code
-const Reviverseed = getItemSprite('Reviverseed');
-const Apple = getItemSprite('Apple');
-const Bigapple = getItemSprite('Bigapple');
-const Goldenapple = getItemSprite('Goldenapple');
-const Grimyfood = getItemSprite('Grimyfood');
-const Maxether = getItemSprite('Maxether');
-const Maxelixir = getItemSprite('Maxelixir');
-const Protein = getItemSprite('Protein');
-const Calcium = getItemSprite('Calcium');
-const Iron = getItemSprite('Iron');
-const Zinc = getItemSprite('Zinc');
-const Carbos = getItemSprite('Carbos');
-const Scarf = getItemSprite('Scarf');
-const Orb = getItemSprite('Orb');
-const GeoPebble = getItemSprite('GeoPebble');
+const Reviverseed = AtlasSubsystem.getItemSprite('Reviverseed');
+const Apple = AtlasSubsystem.getItemSprite('Apple');
+const Bigapple = AtlasSubsystem.getItemSprite('Bigapple');
+const Goldenapple = AtlasSubsystem.getItemSprite('Goldenapple');
+const Grimyfood = AtlasSubsystem.getItemSprite('Grimyfood');
+const Maxether = AtlasSubsystem.getItemSprite('Maxether');
+const Maxelixir = AtlasSubsystem.getItemSprite('Maxelixir');
+const Protein = AtlasSubsystem.getItemSprite('Protein');
+const Calcium = AtlasSubsystem.getItemSprite('Calcium');
+const Iron = AtlasSubsystem.getItemSprite('Iron');
+const Zinc = AtlasSubsystem.getItemSprite('Zinc');
+const Carbos = AtlasSubsystem.getItemSprite('Carbos');
+const Scarf = AtlasSubsystem.getItemSprite('Scarf');
+const Orb = AtlasSubsystem.getItemSprite('Orb');
+const GeoPebble = AtlasSubsystem.getItemSprite('GeoPebble');
 
 // ========== CANVAS COMPONENTS ==========
 // Renders a single sprite from an atlas using canvas drawImage
@@ -1026,19 +29,19 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     let atlasData;
     if (atlasKey) {
       // Item atlas
-      atlasData = getItemAtlasData(atlasKey);
+      atlasData = AtlasSubsystem.getItemAtlasData(atlasKey);
     } else if (animation && direction && frame !== undefined) {
       // Vaporeon atlas
-      atlasData = getPokemonAtlasData(pokemon, animation, direction, frame);
+      atlasData = AtlasSubsystem.getPokemonAtlasData(pokemon, animation, direction, frame);
     }
     else if (sprite && direction && frame !== undefined){
-      atlasData = getVfxAtlasData(sprite, direction, frame);
+      atlasData = AtlasSubsystem.getVfxAtlasData(sprite, direction, frame);
     }
     else if (sprite === 'DMG1' && frame !== undefined){
-      atlasData = getDMGAtlasData(sprite, frame);
+      atlasData = AtlasSubsystem.getDMGAtlasData(sprite, frame);
     }
     else if (color && text){
-      atlasData = getTextAtlasData(color, text);
+      atlasData = AtlasSubsystem.getTextAtlasData(color, text);
     }
 
     if (!atlasData) {
@@ -1048,7 +51,7 @@ const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, directi
     
     const render = async () => {
       try {
-        const atlasImg = await loadAtlasImage(atlasData.sheet);
+        const atlasImg = await AtlasSubsystem.loadAtlasImage(atlasData.sheet);
         const ctx = canvas.getContext('2d', { willReadFrequently: false });
         
         // Set canvas size
@@ -1529,38 +532,7 @@ const ENEMY_DEFS = {
 }
 const MAX_INVENTORY_SLOTS = 10;
 // Enemy moves
-const rockThrowVfxFrames = [
-getVfxSprite('RockThrow', 'none', 1),
-getVfxSprite('RockThrow', 'none', 2),
-getVfxSprite('RockThrow', 'none', 3),
-getVfxSprite('RockThrow', 'none', 4),
-getVfxSprite('RockThrow', 'none', 5),
-getVfxSprite('RockThrow', 'none', 6),
-getVfxSprite('RockThrow', 'none', 7),
-getVfxSprite('RockThrow', 'none', 8),
-getVfxSprite('RockThrow', 'none', 9),
-getVfxSprite('RockThrow', 'none', 10),
-getVfxSprite('RockThrow', 'none', 11),
-getVfxSprite('RockThrow', 'none', 12),
-getVfxSprite('RockThrow', 'none', 13),
-getVfxSprite('RockThrow', 'none', 14),
-getVfxSprite('RockThrow', 'none', 15),
-getVfxSprite('RockThrow', 'none', 16),
-getVfxSprite('RockThrow', 'none', 17),
-getVfxSprite('RockThrow', 'none', 18),
-getVfxSprite('RockThrow', 'none', 19),
-getVfxSprite('RockThrow', 'none', 20),
-getVfxSprite('RockThrow', 'none', 21),
-getVfxSprite('RockThrow', 'none', 22),
-getVfxSprite('RockThrow', 'none', 23),
-getVfxSprite('RockThrow', 'none', 24),
-getVfxSprite('RockThrow', 'none', 25),
-getVfxSprite('RockThrow', 'none', 26),
-getVfxSprite('RockThrow', 'none', 27),
-getVfxSprite('RockThrow', 'none', 28),
-getVfxSprite('RockThrow', 'none', 29),
-getVfxSprite('RockThrow', 'none', 30),
-];
+const rockThrowVfxFrames = Array.from({ length: 30 }, (_, i) => AtlasSubsystem.getVfxSprite('RockThrow', 'none', i + 1));
 
 // Text Portraits
 const VaporeonShouting = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Scene%20Dialog/Debug/DebugTextFull_000.png';
@@ -1569,803 +541,462 @@ const EeveeCrying = 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Pro
 // Enemy sprite URLs
   //Lunatone
     // Idle animation
-const lunatoneSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'down', 1),
-  getPokemonSprite('Lunatone', 'idle', 'down', 2),
-  getPokemonSprite('Lunatone', 'idle', 'down', 3),
-  getPokemonSprite('Lunatone', 'idle', 'down', 4),
-  getPokemonSprite('Lunatone', 'idle', 'down', 5),
-  getPokemonSprite('Lunatone', 'idle', 'down', 6),
-  getPokemonSprite('Lunatone', 'idle', 'down', 7),
-  getPokemonSprite('Lunatone', 'idle', 'down', 8)
-];
-const lunatoneUpSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'up', 1),
-  getPokemonSprite('Lunatone', 'idle', 'up', 2),
-  getPokemonSprite('Lunatone', 'idle', 'up', 3),
-  getPokemonSprite('Lunatone', 'idle', 'up', 4),
-  getPokemonSprite('Lunatone', 'idle', 'up', 5),
-  getPokemonSprite('Lunatone', 'idle', 'up', 6),
-  getPokemonSprite('Lunatone', 'idle', 'up', 7),
-  getPokemonSprite('Lunatone', 'idle', 'up', 8)
-];
-const lunatoneLeftSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'left', 1),
-  getPokemonSprite('Lunatone', 'idle', 'left', 2),
-  getPokemonSprite('Lunatone', 'idle', 'left', 3),
-  getPokemonSprite('Lunatone', 'idle', 'left', 4),
-  getPokemonSprite('Lunatone', 'idle', 'left', 5),
-  getPokemonSprite('Lunatone', 'idle', 'left', 6),
-  getPokemonSprite('Lunatone', 'idle', 'left', 7),
-  getPokemonSprite('Lunatone', 'idle', 'left', 8)
-];
-const lunatoneRightSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'right', 1),
-  getPokemonSprite('Lunatone', 'idle', 'right', 2),
-  getPokemonSprite('Lunatone', 'idle', 'right', 3),
-  getPokemonSprite('Lunatone', 'idle', 'right', 4),
-  getPokemonSprite('Lunatone', 'idle', 'right', 5),
-  getPokemonSprite('Lunatone', 'idle', 'right', 6),
-  getPokemonSprite('Lunatone', 'idle', 'right', 7),
-  getPokemonSprite('Lunatone', 'idle', 'right', 8)
-];
-const lunatoneUpRightSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'upright', 1),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 2),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 3),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 4),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 5),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 6),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 7),
-  getPokemonSprite('Lunatone', 'idle', 'upright', 8)
-];
-const lunatoneUpLeftSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 1),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 2),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 3),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 4),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 5),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 6),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 7),
-  getPokemonSprite('Lunatone', 'idle', 'upleft', 8)
-];
-const lunatoneDownLeftSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 1),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 2),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 3),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 4),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 5),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 6),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 7),
-  getPokemonSprite('Lunatone', 'idle', 'downleft', 8)
-];
-const lunatoneDownRightSprites = [
-  getPokemonSprite('Lunatone', 'idle', 'downright', 1),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 2),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 3),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 4),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 5),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 6),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 7),
-  getPokemonSprite('Lunatone', 'idle', 'downright', 8)
-]
-const lunatoneSleepSprites = [
-  getPokemonSprite('Lunatone', 'sleep', 'none', 1),
-  getPokemonSprite('Lunatone', 'sleep', 'none', 2),
-  getPokemonSprite('Lunatone', 'sleep', 'none', 3),
-  getPokemonSprite('Lunatone', 'sleep', 'none', 4),
-  getPokemonSprite('Lunatone', 'sleep', 'none', 5),
-  getPokemonSprite('Lunatone', 'sleep', 'none', 6)
-]
+const lunatoneSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'down', i + 1));
+const lunatoneUpSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'up', i + 1));
+const lunatoneLeftSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'left', i + 1));
+const lunatoneRightSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'right', i + 1));
+const lunatoneUpRightSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'upright', i + 1));
+const lunatoneUpLeftSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'upleft', i + 1));
+const lunatoneDownLeftSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'downleft', i + 1));
+const lunatoneDownRightSprites = Array.from({ length: 8 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'idle', 'downright', i + 1));
+const lunatoneSleepSprites = Array.from({ length: 6 }, (_, i) => AtlasSubsystem.getPokemonSprite('Lunatone', 'sleep', 'none', i + 1));
 // Vaporeon sprite URLs
   // Idle animations
-
-const vaporeonSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'down', 1),
-getPokemonSprite('Vaporeon', 'idle', 'down', 2),
-];
-
-const vaporeonLeftSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'left', 1),
-getPokemonSprite('Vaporeon', 'idle', 'left', 2),
-];
-
-const vaporeonRightSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'right', 1),
-getPokemonSprite('Vaporeon', 'idle', 'right', 2),
-];
-
-const vaporeonUpSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'up', 1),
-getPokemonSprite('Vaporeon', 'idle', 'up', 2),
-];
-
-const vaporeonDownLeftSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'downleft', 1),
-getPokemonSprite('Vaporeon', 'idle', 'downleft', 2),
-];
-
-const vaporeonDownRightSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'downright', 1),
-getPokemonSprite('Vaporeon', 'idle', 'downright', 2),
-];
-
-const vaporeonUpLeftSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'upleft', 1),
-getPokemonSprite('Vaporeon', 'idle', 'upleft', 2),
-];
-
-const vaporeonUpRightSprites = [
-getPokemonSprite('Vaporeon', 'idle', 'upright', 1),
-getPokemonSprite('Vaporeon', 'idle', 'upright', 2),
-];
+const vaporeonSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'down', i + 1));
+const vaporeonLeftSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'left', i + 1));
+const vaporeonRightSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'right', i + 1));
+const vaporeonUpSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'up', i + 1));
+const vaporeonDownLeftSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'downleft', i + 1));
+const vaporeonDownRightSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'downright', i + 1));
+const vaporeonUpLeftSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'upleft', i + 1));
+const vaporeonUpRightSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'idle', 'upright', i + 1));
   // Walking animations
-const vaporeonDownWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'down', 1),
-getPokemonSprite('Vaporeon', 'walk', 'down', 2),
-getPokemonSprite('Vaporeon', 'walk', 'down', 3),
-getPokemonSprite('Vaporeon', 'walk', 'down', 4),
-]
-
-const vaporeonUpWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'up', 1),
-getPokemonSprite('Vaporeon', 'walk', 'up', 2),
-getPokemonSprite('Vaporeon', 'walk', 'up', 3),
-getPokemonSprite('Vaporeon', 'walk', 'up', 4),
-]
-
-const vaporeonLeftWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'left', 1),
-getPokemonSprite('Vaporeon', 'walk', 'left', 2),
-getPokemonSprite('Vaporeon', 'walk', 'left', 3),
-getPokemonSprite('Vaporeon', 'walk', 'left', 4),
-]
-
-const vaporeonRightWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'right', 1),
-getPokemonSprite('Vaporeon', 'walk', 'right', 2),
-getPokemonSprite('Vaporeon', 'walk', 'right', 3),
-getPokemonSprite('Vaporeon', 'walk', 'right', 4),
-]
-
-const vaporeonUpLeftWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'upleft', 1),
-getPokemonSprite('Vaporeon', 'walk', 'upleft', 2),
-getPokemonSprite('Vaporeon', 'walk', 'upleft', 3),
-getPokemonSprite('Vaporeon', 'walk', 'upleft', 4),
-]
-
-const vaporeonUpRightWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'upright', 1),
-getPokemonSprite('Vaporeon', 'walk', 'upright', 2),
-getPokemonSprite('Vaporeon', 'walk', 'upright', 3),
-getPokemonSprite('Vaporeon', 'walk', 'upright', 4),
-]
-
-const vaporeonDownLeftWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'downleft', 1),
-getPokemonSprite('Vaporeon', 'walk', 'downleft', 2),
-getPokemonSprite('Vaporeon', 'walk', 'downleft', 3),
-getPokemonSprite('Vaporeon', 'walk', 'downleft', 4),
-]
-
-const vaporeonDownRightWalkSprites = [
-getPokemonSprite('Vaporeon', 'walk', 'downright', 1),
-getPokemonSprite('Vaporeon', 'walk', 'downright', 2),
-getPokemonSprite('Vaporeon', 'walk', 'downright', 3),
-getPokemonSprite('Vaporeon', 'walk', 'downright', 4),
-
-]
+const vaporeonDownWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'down', i + 1));
+const vaporeonUpWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'up', i + 1));
+const vaporeonLeftWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'left', i + 1));
+const vaporeonRightWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'right', i + 1));
+const vaporeonUpLeftWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'upleft', i + 1));
+const vaporeonUpRightWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'upright', i + 1));
+const vaporeonDownLeftWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'downleft', i + 1));
+const vaporeonDownRightWalkSprites = Array.from({ length: 4 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'walk', 'downright', i + 1));
   // Spin animations
-const vaporeonUpSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'up', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'up', 9),
-]
-const vaporeonUpRightSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'upright', 9)
-]
-const vaporeonRightSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'right', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'right', 9)
-]
-const vaporeonDownRightSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'downright', 9)
-]
-const vaporeonDownSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'down', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'down', 9)
-]
-const vaporeonDownLeftSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'downleft', 9)
-]
-const vaporeonLeftSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'left', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'left', 9)
-]
-const vaporeonUpLeftSpinSprites = [
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 1),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 2),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 3),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 4),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 5),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 6),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 7),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 8),
-  getPokemonSprite('Vaporeon', 'spin', 'upleft', 9)
-]
-// Aqua Tail vfx
- //up
- //4 -> 0; 8 -> 5
- const vaporeonAquaTailUpSprites = [
-  getVfxSprite('AquaTail', 'up', 1),
-  getVfxSprite('AquaTail', 'up', 2),
-  getVfxSprite('AquaTail', 'up', 3),
-  getVfxSprite('AquaTail', 'up', 4),
-  getVfxSprite('AquaTail', 'up', 5),
-  getVfxSprite('AquaTail', 'up', 6),
-  getVfxSprite('AquaTail', 'up', 7),
-  getVfxSprite('AquaTail', 'up', 8),
-  getVfxSprite('AquaTail', 'up', 9)
-]
- //down
- const vaporeonAquaTailDownSprites = [
-  getVfxSprite('AquaTail', 'down', 1),
-  getVfxSprite('AquaTail', 'down', 2),
-  getVfxSprite('AquaTail', 'down', 3),
-  getVfxSprite('AquaTail', 'down', 4),
-  getVfxSprite('AquaTail', 'down', 5),
-  getVfxSprite('AquaTail', 'down', 6),
-  getVfxSprite('AquaTail', 'down', 7),
-  getVfxSprite('AquaTail', 'down', 8),
-  getVfxSprite('AquaTail', 'down', 9)
-]
- //left
- const vaporeonAquaTailLeftSprites = [
-  getVfxSprite('AquaTail', 'left', 1),
-  getVfxSprite('AquaTail', 'left', 2),
-  getVfxSprite('AquaTail', 'left', 3),
-  getVfxSprite('AquaTail', 'left', 4),
-  getVfxSprite('AquaTail', 'left', 5),
-  getVfxSprite('AquaTail', 'left', 6),
-  getVfxSprite('AquaTail', 'left', 7),
-  getVfxSprite('AquaTail', 'left', 8),
-  getVfxSprite('AquaTail', 'left', 9)
-]
- //right
- const vaporeonAquaTailRightSprites = [
-  getVfxSprite('AquaTail', 'right', 1),
-  getVfxSprite('AquaTail', 'right', 2),
-  getVfxSprite('AquaTail', 'right', 3),
-  getVfxSprite('AquaTail', 'right', 4),
-  getVfxSprite('AquaTail', 'right', 5),
-  getVfxSprite('AquaTail', 'right', 6),
-  getVfxSprite('AquaTail', 'right', 7),
-  getVfxSprite('AquaTail', 'right', 8),
-  getVfxSprite('AquaTail', 'right', 9)
-]
- //up-right
- const vaporeonAquaTailUpRightSprites = [
-  getVfxSprite('AquaTail', 'upright', 1),
-  getVfxSprite('AquaTail', 'upright', 2),
-  getVfxSprite('AquaTail', 'upright', 3),
-  getVfxSprite('AquaTail', 'upright', 4),
-  getVfxSprite('AquaTail', 'upright', 5),
-  getVfxSprite('AquaTail', 'upright', 6),
-  getVfxSprite('AquaTail', 'upright', 7),
-  getVfxSprite('AquaTail', 'upright', 8),
-  getVfxSprite('AquaTail', 'upright', 9)
-]
- //up-left
- const vaporeonAquaTailUpLeftSprites = [
-  getVfxSprite('AquaTail', 'upleft', 1),
-  getVfxSprite('AquaTail', 'upleft', 2),
-  getVfxSprite('AquaTail', 'upleft', 3),
-  getVfxSprite('AquaTail', 'upleft', 4),
-  getVfxSprite('AquaTail', 'upleft', 5),
-  getVfxSprite('AquaTail', 'upleft', 6),
-  getVfxSprite('AquaTail', 'upleft', 7),
-  getVfxSprite('AquaTail', 'upleft', 8),
-  getVfxSprite('AquaTail', 'upleft', 9)
-]
- //down-right
- const vaporeonAquaTailDownRightSprites = [
-  getVfxSprite('AquaTail', 'downright', 1),
-  getVfxSprite('AquaTail', 'downright', 2),
-  getVfxSprite('AquaTail', 'downright', 3),
-  getVfxSprite('AquaTail', 'downright', 4),
-  getVfxSprite('AquaTail', 'downright', 5),
-  getVfxSprite('AquaTail', 'downright', 6),
-  getVfxSprite('AquaTail', 'downright', 7),
-  getVfxSprite('AquaTail', 'downright', 8),
-  getVfxSprite('AquaTail', 'downright', 9)
-]
- //down-left
- const vaporeonAquaTailDownLeftSprites = [
-  getVfxSprite('AquaTail', 'downleft', 1),
-  getVfxSprite('AquaTail', 'downleft', 2),
-  getVfxSprite('AquaTail', 'downleft', 3),
-  getVfxSprite('AquaTail', 'downleft', 4),
-  getVfxSprite('AquaTail', 'downleft', 5),
-  getVfxSprite('AquaTail', 'downleft', 6),
-  getVfxSprite('AquaTail', 'downleft', 7),
-  getVfxSprite('AquaTail', 'downleft', 8),
-  getVfxSprite('AquaTail', 'downleft', 9)
-]
+const vaporeonUpSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'up', i + 1));
+const vaporeonUpRightSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'upright', i + 1));
+const vaporeonRightSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'right', i + 1));
+const vaporeonDownRightSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'downright', i + 1));
+const vaporeonDownSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'down', i + 1));
+const vaporeonDownLeftSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'downleft', i + 1));
+const vaporeonLeftSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'left', i + 1));
+const vaporeonUpLeftSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'spin', 'upleft', i + 1));
+  // Aqua Tail vfx
+    //4 -> 0; 8 -> 5
+ const vaporeonAquaTailUpSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'up', i + 1));
+ const vaporeonAquaTailDownSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'down', i + 1));
+ const vaporeonAquaTailLeftSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'left', i + 1));
+ const vaporeonAquaTailRightSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'right', i + 1));
+ const vaporeonAquaTailUpRightSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'upright', i + 1));
+ const vaporeonAquaTailUpLeftSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'upleft', i + 1));
+ const vaporeonAquaTailDownRightSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'downright', i + 1));
+ const vaporeonAquaTailDownLeftSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsystem.getVfxSprite('AquaTail', 'downleft', i + 1));
 
 // Sleep animations
-const vaporeonSleepSprites = [
-  getPokemonSprite('Vaporeon', 'sleep', 'none', 1),
-  getPokemonSprite('Vaporeon', 'sleep', 'none', 2)
-]
+const vaporeonSleepSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'sleep', 'none', i + 1));
 // VFX animations
-const DMG1VfxFrames = [
-  getDMGSprite('DMG1', 1),
-  getDMGSprite('DMG1', 2),
-  getDMGSprite('DMG1', 3),
-  getDMGSprite('DMG1', 4),
-  getDMGSprite('DMG1', 5),
-  getDMGSprite('DMG1', 6),
-  getDMGSprite('DMG1', 7),
-  getDMGSprite('DMG1', 8),
-  getDMGSprite('DMG1', 9),
-  getDMGSprite('DMG1', 10),
-  getDMGSprite('DMG1', 11)
-]
+const DMG1VfxFrames = Array.from({ length: 11 }, (_, i) => AtlasSubsystem.getDMGSprite('DMG1', i + 1));
 const Text = {
   Black: {
-    A: getTextSprite('Black', 'A'),
-    B: getTextSprite('Black', 'B'),
-    C: getTextSprite('Black', 'C'),
-    D: getTextSprite('Black', 'D'),
-    E: getTextSprite('Black', 'E'),
-    F: getTextSprite('Black', 'F'),
-    G: getTextSprite('Black', 'G'),
-    H: getTextSprite('Black', 'H'),
-    I: getTextSprite('Black', 'I'),
-    J: getTextSprite('Black', 'J'),
-    K: getTextSprite('Black', 'K'),
-    L: getTextSprite('Black', 'L'),
-    M: getTextSprite('Black', 'M'),
-    N: getTextSprite('Black', 'N'),
-    O: getTextSprite('Black', 'O'),
-    P: getTextSprite('Black', 'P'),
-    Q: getTextSprite('Black', 'Q'),
-    R: getTextSprite('Black', 'R'),
-    S: getTextSprite('Black', 'S'),
-    T: getTextSprite('Black', 'T'),
-    U: getTextSprite('Black', 'U'),
-    V: getTextSprite('Black', 'V'),
-    W: getTextSprite('Black', 'W'),
-    X: getTextSprite('Black', 'X'),
-    Y: getTextSprite('Black', 'Y'),
-    Z: getTextSprite('Black', 'Z'),
-    a: getTextSprite('Black', 'a'),
-    b: getTextSprite('Black', 'b'),
-    c: getTextSprite('Black', 'c'),
-    d: getTextSprite('Black', 'd'),
-    e: getTextSprite('Black', 'e'),
-    f: getTextSprite('Black', 'f'),
-    g: getTextSprite('Black', 'g'),
-    h: getTextSprite('Black', 'h'),
-    i: getTextSprite('Black', 'i'),
-    j: getTextSprite('Black', 'j'),
-    k: getTextSprite('Black', 'k'),
-    l: getTextSprite('Black', 'l'),
-    m: getTextSprite('Black', 'm'),
-    n: getTextSprite('Black', 'n'),
-    o: getTextSprite('Black', 'o'),
-    p: getTextSprite('Black', 'p'),
-    q: getTextSprite('Black', 'q'),
-    r: getTextSprite('Black', 'r'),
-    s: getTextSprite('Black', 's'),
-    t: getTextSprite('Black', 't'),
-    u: getTextSprite('Black', 'u'),
-    v: getTextSprite('Black', 'v'),
-    w: getTextSprite('Black', 'w'),
-    x: getTextSprite('Black', 'x'),
-    y: getTextSprite('Black', 'y'),
-    z: getTextSprite('Black', 'z'),
-    0: getTextSprite('Black', '0'),
-    1: getTextSprite('Black', '1'),
-    2: getTextSprite('Black', '2'),
-    3: getTextSprite('Black', '3'),
-    4: getTextSprite('Black', '4'),
-    5: getTextSprite('Black', '5'),
-    6: getTextSprite('Black', '6'),
-    7: getTextSprite('Black', '7'),
-    8: getTextSprite('Black', '8'),
-    9: getTextSprite('Black', '9'),
-    plus: getTextSprite('Black', '+'),
-    minus: getTextSprite('Black', '-'),
-    rightDoubleQuote: getTextSprite('Black', '"'),
-    rightSingleQuote: getTextSprite('Black', "'"),
-    leftDoubleQuote: getTextSprite('Black', '"'),
-    leftSingleQuote: getTextSprite('Black', "'"),
-    leftParenthesis: getTextSprite('Black', '('),
-    rightParenthesis: getTextSprite('Black', ')'),
-    comma: getTextSprite('Black', ','),
-    period: getTextSprite('Black', '.'),
-    colon: getTextSprite('Black', ':'),
-    questionMark: getTextSprite('Black', '?'),
-    exclamationPoint: getTextSprite('Black', '!'),
-    accentE: getTextSprite('Black', 'é'),
-    elipse: getTextSprite('Black', '...'),
-    altElipse: getTextSprite('Black', '...2')
+    A: AtlasSubsystem.getTextSprite('Black', 'A'),
+    B: AtlasSubsystem.getTextSprite('Black', 'B'),
+    C: AtlasSubsystem.getTextSprite('Black', 'C'),
+    D: AtlasSubsystem.getTextSprite('Black', 'D'),
+    E: AtlasSubsystem.getTextSprite('Black', 'E'),
+    F: AtlasSubsystem.getTextSprite('Black', 'F'),
+    G: AtlasSubsystem.getTextSprite('Black', 'G'),
+    H: AtlasSubsystem.getTextSprite('Black', 'H'),
+    I: AtlasSubsystem.getTextSprite('Black', 'I'),
+    J: AtlasSubsystem.getTextSprite('Black', 'J'),
+    K: AtlasSubsystem.getTextSprite('Black', 'K'),
+    L: AtlasSubsystem.getTextSprite('Black', 'L'),
+    M: AtlasSubsystem.getTextSprite('Black', 'M'),
+    N: AtlasSubsystem.getTextSprite('Black', 'N'),
+    O: AtlasSubsystem.getTextSprite('Black', 'O'),
+    P: AtlasSubsystem.getTextSprite('Black', 'P'),
+    Q: AtlasSubsystem.getTextSprite('Black', 'Q'),
+    R: AtlasSubsystem.getTextSprite('Black', 'R'),
+    S: AtlasSubsystem.getTextSprite('Black', 'S'),
+    T: AtlasSubsystem.getTextSprite('Black', 'T'),
+    U: AtlasSubsystem.getTextSprite('Black', 'U'),
+    V: AtlasSubsystem.getTextSprite('Black', 'V'),
+    W: AtlasSubsystem.getTextSprite('Black', 'W'),
+    X: AtlasSubsystem.getTextSprite('Black', 'X'),
+    Y: AtlasSubsystem.getTextSprite('Black', 'Y'),
+    Z: AtlasSubsystem.getTextSprite('Black', 'Z'),
+    a: AtlasSubsystem.getTextSprite('Black', 'a'),
+    b: AtlasSubsystem.getTextSprite('Black', 'b'),
+    c: AtlasSubsystem.getTextSprite('Black', 'c'),
+    d: AtlasSubsystem.getTextSprite('Black', 'd'),
+    e: AtlasSubsystem.getTextSprite('Black', 'e'),
+    f: AtlasSubsystem.getTextSprite('Black', 'f'),
+    g: AtlasSubsystem.getTextSprite('Black', 'g'),
+    h: AtlasSubsystem.getTextSprite('Black', 'h'),
+    i: AtlasSubsystem.getTextSprite('Black', 'i'),
+    j: AtlasSubsystem.getTextSprite('Black', 'j'),
+    k: AtlasSubsystem.getTextSprite('Black', 'k'),
+    l: AtlasSubsystem.getTextSprite('Black', 'l'),
+    m: AtlasSubsystem.getTextSprite('Black', 'm'),
+    n: AtlasSubsystem.getTextSprite('Black', 'n'),
+    o: AtlasSubsystem.getTextSprite('Black', 'o'),
+    p: AtlasSubsystem.getTextSprite('Black', 'p'),
+    q: AtlasSubsystem.getTextSprite('Black', 'q'),
+    r: AtlasSubsystem.getTextSprite('Black', 'r'),
+    s: AtlasSubsystem.getTextSprite('Black', 's'),
+    t: AtlasSubsystem.getTextSprite('Black', 't'),
+    u: AtlasSubsystem.getTextSprite('Black', 'u'),
+    v: AtlasSubsystem.getTextSprite('Black', 'v'),
+    w: AtlasSubsystem.getTextSprite('Black', 'w'),
+    x: AtlasSubsystem.getTextSprite('Black', 'x'),
+    y: AtlasSubsystem.getTextSprite('Black', 'y'),
+    z: AtlasSubsystem.getTextSprite('Black', 'z'),
+    0: AtlasSubsystem.getTextSprite('Black', '0'),
+    1: AtlasSubsystem.getTextSprite('Black', '1'),
+    2: AtlasSubsystem.getTextSprite('Black', '2'),
+    3: AtlasSubsystem.getTextSprite('Black', '3'),
+    4: AtlasSubsystem.getTextSprite('Black', '4'),
+    5: AtlasSubsystem.getTextSprite('Black', '5'),
+    6: AtlasSubsystem.getTextSprite('Black', '6'),
+    7: AtlasSubsystem.getTextSprite('Black', '7'),
+    8: AtlasSubsystem.getTextSprite('Black', '8'),
+    9: AtlasSubsystem.getTextSprite('Black', '9'),
+    plus: AtlasSubsystem.getTextSprite('Black', '+'),
+    minus: AtlasSubsystem.getTextSprite('Black', '-'),
+    rightDoubleQuote: AtlasSubsystem.getTextSprite('Black', '"'),
+    rightSingleQuote: AtlasSubsystem.getTextSprite('Black', "'"),
+    leftDoubleQuote: AtlasSubsystem.getTextSprite('Black', '"'),
+    leftSingleQuote: AtlasSubsystem.getTextSprite('Black', "'"),
+    leftParenthesis: AtlasSubsystem.getTextSprite('Black', '('),
+    rightParenthesis: AtlasSubsystem.getTextSprite('Black', ')'),
+    comma: AtlasSubsystem.getTextSprite('Black', ','),
+    period: AtlasSubsystem.getTextSprite('Black', '.'),
+    colon: AtlasSubsystem.getTextSprite('Black', ':'),
+    questionMark: AtlasSubsystem.getTextSprite('Black', '?'),
+    exclamationPoint: AtlasSubsystem.getTextSprite('Black', '!'),
+    accentE: AtlasSubsystem.getTextSprite('Black', 'é'),
+    elipse: AtlasSubsystem.getTextSprite('Black', '...'),
+    altElipse: AtlasSubsystem.getTextSprite('Black', '...2')
   },
   White: {
-    A: getTextSprite('White', 'A'),
-    B: getTextSprite('White', 'B'),
-    C: getTextSprite('White', 'C'),
-    D: getTextSprite('White', 'D'),
-    E: getTextSprite('White', 'E'),
-    F: getTextSprite('White', 'F'),
-    G: getTextSprite('White', 'G'),
-    H: getTextSprite('White', 'H'),
-    I: getTextSprite('White', 'I'),
-    J: getTextSprite('White', 'J'),
-    K: getTextSprite('White', 'K'),
-    L: getTextSprite('White', 'L'),
-    M: getTextSprite('White', 'M'),
-    N: getTextSprite('White', 'N'),
-    O: getTextSprite('White', 'O'),
-    P: getTextSprite('White', 'P'),
-    Q: getTextSprite('White', 'Q'),
-    R: getTextSprite('White', 'R'),
-    S: getTextSprite('White', 'S'),
-    T: getTextSprite('White', 'T'),
-    U: getTextSprite('White', 'U'),
-    V: getTextSprite('White', 'V'),
-    W: getTextSprite('White', 'W'),
-    X: getTextSprite('White', 'X'),
-    Y: getTextSprite('White', 'Y'),
-    Z: getTextSprite('White', 'Z'),
-    a: getTextSprite('White', 'a'),
-    b: getTextSprite('White', 'b'),
-    c: getTextSprite('White', 'c'),
-    d: getTextSprite('White', 'd'),
-    e: getTextSprite('White', 'e'),
-    f: getTextSprite('White', 'f'),
-    g: getTextSprite('White', 'g'),
-    h: getTextSprite('White', 'h'),
-    i: getTextSprite('White', 'i'),
-    j: getTextSprite('White', 'j'),
-    k: getTextSprite('White', 'k'),
-    l: getTextSprite('White', 'l'),
-    m: getTextSprite('White', 'm'),
-    n: getTextSprite('White', 'n'),
-    o: getTextSprite('White', 'o'),
-    p: getTextSprite('White', 'p'),
-    q: getTextSprite('White', 'q'),
-    r: getTextSprite('White', 'r'),
-    s: getTextSprite('White', 's'),
-    t: getTextSprite('White', 't'),
-    u: getTextSprite('White', 'u'),
-    v: getTextSprite('White', 'v'),
-    w: getTextSprite('White', 'w'),
-    x: getTextSprite('White', 'x'),
-    y: getTextSprite('White', 'y'),
-    z: getTextSprite('White', 'z'),
-    0: getTextSprite('White', '0'),
-    1: getTextSprite('White', '1'),
-    2: getTextSprite('White', '2'),
-    3: getTextSprite('White', '3'),
-    4: getTextSprite('White', '4'),
-    5: getTextSprite('White', '5'),
-    6: getTextSprite('White', '6'),
-    7: getTextSprite('White', '7'),
-    8: getTextSprite('White', '8'),
-    9: getTextSprite('White', '9'),
-    plus: getTextSprite('White', '+'),
-    minus: getTextSprite('White', '-'),
-    rightDoubleQuote: getTextSprite('White', '"'),
-    rightSingleQuote: getTextSprite('White', "'"),
-    leftDoubleQuote: getTextSprite('White', '"'),
-    leftSingleQuote: getTextSprite('White', "'"),
-    leftParenthesis: getTextSprite('White', '('),
-    rightParenthesis: getTextSprite('White', ')'),
-    comma: getTextSprite('White', ','),
-    period: getTextSprite('White', '.'),
-    colon: getTextSprite('White', ':'),
-    questionMark: getTextSprite('White', '?'),
-    exclamationPoint: getTextSprite('White', '!'),
-    accentE: getTextSprite('White', 'é'),
-    elipse: getTextSprite('White', '...'),
-    altElipse: getTextSprite('White', '...2')
+    A: AtlasSubsystem.getTextSprite('White', 'A'),
+    B: AtlasSubsystem.getTextSprite('White', 'B'),
+    C: AtlasSubsystem.getTextSprite('White', 'C'),
+    D: AtlasSubsystem.getTextSprite('White', 'D'),
+    E: AtlasSubsystem.getTextSprite('White', 'E'),
+    F: AtlasSubsystem.getTextSprite('White', 'F'),
+    G: AtlasSubsystem.getTextSprite('White', 'G'),
+    H: AtlasSubsystem.getTextSprite('White', 'H'),
+    I: AtlasSubsystem.getTextSprite('White', 'I'),
+    J: AtlasSubsystem.getTextSprite('White', 'J'),
+    K: AtlasSubsystem.getTextSprite('White', 'K'),
+    L: AtlasSubsystem.getTextSprite('White', 'L'),
+    M: AtlasSubsystem.getTextSprite('White', 'M'),
+    N: AtlasSubsystem.getTextSprite('White', 'N'),
+    O: AtlasSubsystem.getTextSprite('White', 'O'),
+    P: AtlasSubsystem.getTextSprite('White', 'P'),
+    Q: AtlasSubsystem.getTextSprite('White', 'Q'),
+    R: AtlasSubsystem.getTextSprite('White', 'R'),
+    S: AtlasSubsystem.getTextSprite('White', 'S'),
+    T: AtlasSubsystem.getTextSprite('White', 'T'),
+    U: AtlasSubsystem.getTextSprite('White', 'U'),
+    V: AtlasSubsystem.getTextSprite('White', 'V'),
+    W: AtlasSubsystem.getTextSprite('White', 'W'),
+    X: AtlasSubsystem.getTextSprite('White', 'X'),
+    Y: AtlasSubsystem.getTextSprite('White', 'Y'),
+    Z: AtlasSubsystem.getTextSprite('White', 'Z'),
+    a: AtlasSubsystem.getTextSprite('White', 'a'),
+    b: AtlasSubsystem.getTextSprite('White', 'b'),
+    c: AtlasSubsystem.getTextSprite('White', 'c'),
+    d: AtlasSubsystem.getTextSprite('White', 'd'),
+    e: AtlasSubsystem.getTextSprite('White', 'e'),
+    f: AtlasSubsystem.getTextSprite('White', 'f'),
+    g: AtlasSubsystem.getTextSprite('White', 'g'),
+    h: AtlasSubsystem.getTextSprite('White', 'h'),
+    i: AtlasSubsystem.getTextSprite('White', 'i'),
+    j: AtlasSubsystem.getTextSprite('White', 'j'),
+    k: AtlasSubsystem.getTextSprite('White', 'k'),
+    l: AtlasSubsystem.getTextSprite('White', 'l'),
+    m: AtlasSubsystem.getTextSprite('White', 'm'),
+    n: AtlasSubsystem.getTextSprite('White', 'n'),
+    o: AtlasSubsystem.getTextSprite('White', 'o'),
+    p: AtlasSubsystem.getTextSprite('White', 'p'),
+    q: AtlasSubsystem.getTextSprite('White', 'q'),
+    r: AtlasSubsystem.getTextSprite('White', 'r'),
+    s: AtlasSubsystem.getTextSprite('White', 's'),
+    t: AtlasSubsystem.getTextSprite('White', 't'),
+    u: AtlasSubsystem.getTextSprite('White', 'u'),
+    v: AtlasSubsystem.getTextSprite('White', 'v'),
+    w: AtlasSubsystem.getTextSprite('White', 'w'),
+    x: AtlasSubsystem.getTextSprite('White', 'x'),
+    y: AtlasSubsystem.getTextSprite('White', 'y'),
+    z: AtlasSubsystem.getTextSprite('White', 'z'),
+    0: AtlasSubsystem.getTextSprite('White', '0'),
+    1: AtlasSubsystem.getTextSprite('White', '1'),
+    2: AtlasSubsystem.getTextSprite('White', '2'),
+    3: AtlasSubsystem.getTextSprite('White', '3'),
+    4: AtlasSubsystem.getTextSprite('White', '4'),
+    5: AtlasSubsystem.getTextSprite('White', '5'),
+    6: AtlasSubsystem.getTextSprite('White', '6'),
+    7: AtlasSubsystem.getTextSprite('White', '7'),
+    8: AtlasSubsystem.getTextSprite('White', '8'),
+    9: AtlasSubsystem.getTextSprite('White', '9'),
+    plus: AtlasSubsystem.getTextSprite('White', '+'),
+    minus: AtlasSubsystem.getTextSprite('White', '-'),
+    rightDoubleQuote: AtlasSubsystem.getTextSprite('White', '"'),
+    rightSingleQuote: AtlasSubsystem.getTextSprite('White', "'"),
+    leftDoubleQuote: AtlasSubsystem.getTextSprite('White', '"'),
+    leftSingleQuote: AtlasSubsystem.getTextSprite('White', "'"),
+    leftParenthesis: AtlasSubsystem.getTextSprite('White', '('),
+    rightParenthesis: AtlasSubsystem.getTextSprite('White', ')'),
+    comma: AtlasSubsystem.getTextSprite('White', ','),
+    period: AtlasSubsystem.getTextSprite('White', '.'),
+    colon: AtlasSubsystem.getTextSprite('White', ':'),
+    questionMark: AtlasSubsystem.getTextSprite('White', '?'),
+    exclamationPoint: AtlasSubsystem.getTextSprite('White', '!'),
+    accentE: AtlasSubsystem.getTextSprite('White', 'é'),
+    elipse: AtlasSubsystem.getTextSprite('White', '...'),
+    altElipse: AtlasSubsystem.getTextSprite('White', '...2')
   },
   Red: {
-    A: getTextSprite('Red', 'A'),
-    B: getTextSprite('Red', 'B'),
-    C: getTextSprite('Red', 'C'),
-    D: getTextSprite('Red', 'D'),
-    E: getTextSprite('Red', 'E'),
-    F: getTextSprite('Red', 'F'),
-    G: getTextSprite('Red', 'G'),
-    H: getTextSprite('Red', 'H'),
-    I: getTextSprite('Red', 'I'),
-    J: getTextSprite('Red', 'J'),
-    K: getTextSprite('Red', 'K'),
-    L: getTextSprite('Red', 'L'),
-    M: getTextSprite('Red', 'M'),
-    N: getTextSprite('Red', 'N'),
-    O: getTextSprite('Red', 'O'),
-    P: getTextSprite('Red', 'P'),
-    Q: getTextSprite('Red', 'Q'),
-    R: getTextSprite('Red', 'R'),
-    S: getTextSprite('Red', 'S'),
-    T: getTextSprite('Red', 'T'),
-    U: getTextSprite('Red', 'U'),
-    V: getTextSprite('Red', 'V'),
-    W: getTextSprite('Red', 'W'),
-    X: getTextSprite('Red', 'X'),
-    Y: getTextSprite('Red', 'Y'),
-    Z: getTextSprite('Red', 'Z'),
-    a: getTextSprite('Red', 'a'),
-    b: getTextSprite('Red', 'b'),
-    c: getTextSprite('Red', 'c'),
-    d: getTextSprite('Red', 'd'),
-    e: getTextSprite('Red', 'e'),
-    f: getTextSprite('Red', 'f'),
-    g: getTextSprite('Red', 'g'),
-    h: getTextSprite('Red', 'h'),
-    i: getTextSprite('Red', 'i'),
-    j: getTextSprite('Red', 'j'),
-    k: getTextSprite('Red', 'k'),
-    l: getTextSprite('Red', 'l'),
-    m: getTextSprite('Red', 'm'),
-    n: getTextSprite('Red', 'n'),
-    o: getTextSprite('Red', 'o'),
-    p: getTextSprite('Red', 'p'),
-    q: getTextSprite('Red', 'q'),
-    r: getTextSprite('Red', 'r'),
-    s: getTextSprite('Red', 's'),
-    t: getTextSprite('Red', 't'),
-    u: getTextSprite('Red', 'u'),
-    v: getTextSprite('Red', 'v'),
-    w: getTextSprite('Red', 'w'),
-    x: getTextSprite('Red', 'x'),
-    y: getTextSprite('Red', 'y'),
-    z: getTextSprite('Red', 'z'),
-    0: getTextSprite('Red', '0'),
-    1: getTextSprite('Red', '1'),
-    2: getTextSprite('Red', '2'),
-    3: getTextSprite('Red', '3'),
-    4: getTextSprite('Red', '4'),
-    5: getTextSprite('Red', '5'),
-    6: getTextSprite('Red', '6'),
-    7: getTextSprite('Red', '7'),
-    8: getTextSprite('Red', '8'),
-    9: getTextSprite('Red', '9'),
-    plus: getTextSprite('Red', '+'),
-    minus: getTextSprite('Red', '-'),
-    rightDoubleQuote: getTextSprite('Red', '"'),
-    rightSingleQuote: getTextSprite('Red', "'"),
-    leftDoubleQuote: getTextSprite('Red', '"'),
-    leftSingleQuote: getTextSprite('Red', "'"),
-    leftParenthesis: getTextSprite('Red', '('),
-    rightParenthesis: getTextSprite('Red', ')'),
-    comma: getTextSprite('Red', ','),
-    period: getTextSprite('Red', '.'),
-    colon: getTextSprite('Red', ':'),
-    questionMark: getTextSprite('Red', '?'),
-    exclamationPoint: getTextSprite('Red', '!'),
-    accentE: getTextSprite('Red', 'é'),
-    elipse: getTextSprite('Red', '...'),
-    altElipse: getTextSprite('Red', '...2')
+    A: AtlasSubsystem.getTextSprite('Red', 'A'),
+    B: AtlasSubsystem.getTextSprite('Red', 'B'),
+    C: AtlasSubsystem.getTextSprite('Red', 'C'),
+    D: AtlasSubsystem.getTextSprite('Red', 'D'),
+    E: AtlasSubsystem.getTextSprite('Red', 'E'),
+    F: AtlasSubsystem.getTextSprite('Red', 'F'),
+    G: AtlasSubsystem.getTextSprite('Red', 'G'),
+    H: AtlasSubsystem.getTextSprite('Red', 'H'),
+    I: AtlasSubsystem.getTextSprite('Red', 'I'),
+    J: AtlasSubsystem.getTextSprite('Red', 'J'),
+    K: AtlasSubsystem.getTextSprite('Red', 'K'),
+    L: AtlasSubsystem.getTextSprite('Red', 'L'),
+    M: AtlasSubsystem.getTextSprite('Red', 'M'),
+    N: AtlasSubsystem.getTextSprite('Red', 'N'),
+    O: AtlasSubsystem.getTextSprite('Red', 'O'),
+    P: AtlasSubsystem.getTextSprite('Red', 'P'),
+    Q: AtlasSubsystem.getTextSprite('Red', 'Q'),
+    R: AtlasSubsystem.getTextSprite('Red', 'R'),
+    S: AtlasSubsystem.getTextSprite('Red', 'S'),
+    T: AtlasSubsystem.getTextSprite('Red', 'T'),
+    U: AtlasSubsystem.getTextSprite('Red', 'U'),
+    V: AtlasSubsystem.getTextSprite('Red', 'V'),
+    W: AtlasSubsystem.getTextSprite('Red', 'W'),
+    X: AtlasSubsystem.getTextSprite('Red', 'X'),
+    Y: AtlasSubsystem.getTextSprite('Red', 'Y'),
+    Z: AtlasSubsystem.getTextSprite('Red', 'Z'),
+    a: AtlasSubsystem.getTextSprite('Red', 'a'),
+    b: AtlasSubsystem.getTextSprite('Red', 'b'),
+    c: AtlasSubsystem.getTextSprite('Red', 'c'),
+    d: AtlasSubsystem.getTextSprite('Red', 'd'),
+    e: AtlasSubsystem.getTextSprite('Red', 'e'),
+    f: AtlasSubsystem.getTextSprite('Red', 'f'),
+    g: AtlasSubsystem.getTextSprite('Red', 'g'),
+    h: AtlasSubsystem.getTextSprite('Red', 'h'),
+    i: AtlasSubsystem.getTextSprite('Red', 'i'),
+    j: AtlasSubsystem.getTextSprite('Red', 'j'),
+    k: AtlasSubsystem.getTextSprite('Red', 'k'),
+    l: AtlasSubsystem.getTextSprite('Red', 'l'),
+    m: AtlasSubsystem.getTextSprite('Red', 'm'),
+    n: AtlasSubsystem.getTextSprite('Red', 'n'),
+    o: AtlasSubsystem.getTextSprite('Red', 'o'),
+    p: AtlasSubsystem.getTextSprite('Red', 'p'),
+    q: AtlasSubsystem.getTextSprite('Red', 'q'),
+    r: AtlasSubsystem.getTextSprite('Red', 'r'),
+    s: AtlasSubsystem.getTextSprite('Red', 's'),
+    t: AtlasSubsystem.getTextSprite('Red', 't'),
+    u: AtlasSubsystem.getTextSprite('Red', 'u'),
+    v: AtlasSubsystem.getTextSprite('Red', 'v'),
+    w: AtlasSubsystem.getTextSprite('Red', 'w'),
+    x: AtlasSubsystem.getTextSprite('Red', 'x'),
+    y: AtlasSubsystem.getTextSprite('Red', 'y'),
+    z: AtlasSubsystem.getTextSprite('Red', 'z'),
+    0: AtlasSubsystem.getTextSprite('Red', '0'),
+    1: AtlasSubsystem.getTextSprite('Red', '1'),
+    2: AtlasSubsystem.getTextSprite('Red', '2'),
+    3: AtlasSubsystem.getTextSprite('Red', '3'),
+    4: AtlasSubsystem.getTextSprite('Red', '4'),
+    5: AtlasSubsystem.getTextSprite('Red', '5'),
+    6: AtlasSubsystem.getTextSprite('Red', '6'),
+    7: AtlasSubsystem.getTextSprite('Red', '7'),
+    8: AtlasSubsystem.getTextSprite('Red', '8'),
+    9: AtlasSubsystem.getTextSprite('Red', '9'),
+    plus: AtlasSubsystem.getTextSprite('Red', '+'),
+    minus: AtlasSubsystem.getTextSprite('Red', '-'),
+    rightDoubleQuote: AtlasSubsystem.getTextSprite('Red', '"'),
+    rightSingleQuote: AtlasSubsystem.getTextSprite('Red', "'"),
+    leftDoubleQuote: AtlasSubsystem.getTextSprite('Red', '"'),
+    leftSingleQuote: AtlasSubsystem.getTextSprite('Red', "'"),
+    leftParenthesis: AtlasSubsystem.getTextSprite('Red', '('),
+    rightParenthesis: AtlasSubsystem.getTextSprite('Red', ')'),
+    comma: AtlasSubsystem.getTextSprite('Red', ','),
+    period: AtlasSubsystem.getTextSprite('Red', '.'),
+    colon: AtlasSubsystem.getTextSprite('Red', ':'),
+    questionMark: AtlasSubsystem.getTextSprite('Red', '?'),
+    exclamationPoint: AtlasSubsystem.getTextSprite('Red', '!'),
+    accentE: AtlasSubsystem.getTextSprite('Red', 'é'),
+    elipse: AtlasSubsystem.getTextSprite('Red', '...'),
+    altElipse: AtlasSubsystem.getTextSprite('Red', '...2')
   },
   Blue: {
-    A: getTextSprite('Blue', 'A'),
-    B: getTextSprite('Blue', 'B'),
-    C: getTextSprite('Blue', 'C'),
-    D: getTextSprite('Blue', 'D'),
-    E: getTextSprite('Blue', 'E'),
-    F: getTextSprite('Blue', 'F'),
-    G: getTextSprite('Blue', 'G'),
-    H: getTextSprite('Blue', 'H'),
-    I: getTextSprite('Blue', 'I'),
-    J: getTextSprite('Blue', 'J'),
-    K: getTextSprite('Blue', 'K'),
-    L: getTextSprite('Blue', 'L'),
-    M: getTextSprite('Blue', 'M'),
-    N: getTextSprite('Blue', 'N'),
-    O: getTextSprite('Blue', 'O'),
-    P: getTextSprite('Blue', 'P'),
-    Q: getTextSprite('Blue', 'Q'),
-    R: getTextSprite('Blue', 'R'),
-    S: getTextSprite('Blue', 'S'),
-    T: getTextSprite('Blue', 'T'),
-    U: getTextSprite('Blue', 'U'),
-    V: getTextSprite('Blue', 'V'),
-    W: getTextSprite('Blue', 'W'),
-    X: getTextSprite('Blue', 'X'),
-    Y: getTextSprite('Blue', 'Y'),
-    Z: getTextSprite('Blue', 'Z'),
-    a: getTextSprite('Blue', 'a'),
-    b: getTextSprite('Blue', 'b'),
-    c: getTextSprite('Blue', 'c'),
-    d: getTextSprite('Blue', 'd'),
-    e: getTextSprite('Blue', 'e'),
-    f: getTextSprite('Blue', 'f'),
-    g: getTextSprite('Blue', 'g'),
-    h: getTextSprite('Blue', 'h'),
-    i: getTextSprite('Blue', 'i'),
-    j: getTextSprite('Blue', 'j'),
-    k: getTextSprite('Blue', 'k'),
-    l: getTextSprite('Blue', 'l'),
-    m: getTextSprite('Blue', 'm'),
-    n: getTextSprite('Blue', 'n'),
-    o: getTextSprite('Blue', 'o'),
-    p: getTextSprite('Blue', 'p'),
-    q: getTextSprite('Blue', 'q'),
-    r: getTextSprite('Blue', 'r'),
-    s: getTextSprite('Blue', 's'),
-    t: getTextSprite('Blue', 't'),
-    u: getTextSprite('Blue', 'u'),
-    v: getTextSprite('Blue', 'v'),
-    w: getTextSprite('Blue', 'w'),
-    x: getTextSprite('Blue', 'x'),
-    y: getTextSprite('Blue', 'y'),
-    z: getTextSprite('Blue', 'z'),
-    0: getTextSprite('Blue', '0'),
-    1: getTextSprite('Blue', '1'),
-    2: getTextSprite('Blue', '2'),
-    3: getTextSprite('Blue', '3'),
-    4: getTextSprite('Blue', '4'),
-    5: getTextSprite('Blue', '5'),
-    6: getTextSprite('Blue', '6'),
-    7: getTextSprite('Blue', '7'),
-    8: getTextSprite('Blue', '8'),
-    9: getTextSprite('Blue', '9'),
-    plus: getTextSprite('Blue', '+'),
-    minus: getTextSprite('Blue', '-'),
-    rightDoubleQuote: getTextSprite('Blue', '"'),
-    rightSingleQuote: getTextSprite('Blue', "'"),
-    leftDoubleQuote: getTextSprite('Blue', '"'),
-    leftSingleQuote: getTextSprite('Blue', "'"),
-    leftParenthesis: getTextSprite('Blue', '('),
-    rightParenthesis: getTextSprite('Blue', ')'),
-    comma: getTextSprite('Blue', ','),
-    period: getTextSprite('Blue', '.'),
-    colon: getTextSprite('Blue', ':'),
-    questionMark: getTextSprite('Blue', '?'),
-    exclamationPoint: getTextSprite('Blue', '!'),
-    accentE: getTextSprite('Blue', 'é'),
-    elipse: getTextSprite('Blue', '...'),
-    altElipse: getTextSprite('Blue', '...2')
+    A: AtlasSubsystem.getTextSprite('Blue', 'A'),
+    B: AtlasSubsystem.getTextSprite('Blue', 'B'),
+    C: AtlasSubsystem.getTextSprite('Blue', 'C'),
+    D: AtlasSubsystem.getTextSprite('Blue', 'D'),
+    E: AtlasSubsystem.getTextSprite('Blue', 'E'),
+    F: AtlasSubsystem.getTextSprite('Blue', 'F'),
+    G: AtlasSubsystem.getTextSprite('Blue', 'G'),
+    H: AtlasSubsystem.getTextSprite('Blue', 'H'),
+    I: AtlasSubsystem.getTextSprite('Blue', 'I'),
+    J: AtlasSubsystem.getTextSprite('Blue', 'J'),
+    K: AtlasSubsystem.getTextSprite('Blue', 'K'),
+    L: AtlasSubsystem.getTextSprite('Blue', 'L'),
+    M: AtlasSubsystem.getTextSprite('Blue', 'M'),
+    N: AtlasSubsystem.getTextSprite('Blue', 'N'),
+    O: AtlasSubsystem.getTextSprite('Blue', 'O'),
+    P: AtlasSubsystem.getTextSprite('Blue', 'P'),
+    Q: AtlasSubsystem.getTextSprite('Blue', 'Q'),
+    R: AtlasSubsystem.getTextSprite('Blue', 'R'),
+    S: AtlasSubsystem.getTextSprite('Blue', 'S'),
+    T: AtlasSubsystem.getTextSprite('Blue', 'T'),
+    U: AtlasSubsystem.getTextSprite('Blue', 'U'),
+    V: AtlasSubsystem.getTextSprite('Blue', 'V'),
+    W: AtlasSubsystem.getTextSprite('Blue', 'W'),
+    X: AtlasSubsystem.getTextSprite('Blue', 'X'),
+    Y: AtlasSubsystem.getTextSprite('Blue', 'Y'),
+    Z: AtlasSubsystem.getTextSprite('Blue', 'Z'),
+    a: AtlasSubsystem.getTextSprite('Blue', 'a'),
+    b: AtlasSubsystem.getTextSprite('Blue', 'b'),
+    c: AtlasSubsystem.getTextSprite('Blue', 'c'),
+    d: AtlasSubsystem.getTextSprite('Blue', 'd'),
+    e: AtlasSubsystem.getTextSprite('Blue', 'e'),
+    f: AtlasSubsystem.getTextSprite('Blue', 'f'),
+    g: AtlasSubsystem.getTextSprite('Blue', 'g'),
+    h: AtlasSubsystem.getTextSprite('Blue', 'h'),
+    i: AtlasSubsystem.getTextSprite('Blue', 'i'),
+    j: AtlasSubsystem.getTextSprite('Blue', 'j'),
+    k: AtlasSubsystem.getTextSprite('Blue', 'k'),
+    l: AtlasSubsystem.getTextSprite('Blue', 'l'),
+    m: AtlasSubsystem.getTextSprite('Blue', 'm'),
+    n: AtlasSubsystem.getTextSprite('Blue', 'n'),
+    o: AtlasSubsystem.getTextSprite('Blue', 'o'),
+    p: AtlasSubsystem.getTextSprite('Blue', 'p'),
+    q: AtlasSubsystem.getTextSprite('Blue', 'q'),
+    r: AtlasSubsystem.getTextSprite('Blue', 'r'),
+    s: AtlasSubsystem.getTextSprite('Blue', 's'),
+    t: AtlasSubsystem.getTextSprite('Blue', 't'),
+    u: AtlasSubsystem.getTextSprite('Blue', 'u'),
+    v: AtlasSubsystem.getTextSprite('Blue', 'v'),
+    w: AtlasSubsystem.getTextSprite('Blue', 'w'),
+    x: AtlasSubsystem.getTextSprite('Blue', 'x'),
+    y: AtlasSubsystem.getTextSprite('Blue', 'y'),
+    z: AtlasSubsystem.getTextSprite('Blue', 'z'),
+    0: AtlasSubsystem.getTextSprite('Blue', '0'),
+    1: AtlasSubsystem.getTextSprite('Blue', '1'),
+    2: AtlasSubsystem.getTextSprite('Blue', '2'),
+    3: AtlasSubsystem.getTextSprite('Blue', '3'),
+    4: AtlasSubsystem.getTextSprite('Blue', '4'),
+    5: AtlasSubsystem.getTextSprite('Blue', '5'),
+    6: AtlasSubsystem.getTextSprite('Blue', '6'),
+    7: AtlasSubsystem.getTextSprite('Blue', '7'),
+    8: AtlasSubsystem.getTextSprite('Blue', '8'),
+    9: AtlasSubsystem.getTextSprite('Blue', '9'),
+    plus: AtlasSubsystem.getTextSprite('Blue', '+'),
+    minus: AtlasSubsystem.getTextSprite('Blue', '-'),
+    rightDoubleQuote: AtlasSubsystem.getTextSprite('Blue', '"'),
+    rightSingleQuote: AtlasSubsystem.getTextSprite('Blue', "'"),
+    leftDoubleQuote: AtlasSubsystem.getTextSprite('Blue', '"'),
+    leftSingleQuote: AtlasSubsystem.getTextSprite('Blue', "'"),
+    leftParenthesis: AtlasSubsystem.getTextSprite('Blue', '('),
+    rightParenthesis: AtlasSubsystem.getTextSprite('Blue', ')'),
+    comma: AtlasSubsystem.getTextSprite('Blue', ','),
+    period: AtlasSubsystem.getTextSprite('Blue', '.'),
+    colon: AtlasSubsystem.getTextSprite('Blue', ':'),
+    questionMark: AtlasSubsystem.getTextSprite('Blue', '?'),
+    exclamationPoint: AtlasSubsystem.getTextSprite('Blue', '!'),
+    accentE: AtlasSubsystem.getTextSprite('Blue', 'é'),
+    elipse: AtlasSubsystem.getTextSprite('Blue', '...'),
+    altElipse: AtlasSubsystem.getTextSprite('Blue', '...2')
   },
   Yellow: {
-    A: getTextSprite('Yellow', 'A'),
-    B: getTextSprite('Yellow', 'B'),
-    C: getTextSprite('Yellow', 'C'),
-    D: getTextSprite('Yellow', 'D'),
-    E: getTextSprite('Yellow', 'E'),
-    F: getTextSprite('Yellow', 'F'),
-    G: getTextSprite('Yellow', 'G'),
-    H: getTextSprite('Yellow', 'H'),
-    I: getTextSprite('Yellow', 'I'),
-    J: getTextSprite('Yellow', 'J'),
-    K: getTextSprite('Yellow', 'K'),
-    L: getTextSprite('Yellow', 'L'),
-    M: getTextSprite('Yellow', 'M'),
-    N: getTextSprite('Yellow', 'N'),
-    O: getTextSprite('Yellow', 'O'),
-    P: getTextSprite('Yellow', 'P'),
-    Q: getTextSprite('Yellow', 'Q'),
-    R: getTextSprite('Yellow', 'R'),
-    S: getTextSprite('Yellow', 'S'),
-    T: getTextSprite('Yellow', 'T'),
-    U: getTextSprite('Yellow', 'U'),
-    V: getTextSprite('Yellow', 'V'),
-    W: getTextSprite('Yellow', 'W'),
-    X: getTextSprite('Yellow', 'X'),
-    Y: getTextSprite('Yellow', 'Y'),
-    Z: getTextSprite('Yellow', 'Z'),
-    a: getTextSprite('Yellow', 'a'),
-    b: getTextSprite('Yellow', 'b'),
-    c: getTextSprite('Yellow', 'c'),
-    d: getTextSprite('Yellow', 'd'),
-    e: getTextSprite('Yellow', 'e'),
-    f: getTextSprite('Yellow', 'f'),
-    g: getTextSprite('Yellow', 'g'),
-    h: getTextSprite('Yellow', 'h'),
-    i: getTextSprite('Yellow', 'i'),
-    j: getTextSprite('Yellow', 'j'),
-    k: getTextSprite('Yellow', 'k'),
-    l: getTextSprite('Yellow', 'l'),
-    m: getTextSprite('Yellow', 'm'),
-    n: getTextSprite('Yellow', 'n'),
-    o: getTextSprite('Yellow', 'o'),
-    p: getTextSprite('Yellow', 'p'),
-    q: getTextSprite('Yellow', 'q'),
-    r: getTextSprite('Yellow', 'r'),
-    s: getTextSprite('Yellow', 's'),
-    t: getTextSprite('Yellow', 't'),
-    u: getTextSprite('Yellow', 'u'),
-    v: getTextSprite('Yellow', 'v'),
-    w: getTextSprite('Yellow', 'w'),
-    x: getTextSprite('Yellow', 'x'),
-    y: getTextSprite('Yellow', 'y'),
-    z: getTextSprite('Yellow', 'z'),
-    0: getTextSprite('Yellow', '0'),
-    1: getTextSprite('Yellow', '1'),
-    2: getTextSprite('Yellow', '2'),
-    3: getTextSprite('Yellow', '3'),
-    4: getTextSprite('Yellow', '4'),
-    5: getTextSprite('Yellow', '5'),
-    6: getTextSprite('Yellow', '6'),
-    7: getTextSprite('Yellow', '7'),
-    8: getTextSprite('Yellow', '8'),
-    9: getTextSprite('Yellow', '9'),
-    plus: getTextSprite('Yellow', '+'),
-    minus: getTextSprite('Yellow', '-'),
-    rightDoubleQuote: getTextSprite('Yellow', '"'),
-    rightSingleQuote: getTextSprite('Yellow', "'"),
-    leftDoubleQuote: getTextSprite('Yellow', '"'),
-    leftSingleQuote: getTextSprite('Yellow', "'"),
-    leftParenthesis: getTextSprite('Yellow', '('),
-    rightParenthesis: getTextSprite('Yellow', ')'),
-    comma: getTextSprite('Yellow', ','),
-    period: getTextSprite('Yellow', '.'),
-    colon: getTextSprite('Yellow', ':'),
-    questionMark: getTextSprite('Yellow', '?'),
-    exclamationPoint: getTextSprite('Yellow', '!'),
-    accentE: getTextSprite('Yellow', 'é'),
-    elipse: getTextSprite('Yellow', '...'),
-    altElipse: getTextSprite('Yellow', '...2')
+    A: AtlasSubsystem.getTextSprite('Yellow', 'A'),
+    B: AtlasSubsystem.getTextSprite('Yellow', 'B'),
+    C: AtlasSubsystem.getTextSprite('Yellow', 'C'),
+    D: AtlasSubsystem.getTextSprite('Yellow', 'D'),
+    E: AtlasSubsystem.getTextSprite('Yellow', 'E'),
+    F: AtlasSubsystem.getTextSprite('Yellow', 'F'),
+    G: AtlasSubsystem.getTextSprite('Yellow', 'G'),
+    H: AtlasSubsystem.getTextSprite('Yellow', 'H'),
+    I: AtlasSubsystem.getTextSprite('Yellow', 'I'),
+    J: AtlasSubsystem.getTextSprite('Yellow', 'J'),
+    K: AtlasSubsystem.getTextSprite('Yellow', 'K'),
+    L: AtlasSubsystem.getTextSprite('Yellow', 'L'),
+    M: AtlasSubsystem.getTextSprite('Yellow', 'M'),
+    N: AtlasSubsystem.getTextSprite('Yellow', 'N'),
+    O: AtlasSubsystem.getTextSprite('Yellow', 'O'),
+    P: AtlasSubsystem.getTextSprite('Yellow', 'P'),
+    Q: AtlasSubsystem.getTextSprite('Yellow', 'Q'),
+    R: AtlasSubsystem.getTextSprite('Yellow', 'R'),
+    S: AtlasSubsystem.getTextSprite('Yellow', 'S'),
+    T: AtlasSubsystem.getTextSprite('Yellow', 'T'),
+    U: AtlasSubsystem.getTextSprite('Yellow', 'U'),
+    V: AtlasSubsystem.getTextSprite('Yellow', 'V'),
+    W: AtlasSubsystem.getTextSprite('Yellow', 'W'),
+    X: AtlasSubsystem.getTextSprite('Yellow', 'X'),
+    Y: AtlasSubsystem.getTextSprite('Yellow', 'Y'),
+    Z: AtlasSubsystem.getTextSprite('Yellow', 'Z'),
+    a: AtlasSubsystem.getTextSprite('Yellow', 'a'),
+    b: AtlasSubsystem.getTextSprite('Yellow', 'b'),
+    c: AtlasSubsystem.getTextSprite('Yellow', 'c'),
+    d: AtlasSubsystem.getTextSprite('Yellow', 'd'),
+    e: AtlasSubsystem.getTextSprite('Yellow', 'e'),
+    f: AtlasSubsystem.getTextSprite('Yellow', 'f'),
+    g: AtlasSubsystem.getTextSprite('Yellow', 'g'),
+    h: AtlasSubsystem.getTextSprite('Yellow', 'h'),
+    i: AtlasSubsystem.getTextSprite('Yellow', 'i'),
+    j: AtlasSubsystem.getTextSprite('Yellow', 'j'),
+    k: AtlasSubsystem.getTextSprite('Yellow', 'k'),
+    l: AtlasSubsystem.getTextSprite('Yellow', 'l'),
+    m: AtlasSubsystem.getTextSprite('Yellow', 'm'),
+    n: AtlasSubsystem.getTextSprite('Yellow', 'n'),
+    o: AtlasSubsystem.getTextSprite('Yellow', 'o'),
+    p: AtlasSubsystem.getTextSprite('Yellow', 'p'),
+    q: AtlasSubsystem.getTextSprite('Yellow', 'q'),
+    r: AtlasSubsystem.getTextSprite('Yellow', 'r'),
+    s: AtlasSubsystem.getTextSprite('Yellow', 's'),
+    t: AtlasSubsystem.getTextSprite('Yellow', 't'),
+    u: AtlasSubsystem.getTextSprite('Yellow', 'u'),
+    v: AtlasSubsystem.getTextSprite('Yellow', 'v'),
+    w: AtlasSubsystem.getTextSprite('Yellow', 'w'),
+    x: AtlasSubsystem.getTextSprite('Yellow', 'x'),
+    y: AtlasSubsystem.getTextSprite('Yellow', 'y'),
+    z: AtlasSubsystem.getTextSprite('Yellow', 'z'),
+    0: AtlasSubsystem.getTextSprite('Yellow', '0'),
+    1: AtlasSubsystem.getTextSprite('Yellow', '1'),
+    2: AtlasSubsystem.getTextSprite('Yellow', '2'),
+    3: AtlasSubsystem.getTextSprite('Yellow', '3'),
+    4: AtlasSubsystem.getTextSprite('Yellow', '4'),
+    5: AtlasSubsystem.getTextSprite('Yellow', '5'),
+    6: AtlasSubsystem.getTextSprite('Yellow', '6'),
+    7: AtlasSubsystem.getTextSprite('Yellow', '7'),
+    8: AtlasSubsystem.getTextSprite('Yellow', '8'),
+    9: AtlasSubsystem.getTextSprite('Yellow', '9'),
+    plus: AtlasSubsystem.getTextSprite('Yellow', '+'),
+    minus: AtlasSubsystem.getTextSprite('Yellow', '-'),
+    rightDoubleQuote: AtlasSubsystem.getTextSprite('Yellow', '"'),
+    rightSingleQuote: AtlasSubsystem.getTextSprite('Yellow', "'"),
+    leftDoubleQuote: AtlasSubsystem.getTextSprite('Yellow', '"'),
+    leftSingleQuote: AtlasSubsystem.getTextSprite('Yellow', "'"),
+    leftParenthesis: AtlasSubsystem.getTextSprite('Yellow', '('),
+    rightParenthesis: AtlasSubsystem.getTextSprite('Yellow', ')'),
+    comma: AtlasSubsystem.getTextSprite('Yellow', ','),
+    period: AtlasSubsystem.getTextSprite('Yellow', '.'),
+    colon: AtlasSubsystem.getTextSprite('Yellow', ':'),
+    questionMark: AtlasSubsystem.getTextSprite('Yellow', '?'),
+    exclamationPoint: AtlasSubsystem.getTextSprite('Yellow', '!'),
+    accentE: AtlasSubsystem.getTextSprite('Yellow', 'é'),
+    elipse: AtlasSubsystem.getTextSprite('Yellow', '...'),
+    altElipse: AtlasSubsystem.getTextSprite('Yellow', '...2')
   }
 }
   // Level up VFX
+  //todo: add to atlas subsystem
 const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame2.png',
@@ -2384,6 +1015,7 @@ const levelVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/level/levelFrame15.png'
 ]
   // Buff VFX
+  //todo: add to atlas subsystem
 const buffVfxFrames = [
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame1.png',
   'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Vaporeon/animations/frames/buff/buffFrame2.png',
@@ -9393,7 +8025,7 @@ return (
                       }} />
                     )}
                     {itemHere && (() => {
-                      const atlasKey = getAtlasKeyForItemName(itemHere.itemName);
+                      const atlasKey = AtlasSubsystem.getAtlasKeyForItemName(itemHere.itemName);
                       const shouldScale = atlasKey && !['Reviverseed', 'Scarf', 'Orb'].includes(atlasKey);
                       return (
                         <SpriteCanvas
@@ -10643,7 +9275,7 @@ return (
               {inventory.map((item, idx) => (
                 <li key={idx} className="text-white flex items-center mb-2">
                   <SpriteCanvas
-                    atlasKey={getAtlasKeyForItemName(item.name)}
+                    atlasKey={AtlasSubsystem.getAtlasKeyForItemName(item.name)}
                     alt={item.name}
                     style={{ width: 32, marginRight: 8 }}
                   />
