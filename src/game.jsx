@@ -1,21 +1,5 @@
 import { AtlasSubsystem, ItemAtlas, PokemonAtlas, vfxAtlas, DMGAtlas, TextAtlas } from './AtlasSubsystem.jsx';
-
-// Create compatibility aliases for existing code
-const Reviverseed = AtlasSubsystem.getItemSprite('Reviverseed');
-const Apple = AtlasSubsystem.getItemSprite('Apple');
-const Bigapple = AtlasSubsystem.getItemSprite('Bigapple');
-const Goldenapple = AtlasSubsystem.getItemSprite('Goldenapple');
-const Grimyfood = AtlasSubsystem.getItemSprite('Grimyfood');
-const Maxether = AtlasSubsystem.getItemSprite('Maxether');
-const Maxelixir = AtlasSubsystem.getItemSprite('Maxelixir');
-const Protein = AtlasSubsystem.getItemSprite('Protein');
-const Calcium = AtlasSubsystem.getItemSprite('Calcium');
-const Iron = AtlasSubsystem.getItemSprite('Iron');
-const Zinc = AtlasSubsystem.getItemSprite('Zinc');
-const Carbos = AtlasSubsystem.getItemSprite('Carbos');
-const Scarf = AtlasSubsystem.getItemSprite('Scarf');
-const Orb = AtlasSubsystem.getItemSprite('Orb');
-const GeoPebble = AtlasSubsystem.getItemSprite('GeoPebble');
+import { MOVE_DEFS, ITEM_DEFS, ENEMY_DEFS, itemUrls } from './DefintionSubsystem.jsx';
 
 // ========== CANVAS COMPONENTS ==========
 // Renders a single sprite from an atlas using canvas drawImage
@@ -157,379 +141,6 @@ const TileCanvas = React.memo(({ src, alt, className, style = {}, width = 40, he
   );
 });
 
-// ========== DEFINITIONS ==========
-
-const MOVE_DEFS = {
-  "Acid Armor": {
-    name: "Acid Armor",
-    type: "Poison",
-    power: 0,
-    range: "Self",
-    accuracy: 100,
-    ppmax: 30,
-    ppcurr: 30,
-    effect: "Raises user's Defense by 2 stages.",
-  },
-  "Aqua Tail": {
-    name: "Aqua Tail",
-    type: "Water",
-    range: "1",
-    alignment: "radial",
-    power: 90,
-    accuracy: 90,
-    ppmax: 10,
-    ppcurr: 10,
-    effect: "Has a high critical hit ratio.",
-  },
-  "Aurora Beam": {
-    name: "Aurora Beam",
-    type: "Ice",
-    range: "6",
-    alignment: "same-direction",
-    power: 65,
-    accuracy: 100,
-    pp: 20,
-    effect: "May lower the target's Attack by 1 stage.",
-  },
-  "Bite": {
-    name: "Bite",
-    type: "Dark",
-    range: "1",
-    alignment: "same-direction",
-    power: 60,
-    accuracy: 100,
-    pp: 25,
-    effect: "May cause the target to flinch.",
-  },
-  "Bubble Beam": {
-    name: "Bubble Beam",
-    type: "Water",
-    range: "6",
-    alignment: "same-direction",
-    power: 65,
-    accuracy: 100,
-    pp: 20,
-    effect: "May lower the target's Speed by 1 stage.",
-  },
-  "Hydro Pump": {
-    name: "Hydro Pump",
-    type: "Water",
-    range: "10",
-    alignment: "same-direction",
-    power: 110,
-    accuracy: 80,
-    pp: 5,
-    effect: "No additional effect.",
-  },
-  "Ice Beam": {
-    name: "Ice Beam",
-    type: "Ice",
-    range: "6",
-    alignment: "same-direction",
-    power: 90,
-    accuracy: 100,
-    pp: 10,
-    effect: "May freeze."
-  },
-  "Muddy Water": {
-    name: "Muddy Water",
-    type: "Water",
-    range: "6",
-    alignment: "radial",
-    power: 90,
-    accuracy: 85,
-    pp: 10,
-    effect: "May lower the target's accuracy by 1 stage.",
-  },
-  'Refresh': {
-    name: 'Refresh',
-    type: 'Normal',
-    power: 0,
-    range: 'Self + Allies',
-    accuracy: 100,
-    ppmax: 20,
-    ppcurr: 20,
-    effect: "Heals the user if it is poisoned, burned, or paralyzed.",
-  },
-  "Water Pulse": {
-    name: "Water Pulse",
-    type: "Water",
-    power: 60,
-    range: "6",
-    alignment: "same-direction",
-    accuracy: 100,
-    ppmax: 20,
-    ppcurr: 20,
-    effect: "May confuse the target.",
-  },
-  "Rock Throw": {
-    name: "Rock Throw",
-    type: "Rock",
-    power: 50,
-    range: "2",
-    alignment: "same-direction",
-    accuracy: 100,
-    ppmax: 15,
-    ppcurr: 15,
-    effect: "No additional effect.",
-  }
-};
-const ITEM_DEFS = {
-  "Reviver Seed": {
-    name: "Reviver Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 2
-  },
-  "Stun Seed": {
-    name: "Stun Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 1
-  },
-  "Tiny Reviver Seed": {
-    name: "Tiny Reviver Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 1
-  },
-  "Sleep Seed": {
-    name: "Sleep Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 1
-  }
-  ,"Warp Seed": {
-    name: "Warp Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 1
-  },
-  "Life Seed": {
-    name: "Life Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 2
-  },
-  "Pure Seed": {
-    name: "Pure Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 3
-  },
-  "Joy Seed": {
-    name: "Joy Seed",
-    sprite: Reviverseed,
-    stackSize: 1,
-    tier: 2
-  },
-  "Apple": {
-    name: "Apple",
-    sprite: Apple,
-    stackSize: 1,
-    tier: 1
-  },
-  "Big Apple": {
-    name: "Big Apple",
-    sprite: Bigapple,
-    stackSize: 1,
-    tier: 2
-  },
-  "Golden Apple": {
-    name: "Golden Apple",
-    sprite: Goldenapple,
-    stackSize: 1,
-    tier: 3
-  },
-  "Grimy Food": {
-    name: "Grimy Food",
-    sprite: Grimyfood,
-    stackSize: 1,
-    tier: 1
-  },
-  "Max Ether": {
-    name: "Max Ether",
-    sprite: Maxether,
-    stackSize: 1,
-    tier: 1
-  },
-  "Max Elixir": {
-    name: "Max Elixir",
-    sprite: Maxelixir,
-    stackSize: 1,
-    tier: 2
-  },
-  "Protein": {
-    name: "Protein",
-    sprite: Protein,
-    stackSize: 1,
-    tier: 2
-  },
-  "Calcium": {
-    name: "Calcium",
-    sprite: Calcium,
-    stackSize: 1,
-    tier: 2
-  },
-  "Iron": {
-    name: "Iron",
-    sprite: Iron,
-    stackSize: 1,
-    tier: 2
-  },
-  "Zinc": {
-    name: "Zinc",
-    sprite: Zinc,
-    stackSize: 1,
-    tier: 2
-  },
-  "Carbos": {
-    name: "Carbos",
-    sprite: Carbos,
-    stackSize: 1,
-    tier: 2
-  },
-  "Zinc Band": {
-    name: "Zinc Band",
-    sprite: Scarf,
-    stackSize: 1,
-    tier: 4
-  },
-  "Special Band": {
-    name: "Special Band",
-    sprite: Scarf,
-    stackSize: 1,
-    tier: 4
-  },
-  "Warp Scarf": {
-    name: "Warp Scarf",
-    sprite: Scarf,
-    stackSize: 1,
-    tier: 4
-  },
-  "Luminous Orb": {
-    name: "Luminous Orb",
-    sprite: Orb,
-    stackSize: 1,
-    tier: 4
-  },
-  "Warp Orb": {
-    name: "Warp Orb",
-    sprite: Orb,
-    stackSize: 1,
-    tier: 1
-  }
-};
-const ENEMY_DEFS = {
-  //Note: Lunatone is a levitating Pokemon and does not reasonably need walk sprites
-  'Lunatone': {
-    name: 'Lunatone',
-    type: 'Rock/Psychic',
-    maxHp: 150,
-    hp: 150,
-    attack: 80,
-    specialAttack: 95,
-    specialDefense: 90,
-    defense: 90,
-    speed: 60,
-    moves: [MOVE_DEFS['Rock Throw'],
-      MOVE_DEFS['Aurora Beam'],
-      MOVE_DEFS['Bite'],
-      MOVE_DEFS['Moonblast']
-    ],
-    sprites: {
-      downIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDown8.png'
-      },
-      upIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUp8.png'
-      },
-      leftIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleLeft8.png'
-      },
-      rightIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleRight8.png'
-      },
-      upRightIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpRight8.png'
-      },
-      upLeftIdle: {
-        frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft1.png',
-        frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft2.png',
-        frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft3.png',
-        frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft4.png',
-        frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft5.png',
-        frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft6.png',
-        frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft7.png',
-        frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleUpLeft8.png'
-      },
-      downLeftIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft2.png',
-      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft3.png',
-      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft4.png',
-      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft5.png',
-      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft6.png',
-      frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft7.png',
-      frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownLeft8.png'
-      },
-      downRightIdle: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight1.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight2.png',
-      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight3.png',
-      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight4.png',
-      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight5.png',
-      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight6.png',
-      frame7: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight7.png',
-      frame8: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/idle/lunatoneIdleDownRight8.png'
-    },
-      sleep: {
-      frame1: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep000.png',
-      frame2: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep001.png',
-      frame3: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep002.png',
-      frame4: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep003.png',
-      frame5: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep004.png',
-      frame6: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Pokemon%20Sprites/Lunatone/animations/frames/sleep/LunatoneSleep005.png'
-    }
-  },
-},
-
-}
 const MAX_INVENTORY_SLOTS = 10;
 // Enemy moves
 const rockThrowVfxFrames = Array.from({ length: 30 }, (_, i) => AtlasSubsystem.getVfxSprite('RockThrow', 'none', i + 1));
@@ -593,408 +204,7 @@ const vaporeonUpLeftSpinSprites = Array.from({ length: 9 }, (_, i) => AtlasSubsy
 const vaporeonSleepSprites = Array.from({ length: 2 }, (_, i) => AtlasSubsystem.getPokemonSprite('Vaporeon', 'sleep', 'none', i + 1));
 // VFX animations
 const DMG1VfxFrames = Array.from({ length: 11 }, (_, i) => AtlasSubsystem.getDMGSprite('DMG1', i + 1));
-const Text = {
-  Black: {
-    A: AtlasSubsystem.getTextSprite('Black', 'A'),
-    B: AtlasSubsystem.getTextSprite('Black', 'B'),
-    C: AtlasSubsystem.getTextSprite('Black', 'C'),
-    D: AtlasSubsystem.getTextSprite('Black', 'D'),
-    E: AtlasSubsystem.getTextSprite('Black', 'E'),
-    F: AtlasSubsystem.getTextSprite('Black', 'F'),
-    G: AtlasSubsystem.getTextSprite('Black', 'G'),
-    H: AtlasSubsystem.getTextSprite('Black', 'H'),
-    I: AtlasSubsystem.getTextSprite('Black', 'I'),
-    J: AtlasSubsystem.getTextSprite('Black', 'J'),
-    K: AtlasSubsystem.getTextSprite('Black', 'K'),
-    L: AtlasSubsystem.getTextSprite('Black', 'L'),
-    M: AtlasSubsystem.getTextSprite('Black', 'M'),
-    N: AtlasSubsystem.getTextSprite('Black', 'N'),
-    O: AtlasSubsystem.getTextSprite('Black', 'O'),
-    P: AtlasSubsystem.getTextSprite('Black', 'P'),
-    Q: AtlasSubsystem.getTextSprite('Black', 'Q'),
-    R: AtlasSubsystem.getTextSprite('Black', 'R'),
-    S: AtlasSubsystem.getTextSprite('Black', 'S'),
-    T: AtlasSubsystem.getTextSprite('Black', 'T'),
-    U: AtlasSubsystem.getTextSprite('Black', 'U'),
-    V: AtlasSubsystem.getTextSprite('Black', 'V'),
-    W: AtlasSubsystem.getTextSprite('Black', 'W'),
-    X: AtlasSubsystem.getTextSprite('Black', 'X'),
-    Y: AtlasSubsystem.getTextSprite('Black', 'Y'),
-    Z: AtlasSubsystem.getTextSprite('Black', 'Z'),
-    a: AtlasSubsystem.getTextSprite('Black', 'a'),
-    b: AtlasSubsystem.getTextSprite('Black', 'b'),
-    c: AtlasSubsystem.getTextSprite('Black', 'c'),
-    d: AtlasSubsystem.getTextSprite('Black', 'd'),
-    e: AtlasSubsystem.getTextSprite('Black', 'e'),
-    f: AtlasSubsystem.getTextSprite('Black', 'f'),
-    g: AtlasSubsystem.getTextSprite('Black', 'g'),
-    h: AtlasSubsystem.getTextSprite('Black', 'h'),
-    i: AtlasSubsystem.getTextSprite('Black', 'i'),
-    j: AtlasSubsystem.getTextSprite('Black', 'j'),
-    k: AtlasSubsystem.getTextSprite('Black', 'k'),
-    l: AtlasSubsystem.getTextSprite('Black', 'l'),
-    m: AtlasSubsystem.getTextSprite('Black', 'm'),
-    n: AtlasSubsystem.getTextSprite('Black', 'n'),
-    o: AtlasSubsystem.getTextSprite('Black', 'o'),
-    p: AtlasSubsystem.getTextSprite('Black', 'p'),
-    q: AtlasSubsystem.getTextSprite('Black', 'q'),
-    r: AtlasSubsystem.getTextSprite('Black', 'r'),
-    s: AtlasSubsystem.getTextSprite('Black', 's'),
-    t: AtlasSubsystem.getTextSprite('Black', 't'),
-    u: AtlasSubsystem.getTextSprite('Black', 'u'),
-    v: AtlasSubsystem.getTextSprite('Black', 'v'),
-    w: AtlasSubsystem.getTextSprite('Black', 'w'),
-    x: AtlasSubsystem.getTextSprite('Black', 'x'),
-    y: AtlasSubsystem.getTextSprite('Black', 'y'),
-    z: AtlasSubsystem.getTextSprite('Black', 'z'),
-    0: AtlasSubsystem.getTextSprite('Black', '0'),
-    1: AtlasSubsystem.getTextSprite('Black', '1'),
-    2: AtlasSubsystem.getTextSprite('Black', '2'),
-    3: AtlasSubsystem.getTextSprite('Black', '3'),
-    4: AtlasSubsystem.getTextSprite('Black', '4'),
-    5: AtlasSubsystem.getTextSprite('Black', '5'),
-    6: AtlasSubsystem.getTextSprite('Black', '6'),
-    7: AtlasSubsystem.getTextSprite('Black', '7'),
-    8: AtlasSubsystem.getTextSprite('Black', '8'),
-    9: AtlasSubsystem.getTextSprite('Black', '9'),
-    plus: AtlasSubsystem.getTextSprite('Black', '+'),
-    minus: AtlasSubsystem.getTextSprite('Black', '-'),
-    rightDoubleQuote: AtlasSubsystem.getTextSprite('Black', '"'),
-    rightSingleQuote: AtlasSubsystem.getTextSprite('Black', "'"),
-    leftDoubleQuote: AtlasSubsystem.getTextSprite('Black', '"'),
-    leftSingleQuote: AtlasSubsystem.getTextSprite('Black', "'"),
-    leftParenthesis: AtlasSubsystem.getTextSprite('Black', '('),
-    rightParenthesis: AtlasSubsystem.getTextSprite('Black', ')'),
-    comma: AtlasSubsystem.getTextSprite('Black', ','),
-    period: AtlasSubsystem.getTextSprite('Black', '.'),
-    colon: AtlasSubsystem.getTextSprite('Black', ':'),
-    questionMark: AtlasSubsystem.getTextSprite('Black', '?'),
-    exclamationPoint: AtlasSubsystem.getTextSprite('Black', '!'),
-    accentE: AtlasSubsystem.getTextSprite('Black', 'é'),
-    elipse: AtlasSubsystem.getTextSprite('Black', '...'),
-    altElipse: AtlasSubsystem.getTextSprite('Black', '...2')
-  },
-  White: {
-    A: AtlasSubsystem.getTextSprite('White', 'A'),
-    B: AtlasSubsystem.getTextSprite('White', 'B'),
-    C: AtlasSubsystem.getTextSprite('White', 'C'),
-    D: AtlasSubsystem.getTextSprite('White', 'D'),
-    E: AtlasSubsystem.getTextSprite('White', 'E'),
-    F: AtlasSubsystem.getTextSprite('White', 'F'),
-    G: AtlasSubsystem.getTextSprite('White', 'G'),
-    H: AtlasSubsystem.getTextSprite('White', 'H'),
-    I: AtlasSubsystem.getTextSprite('White', 'I'),
-    J: AtlasSubsystem.getTextSprite('White', 'J'),
-    K: AtlasSubsystem.getTextSprite('White', 'K'),
-    L: AtlasSubsystem.getTextSprite('White', 'L'),
-    M: AtlasSubsystem.getTextSprite('White', 'M'),
-    N: AtlasSubsystem.getTextSprite('White', 'N'),
-    O: AtlasSubsystem.getTextSprite('White', 'O'),
-    P: AtlasSubsystem.getTextSprite('White', 'P'),
-    Q: AtlasSubsystem.getTextSprite('White', 'Q'),
-    R: AtlasSubsystem.getTextSprite('White', 'R'),
-    S: AtlasSubsystem.getTextSprite('White', 'S'),
-    T: AtlasSubsystem.getTextSprite('White', 'T'),
-    U: AtlasSubsystem.getTextSprite('White', 'U'),
-    V: AtlasSubsystem.getTextSprite('White', 'V'),
-    W: AtlasSubsystem.getTextSprite('White', 'W'),
-    X: AtlasSubsystem.getTextSprite('White', 'X'),
-    Y: AtlasSubsystem.getTextSprite('White', 'Y'),
-    Z: AtlasSubsystem.getTextSprite('White', 'Z'),
-    a: AtlasSubsystem.getTextSprite('White', 'a'),
-    b: AtlasSubsystem.getTextSprite('White', 'b'),
-    c: AtlasSubsystem.getTextSprite('White', 'c'),
-    d: AtlasSubsystem.getTextSprite('White', 'd'),
-    e: AtlasSubsystem.getTextSprite('White', 'e'),
-    f: AtlasSubsystem.getTextSprite('White', 'f'),
-    g: AtlasSubsystem.getTextSprite('White', 'g'),
-    h: AtlasSubsystem.getTextSprite('White', 'h'),
-    i: AtlasSubsystem.getTextSprite('White', 'i'),
-    j: AtlasSubsystem.getTextSprite('White', 'j'),
-    k: AtlasSubsystem.getTextSprite('White', 'k'),
-    l: AtlasSubsystem.getTextSprite('White', 'l'),
-    m: AtlasSubsystem.getTextSprite('White', 'm'),
-    n: AtlasSubsystem.getTextSprite('White', 'n'),
-    o: AtlasSubsystem.getTextSprite('White', 'o'),
-    p: AtlasSubsystem.getTextSprite('White', 'p'),
-    q: AtlasSubsystem.getTextSprite('White', 'q'),
-    r: AtlasSubsystem.getTextSprite('White', 'r'),
-    s: AtlasSubsystem.getTextSprite('White', 's'),
-    t: AtlasSubsystem.getTextSprite('White', 't'),
-    u: AtlasSubsystem.getTextSprite('White', 'u'),
-    v: AtlasSubsystem.getTextSprite('White', 'v'),
-    w: AtlasSubsystem.getTextSprite('White', 'w'),
-    x: AtlasSubsystem.getTextSprite('White', 'x'),
-    y: AtlasSubsystem.getTextSprite('White', 'y'),
-    z: AtlasSubsystem.getTextSprite('White', 'z'),
-    0: AtlasSubsystem.getTextSprite('White', '0'),
-    1: AtlasSubsystem.getTextSprite('White', '1'),
-    2: AtlasSubsystem.getTextSprite('White', '2'),
-    3: AtlasSubsystem.getTextSprite('White', '3'),
-    4: AtlasSubsystem.getTextSprite('White', '4'),
-    5: AtlasSubsystem.getTextSprite('White', '5'),
-    6: AtlasSubsystem.getTextSprite('White', '6'),
-    7: AtlasSubsystem.getTextSprite('White', '7'),
-    8: AtlasSubsystem.getTextSprite('White', '8'),
-    9: AtlasSubsystem.getTextSprite('White', '9'),
-    plus: AtlasSubsystem.getTextSprite('White', '+'),
-    minus: AtlasSubsystem.getTextSprite('White', '-'),
-    rightDoubleQuote: AtlasSubsystem.getTextSprite('White', '"'),
-    rightSingleQuote: AtlasSubsystem.getTextSprite('White', "'"),
-    leftDoubleQuote: AtlasSubsystem.getTextSprite('White', '"'),
-    leftSingleQuote: AtlasSubsystem.getTextSprite('White', "'"),
-    leftParenthesis: AtlasSubsystem.getTextSprite('White', '('),
-    rightParenthesis: AtlasSubsystem.getTextSprite('White', ')'),
-    comma: AtlasSubsystem.getTextSprite('White', ','),
-    period: AtlasSubsystem.getTextSprite('White', '.'),
-    colon: AtlasSubsystem.getTextSprite('White', ':'),
-    questionMark: AtlasSubsystem.getTextSprite('White', '?'),
-    exclamationPoint: AtlasSubsystem.getTextSprite('White', '!'),
-    accentE: AtlasSubsystem.getTextSprite('White', 'é'),
-    elipse: AtlasSubsystem.getTextSprite('White', '...'),
-    altElipse: AtlasSubsystem.getTextSprite('White', '...2')
-  },
-  Red: {
-    A: AtlasSubsystem.getTextSprite('Red', 'A'),
-    B: AtlasSubsystem.getTextSprite('Red', 'B'),
-    C: AtlasSubsystem.getTextSprite('Red', 'C'),
-    D: AtlasSubsystem.getTextSprite('Red', 'D'),
-    E: AtlasSubsystem.getTextSprite('Red', 'E'),
-    F: AtlasSubsystem.getTextSprite('Red', 'F'),
-    G: AtlasSubsystem.getTextSprite('Red', 'G'),
-    H: AtlasSubsystem.getTextSprite('Red', 'H'),
-    I: AtlasSubsystem.getTextSprite('Red', 'I'),
-    J: AtlasSubsystem.getTextSprite('Red', 'J'),
-    K: AtlasSubsystem.getTextSprite('Red', 'K'),
-    L: AtlasSubsystem.getTextSprite('Red', 'L'),
-    M: AtlasSubsystem.getTextSprite('Red', 'M'),
-    N: AtlasSubsystem.getTextSprite('Red', 'N'),
-    O: AtlasSubsystem.getTextSprite('Red', 'O'),
-    P: AtlasSubsystem.getTextSprite('Red', 'P'),
-    Q: AtlasSubsystem.getTextSprite('Red', 'Q'),
-    R: AtlasSubsystem.getTextSprite('Red', 'R'),
-    S: AtlasSubsystem.getTextSprite('Red', 'S'),
-    T: AtlasSubsystem.getTextSprite('Red', 'T'),
-    U: AtlasSubsystem.getTextSprite('Red', 'U'),
-    V: AtlasSubsystem.getTextSprite('Red', 'V'),
-    W: AtlasSubsystem.getTextSprite('Red', 'W'),
-    X: AtlasSubsystem.getTextSprite('Red', 'X'),
-    Y: AtlasSubsystem.getTextSprite('Red', 'Y'),
-    Z: AtlasSubsystem.getTextSprite('Red', 'Z'),
-    a: AtlasSubsystem.getTextSprite('Red', 'a'),
-    b: AtlasSubsystem.getTextSprite('Red', 'b'),
-    c: AtlasSubsystem.getTextSprite('Red', 'c'),
-    d: AtlasSubsystem.getTextSprite('Red', 'd'),
-    e: AtlasSubsystem.getTextSprite('Red', 'e'),
-    f: AtlasSubsystem.getTextSprite('Red', 'f'),
-    g: AtlasSubsystem.getTextSprite('Red', 'g'),
-    h: AtlasSubsystem.getTextSprite('Red', 'h'),
-    i: AtlasSubsystem.getTextSprite('Red', 'i'),
-    j: AtlasSubsystem.getTextSprite('Red', 'j'),
-    k: AtlasSubsystem.getTextSprite('Red', 'k'),
-    l: AtlasSubsystem.getTextSprite('Red', 'l'),
-    m: AtlasSubsystem.getTextSprite('Red', 'm'),
-    n: AtlasSubsystem.getTextSprite('Red', 'n'),
-    o: AtlasSubsystem.getTextSprite('Red', 'o'),
-    p: AtlasSubsystem.getTextSprite('Red', 'p'),
-    q: AtlasSubsystem.getTextSprite('Red', 'q'),
-    r: AtlasSubsystem.getTextSprite('Red', 'r'),
-    s: AtlasSubsystem.getTextSprite('Red', 's'),
-    t: AtlasSubsystem.getTextSprite('Red', 't'),
-    u: AtlasSubsystem.getTextSprite('Red', 'u'),
-    v: AtlasSubsystem.getTextSprite('Red', 'v'),
-    w: AtlasSubsystem.getTextSprite('Red', 'w'),
-    x: AtlasSubsystem.getTextSprite('Red', 'x'),
-    y: AtlasSubsystem.getTextSprite('Red', 'y'),
-    z: AtlasSubsystem.getTextSprite('Red', 'z'),
-    0: AtlasSubsystem.getTextSprite('Red', '0'),
-    1: AtlasSubsystem.getTextSprite('Red', '1'),
-    2: AtlasSubsystem.getTextSprite('Red', '2'),
-    3: AtlasSubsystem.getTextSprite('Red', '3'),
-    4: AtlasSubsystem.getTextSprite('Red', '4'),
-    5: AtlasSubsystem.getTextSprite('Red', '5'),
-    6: AtlasSubsystem.getTextSprite('Red', '6'),
-    7: AtlasSubsystem.getTextSprite('Red', '7'),
-    8: AtlasSubsystem.getTextSprite('Red', '8'),
-    9: AtlasSubsystem.getTextSprite('Red', '9'),
-    plus: AtlasSubsystem.getTextSprite('Red', '+'),
-    minus: AtlasSubsystem.getTextSprite('Red', '-'),
-    rightDoubleQuote: AtlasSubsystem.getTextSprite('Red', '"'),
-    rightSingleQuote: AtlasSubsystem.getTextSprite('Red', "'"),
-    leftDoubleQuote: AtlasSubsystem.getTextSprite('Red', '"'),
-    leftSingleQuote: AtlasSubsystem.getTextSprite('Red', "'"),
-    leftParenthesis: AtlasSubsystem.getTextSprite('Red', '('),
-    rightParenthesis: AtlasSubsystem.getTextSprite('Red', ')'),
-    comma: AtlasSubsystem.getTextSprite('Red', ','),
-    period: AtlasSubsystem.getTextSprite('Red', '.'),
-    colon: AtlasSubsystem.getTextSprite('Red', ':'),
-    questionMark: AtlasSubsystem.getTextSprite('Red', '?'),
-    exclamationPoint: AtlasSubsystem.getTextSprite('Red', '!'),
-    accentE: AtlasSubsystem.getTextSprite('Red', 'é'),
-    elipse: AtlasSubsystem.getTextSprite('Red', '...'),
-    altElipse: AtlasSubsystem.getTextSprite('Red', '...2')
-  },
-  Blue: {
-    A: AtlasSubsystem.getTextSprite('Blue', 'A'),
-    B: AtlasSubsystem.getTextSprite('Blue', 'B'),
-    C: AtlasSubsystem.getTextSprite('Blue', 'C'),
-    D: AtlasSubsystem.getTextSprite('Blue', 'D'),
-    E: AtlasSubsystem.getTextSprite('Blue', 'E'),
-    F: AtlasSubsystem.getTextSprite('Blue', 'F'),
-    G: AtlasSubsystem.getTextSprite('Blue', 'G'),
-    H: AtlasSubsystem.getTextSprite('Blue', 'H'),
-    I: AtlasSubsystem.getTextSprite('Blue', 'I'),
-    J: AtlasSubsystem.getTextSprite('Blue', 'J'),
-    K: AtlasSubsystem.getTextSprite('Blue', 'K'),
-    L: AtlasSubsystem.getTextSprite('Blue', 'L'),
-    M: AtlasSubsystem.getTextSprite('Blue', 'M'),
-    N: AtlasSubsystem.getTextSprite('Blue', 'N'),
-    O: AtlasSubsystem.getTextSprite('Blue', 'O'),
-    P: AtlasSubsystem.getTextSprite('Blue', 'P'),
-    Q: AtlasSubsystem.getTextSprite('Blue', 'Q'),
-    R: AtlasSubsystem.getTextSprite('Blue', 'R'),
-    S: AtlasSubsystem.getTextSprite('Blue', 'S'),
-    T: AtlasSubsystem.getTextSprite('Blue', 'T'),
-    U: AtlasSubsystem.getTextSprite('Blue', 'U'),
-    V: AtlasSubsystem.getTextSprite('Blue', 'V'),
-    W: AtlasSubsystem.getTextSprite('Blue', 'W'),
-    X: AtlasSubsystem.getTextSprite('Blue', 'X'),
-    Y: AtlasSubsystem.getTextSprite('Blue', 'Y'),
-    Z: AtlasSubsystem.getTextSprite('Blue', 'Z'),
-    a: AtlasSubsystem.getTextSprite('Blue', 'a'),
-    b: AtlasSubsystem.getTextSprite('Blue', 'b'),
-    c: AtlasSubsystem.getTextSprite('Blue', 'c'),
-    d: AtlasSubsystem.getTextSprite('Blue', 'd'),
-    e: AtlasSubsystem.getTextSprite('Blue', 'e'),
-    f: AtlasSubsystem.getTextSprite('Blue', 'f'),
-    g: AtlasSubsystem.getTextSprite('Blue', 'g'),
-    h: AtlasSubsystem.getTextSprite('Blue', 'h'),
-    i: AtlasSubsystem.getTextSprite('Blue', 'i'),
-    j: AtlasSubsystem.getTextSprite('Blue', 'j'),
-    k: AtlasSubsystem.getTextSprite('Blue', 'k'),
-    l: AtlasSubsystem.getTextSprite('Blue', 'l'),
-    m: AtlasSubsystem.getTextSprite('Blue', 'm'),
-    n: AtlasSubsystem.getTextSprite('Blue', 'n'),
-    o: AtlasSubsystem.getTextSprite('Blue', 'o'),
-    p: AtlasSubsystem.getTextSprite('Blue', 'p'),
-    q: AtlasSubsystem.getTextSprite('Blue', 'q'),
-    r: AtlasSubsystem.getTextSprite('Blue', 'r'),
-    s: AtlasSubsystem.getTextSprite('Blue', 's'),
-    t: AtlasSubsystem.getTextSprite('Blue', 't'),
-    u: AtlasSubsystem.getTextSprite('Blue', 'u'),
-    v: AtlasSubsystem.getTextSprite('Blue', 'v'),
-    w: AtlasSubsystem.getTextSprite('Blue', 'w'),
-    x: AtlasSubsystem.getTextSprite('Blue', 'x'),
-    y: AtlasSubsystem.getTextSprite('Blue', 'y'),
-    z: AtlasSubsystem.getTextSprite('Blue', 'z'),
-    0: AtlasSubsystem.getTextSprite('Blue', '0'),
-    1: AtlasSubsystem.getTextSprite('Blue', '1'),
-    2: AtlasSubsystem.getTextSprite('Blue', '2'),
-    3: AtlasSubsystem.getTextSprite('Blue', '3'),
-    4: AtlasSubsystem.getTextSprite('Blue', '4'),
-    5: AtlasSubsystem.getTextSprite('Blue', '5'),
-    6: AtlasSubsystem.getTextSprite('Blue', '6'),
-    7: AtlasSubsystem.getTextSprite('Blue', '7'),
-    8: AtlasSubsystem.getTextSprite('Blue', '8'),
-    9: AtlasSubsystem.getTextSprite('Blue', '9'),
-    plus: AtlasSubsystem.getTextSprite('Blue', '+'),
-    minus: AtlasSubsystem.getTextSprite('Blue', '-'),
-    rightDoubleQuote: AtlasSubsystem.getTextSprite('Blue', '"'),
-    rightSingleQuote: AtlasSubsystem.getTextSprite('Blue', "'"),
-    leftDoubleQuote: AtlasSubsystem.getTextSprite('Blue', '"'),
-    leftSingleQuote: AtlasSubsystem.getTextSprite('Blue', "'"),
-    leftParenthesis: AtlasSubsystem.getTextSprite('Blue', '('),
-    rightParenthesis: AtlasSubsystem.getTextSprite('Blue', ')'),
-    comma: AtlasSubsystem.getTextSprite('Blue', ','),
-    period: AtlasSubsystem.getTextSprite('Blue', '.'),
-    colon: AtlasSubsystem.getTextSprite('Blue', ':'),
-    questionMark: AtlasSubsystem.getTextSprite('Blue', '?'),
-    exclamationPoint: AtlasSubsystem.getTextSprite('Blue', '!'),
-    accentE: AtlasSubsystem.getTextSprite('Blue', 'é'),
-    elipse: AtlasSubsystem.getTextSprite('Blue', '...'),
-    altElipse: AtlasSubsystem.getTextSprite('Blue', '...2')
-  },
-  Yellow: {
-    A: AtlasSubsystem.getTextSprite('Yellow', 'A'),
-    B: AtlasSubsystem.getTextSprite('Yellow', 'B'),
-    C: AtlasSubsystem.getTextSprite('Yellow', 'C'),
-    D: AtlasSubsystem.getTextSprite('Yellow', 'D'),
-    E: AtlasSubsystem.getTextSprite('Yellow', 'E'),
-    F: AtlasSubsystem.getTextSprite('Yellow', 'F'),
-    G: AtlasSubsystem.getTextSprite('Yellow', 'G'),
-    H: AtlasSubsystem.getTextSprite('Yellow', 'H'),
-    I: AtlasSubsystem.getTextSprite('Yellow', 'I'),
-    J: AtlasSubsystem.getTextSprite('Yellow', 'J'),
-    K: AtlasSubsystem.getTextSprite('Yellow', 'K'),
-    L: AtlasSubsystem.getTextSprite('Yellow', 'L'),
-    M: AtlasSubsystem.getTextSprite('Yellow', 'M'),
-    N: AtlasSubsystem.getTextSprite('Yellow', 'N'),
-    O: AtlasSubsystem.getTextSprite('Yellow', 'O'),
-    P: AtlasSubsystem.getTextSprite('Yellow', 'P'),
-    Q: AtlasSubsystem.getTextSprite('Yellow', 'Q'),
-    R: AtlasSubsystem.getTextSprite('Yellow', 'R'),
-    S: AtlasSubsystem.getTextSprite('Yellow', 'S'),
-    T: AtlasSubsystem.getTextSprite('Yellow', 'T'),
-    U: AtlasSubsystem.getTextSprite('Yellow', 'U'),
-    V: AtlasSubsystem.getTextSprite('Yellow', 'V'),
-    W: AtlasSubsystem.getTextSprite('Yellow', 'W'),
-    X: AtlasSubsystem.getTextSprite('Yellow', 'X'),
-    Y: AtlasSubsystem.getTextSprite('Yellow', 'Y'),
-    Z: AtlasSubsystem.getTextSprite('Yellow', 'Z'),
-    a: AtlasSubsystem.getTextSprite('Yellow', 'a'),
-    b: AtlasSubsystem.getTextSprite('Yellow', 'b'),
-    c: AtlasSubsystem.getTextSprite('Yellow', 'c'),
-    d: AtlasSubsystem.getTextSprite('Yellow', 'd'),
-    e: AtlasSubsystem.getTextSprite('Yellow', 'e'),
-    f: AtlasSubsystem.getTextSprite('Yellow', 'f'),
-    g: AtlasSubsystem.getTextSprite('Yellow', 'g'),
-    h: AtlasSubsystem.getTextSprite('Yellow', 'h'),
-    i: AtlasSubsystem.getTextSprite('Yellow', 'i'),
-    j: AtlasSubsystem.getTextSprite('Yellow', 'j'),
-    k: AtlasSubsystem.getTextSprite('Yellow', 'k'),
-    l: AtlasSubsystem.getTextSprite('Yellow', 'l'),
-    m: AtlasSubsystem.getTextSprite('Yellow', 'm'),
-    n: AtlasSubsystem.getTextSprite('Yellow', 'n'),
-    o: AtlasSubsystem.getTextSprite('Yellow', 'o'),
-    p: AtlasSubsystem.getTextSprite('Yellow', 'p'),
-    q: AtlasSubsystem.getTextSprite('Yellow', 'q'),
-    r: AtlasSubsystem.getTextSprite('Yellow', 'r'),
-    s: AtlasSubsystem.getTextSprite('Yellow', 's'),
-    t: AtlasSubsystem.getTextSprite('Yellow', 't'),
-    u: AtlasSubsystem.getTextSprite('Yellow', 'u'),
-    v: AtlasSubsystem.getTextSprite('Yellow', 'v'),
-    w: AtlasSubsystem.getTextSprite('Yellow', 'w'),
-    x: AtlasSubsystem.getTextSprite('Yellow', 'x'),
-    y: AtlasSubsystem.getTextSprite('Yellow', 'y'),
-    z: AtlasSubsystem.getTextSprite('Yellow', 'z'),
-    0: AtlasSubsystem.getTextSprite('Yellow', '0'),
-    1: AtlasSubsystem.getTextSprite('Yellow', '1'),
-    2: AtlasSubsystem.getTextSprite('Yellow', '2'),
-    3: AtlasSubsystem.getTextSprite('Yellow', '3'),
-    4: AtlasSubsystem.getTextSprite('Yellow', '4'),
-    5: AtlasSubsystem.getTextSprite('Yellow', '5'),
-    6: AtlasSubsystem.getTextSprite('Yellow', '6'),
-    7: AtlasSubsystem.getTextSprite('Yellow', '7'),
-    8: AtlasSubsystem.getTextSprite('Yellow', '8'),
-    9: AtlasSubsystem.getTextSprite('Yellow', '9'),
-    plus: AtlasSubsystem.getTextSprite('Yellow', '+'),
-    minus: AtlasSubsystem.getTextSprite('Yellow', '-'),
-    rightDoubleQuote: AtlasSubsystem.getTextSprite('Yellow', '"'),
-    rightSingleQuote: AtlasSubsystem.getTextSprite('Yellow', "'"),
-    leftDoubleQuote: AtlasSubsystem.getTextSprite('Yellow', '"'),
-    leftSingleQuote: AtlasSubsystem.getTextSprite('Yellow', "'"),
-    leftParenthesis: AtlasSubsystem.getTextSprite('Yellow', '('),
-    rightParenthesis: AtlasSubsystem.getTextSprite('Yellow', ')'),
-    comma: AtlasSubsystem.getTextSprite('Yellow', ','),
-    period: AtlasSubsystem.getTextSprite('Yellow', '.'),
-    colon: AtlasSubsystem.getTextSprite('Yellow', ':'),
-    questionMark: AtlasSubsystem.getTextSprite('Yellow', '?'),
-    exclamationPoint: AtlasSubsystem.getTextSprite('Yellow', '!'),
-    accentE: AtlasSubsystem.getTextSprite('Yellow', 'é'),
-    elipse: AtlasSubsystem.getTextSprite('Yellow', '...'),
-    altElipse: AtlasSubsystem.getTextSprite('Yellow', '...2')
-  }
-}
+
   // Level up VFX
   //todo: add to atlas subsystem
 const levelVfxFrames = [
@@ -2014,19 +1224,7 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
 
   return cLocations;
 }
-function generateSingleItem(position, item) {
-  let iLocations = [];
-  const itemNames = Object.keys(ITEM_DEFS);
-  const itemSprites = Object.values(ITEM_DEFS).map(def => def.sprite);
-  const itemName = item.name;
-  const itemSprite = itemSprites[1];
-  iLocations.push({
-      ...position,
-      itemName,
-      sprite: ITEM_DEFS[itemName].sprite
-    });
-    return iLocations;
-}
+
 function beginItemTilesIndex(itemAdded) {
   setItemTilesIndex(itemAdded);
 }
@@ -5049,14 +4247,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
 
   return enemyObj;
 }
-function updateEnemyPosition(tilex, tiley) { // Function marked for removal
-  const enemy = enemiesRef.current.find(enemy => enemy.posx.x === tilex && enemy.posy.y === tiley);
-  if (enemy) {
-    setEnemyHere(enemy);
-  } else {
-    setEnemyHere(null);
-  }
-}
+
 function verifyEnemyGeneration (enemyCount) {
   if (enemyCount < 1) return;
   else if (enemyCount < 2) {
@@ -6160,7 +5351,7 @@ function itemThrown(item, id) {
     const endPos = { x: startPos.x + delta.x, y: startPos.y + delta.y + 0.25 }; // slight y offset for better arc
 
     // avoid optional chaining (Babel inline): use safe access instead
-    const spriteSrc = item.sprite || (ITEM_DEFS[item.name] && ITEM_DEFS[item.name].sprite) || Reviverseed;
+    const spriteSrc = item.sprite || (ITEM_DEFS[item.name] && ITEM_DEFS[item.name].sprite) || itemUrls.Reviverseed;
     spawnProjectile({
       start: startPos,
       end: endPos,
@@ -6194,7 +5385,14 @@ function itemThrown(item, id) {
     const segments2 = text2 !== null ? Array.from(text2).map(char2 => ({ char2, color2 })) : null 
     if (skip !== true){
     for (let i = 0; i < segments.length; i++){
-      setTimeout(() => i === 0 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
+      if (i === segments.length - 1 && text2 !== null && color2 !== null) {
+      setTimeout(() => setTextArray(prev => [...prev, segments[i]]), dialogSpeed * (i+1));
+      setTimeout(() => generateText("", "Black", text2, color2, true), dialogSpeed * (i+1));
+      }
+      else {
+      setTimeout(() => setTextArray(prev => [...prev, segments[i]]), dialogSpeed * (i+1));
+      }
+      /*
       setTimeout(() => i === 1 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
       setTimeout(() => i === 2 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
       setTimeout(() => i === 3 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
@@ -6244,7 +5442,7 @@ function itemThrown(item, id) {
       setTimeout(() => i === 47 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
       setTimeout(() => i === 48 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
       setTimeout(() => i === 49 ? setTextArray(prev => [...prev, segments[i]]) : null, dialogSpeed * (i+1));
-      setTimeout(() => i === segments.length - 1 && text2 !== null && color2 !== null ? generateText("", "Black", text2, color2, true) : null, dialogSpeed * (i+1));
+      */
     }
   }
   else if (skip === true){
@@ -7011,7 +6209,7 @@ addItemToInventory('Sleep Seed');
 addItemToInventory('Warp Seed');
 addItemToInventory('Warp Orb');
 setItemSelected('Warp Orb');
-console.log('sprite test:', Reviverseed, Apple)
+//console.log('sprite test:', Reviverseed, Apple)
 return;
   break;
 }
@@ -8535,7 +7733,7 @@ return (
                 zIndex: 40,
                 pointerEvents: 'none',
                 objectFit: 'contain',
-                transform: p.sprite !== Reviverseed && p.sprite !== Scarf && p.sprite !== Orb ? `scale(1.5)` : 'none'
+                transform: p.sprite !== itemUrls.Reviverseed && p.sprite !== itemUrls.Scarf && p.sprite !== itemUrls.Orb ? `scale(1.5)` : 'none'
               }}
             />
           ))))}
@@ -9303,7 +8501,7 @@ return (
                 zIndex: 200
               }}>
                 <ul style={{margin: 0, padding: 0, listStyle: 'none'}}>
-                  {selectedItemSpriteRef.current !== Scarf ? itemActionsNormal.map((action, idx) => (
+                  {selectedItemSpriteRef.current !== itemUrls.Scarf ? itemActionsNormal.map((action, idx) => (
                     <li key={action} style={{
                       color: idx === itemActionIndex ? 'yellow' : 'white',
                       fontWeight: idx === itemActionIndex ? 'bold' : 'normal',
