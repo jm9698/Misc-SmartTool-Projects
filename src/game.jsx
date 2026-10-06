@@ -1854,6 +1854,7 @@ React.useEffect(() =>
   {
   setSelectedItemSprite(inventory[itemOrder - 1].sprite);
   }
+  console.log('selectedItemSprite updated to: ', selectedItemSprite);
 }, [itemOrder, inventory, showToolbox]);
 
 
@@ -2974,7 +2975,7 @@ function addItemToInventory(itemName) {
   setInventory(prev => {
     let newInventory = [...prev];
     let itemSelected = newInventory.find(item => item.name === itemName);
-    // Removed invalid itemOrder property access
+/////
 
     // Find stacks of this item that are not full
     let stackIndexes = [];
@@ -2994,7 +2995,7 @@ function addItemToInventory(itemName) {
       if (newInventory.length === MAX_INVENTORY_SLOTS - 1) {
         setInventoryFull(true);
       }
-      updatedInventory = [...newInventory, { ...itemDef, count: 1 }];
+      updatedInventory = [...newInventory, { ...itemDef, count: 1, }];
       // Increment item order ONLY when a new stack is created
   setNatItemOrder(updatedInventory.length);
   setItemOrder(updatedInventory.length);
@@ -5565,21 +5566,21 @@ else if (item === 'Warp Orb'){
   if (floorPositions.length > 0) {
       const randIndexPlayer = randInt(0, floorPositions.length);
       floorPositions.splice(randIndexPlayer, 1); // Remove player's new position to avoid warping enemy there
-      const randIndexEnemy1 = randInt(0, floorPositions.length);
+      const randIndexEnemy1 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy1, 1); // Remove enemy1's new position
-      const randIndexEnemy2 = randInt(0, floorPositions.length);
+      const randIndexEnemy2 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy2, 1); // Remove enemy2's new position
-      const randIndexEnemy3 = randInt(0, floorPositions.length);
+      const randIndexEnemy3 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy3, 1); // Remove enemy3's new position
-      const randIndexEnemy4 = randInt(0, floorPositions.length);
+      const randIndexEnemy4 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy4, 1); // Remove enemy4's new position
-      const randIndexEnemy5 = randInt(0, floorPositions.length);
+      const randIndexEnemy5 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy5, 1); // Remove enemy5's new position
-      const randIndexEnemy6 = randInt(0, floorPositions.length);
+      const randIndexEnemy6 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy6, 1); // Remove enemy6's new position
-      const randIndexEnemy7 = randInt(0, floorPositions.length);
+      const randIndexEnemy7 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy7, 1); // Remove enemy7's new position
-      const randIndexEnemy8 = randInt(0, floorPositions.length);
+      const randIndexEnemy8 = randInt(0, floorPositions.length - 10);
       floorPositions.splice(randIndexEnemy8, 1); // Remove enemy8's new position
       const newPosPlayer = floorPositions[randIndexPlayer];
       const newPosEnemy1 = floorPositions[randIndexEnemy1];
@@ -6557,6 +6558,7 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
             setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
             setItemSelected(itemHere.id);
             setSelectedItemSprite(itemHere.sprite);
+            console.log("sprite updated on pickup: ", itemHere.sprite);
             addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
           }
           else if (inventoryFull){
@@ -6565,6 +6567,8 @@ const pickedCurrency = currencyTiles.find(tile => tile.x === newX && tile.y === 
               addItemToInventory(itemHere.itemName || "Reviver Seed");
               setItemTiles(tiles => tiles.filter(tile => !(tile.x === newX && tile.y === newY)));
               setItemSelected(itemHere.id);
+              setSelectedItemSprite(itemHere.sprite);
+              console.log("sprite updated on pickup: ", itemHere.sprite);
               addLogMessage(`Picked up ${itemHere.itemName || "Reviver Seed"}!`);
               return;
             }
@@ -7005,7 +7009,9 @@ case 'l':
 //quick log
 addItemToInventory('Sleep Seed');
 addItemToInventory('Warp Seed');
-console.log(getDialogLine("I'm a test string to see if the dialog line function works properly. It should split this into multiple lines if it exceeds the top line capacity."));
+addItemToInventory('Warp Orb');
+setItemSelected('Warp Orb');
+console.log('sprite test:', Reviverseed, Apple)
 return;
   break;
 }

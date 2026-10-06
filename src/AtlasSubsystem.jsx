@@ -445,31 +445,31 @@ export const DMGAtlas = {
 export const ItemAtlas = {
 
   // Seeds
-  Reviverseed: { atlas: { sheet: itemAtlasUrl, x: 107, y: 37, w: 16, h: 16 } },
+  Reviverseed: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Seeds/Seed_Yellow.png', x: 107, y: 37, w: 16, h: 16 } },
   
   // Food
-  Apple: { atlas: { sheet: itemAtlasUrl, x: 27, y: 37, w: 18, h: 18 } },
-  Bigapple: { atlas: { sheet: itemAtlasUrl, x: 47, y: 37, w: 18, h: 18 } },
-  Goldenapple: { atlas: { sheet: itemAtlasUrl, x: 67, y: 37, w: 18, h: 18 } },
-  Grimyfood: { atlas: { sheet: itemAtlasUrl, x: 87, y: 37, w: 18, h: 18 } },
+  Apple: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Apple.png', x: 27, y: 37, w: 18, h: 18 } },
+  Bigapple: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Big%20Apple.png', x: 47, y: 37, w: 18, h: 18 } },
+  Goldenapple: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Golden%20Apple.png', x: 67, y: 37, w: 18, h: 18 } },
+  Grimyfood: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Food/Grimy%20Food.png', x: 87, y: 37, w: 18, h: 18 } },
   
   // Drinks
-  Maxether: { atlas: { sheet: itemAtlasUrl, x: 41, y: 17, w: 18, h: 18 } },
-  Maxelixir: { atlas: { sheet: itemAtlasUrl, x: 1, y: 37, w: 24, h: 24 } },
-  Protein: { atlas: { sheet: itemAtlasUrl, x: 81, y: 17, w: 18, h: 18 } },
-  Calcium: { atlas: { sheet: itemAtlasUrl, x: 1, y: 17, w: 18, h: 18 } },
-  Iron: { atlas: { sheet: itemAtlasUrl, x: 61, y: 17, w: 18, h: 18 } },
-  Zinc: { atlas: { sheet: itemAtlasUrl, x: 101, y: 17, w: 18, h: 18 } },
-  Carbos: { atlas: { sheet: itemAtlasUrl, x: 21, y: 17, w: 18, h: 18 } },
+  Maxether: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Ether.png', x: 41, y: 17, w: 18, h: 18 } },
+  Maxelixir: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Elixir.png', x: 1, y: 37, w: 24, h: 24 } },
+  Protein: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Protein.png', x: 81, y: 17, w: 18, h: 18 } },
+  Calcium: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Calcium.png', x: 1, y: 17, w: 18, h: 18 } },
+  Iron: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Iron.png', x: 61, y: 17, w: 18, h: 18 } },
+  Zinc: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Zinc.png', x: 101, y: 17, w: 18, h: 18 } },
+  Carbos: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Drinks/Carbos.png', x: 21, y:17, w:18, h:18 } },
   
   // Equipment
-  Scarf: { atlas: { sheet: itemAtlasUrl, x: 8, y: 7, w: 16, h: 14 } },
+  Scarf: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Equips/Scarf.png', x: 8, y: 7, w: 16, h: 14 } },
   
   // Orbs
-  Orb: { atlas: { sheet: itemAtlasUrl, x: 19, y: 1, w: 16, h: 14 } },
+  Orb: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Orbs/Wonder_Orb.png', x: 19, y: 1, w: 16, h: 14 } },
   
   // Throwables
-  GeoPebble: { atlas: { sheet: itemAtlasUrl, x: 51, y: 1, w: 12, h: 9 } }
+  GeoPebble: { atlas: { sheet: itemAtlasUrl, sprite: 'https://raw.githubusercontent.com/jm9698/Misc-SmartTool-Projects/refs/heads/main/Game%20assets/Item%20Sprites/Throwables/Arc/Geo_Pebble.png', x: 51, y: 1, w: 12, h: 9 } }
 };
 export const PokemonAtlas = {
   Vaporeon: {
@@ -892,9 +892,9 @@ AtlasSubsystem.loadAtlasImage = (atlasUrl) => {
 
 // Helper functions to retrieve sprite URLs based on requirements
 AtlasSubsystem.getItemSprite = (itemName) => {
-  const itemdata = ItemAtlas[itemName];
+  const itemdata = ItemAtlas[itemName].atlas;
   if (!itemdata) return null;
-  return itemdata.url;
+  return itemdata.sprite;
 };
 AtlasSubsystem.getDMGSprite = (dmgSprite, frame) => {
   const spriteData = DMGAtlas[dmgSprite];
