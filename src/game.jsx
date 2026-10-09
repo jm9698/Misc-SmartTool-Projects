@@ -1,145 +1,7 @@
 import { AtlasSubsystem, ItemAtlas, PokemonAtlas, vfxAtlas, DMGAtlas, TextAtlas } from './AtlasSubsystem.jsx';
 import { MOVE_DEFS, ITEM_DEFS, ENEMY_DEFS, itemUrls } from './DefintionSubsystem.jsx';
-
-// ========== CANVAS COMPONENTS ==========
-// Renders a single sprite from an atlas using canvas drawImage
-const SpriteCanvas = React.memo(({ pokemon, atlasKey, sprite, animation, direction, frame, color, text, width = 40, height = 40, style = {}, className }) => {
-  const canvasRef = React.useRef(null);
-  
-  React.useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    let atlasData;
-    if (atlasKey) {
-      // Item atlas
-      atlasData = AtlasSubsystem.getItemAtlasData(atlasKey);
-    } else if (animation && direction && frame !== undefined) {
-      // Vaporeon atlas
-      atlasData = AtlasSubsystem.getPokemonAtlasData(pokemon, animation, direction, frame);
-    }
-    else if (sprite && direction && frame !== undefined){
-      atlasData = AtlasSubsystem.getVfxAtlasData(sprite, direction, frame);
-    }
-    else if (sprite === 'DMG1' && frame !== undefined){
-      atlasData = AtlasSubsystem.getDMGAtlasData(sprite, frame);
-    }
-    else if (color && text){
-      atlasData = AtlasSubsystem.getTextAtlasData(color, text);
-    }
-
-    if (!atlasData) {
-      console.log('SpriteCanvas missing atlasData', { color, text });
-      return;
-    }
-    
-    const render = async () => {
-      try {
-        const atlasImg = await AtlasSubsystem.loadAtlasImage(atlasData.sheet);
-        const ctx = canvas.getContext('2d', { willReadFrequently: false });
-        
-        // Set canvas size
-        canvas.width = width;
-        canvas.height = height;
-        
-        // Draw the sprite from atlas using drawImage with source and destination rects
-        ctx.drawImage(
-          atlasImg,
-          atlasData.x,      // source x
-          atlasData.y,      // source y
-          atlasData.w,      // source width
-          atlasData.h,      // source height
-          0,                // destination x
-          0,                // destination y
-          width,            // destination width
-          height            // destination height
-        );
-      } catch (err) {
-        console.error('Error rendering sprite:', err);
-      }
-    };
-    
-    render();
-  }, [atlasKey, pokemon, sprite, animation, direction, frame, width, height, color, text]);
-  
-  return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{
-        imageRendering: 'smooth',
-        imageResolution: 'from-image 300dpi',
-        objectFit: 'contain',
-        zIndex: 20,
-        ...style
-      }}
-    />
-  );
-});
-
-const tileImageCache = {};
-const tileImagePromises = {};
-
-const loadTileImage = (src) => {
-  if (!src) return Promise.resolve(null);
-  if (tileImagePromises[src]) return tileImagePromises[src];
-
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  const promise = new Promise((resolve) => {
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(img);
-    img.src = src;
-  });
-
-  tileImageCache[src] = img;
-  tileImagePromises[src] = promise;
-  return promise;
-};
-
-const TileCanvas = React.memo(({ src, alt, className, style = {}, width = 40, height = 40 }) => {
-  const canvasRef = React.useRef(null);
-
-  React.useEffect(() => {
-    let cancelled = false;
-    const canvas = canvasRef.current;
-    if (!canvas || !src) return;
-
-    const render = async () => {
-      const img = await loadTileImage(src);
-      if (cancelled || !canvas || !img) return;
-
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      canvas.width = width;
-      canvas.height = height;
-      ctx.clearRect(0, 0, width, height);
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(img, 0, 0, width, height);
-    };
-
-    render();
-    return () => {
-      cancelled = true;
-    };
-  }, [src, width, height]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      alt={alt}
-      style={{
-        display: 'block',
-        imageRendering: 'pixelated',
-        width,
-        height,
-        ...style,
-      }}
-    />
-  );
-});
+import { SpriteCanvas, TileCanvas, loadTileImage } from './CanvasSubsystem.jsx';
+import { useEnemySubsystem } from './EnemySubsystem.jsx';
 
 const MAX_INVENTORY_SLOTS = 10;
 // Enemy moves
@@ -337,6 +199,7 @@ const turnIntervalMs = 500;
 // ====== GAME COMPONENT STARTS HERE ======
 
 const Game = () => {
+const enemySubsystem = useEnemySubsystem();
 //FPS counter
 const fpsRef = React.useRef(null); 
   React.useEffect(() => {
@@ -434,187 +297,6 @@ const [hungry, setHungry] = React.useState(false); // 20% hunger or below - not 
 const [isStarving, setIsStarving] = React.useState(false); // State to control starvation damage
 const [warned, setWarned] = React.useState(false); // True if the player has been warned about low hunger, returns false after restoring hunger
 
-// Enemy params
-const [enemies, setEnemies] = React.useState([]);
-const enemiesRef = React.useRef(enemies); //marked for removal
-const enemyCount = randInt(1, 2); // 1 enemy per room
-const [enemyTypes, setEnemyTypes] = React.useState(Object.keys(ENEMY_DEFS));
-const [enemyType, setEnemyType] = React.useState(enemyTypes[randInt(0, enemyTypes.length)]);
-const [enemyType1, setEnemyType1] = React.useState(null);
-const [enemyType2, setEnemyType2] = React.useState(null);
-const [enemyType3, setEnemyType3] = React.useState(null);
-const [enemyType4, setEnemyType4] = React.useState(null);
-const [enemyType5, setEnemyType5] = React.useState(null);
-const [enemyType6, setEnemyType6] = React.useState(null);
-const [enemyType7, setEnemyType7] = React.useState(null);
-const [enemyType8, setEnemyType8] = React.useState(null);
-const [enemyHere, setEnemyHere] = React.useState(null);
-const [enemyHereTiles, setEnemyHereTiles] = React.useState([]);
-const enemyHereTilesRef = React.useRef([]); //used to track enemy positions and omit them from currency/item rendering
-const [enemiesState, setEnemiesState] = React.useState([]) //marked for removal
-// Basic booleans to track which enemy slots are filled
-const [enemy1, setEnemy1] = React.useState(false);
-const [enemy2, setEnemy2] = React.useState(false);
-const [enemy3, setEnemy3] = React.useState(false);
-const [enemy4, setEnemy4] = React.useState(false);
-const [enemy5, setEnemy5] = React.useState(false);
-const [enemy6, setEnemy6] = React.useState(false);
-const [enemy7, setEnemy7] = React.useState(false);
-const [enemy8, setEnemy8] = React.useState(false);
-// Track enemy positions for each slot
-const [enemy1Pos, setEnemy1Pos] = React.useState({ x: 0, y: 0 });
-const [enemy2Pos, setEnemy2Pos] = React.useState({ x: 0, y: 0 });
-const [enemy3Pos, setEnemy3Pos] = React.useState({ x: 0, y: 0 });
-const [enemy4Pos, setEnemy4Pos] = React.useState({ x: 0, y: 0 });
-const [enemy5Pos, setEnemy5Pos] = React.useState({ x: 0, y: 0 });
-const [enemy6Pos, setEnemy6Pos] = React.useState({ x: 0, y: 0 });
-const [enemy7Pos, setEnemy7Pos] = React.useState({ x: 0, y: 0 });
-const [enemy8Pos, setEnemy8Pos] = React.useState({ x: 0, y: 0 });
-  // position refs
-const enemy1PosRef = React.useRef(enemy1Pos);
-const enemy2PosRef = React.useRef(enemy2Pos);
-const enemy3PosRef = React.useRef(enemy3Pos);
-const enemy4PosRef = React.useRef(enemy4Pos);
-const enemy5PosRef = React.useRef(enemy5Pos);
-const enemy6PosRef = React.useRef(enemy6Pos);
-const enemy7PosRef = React.useRef(enemy7Pos);
-const enemy8PosRef = React.useRef(enemy8Pos);
-  // anims
-const [enemy1IdleAnimIndex, setEnemy1IdleAnimIndex] = React.useState(0);
-const [enemy2IdleAnimIndex, setEnemy2IdleAnimIndex] = React.useState(0);
-const [enemy3IdleAnimIndex, setEnemy3IdleAnimIndex] = React.useState(0);
-const [enemy4IdleAnimIndex, setEnemy4IdleAnimIndex] = React.useState(0);
-const [enemy5IdleAnimIndex, setEnemy5IdleAnimIndex] = React.useState(0);
-const [enemy6IdleAnimIndex, setEnemy6IdleAnimIndex] = React.useState(0);
-const [enemy7IdleAnimIndex, setEnemy7IdleAnimIndex] = React.useState(0);
-const [enemy8IdleAnimIndex, setEnemy8IdleAnimIndex] = React.useState(0);
-  // stats (placeholder)
-const [enemy1HP, setEnemy1HP] = React.useState(2);
-const [enemy1MaxHP, setEnemy1MaxHP] = React.useState(2);
-const [enemy1Attack, setEnemy1Attack] = React.useState(0);
-const [enemy1Defense, setEnemy1Defense] = React.useState(0);
-const [enemy1SpecialDefense, setEnemy1SpecialDefense] = React.useState(0);
-const [enemy1Speed, setEnemy1Speed] = React.useState(0);
-const [enemy2HP, setEnemy2HP] = React.useState(2);
-const [enemy2MaxHP, setEnemy2MaxHP] = React.useState(2);
-const [enemy2Attack, setEnemy2Attack] = React.useState(0);
-const [enemy2Defense, setEnemy2Defense] = React.useState(0);
-const [enemy2SpecialDefense, setEnemy2SpecialDefense] = React.useState(0);
-const [enemy2Speed, setEnemy2Speed] = React.useState(0);
-const [enemy3HP, setEnemy3HP] = React.useState(2);
-const [enemy3MaxHP, setEnemy3MaxHP] = React.useState(2);
-const [enemy3Attack, setEnemy3Attack] = React.useState(0);
-const [enemy3Defense, setEnemy3Defense] = React.useState(0);
-const [enemy3SpecialDefense, setEnemy3SpecialDefense] = React.useState(0);
-const [enemy3Speed, setEnemy3Speed] = React.useState(0);
-const [enemy4HP, setEnemy4HP] = React.useState(2);
-const [enemy4MaxHP, setEnemy4MaxHP] = React.useState(2);
-const [enemy4Attack, setEnemy4Attack] = React.useState(0);
-const [enemy4Defense, setEnemy4Defense] = React.useState(0);
-const [enemy4SpecialDefense, setEnemy4SpecialDefense] = React.useState(0);
-const [enemy4Speed, setEnemy4Speed] = React.useState(0);
-const [enemy5HP, setEnemy5HP] = React.useState(2);
-const [enemy5MaxHP, setEnemy5MaxHP] = React.useState(2);
-const [enemy5Attack, setEnemy5Attack] = React.useState(0);
-const [enemy5Defense, setEnemy5Defense] = React.useState(0);
-const [enemy5SpecialDefense, setEnemy5SpecialDefense] = React.useState(0);
-const [enemy5Speed, setEnemy5Speed] = React.useState(0);
-const [enemy6HP, setEnemy6HP] = React.useState(2);
-const [enemy6MaxHP, setEnemy6MaxHP] = React.useState(2);
-const [enemy6Attack, setEnemy6Attack] = React.useState(0);
-const [enemy6Defense, setEnemy6Defense] = React.useState(0);
-const [enemy6SpecialDefense, setEnemy6SpecialDefense] = React.useState(0);
-const [enemy6Speed, setEnemy6Speed] = React.useState(0);
-const [enemy7HP, setEnemy7HP] = React.useState(2);
-const [enemy7MaxHP, setEnemy7MaxHP] = React.useState(2);
-const [enemy7Attack, setEnemy7Attack] = React.useState(0);
-const [enemy7Defense, setEnemy7Defense] = React.useState(0);
-const [enemy7SpecialDefense, setEnemy7SpecialDefense] = React.useState(0);
-const [enemy7Speed, setEnemy7Speed] = React.useState(0);
-const [enemy8HP, setEnemy8HP] = React.useState(2);
-const [enemy8MaxHP, setEnemy8MaxHP] = React.useState(2);
-const [enemy8Attack, setEnemy8Attack] = React.useState(0);
-const [enemy8Defense, setEnemy8Defense] = React.useState(0);
-const [enemy8SpecialDefense, setEnemy8SpecialDefense] = React.useState(0);
-const [enemy8Speed, setEnemy8Speed] = React.useState(0);
-  // configure AI
-  const [enemy1MoveBehavior, setEnemy1MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy1MoveBehaviorRef = React.useRef(enemy1MoveBehavior);
-  const [enemy1AttackBehavior, setEnemy1AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy1AttackBehaviorRef = React.useRef(enemy1AttackBehavior);
-  const [enemy2MoveBehavior, setEnemy2MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy2MoveBehaviorRef = React.useRef(enemy2MoveBehavior);
-  const [enemy2AttackBehavior, setEnemy2AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy2AttackBehaviorRef = React.useRef(enemy2AttackBehavior);
-  const [enemy3MoveBehavior, setEnemy3MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy3MoveBehaviorRef = React.useRef(enemy3MoveBehavior);
-  const [enemy3AttackBehavior, setEnemy3AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy3AttackBehaviorRef = React.useRef(enemy3AttackBehavior);
-  const [enemy4MoveBehavior, setEnemy4MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy4MoveBehaviorRef = React.useRef(enemy4MoveBehavior);
-  const [enemy4AttackBehavior, setEnemy4AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy4AttackBehaviorRef = React.useRef(enemy4AttackBehavior);
-  const [enemy5MoveBehavior, setEnemy5MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy5MoveBehaviorRef = React.useRef(enemy5MoveBehavior);
-  const [enemy5AttackBehavior, setEnemy5AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy5AttackBehaviorRef = React.useRef(enemy5AttackBehavior);
-  const [enemy6MoveBehavior, setEnemy6MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy6MoveBehaviorRef = React.useRef(enemy6MoveBehavior);
-  const [enemy6AttackBehavior, setEnemy6AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy6AttackBehaviorRef = React.useRef(enemy6AttackBehavior);
-  const [enemy7MoveBehavior, setEnemy7MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy7MoveBehaviorRef = React.useRef(enemy7MoveBehavior);
-  const [enemy7AttackBehavior, setEnemy7AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy7AttackBehaviorRef = React.useRef(enemy7AttackBehavior);
-  const [enemy8MoveBehavior, setEnemy8MoveBehavior] = React.useState(true); // Whether enemies move
-  const enemy8MoveBehaviorRef = React.useRef(enemy8MoveBehavior);
-  const [enemy8AttackBehavior, setEnemy8AttackBehavior] = React.useState(false); // Whether enemies attack
-  const enemy8AttackBehaviorRef = React.useRef(enemy8AttackBehavior);
-  //Designated States to block movement
-  const [enemy1Attacking, setEnemy1Attacking] = React.useState(false);
-  const enemy1AttackingRef = React.useRef(enemy1Attacking);
-  const [enemy2Attacking, setEnemy2Attacking] = React.useState(false);
-  const enemy2AttackingRef = React.useRef(enemy2Attacking);
-  const [enemy3Attacking, setEnemy3Attacking] = React.useState(false);
-  const enemy3AttackingRef = React.useRef(enemy3Attacking);
-  const [enemy4Attacking, setEnemy4Attacking] = React.useState(false);
-  const enemy4AttackingRef = React.useRef(enemy4Attacking);
-  const [enemy5Attacking, setEnemy5Attacking] = React.useState(false);
-  const enemy5AttackingRef = React.useRef(enemy5Attacking);
-  const [enemy6Attacking, setEnemy6Attacking] = React.useState(false);
-  const enemy6AttackingRef = React.useRef(enemy6Attacking);
-  const [enemy7Attacking, setEnemy7Attacking] = React.useState(false);
-  const enemy7AttackingRef = React.useRef(enemy7Attacking);
-  const [enemy8Attacking, setEnemy8Attacking] = React.useState(false);
-  const enemy8AttackingRef = React.useRef(enemy8Attacking);
-  // Last direction faced
-  const [enemy1LastDirection, setEnemy1LastDirection] = React.useState('down');
-  const [enemy2LastDirection, setEnemy2LastDirection] = React.useState('down');
-  const [enemy3LastDirection, setEnemy3LastDirection] = React.useState('down');
-  const [enemy4LastDirection, setEnemy4LastDirection] = React.useState('down');
-  const [enemy5LastDirection, setEnemy5LastDirection] = React.useState('down');
-  const [enemy6LastDirection, setEnemy6LastDirection] = React.useState('down');
-  const [enemy7LastDirection, setEnemy7LastDirection] = React.useState('down');
-  const [enemy8LastDirection, setEnemy8LastDirection] = React.useState('down');
-  //Status booleans
-  const [enemy1Sleeping, setEnemy1Sleeping] = React.useState(false);
-  const enemy1SleepingRef = React.useRef(enemy1Sleeping);
-  const [enemy2Sleeping, setEnemy2Sleeping] = React.useState(false);
-  const enemy2SleepingRef = React.useRef(enemy2Sleeping);
-  const [enemy3Sleeping, setEnemy3Sleeping] = React.useState(false);
-  const enemy3SleepingRef = React.useRef(enemy3Sleeping);
-  const [enemy4Sleeping, setEnemy4Sleeping] = React.useState(false);
-  const enemy4SleepingRef = React.useRef(enemy4Sleeping);
-  const [enemy5Sleeping, setEnemy5Sleeping] = React.useState(false);
-  const enemy5SleepingRef = React.useRef(enemy5Sleeping);
-  const [enemy6Sleeping, setEnemy6Sleeping] = React.useState(false);
-  const enemy6SleepingRef = React.useRef(enemy6Sleeping);
-  const [enemy7Sleeping, setEnemy7Sleeping] = React.useState(false);
-  const enemy7SleepingRef = React.useRef(enemy7Sleeping);
-  const [enemy8Sleeping, setEnemy8Sleeping] = React.useState(false);
-  const enemy8SleepingRef = React.useRef(enemy8Sleeping);
-  const [validOptions, setValidOptions] = React.useState(null);
-  const [chosen, setChosen] = React.useState(0);
   // Attack booleans
   const [rockThrow, setRockThrow] = React.useState(false); //Should rock throw display
   const rockThrowRef = React.useRef(rockThrow);
@@ -912,51 +594,51 @@ React.useEffect(() => { currencyTilesRef.current = currencyTiles; }, [currencyTi
 React.useEffect(() => { inventoryRef.current = inventory; }, [inventory]);
 React.useEffect(() => { textAdvanceRef.current = textAdvance; }, [textAdvance]);
 React.useEffect(() => { showDialogRef.current = showDialog; }, [showDialog]);
-React.useEffect(() => { enemy1PosRef.current = enemy1Pos ; }, [enemy1Pos]);
-React.useEffect(() => { enemy2PosRef.current = enemy2Pos ; }, [enemy2Pos]);
-React.useEffect(() => { enemy3PosRef.current = enemy3Pos ; }, [enemy3Pos]);
-React.useEffect(() => { enemy4PosRef.current = enemy4Pos ; }, [enemy4Pos]);
-React.useEffect(() => { enemy5PosRef.current = enemy5Pos ; }, [enemy5Pos]);
-React.useEffect(() => { enemy6PosRef.current = enemy6Pos ; }, [enemy6Pos]);
-React.useEffect(() => { enemy7PosRef.current = enemy7Pos ; }, [enemy7Pos]);
-React.useEffect(() => { enemy8PosRef.current = enemy8Pos ; }, [enemy8Pos]);
+React.useEffect(() => { enemySubsystem.enemy1Pos.ref.current = enemySubsystem.enemy1Pos.state ; }, [enemySubsystem.enemy1Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy2Pos.ref.current = enemySubsystem.enemy2Pos.state ; }, [enemySubsystem.enemy2Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy3Pos.ref.current = enemySubsystem.enemy3Pos.state ; }, [enemySubsystem.enemy3Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy4Pos.ref.current = enemySubsystem.enemy4Pos.state ; }, [enemySubsystem.enemy4Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy5Pos.ref.current = enemySubsystem.enemy5Pos.state ; }, [enemySubsystem.enemy5Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy6Pos.ref.current = enemySubsystem.enemy6Pos.state ; }, [enemySubsystem.enemy6Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy7Pos.ref.current = enemySubsystem.enemy7Pos.state ; }, [enemySubsystem.enemy7Pos.state]);
+React.useEffect(() => { enemySubsystem.enemy8Pos.ref.current = enemySubsystem.enemy8Pos.state ; }, [enemySubsystem.enemy8Pos.state]);
 React.useEffect(() => { playerPosRef.current = playerPos ; }, [playerPos]);
 React.useEffect(() => { willConsumeItemRef.current = willConsumeItem ; }, [willConsumeItem]);
 React.useEffect(() => { targetedRef.current = targeted ; }, [targeted]);
 React.useEffect(() => { selectedItemSpriteRef.current = selectedItemSprite ; }, [selectedItemSprite]);
 React.useEffect(() => { willConsumeItemInventoryRef.current = willConsumeItemInventory ; }, [willConsumeItemInventory]);
-React.useEffect(() => { enemy1MoveBehaviorRef.current = enemy1MoveBehavior ; }, [enemy1MoveBehavior]);
-React.useEffect(() => { enemy1AttackBehaviorRef.current = enemy1AttackBehavior ; }, [enemy1AttackBehavior]);
-React.useEffect(() => { enemy2MoveBehaviorRef.current = enemy2MoveBehavior ; }, [enemy2MoveBehavior]);
-React.useEffect(() => { enemy2AttackBehaviorRef.current = enemy2AttackBehavior ; }, [enemy2AttackBehavior]);
-React.useEffect(() => { enemy3MoveBehaviorRef.current = enemy3MoveBehavior ; }, [enemy3MoveBehavior]);
-React.useEffect(() => { enemy3AttackBehaviorRef.current = enemy3AttackBehavior ; }, [enemy3AttackBehavior]);
-React.useEffect(() => { enemy4MoveBehaviorRef.current = enemy4MoveBehavior ; }, [enemy4MoveBehavior]);
-React.useEffect(() => { enemy4AttackBehaviorRef.current = enemy4AttackBehavior ; }, [enemy4AttackBehavior]);
-React.useEffect(() => { enemy5MoveBehaviorRef.current = enemy5MoveBehavior ; }, [enemy5MoveBehavior]);
-React.useEffect(() => { enemy5AttackBehaviorRef.current = enemy5AttackBehavior ; }, [enemy5AttackBehavior]);
-React.useEffect(() => { enemy6MoveBehaviorRef.current = enemy6MoveBehavior ; }, [enemy6MoveBehavior]);
-React.useEffect(() => { enemy6AttackBehaviorRef.current = enemy6AttackBehavior ; }, [enemy6AttackBehavior]);
-React.useEffect(() => { enemy7MoveBehaviorRef.current = enemy7MoveBehavior ; }, [enemy7MoveBehavior]);
-React.useEffect(() => { enemy7AttackBehaviorRef.current = enemy7AttackBehavior ; }, [enemy7AttackBehavior]);
-React.useEffect(() => { enemy8MoveBehaviorRef.current = enemy8MoveBehavior ; }, [enemy8MoveBehavior]);
-React.useEffect(() => { enemy8AttackBehaviorRef.current = enemy8AttackBehavior ; }, [enemy8AttackBehavior]);
-React.useEffect(() => { enemy1AttackingRef.current = enemy1Attacking ; }, [enemy1Attacking]);
-React.useEffect(() => { enemy2AttackingRef.current = enemy2Attacking ; }, [enemy2Attacking]);
-React.useEffect(() => { enemy3AttackingRef.current = enemy3Attacking ; }, [enemy3Attacking]);
-React.useEffect(() => { enemy4AttackingRef.current = enemy4Attacking ; }, [enemy4Attacking]);
-React.useEffect(() => { enemy5AttackingRef.current = enemy5Attacking ; }, [enemy5Attacking]);
-React.useEffect(() => { enemy6AttackingRef.current = enemy6Attacking ; }, [enemy6Attacking]);
-React.useEffect(() => { enemy7AttackingRef.current = enemy7Attacking ; }, [enemy7Attacking]);
-React.useEffect(() => { enemy8AttackingRef.current = enemy8Attacking ; }, [enemy8Attacking]);
-React.useEffect(() => { enemy1SleepingRef.current = enemy1Sleeping ; }, [enemy1Sleeping]);
-React.useEffect(() => { enemy2SleepingRef.current = enemy2Sleeping ; }, [enemy2Sleeping]);
-React.useEffect(() => { enemy3SleepingRef.current = enemy3Sleeping ; }, [enemy3Sleeping]);
-React.useEffect(() => { enemy4SleepingRef.current = enemy4Sleeping ; }, [enemy4Sleeping]);
-React.useEffect(() => { enemy5SleepingRef.current = enemy5Sleeping ; }, [enemy5Sleeping]);
-React.useEffect(() => { enemy6SleepingRef.current = enemy6Sleeping ; }, [enemy6Sleeping]);
-React.useEffect(() => { enemy7SleepingRef.current = enemy7Sleeping ; }, [enemy7Sleeping]);
-React.useEffect(() => { enemy8SleepingRef.current = enemy8Sleeping ; }, [enemy8Sleeping]);
+React.useEffect(() => { enemySubsystem.enemy1MoveBehavior.ref.current = enemySubsystem.enemy1MoveBehavior.state ; }, [enemySubsystem.enemy1MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy1AttackBehavior.ref.current = enemySubsystem.enemy1AttackBehavior.state ; }, [enemySubsystem.enemy1AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy2MoveBehavior.ref.current = enemySubsystem.enemy2MoveBehavior.state ; }, [enemySubsystem.enemy2MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy2AttackBehavior.ref.current = enemySubsystem.enemy2AttackBehavior.state ; }, [enemySubsystem.enemy2AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy3MoveBehavior.ref.current = enemySubsystem.enemy3MoveBehavior.state ; }, [enemySubsystem.enemy3MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy3AttackBehavior.ref.current = enemySubsystem.enemy3AttackBehavior.state ; }, [enemySubsystem.enemy3AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy4MoveBehavior.ref.current = enemySubsystem.enemy4MoveBehavior.state ; }, [enemySubsystem.enemy4MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy4AttackBehavior.ref.current = enemySubsystem.enemy4AttackBehavior.state ; }, [enemySubsystem.enemy4AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy5MoveBehavior.ref.current = enemySubsystem.enemy5MoveBehavior.state ; }, [enemySubsystem.enemy5MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy5AttackBehavior.ref.current = enemySubsystem.enemy5AttackBehavior.state ; }, [enemySubsystem.enemy5AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy6MoveBehavior.ref.current = enemySubsystem.enemy6MoveBehavior.state ; }, [enemySubsystem.enemy6MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy6AttackBehavior.ref.current = enemySubsystem.enemy6AttackBehavior.state ; }, [enemySubsystem.enemy6AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy7MoveBehavior.ref.current = enemySubsystem.enemy7MoveBehavior.state ; }, [enemySubsystem.enemy7MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy7AttackBehavior.ref.current = enemySubsystem.enemy7AttackBehavior.state ; }, [enemySubsystem.enemy7AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy8MoveBehavior.ref.current = enemySubsystem.enemy8MoveBehavior.state ; }, [enemySubsystem.enemy8MoveBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy8AttackBehavior.ref.current = enemySubsystem.enemy8AttackBehavior.state ; }, [enemySubsystem.enemy8AttackBehavior.state]);
+React.useEffect(() => { enemySubsystem.enemy1Attacking.ref.current = enemySubsystem.enemy1Attacking.state ; }, [enemySubsystem.enemy1Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy2Attacking.ref.current = enemySubsystem.enemy2Attacking.state ; }, [enemySubsystem.enemy2Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy3Attacking.ref.current = enemySubsystem.enemy3Attacking.state ; }, [enemySubsystem.enemy3Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy4Attacking.ref.current = enemySubsystem.enemy4Attacking.state ; }, [enemySubsystem.enemy4Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy5Attacking.ref.current = enemySubsystem.enemy5Attacking.state ; }, [enemySubsystem.enemy5Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy6Attacking.ref.current = enemySubsystem.enemy6Attacking.state ; }, [enemySubsystem.enemy6Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy7Attacking.ref.current = enemySubsystem.enemy7Attacking.state ; }, [enemySubsystem.enemy7Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy8Attacking.ref.current = enemySubsystem.enemy8Attacking.state ; }, [enemySubsystem.enemy8Attacking.state]);
+React.useEffect(() => { enemySubsystem.enemy1Sleeping.ref.current = enemySubsystem.enemy1Sleeping.state ; }, [enemySubsystem.enemy1Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy2Sleeping.ref.current = enemySubsystem.enemy2Sleeping.state ; }, [enemySubsystem.enemy2Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy3Sleeping.ref.current = enemySubsystem.enemy3Sleeping.state ; }, [enemySubsystem.enemy3Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy4Sleeping.ref.current = enemySubsystem.enemy4Sleeping.state ; }, [enemySubsystem.enemy4Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy5Sleeping.ref.current = enemySubsystem.enemy5Sleeping.state ; }, [enemySubsystem.enemy5Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy6Sleeping.ref.current = enemySubsystem.enemy6Sleeping.state ; }, [enemySubsystem.enemy6Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy7Sleeping.ref.current = enemySubsystem.enemy7Sleeping.state ; }, [enemySubsystem.enemy7Sleeping.state]);
+React.useEffect(() => { enemySubsystem.enemy8Sleeping.ref.current = enemySubsystem.enemy8Sleeping.state ; }, [enemySubsystem.enemy8Sleeping.state]);
 React.useEffect(() => { DMGVfx0Ref.current = DMGVfx0 ; }, [DMGVfx0]);
 React.useEffect(() => { DMGVfx1Ref.current = DMGVfx1 ; }, [DMGVfx1]);
 React.useEffect(() => { DMGVfx2Ref.current = DMGVfx2 ; }, [DMGVfx2]);
@@ -1036,7 +718,7 @@ React.useEffect(() => {
       const floorPositions = [];
       for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== playerPos.x || y !== playerPos.y) && (itemTiles.some(itemTiles => itemTiles.x === x && itemTiles.y === y) === false) && (currencyTiles.some(currencyTiles => currencyTiles.x === x && currencyTiles.y === y) === false) && (enemy1 ? (enemy1Pos.x !== x || enemy1Pos.y !== y) : true) && (enemy2 ? (enemy2Pos.x !== x || enemy2Pos.y !== y) : true) && (enemy3 ? (enemy3Pos.x !== x || enemy3Pos.y !== y) : true) && (enemy4 ? (enemy4Pos.x !== x || enemy4Pos.y !== y) : true) && (enemy5 ? (enemy5Pos.x !== x || enemy5Pos.y !== y) : true) && (enemy6 ? (enemy6Pos.x !== x || enemy6Pos.y !== y) : true) && (enemy7 ? (enemy7Pos.x !== x || enemy7Pos.y !== y) : true) && (enemy8 ? (enemy8Pos.x !== x || enemy8Pos.y !== y) : true)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== playerPos.x || y !== playerPos.y) && (itemTiles.some(itemTiles => itemTiles.x === x && itemTiles.y === y) === false) && (currencyTiles.some(currencyTiles => currencyTiles.x === x && currencyTiles.y === y) === false) && (enemySubsystem.enemy1.state ? (enemySubsystem.enemy1Pos.state.x !== x || enemySubsystem.enemy1Pos.state.y !== y) : true) && (enemySubsystem.enemy2.state ? (enemySubsystem.enemy2Pos.state.x !== x || enemySubsystem.enemy2Pos.state.y !== y) : true) && (enemySubsystem.enemy3.state ? (enemySubsystem.enemy3Pos.state.x !== x || enemySubsystem.enemy3Pos.state.y !== y) : true) && (enemySubsystem.enemy4.state ? (enemySubsystem.enemy4Pos.state.x !== x || enemySubsystem.enemy4Pos.state.y !== y) : true) && (enemySubsystem.enemy5.state ? (enemySubsystem.enemy5Pos.state.x !== x || enemySubsystem.enemy5Pos.state.y !== y) : true) && (enemySubsystem.enemy6.state ? (enemySubsystem.enemy6Pos.state.x !== x || enemySubsystem.enemy6Pos.state.y !== y) : true) && (enemySubsystem.enemy7.state ? (enemySubsystem.enemy7Pos.state.x !== x || enemySubsystem.enemy7Pos.state.y !== y) : true) && (enemySubsystem.enemy8.state ? (enemySubsystem.enemy8Pos.state.x !== x || enemySubsystem.enemy8Pos.state.y !== y) : true)) {
           floorPositions.push({ x, y });
         }
       }
@@ -1203,7 +885,7 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
   let floorPositions = [];
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y && !enemyHereTilesRef.current.find(tile => tile.x === x && tile.y === y && !itemTilesRef.current.find(tile => tile.x === x && tile.y === y))){
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y && !enemySubsystem.enemyHereTiles.ref.current.find(tile => tile.x === x && tile.y === y && !itemTilesRef.current.find(tile => tile.x === x && tile.y === y))){
         floorPositions.push({ x, y });
       }
     }
@@ -1212,7 +894,7 @@ function generateCurrencyTiles(dungeon, minAmount, maxAmount, currencyCount = 5)
   // Shuffle and pick currencyCount locations
   for (let i = 0; i < currencyCount && floorPositions.length > 0; i++) {
     floorPositions.splice(floorPositions.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y), 1); // Ensure player position is not included
-    floorPositions = floorPositions.filter(pos => !enemyHereTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
+    floorPositions = floorPositions.filter(pos => !enemySubsystem.enemyHereTiles.ref.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
     floorPositions = floorPositions.filter(pos => !itemTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure item positions are not included
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
@@ -1255,7 +937,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
   let floorPositions = [];
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && !enemyHereTilesRef.current.find(tile => tile.x === x && tile.y === y) && !currencyTilesRef.current.find(tile => tile.x === x && tile.y === y) && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y) {
+      if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && !enemySubsystem.enemyHereTiles.ref.current.find(tile => tile.x === x && tile.y === y) && !currencyTilesRef.current.find(tile => tile.x === x && tile.y === y) && dungeon[y][x] !== playerPos.x && dungeon[y][x] !== playerPos.y) {
         floorPositions.push({ x, y });
       }
     }
@@ -1267,7 +949,7 @@ function generateItemTiles(dungeon, minCount = 5, maxCount = 10, itemCount = ran
 
   for (let i = 0; i < itemCount && floorPositions.length > 0; i++) {
     floorPositions.splice(floorPositions.findIndex(pos => pos.x === playerPos.x && pos.y === playerPos.y), 1); // Ensure player position is not included
-    floorPositions = floorPositions.filter(pos => !enemyHereTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
+    floorPositions = floorPositions.filter(pos => !enemySubsystem.enemyHereTiles.ref.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure enemy positions are not included
     floorPositions = floorPositions.filter(pos => !currencyTilesRef.current.find(tile => tile.x === pos.x && tile.y === pos.y)); // Ensure currency positions are not included
     let idx = randInt(0, floorPositions.length);
     let loc = floorPositions.splice(idx, 1)[0];
@@ -1315,69 +997,69 @@ function dealDMG(DMG, target, targetWillDie) {
     setDMGVfx0({DMG: DMG, Active: true, X: playerPosRef.current.x, Y: playerPosRef.current.y - 1});
   }
   if (target === 'enemy1') {
-    setEnemy1HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx1({DMG: DMG, Active: true, X: enemy1PosRef.current.x, Y: enemy1PosRef.current.y - 1});
-    console.log('Enemy1HP:', enemy1HP);
+    enemySubsystem.enemy1HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx1({DMG: DMG, Active: true, X: enemySubsystem.enemy1Pos.ref.current.x, Y: enemySubsystem.enemy1Pos.ref.current.y - 1});
+    console.log('Enemy1HP:', enemySubsystem.enemy1HP.state);
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType1].name + ' fainted!');
-      setEnemy1Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType1.state].name + ' fainted!');
+      enemySubsystem.enemy1Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy2') {
-    setEnemy2HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx2({DMG: DMG, Active: true, X: enemy2PosRef.current.x, Y: enemy2PosRef.current.y - 1});
+    enemySubsystem.enemy2HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx2({DMG: DMG, Active: true, X: enemySubsystem.enemy2Pos.ref.current.x, Y: enemySubsystem.enemy2Pos.ref.current.y - 1});
     console.log('Enemy2HP:', DMGVfx2Ref.current);
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType2].name + ' fainted!');
-      setEnemy2Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType2.state].name + ' fainted!');
+      enemySubsystem.enemy2Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy3') {
-    setEnemy3HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx3({DMG: DMG, Active: true, X: enemy3PosRef.current.x, Y: enemy3PosRef.current.y - 1});
+    enemySubsystem.enemy3HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx3({DMG: DMG, Active: true, X: enemySubsystem.enemy3Pos.ref.current.x, Y: enemySubsystem.enemy3Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType3].name + ' fainted!');
-      setEnemy3Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType3.state].name + ' fainted!');
+      enemySubsystem.enemy3Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy4') {
-    setEnemy4HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx4({DMG: DMG, Active: true, X: enemy4PosRef.current.x, Y: enemy4PosRef.current.y - 1});
+    enemySubsystem.enemy4HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx4({DMG: DMG, Active: true, X: enemySubsystem.enemy4Pos.ref.current.x, Y: enemySubsystem.enemy4Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType4].name + ' fainted!');
-      setEnemy4Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType4.state].name + ' fainted!');
+      enemySubsystem.enemy4Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy5') {
-    setEnemy5HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx5({DMG: DMG, Active: true, X: enemy5PosRef.current.x, Y: enemy5PosRef.current.y - 1});
+    enemySubsystem.enemy5HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx5({DMG: DMG, Active: true, X: enemySubsystem.enemy5Pos.ref.current.x, Y: enemySubsystem.enemy5Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType5].name + ' fainted!');
-      setEnemy5Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType5.state].name + ' fainted!');
+      enemySubsystem.enemy5Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy6') {
-    setEnemy6HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx6({DMG: DMG, Active: true, X: enemy6PosRef.current.x, Y: enemy6PosRef.current.y - 1});
+    enemySubsystem.enemy6HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx6({DMG: DMG, Active: true, X: enemySubsystem.enemy6Pos.ref.current.x, Y: enemySubsystem.enemy6Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType6].name + ' fainted!');
-      setEnemy6Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType6.state].name + ' fainted!');
+      enemySubsystem.enemy6Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy7') {
-    setEnemy7HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx7({DMG: DMG, Active: true, X: enemy7PosRef.current.x, Y: enemy7PosRef.current.y - 1});
+    enemySubsystem.enemy7HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx7({DMG: DMG, Active: true, X: enemySubsystem.enemy7Pos.ref.current.x, Y: enemySubsystem.enemy7Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType7].name + ' fainted!');
-      setEnemy7Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType7.state].name + ' fainted!');
+      enemySubsystem.enemy7Pos.set({x: 2, y: 2});
     }
   }
   if (target === 'enemy8') {
-    setEnemy8HP(prev => Math.max(prev - DMG, 0));
-    setDMGVfx8({DMG: DMG, Active: true, X: enemy8PosRef.current.x, Y: enemy8PosRef.current.y - 1});
+    enemySubsystem.enemy8HP.set(prev => Math.max(prev - DMG, 0));
+    setDMGVfx8({DMG: DMG, Active: true, X: enemySubsystem.enemy8Pos.ref.current.x, Y: enemySubsystem.enemy8Pos.ref.current.y - 1});
     if (targetWillDie) {
-      addLogMessage(ENEMY_DEFS[enemyType8].name + ' fainted!');
-      setEnemy8Pos({x: 2, y: 2});
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType8.state].name + ' fainted!');
+      enemySubsystem.enemy8Pos.set({x: 2, y: 2});
     }
   }
   setTimeout(() => {
@@ -1392,8 +1074,9 @@ function dealDMG(DMG, target, targetWillDie) {
       setDMGVfx8(prev => ({ ...prev, Active: false }));
     }, 1400); // DMG numbers last for 1400ms
 }
+//TODO: Add to EnemySubsystem along with other AI functions
 function enemyUseMove(move, key){
-  key === 1 ? setEnemy1AttackBehavior(true) : key === 2 ? setEnemy2AttackBehavior(true) : key === 3 ? setEnemy3AttackBehavior(true) : key === 4 ? setEnemy4AttackBehavior(true) : key === 5 ? setEnemy5AttackBehavior(true) : key === 6 ? setEnemy6AttackBehavior(true) : key === 7 ? setEnemy7AttackBehavior(true) : key === 8 ? setEnemy8AttackBehavior(true) : null;
+  key === 1 ? enemySubsystem.enemy1AttackBehavior.set(true) : key === 2 ? enemySubsystem.enemy2AttackBehavior.set(true) : key === 3 ? enemySubsystem.enemy3AttackBehavior.set(true) : key === 4 ? enemySubsystem.enemy4AttackBehavior.set(true) : key === 5 ? enemySubsystem.enemy5AttackBehavior.set(true) : key === 6 ? enemySubsystem.enemy6AttackBehavior.set(true) : key === 7 ? enemySubsystem.enemy7AttackBehavior.set(true) : key === 8 ? enemySubsystem.enemy8AttackBehavior.set(true) : null;
   setTimeout(() => {
   if (move.name === 'Rock Throw'){
     setRockThrow(true);
@@ -1401,197 +1084,197 @@ function enemyUseMove(move, key){
     // Set transform based on current player position at the moment of casting
     const transformValue = playerPosRef.current.x < width/3 ? 'translatex(80%) translateY(-615%)' : 'translatex(65%) translateY(-615%)';
     setRockThrowTransform(transformValue);
-    key === 1 ? addLogMessage(ENEMY_DEFS[enemyType1].name + ' used Rock Throw!') : key === 2 ? addLogMessage(ENEMY_DEFS[enemyType2].name + ' used Rock Throw!') : key === 3 ? addLogMessage(ENEMY_DEFS[enemyType3].name + ' used Rock Throw!') : key === 4 ? addLogMessage(ENEMY_DEFS[enemyType4].name + ' used Rock Throw!') : key === 5 ? addLogMessage(ENEMY_DEFS[enemyType5].name + ' used Rock Throw!') : key === 6 ? addLogMessage(ENEMY_DEFS[enemyType6].name + ' used Rock Throw!') : key === 7 ? addLogMessage(ENEMY_DEFS[enemyType7].name + ' used Rock Throw!') : key === 8 ? addLogMessage(ENEMY_DEFS[enemyType8].name + ' used Rock Throw!') : null;
+    key === 1 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType1.state].name + ' used Rock Throw!') : key === 2 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType2.state].name + ' used Rock Throw!') : key === 3 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType3.state].name + ' used Rock Throw!') : key === 4 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType4.state].name + ' used Rock Throw!') : key === 5 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType5.state].name + ' used Rock Throw!') : key === 6 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType6.state].name + ' used Rock Throw!') : key === 7 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType7.state].name + ' used Rock Throw!') : key === 8 ? addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType8.state].name + ' used Rock Throw!') : null;
     console.log(`Enemy ${key} used Rock Throw!`);
   }
   if (key === 1){
-    if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
-      setEnemy1LastDirection('right');
-    } else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
-      setEnemy1LastDirection('left');
-    } else if (enemy1PosRef.current.y < playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
-      setEnemy1LastDirection('down');
-    } else if (enemy1PosRef.current.y > playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
-      setEnemy1LastDirection('up');
+    if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('right');
+    } else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('left');
+    } else if (enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy1LastDirection.set('down');
+    } else if (enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy1LastDirection.set('up');
     }
-      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
-      setEnemy1LastDirection('downRight');
+      else if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('downRight');
     }
-      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
-      setEnemy1LastDirection('downLeft');
+      else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('downLeft');
     }
-      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
-      setEnemy1LastDirection('upRight');
+      else if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('upRight');
     }
-      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
-      setEnemy1LastDirection('upLeft');
+      else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy1LastDirection.set('upLeft');
     }
   }
   else if (key === 2){
-    if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
-      setEnemy2LastDirection('right');
-    } else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
-      setEnemy2LastDirection('left');
-    } else if (enemy2PosRef.current.y < playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
-      setEnemy2LastDirection('down');
-    } else if (enemy2PosRef.current.y > playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
-      setEnemy2LastDirection('up');
+    if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('right');
+    } else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('left');
+    } else if (enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy2LastDirection.set('down');
+    } else if (enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy2LastDirection.set('up');
     }
-      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
-      setEnemy2LastDirection('downRight');
+      else if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('downRight');
     }
-      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
-      setEnemy2LastDirection('downLeft');
+      else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('downLeft');
     }
-      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
-      setEnemy2LastDirection('upRight');
+      else if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('upRight');
     }
-      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
-      setEnemy2LastDirection('upLeft');
+      else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy2LastDirection.set('upLeft');
     }
   }
   else if (key === 3){
-    if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
-      setEnemy3LastDirection('right');
-    } else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
-      setEnemy3LastDirection('left');
-    } else if (enemy3PosRef.current.y < playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
-      setEnemy3LastDirection('down');
-    } else if (enemy3PosRef.current.y > playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
-      setEnemy3LastDirection('up');
+    if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('right');
+    } else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('left');
+    } else if (enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy3LastDirection.set('down');
+    } else if (enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy3LastDirection.set('up');
     }
-      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
-      setEnemy3LastDirection('downRight');
+      else if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('downRight');
     }
-      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
-      setEnemy3LastDirection('downLeft');
+      else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('downLeft');
     }
-      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
-      setEnemy3LastDirection('upRight');
+      else if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('upRight');
     }
-      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
-      setEnemy3LastDirection('upLeft');
+      else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy3LastDirection.set('upLeft');
     }
   }
   else if (key === 4){
-    if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
-      setEnemy4LastDirection('right');
-    } else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
-      setEnemy4LastDirection('left');
-    } else if (enemy4PosRef.current.y < playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
-      setEnemy4LastDirection('down');
-    } else if (enemy4PosRef.current.y > playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
-      setEnemy4LastDirection('up');
+    if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('right');
+    } else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('left');
+    } else if (enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy4LastDirection.set('down');
+    } else if (enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy4LastDirection.set('up');
     }
-      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
-      setEnemy4LastDirection('downRight');
+      else if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('downRight');
     }
-      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
-      setEnemy4LastDirection('downLeft');
+      else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('downLeft');
     }
-      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
-      setEnemy4LastDirection('upRight');
+      else if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('upRight');
     }
-      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
-      setEnemy4LastDirection('upLeft');
+      else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy4LastDirection.set('upLeft');
     }
   }
   else if (key === 5){
-    if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
-      setEnemy5LastDirection('right');
-    } else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
-      setEnemy5LastDirection('left');
-    } else if (enemy5PosRef.current.y < playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
-      setEnemy5LastDirection('down');
-    } else if (enemy5PosRef.current.y > playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
-      setEnemy5LastDirection('up');
+    if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('right');
+    } else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('left');
+    } else if (enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy5LastDirection.set('down');
+    } else if (enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy5LastDirection.set('up');
     }
-      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
-      setEnemy5LastDirection('downRight');
+      else if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('downRight');
     }
-      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
-      setEnemy5LastDirection('downLeft');
+      else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('downLeft');
     }
-      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
-      setEnemy5LastDirection('upRight');
+      else if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('upRight');
     }
-      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
-      setEnemy5LastDirection('upLeft');
+      else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy5LastDirection.set('upLeft');
     }
   }
   else if (key === 6){
-    if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
-      setEnemy6LastDirection('right');
-    } else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
-      setEnemy6LastDirection('left');
-    } else if (enemy6PosRef.current.y < playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
-      setEnemy6LastDirection('down');
-    } else if (enemy6PosRef.current.y > playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
-      setEnemy6LastDirection('up');
+    if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('right');
+    } else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('left');
+    } else if (enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy6LastDirection.set('down');
+    } else if (enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy6LastDirection.set('up');
     }
-      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
-      setEnemy6LastDirection('downRight');
+      else if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('downRight');
     }
-      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
-      setEnemy6LastDirection('downLeft');
+      else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('downLeft');
     }
-      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
-      setEnemy6LastDirection('upRight');
+      else if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('upRight');
     }
-      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
-      setEnemy6LastDirection('upLeft');
+      else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy6LastDirection.set('upLeft');
     }
   }
   else if (key === 7){
-    if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       setEnemy7LastDirection('right');
-    } else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       setEnemy7LastDirection('left');
-    } else if (enemy7PosRef.current.y < playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x){
       setEnemy7LastDirection('down');
-    } else if (enemy7PosRef.current.y > playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x){
       setEnemy7LastDirection('up');
     }
-      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y){
       setEnemy7LastDirection('downRight');
     }
-      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y){
       setEnemy7LastDirection('downLeft');
     }
-      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y){
       setEnemy7LastDirection('upRight');
     }
-      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y){
       setEnemy7LastDirection('upLeft');
     }
   }
   else if (key === 8){
-    if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
-      setEnemy8LastDirection('right');
-    } else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
-      setEnemy8LastDirection('left');
-    } else if (enemy8PosRef.current.y < playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
-      setEnemy8LastDirection('down');
-    } else if (enemy8PosRef.current.y > playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
-      setEnemy8LastDirection('up');
+    if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('right');
+    } else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('left');
+    } else if (enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy8LastDirection.set('down');
+    } else if (enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x){
+      enemySubsystem.enemy8LastDirection.set('up');
     }
-      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
-      setEnemy8LastDirection('downRight');
+      else if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('downRight');
     }
-      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
-      setEnemy8LastDirection('downLeft');
+      else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('downLeft');
     }
-      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
-      setEnemy8LastDirection('upRight');
+      else if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('upRight');
     }
-      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
-      setEnemy8LastDirection('upLeft');
+      else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y){
+      enemySubsystem.enemy8LastDirection.set('upLeft');
     }
   }
   }, turnIntervalMs);
   setTimeout(() => {
-    key === 1 ? setEnemy1AttackBehavior(false) : key === 2 ? setEnemy2AttackBehavior(false) : key === 3 ? setEnemy3AttackBehavior(false) : key === 4 ? setEnemy4AttackBehavior(false) : key === 5 ? setEnemy5AttackBehavior(false) : key === 6 ? setEnemy6AttackBehavior(false) : key === 7 ? setEnemy7AttackBehavior(false) : key === 8 ? setEnemy8AttackBehavior(false) : null;
-    key === 1 ? setEnemy1Attacking(false) : key === 2 ? setEnemy2Attacking(false) : key === 3 ? setEnemy3Attacking(false) : key === 4 ? setEnemy4Attacking(false) : key === 5 ? setEnemy5Attacking(false) : key === 6 ? setEnemy6Attacking(false) : key === 7 ? setEnemy7Attacking(false) : key === 8 ? setEnemy8Attacking(false) : null;
+    key === 1 ? enemySubsystem.enemy1AttackBehavior.set(false) : key === 2 ? enemySubsystem.enemy2AttackBehavior.set(false) : key === 3 ? enemySubsystem.enemy3AttackBehavior.set(false) : key === 4 ? enemySubsystem.enemy4AttackBehavior.set(false) : key === 5 ? enemySubsystem.enemy5AttackBehavior.set(false) : key === 6 ? enemySubsystem.enemy6AttackBehavior.set(false) : key === 7 ? enemySubsystem.enemy7AttackBehavior.set(false) : key === 8 ? enemySubsystem.enemy8AttackBehavior.set(false) : null;
+    key === 1 ? enemySubsystem.enemy1Attacking.set(false) : key === 2 ? enemySubsystem.enemy2Attacking.set(false) : key === 3 ? enemySubsystem.enemy3Attacking.set(false) : key === 4 ? enemySubsystem.enemy4Attacking.set(false) : key === 5 ? enemySubsystem.enemy5Attacking.set(false) : key === 6 ? enemySubsystem.enemy6Attacking.set(false) : key === 7 ? enemySubsystem.enemy7Attacking.set(false) : key === 8 ? enemySubsystem.enemy8Attacking.set(false) : null;
     if (move.name === 'Rock Throw'){
       setRockThrow(false);
       setProjectilePos(prev => ({ ...prev, [key]: { x: 0, y: 0 } })); // Reset projectile position at end
@@ -1616,8 +1299,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy1PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy1PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy1Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy1Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1659,8 +1342,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy2PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy2PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy2Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy2Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1702,8 +1385,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy3PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy3PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy3Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy3Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1745,8 +1428,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy4PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy4PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy4Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy4Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1788,8 +1471,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy5PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy5PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy5Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy5Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1831,8 +1514,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy6PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy6PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy6Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy6Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1874,8 +1557,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy7PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy7PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy7Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy7Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1917,8 +1600,8 @@ React.useEffect(() => {
     if (rockThrowRef.current === false) return;
     
     // Update position towards target
-    const targetX = (enemy8PosRef.current.x - playerPosRef.current.x);
-    const targetY = (enemy8PosRef.current.y - playerPosRef.current.y);
+    const targetX = (enemySubsystem.enemy8Pos.ref.current.x - playerPosRef.current.x);
+    const targetY = (enemySubsystem.enemy8Pos.ref.current.y - playerPosRef.current.y);
     
     // Calculate position-based correction to counteract camera shift artifacts
     const distancex = playerPosRef.current.x / (width) - 0.5;
@@ -1956,28 +1639,28 @@ React.useEffect(() => {
     animationFrameId8 = requestAnimationFrame(updateProjectilePosition8);
   }
 
-  if (enemy1AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy1AttackBehavior.ref.current === true){
   animationFrameId1 = requestAnimationFrame(updateProjectilePosition1);
   }
-  if (enemy2AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy2AttackBehavior.ref.current === true){
   animationFrameId2 = requestAnimationFrame(updateProjectilePosition2);
   }
-  if (enemy3AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy3AttackBehavior.ref.current === true){
   animationFrameId3 = requestAnimationFrame(updateProjectilePosition3);
   }
-  if (enemy4AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy4AttackBehavior.ref.current === true){
   animationFrameId4 = requestAnimationFrame(updateProjectilePosition4);
   }
-  if (enemy5AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy5AttackBehavior.ref.current === true){
   animationFrameId5 = requestAnimationFrame(updateProjectilePosition5);
   }
-  if (enemy6AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy6AttackBehavior.ref.current === true){
   animationFrameId6 = requestAnimationFrame(updateProjectilePosition6);
   }
-  if (enemy7AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy7AttackBehavior.ref.current === true){
   animationFrameId7 = requestAnimationFrame(updateProjectilePosition7);
   }
-  if (enemy8AttackBehaviorRef.current === true){
+  if (enemySubsystem.enemy8AttackBehavior.ref.current === true){
   animationFrameId8 = requestAnimationFrame(updateProjectilePosition8);
   }
 
@@ -2056,109 +1739,56 @@ function useMove(moveIndex) {
     setTimeout(() => setUsingAquaTail(true), 0);
     setTimeout(() => setUsingAquaTail(false), 1500); // Duration of Aqua Tail animation
     setTimeout(() => { 
-    if (enemy1 && Math.abs(playerPosRef.current.x - enemy1PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy1PosRef.current.y) <= moveRange){
+    if (enemySubsystem.enemy1.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy1Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy1Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy1' : 'enemy1';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy1HP - DMG <= 0 ? 'enemy1' : 'null';
+    const targetWillDie = enemySubsystem.enemy1HP.state - DMG <= 0 ? 'enemy1' : 'null';
     dealDMG(DMG, 'enemy1', targetWillDie === 'enemy1' ? true : false);
    }
-    if (enemy2 && Math.abs(playerPosRef.current.x - enemy2PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy2PosRef.current.y) <= moveRange){
+    if (enemySubsystem.enemy2.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy2Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy2Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy2' : 'enemy2';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy2HP - DMG <= 0 ? 'enemy2' : 'null';
+    const targetWillDie = enemySubsystem.enemy2HP.state - DMG <= 0 ? 'enemy2' : 'null';
     dealDMG(DMG, 'enemy2', targetWillDie === 'enemy2' ? true : false);
    }
-    if (enemy3 && Math.abs(playerPosRef.current.x - enemy3PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy3PosRef.current.y) <= moveRange){
+    if (enemySubsystem.enemy3.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy3Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy3Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy3' : 'enemy3';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy3HP - DMG <= 0 ? 'enemy3' : 'null';
+    const targetWillDie = enemySubsystem.enemy3HP.state - DMG <= 0 ? 'enemy3' : 'null';
     dealDMG(DMG, 'enemy3', targetWillDie === 'enemy3' ? true : false);
    }
-    if (enemy4 && Math.abs(playerPosRef.current.x - enemy4PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy4PosRef.current.y) <= moveRange){
+    if (enemySubsystem.enemy4.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy4Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy4Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy4' : 'enemy4';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy4HP - DMG <= 0 ? 'enemy4' : 'null';
+    const targetWillDie = enemySubsystem.enemy4HP.state - DMG <= 0 ? 'enemy4' : 'null';
     dealDMG(DMG, target, targetWillDie === 'enemy4' ? true : false);
    }
-   if (enemy5 && Math.abs(playerPosRef.current.x - enemy5PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy5PosRef.current.y) <= moveRange){
+   if (enemySubsystem.enemy5.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy5Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy5Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy5' : 'enemy5';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy5HP - DMG <= 0 ? 'enemy5' : 'null';
+    const targetWillDie = enemySubsystem.enemy5HP.state - DMG <= 0 ? 'enemy5' : 'null';
     dealDMG(DMG, target, targetWillDie === 'enemy5' ? true : false);
    }
-   if (enemy6 && Math.abs(playerPosRef.current.x - enemy6PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy6PosRef.current.y) <= moveRange){
+   if (enemySubsystem.enemy6.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy6Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy6Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy6' : 'enemy6';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy6HP - DMG <= 0 ? 'enemy6' : 'null';
+    const targetWillDie = enemySubsystem.enemy6HP.state - DMG <= 0 ? 'enemy6' : 'null';
     dealDMG(DMG, target, targetWillDie === 'enemy6' ? true : false);
    }
-   if (enemy7 && Math.abs(playerPosRef.current.x - enemy7PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy7PosRef.current.y) <= moveRange){
+   if (enemySubsystem.enemy7.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy7Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy7Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy7' : 'enemy7';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy7HP - DMG <= 0 ? 'enemy7' : 'null';
+    const targetWillDie = enemySubsystem.enemy7HP.state - DMG <= 0 ? 'enemy7' : 'null';
     dealDMG(DMG, target, targetWillDie === 'enemy7' ? true : false);
    }
-   if (enemy8 && Math.abs(playerPosRef.current.x - enemy8PosRef.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemy8PosRef.current.y) <= moveRange){
+   if (enemySubsystem.enemy8.state && Math.abs(playerPosRef.current.x - enemySubsystem.enemy8Pos.ref.current.x) <= moveRange && Math.abs(playerPosRef.current.y - enemySubsystem.enemy8Pos.ref.current.y) <= moveRange){
     const target = target !== 'null' || target !== undefined ? 'enemy8' : 'enemy8';
     const DMG = 1 // Placeholder damage value, replace with actual calculation
-    const targetWillDie = enemy8HP - DMG <= 0 ? 'enemy8' : 'null';
+    const targetWillDie = enemySubsystem.enemy8HP.state - DMG <= 0 ? 'enemy8' : 'null';
     dealDMG(DMG, target, targetWillDie === 'enemy8' ? true : false);
    }
     }, 1501)
     setTimeout(() => {
-      /*
-      if (targetWillDie === 'enemy1'){
-        dealDMG(DMG, enemy1, true);
-      }
-      else if (target === 'enemy1'){
-        dealDMG(DMG, enemy1, false);
-      }
-      else {
-        dealDMG(DMG, enemy1, false);
-      }
-      if (targetWillDie === 'enemy2'){
-        dealDMG(DMG, enemy2, true);
-      }
-      else if (target === 'enemy2'){
-        dealDMG(DMG, enemy2, false)
-      }
-      if (targetWillDie === 'enemy3'){
-        dealDMG(DMG, enemy3, true);
-      }
-      else if (target === 'enemy3'){
-        dealDMG(DMG, enemy3, false)
-      }
-      if (targetWillDie === 'enemy4'){
-        dealDMG(DMG, enemy4, true);
-      }
-      else if (target === 'enemy4'){
-        dealDMG(DMG, enemy4, false)
-      }
-      if (targetWillDie === 'enemy5'){
-        dealDMG(DMG, enemy5, true);
-      }
-      else if (target === 'enemy5'){
-        dealDMG(DMG, enemy5, false)
-      }
-      if (targetWillDie === 'enemy6'){
-        dealDMG(DMG, enemy6, true);
-      }
-      else if (target === 'enemy6'){
-        dealDMG(DMG, enemy6, false)
-      }
-      if (targetWillDie === 'enemy7'){
-        dealDMG(DMG, enemy7, true);
-      }
-      else if (target === 'enemy7'){
-        dealDMG(DMG, enemy7, false)
-      }
-      if (targetWillDie === 'enemy8'){
-        dealDMG(DMG, enemy8, true);
-      }
-      else if (target === 'enemy8'){
-        dealDMG(DMG, enemy8, false)
-      }
-      */
       targetWillDie !== 'enemy1' ? confirmEnemyBehavior(1, 0) : confirmEnemyBehavior (2, 0);
       advanceTicks();
       depleteHungerAfterTicks(hungerTicks);
@@ -2209,42 +1839,42 @@ function addItemToInventory(itemName) {
 //AI functions
 function patrol(enemyx, enemyy, key){
 if (key === 1){
-if (enemy1Sleeping === true){
+if (enemySubsystem.enemy1Sleeping.state === true){
   return;
 }
 }
 if (key === 2){
-if (enemy2Sleeping === true){
+if (enemySubsystem.enemy2Sleeping.state === true){
   return;
 }
 }
 if (key === 3){
-if (enemy3Sleeping === true){
+if (enemySubsystem.enemy3Sleeping.state === true){
   return;
 }
 }
 if (key === 4){
-if (enemy4Sleeping === true){
+if (enemySubsystem.enemy4Sleeping.state === true){
   return;
 }
 }
 if (key === 5){
-if (enemy5Sleeping === true){
+if (enemySubsystem.enemy5Sleeping.state === true){
   return;
 }
 }
 if (key === 6){
-if (enemy6Sleeping === true){
+if (enemySubsystem.enemy6Sleeping.state === true){
   return;
 }
 }
 if (key === 7){
-if (enemy7Sleeping === true){
+if (enemySubsystem.enemy7Sleeping.state === true){
   return;
 }
 }
 if (key === 8){
-if (enemy8Sleeping === true){
+if (enemySubsystem.enemy8Sleeping.state === true){
   return;
 }
 }
@@ -2272,333 +1902,318 @@ downRight: null
 }
 
 if (tileUp !== 'W'){
-const up = true
 validOptions.push('up')
 }
 if (tileDown !== 'W'){
-const down = true
 validOptions.push('down')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileLeft !== 'W'){
-const left = true
 validOptions.push('left')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileRight !== 'W'){
-const right = true
 validOptions.push('right')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileDownLeft !== 'W'){
-const downLeft = true
 validOptions.push('downLeft')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileDownRight !== 'W'){
-const downRight = true
 validOptions.push('downRight')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileUpLeft !== 'W'){
-const upLeft = true
 validOptions.push('upLeft')
-const chosen = randInt(0, validOptions.length)
 }
 if (tileUpRight !== 'W'){
-const upRight = true
 validOptions.push('upRight')
-const chosen = randInt(0, validOptions.length)
 }
 
-setChosen(randInt(1, validOptions.length))
+enemySubsystem.chosen.set(randInt(1, validOptions.length))
 
-if ((validOptions[chosen] === 'up')){
+if ((validOptions[enemySubsystem.chosen.state] === 'up')){
     const newPosx = enemyx
     const newPosy = enemyy - 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('up')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('up')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('up')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('up')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('up')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('up')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('up')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('up')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('up')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('up')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('up')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('up')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('up')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('up')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('up')
 }
 }
-if (validOptions[chosen] === 'down'){
+if (validOptions[enemySubsystem.chosen.state] === 'down'){
     const newPosx = enemyx
     const newPosy = enemyy + 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('down')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('down')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('down')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('down')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('down')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('down')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('down')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('down')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('down')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('down')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('down')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('down')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('down')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('down')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('down')
 }
 }
-if (validOptions[chosen] === 'left'){
+if (validOptions[enemySubsystem.chosen.state] === 'left'){
     const newPosx = enemyx - 1
     const newPosy = enemyy
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('left')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('left')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('left')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('left')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('left')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('left')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('left')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('left')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('left')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('left')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('left')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('left')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('left')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('left')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('left')
 }
 }
-if (validOptions[chosen] === 'right'){
+if (validOptions[enemySubsystem.chosen.state] === 'right'){
     const newPosx = enemyx + 1
     const newPosy = enemyy
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('right')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('right')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('right')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('right')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('right')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('right')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('right')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('right')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('right')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('right')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('right')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('right')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('right')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('right')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('right')
 }
 }
-if (validOptions[chosen] === 'downLeft'){
+if (validOptions[enemySubsystem.chosen.state] === 'downLeft'){
     const newPosx = enemyx - 1
     const newPosy = enemyy + 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('downLeft')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('downLeft')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('downLeft')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('downLeft')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('downLeft')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('downLeft')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('downLeft')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('downLeft')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('downLeft')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('downLeft')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('downLeft')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('downLeft')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('downLeft')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('downLeft')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('downLeft')
 }
 }
-if (validOptions[chosen] === 'downRight'){
+if (validOptions[enemySubsystem.chosen.state] === 'downRight'){
     const newPosx = enemyx + 1
     const newPosy = enemyy + 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('downRight')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('downRight')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('downRight')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('downRight')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('downRight')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('downRight')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('downRight')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('downRight')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('downRight')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('downRight')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('downRight')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('downRight')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('downRight')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('downRight')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('downRight')
 }
 }
-if (validOptions[chosen] === 'upLeft'){
+if (validOptions[enemySubsystem.chosen.state] === 'upLeft'){
     const newPosx = enemyx - 1
     const newPosy = enemyy - 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('upLeft')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('upLeft')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('upLeft')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('upLeft')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('upLeft')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('upLeft')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('upLeft')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('upLeft')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('upLeft')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('upLeft')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('upLeft')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('upLeft')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('upLeft')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('upLeft')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('upLeft')
 }
 }
-if (validOptions[chosen] === 'upRight'){
+if (validOptions[enemySubsystem.chosen.state] === 'upRight'){
     const newPosx = enemyx + 1
     const newPosy = enemyy - 1
     if (key === 1){
-    setEnemy1Pos( {x: newPosx, y: newPosy} )
-    setEnemy1LastDirection('upRight')
+    enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy1LastDirection.set('upRight')
 }
     if (key === 2){
-    setEnemy2Pos( {x: newPosx, y: newPosy} )
-    setEnemy2LastDirection('upRight')
+    enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy2LastDirection.set('upRight')
 }
     if (key === 3){
-    setEnemy3Pos( {x: newPosx, y: newPosy} )
-    setEnemy3LastDirection('upRight')
+    enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy3LastDirection.set('upRight')
 }
     if (key === 4){
-    setEnemy4Pos( {x: newPosx, y: newPosy} )
-    setEnemy4LastDirection('upRight')
+    enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy4LastDirection.set('upRight')
 }
     if (key === 5){
-    setEnemy5Pos( {x: newPosx, y: newPosy} )
-    setEnemy5LastDirection('upRight')
+    enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy5LastDirection.set('upRight')
 }
     if (key === 6){
-    setEnemy6Pos( {x: newPosx, y: newPosy} )
-    setEnemy6LastDirection('upRight')
+    enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy6LastDirection.set('upRight')
 }
     if (key === 7){
-    setEnemy7Pos( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
     setEnemy7LastDirection('upRight')
 }
     if (key === 8){
-    setEnemy8Pos( {x: newPosx, y: newPosy} )
-    setEnemy8LastDirection('upRight')
+    enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
+    enemySubsystem.enemy8LastDirection.set('upRight')
 }
 }
 return
@@ -2616,99 +2231,75 @@ function verifyPlayerPosition(playerx, playery){
 }
 function verifyEnemyPosition(enemyx, enemyy, key){
   if (key === 1){
-    if (enemyx === enemy1PosRef.current.x && enemyy === enemy1PosRef.current.y){
-    //console.log('Case 1:', enemyx, 'is the same as', enemy1PosRef.current.x, 'and', enemyy, 'is the same as', enemy1PosRef.current.y)
-    return enemy1Pos
+    if (enemyx === enemySubsystem.enemy1Pos.ref.current.x && enemyy === enemySubsystem.enemy1Pos.ref.current.y){
+    return enemySubsystem.enemy1Pos.state
     }
     else {
-      //console.log('Case 1:', enemyx, 'is not the same as', enemy1PosRef.current.x, 'or', enemyy, 'is not the same as', enemy1PosRef.current.y)
-      setEnemy1Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy1PosRef.current.x && enemyy === enemy1PosRef.current.y)
-      return enemy1Pos
+      enemySubsystem.enemy1Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy1Pos.state
     }
   }
   if (key === 2){
-    if (enemyx === enemy2PosRef.current.x && enemyy === enemy2PosRef.current.y){
-    //console.log('Case 2:', enemyx, 'is the same as', enemy2PosRef.current.x, 'and', enemyy, 'is the same as', enemy2PosRef.current.y)
-    return enemy2Pos
+    if (enemyx === enemySubsystem.enemy2Pos.ref.current.x && enemyy === enemySubsystem.enemy2Pos.ref.current.y){
+    return enemySubsystem.enemy2Pos.state
     }
     else {
-      //console.log('Case 2:', enemyx, 'is not the same as', enemy2PosRef.current.x, 'or', enemyy, 'is not the same as', enemy2PosRef.current.y)
-      setEnemy2Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy2PosRef.current.x && enemyy === enemy2PosRef.current.y)
-      return enemy2Pos
+      enemySubsystem.enemy2Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy2Pos.state
     }
   }
   if (key === 3){
-    if (enemyx === enemy3PosRef.current.x && enemyy === enemy3PosRef.current.y){
-    //console.log('Case 3:', enemyx, 'is the same as', enemy3PosRef.current.x, 'and', enemyy, 'is the same as', enemy3PosRef.current.y)
-    return enemy3Pos
+    if (enemyx === enemySubsystem.enemy3Pos.ref.current.x && enemyy === enemySubsystem.enemy3Pos.ref.current.y){
+    return enemySubsystem.enemy3Pos.state
     }
     else {
-      //console.log('Case 3:', enemyx, 'is not the same as', enemy3PosRef.current.x, 'or', enemyy, 'is not the same as', enemy3PosRef.current.y)
-      setEnemy3Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy3PosRef.current.x && enemyy === enemy3PosRef.current.y)
-      return enemy3Pos
+      enemySubsystem.enemy3Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy3Pos.state
     }
   }
   if (key === 4){
-    if (enemyx === enemy4PosRef.current.x && enemyy === enemy4PosRef.current.y){
-    //console.log('Case 4:', enemyx, 'is the same as', enemy4PosRef.current.x, 'and', enemyy, 'is the same as', enemy4PosRef.current.y)
-    return enemy4Pos
+    if (enemyx === enemySubsystem.enemy4Pos.ref.current.x && enemyy === enemySubsystem.enemy4Pos.ref.current.y){
+    return enemySubsystem.enemy4Pos.state
     }
     else {
-      //console.log('Case 4:', enemyx, 'is not the same as', enemy4PosRef.current.x, 'or', enemyy, 'is not the same as', enemy4PosRef.current.y)
-      setEnemy4Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy4PosRef.current.x && enemyy === enemy4PosRef.current.y)
-      return enemy4Pos
+      enemySubsystem.enemy4Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy4Pos.state
     }
   }
   if (key === 5){
-    if (enemyx === enemy5PosRef.current.x && enemyy === enemy5PosRef.current.y){
-    //console.log('Case 5:', enemyx, 'is the same as', enemy5PosRef.current.x, 'and', enemyy, 'is the same as', enemy5PosRef.current.y)
-    return enemy5Pos
+    if (enemyx === enemySubsystem.enemy5Pos.ref.current.x && enemyy === enemySubsystem.enemy5Pos.ref.current.y){
+    return enemySubsystem.enemy5Pos.state
     }
     else {
-      //console.log('Case 5:', enemyx, 'is not the same as', enemy5PosRef.current.x, 'or', enemyy, 'is not the same as', enemy5PosRef.current.y)
-      setEnemy5Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy5PosRef.current.x && enemyy === enemy5PosRef.current.y)
-      return enemy5Pos
+      enemySubsystem.enemy5Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy5Pos.state
     }
   }
   if (key === 6){
-    if (enemyx === enemy6PosRef.current.x && enemyy === enemy6PosRef.current.y){
-    //console.log('Case 6:', enemyx, 'is the same as', enemy6PosRef.current.x, 'and', enemyy, 'is the same as', enemy6PosRef.current.y)
-    return enemy6Pos
+    if (enemyx === enemySubsystem.enemy6Pos.ref.current.x && enemyy === enemySubsystem.enemy6Pos.ref.current.y){
+    return enemySubsystem.enemy6Pos.state
     }
     else {
-      //console.log('Case 6:', enemyx, 'is not the same as', enemy6PosRef.current.x, 'or', enemyy, 'is not the same as', enemy6PosRef.current.y)
-      setEnemy6Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy6PosRef.current.x && enemyy === enemy6PosRef.current.y)
-      return enemy6Pos
+      enemySubsystem.enemy6Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy6Pos.state
     }
   }
   if (key === 7){
-    if (enemyx === enemy7PosRef.current.x && enemyy === enemy7PosRef.current.y){
-    //console.log('Case 7:', enemyx, 'is the same as', enemy7PosRef.current.x, 'and', enemyy, 'is the same as', enemy7PosRef.current.y)
-    return enemy7Pos
+    if (enemyx === enemySubsystem.enemy7Pos.ref.current.x && enemyy === enemySubsystem.enemy7Pos.ref.current.y){
+    return enemySubsystem.enemy7Pos.state
     }
     else {
-      //console.log('Case 7:', enemyx, 'is not the same as', enemy7PosRef.current.x, 'or', enemyy, 'is not the same as', enemy7PosRef.current.y)
-      setEnemy7Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy7PosRef.current.x && enemyy === enemy7PosRef.current.y)
-      return enemy7Pos
+      enemySubsystem.enemy7Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy7Pos.state
     }
   }
   if (key === 8){
-    if (enemyx === enemy8PosRef.current.x && enemyy === enemy8PosRef.current.y){
-    //console.log('Case 8:', enemyx, 'is the same as', enemy8PosRef.current.x, 'and', enemyy, 'is the same as', enemy8PosRef.current.y)
-    return enemy8Pos
+    if (enemyx === enemySubsystem.enemy8Pos.ref.current.x && enemyy === enemySubsystem.enemy8Pos.ref.current.y){
+    return enemySubsystem.enemy8Pos.state
     }
     else {
-      //console.log('Case 8:', enemyx, 'is not the same as', enemy8PosRef.current.x, 'or', enemyy, 'is not the same as', enemy8PosRef.current.y)
-      setEnemy8Pos( {x: enemyx, y: enemyy} )
-      //console.log('Correct after state change:', enemyx === enemy8PosRef.current.x && enemyy === enemy8PosRef.current.y)
-      return enemy8Pos
+      enemySubsystem.enemy8Pos.set( {x: enemyx, y: enemyy} )
+      return enemySubsystem.enemy8Pos.state
     }
   }
 }
@@ -2716,42 +2307,42 @@ function verifyEnemyPosition(enemyx, enemyy, key){
 function pursue(enemyx, enemyy, key){
 
 if (key === 1){
-if (enemy1Sleeping === true){
+if (enemySubsystem.enemy1Sleeping.state === true){
   return;
 }
 }
 if (key === 2){
-if (enemy2Sleeping === true){
+if (enemySubsystem.enemy2Sleeping.state === true){
   return;
 }
 }
 if (key === 3){
-if (enemy3Sleeping === true){
+if (enemySubsystem.enemy3Sleeping.state === true){
   return;
 }
 }
 if (key === 4){
-if (enemy4Sleeping === true){
+if (enemySubsystem.enemy4Sleeping.state === true){
   return;
 }
 }
 if (key === 5){
-if (enemy5Sleeping === true){
+if (enemySubsystem.enemy5Sleeping.state === true){
   return;
 }
 }
 if (key === 6){
-if (enemy6Sleeping === true){
+if (enemySubsystem.enemy6Sleeping.state === true){
   return;
 }
 }
 if (key === 7){
-if (enemy7Sleeping === true){
+if (enemySubsystem.enemy7Sleeping.state === true){
   return;
 }
 }
 if (key === 8){
-if (enemy8Sleeping === true){
+if (enemySubsystem.enemy8Sleeping.state === true){
   return;
 }
 }
@@ -2774,77 +2365,77 @@ const playerUpLeft = playerPosRef.current.y === enemyy - 1 && playerPosRef.curre
 const playerDownRight = playerPosRef.current.y === enemyy + 1 && playerPosRef.current.x === enemyx + 1
 const playerDownLeft = playerPosRef.current.y === enemyy + 1 && playerPosRef.current.x === enemyx - 1
 //enemy1 cases
-const enemy1Up = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx : false
-const enemy1Down = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx : false
-const enemy1Left = enemy1 ? enemy1PosRef.current.y === enemyy && enemy1PosRef.current.x === enemyx - 1 : false
-const enemy1Right = enemy1 ? enemy1PosRef.current.y === enemyy && enemy1PosRef.current.x === enemyx + 1 : false
-const enemy1UpRight = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx + 1 : false
-const enemy1UpLeft = enemy1 ? enemy1PosRef.current.y === enemyy - 1 && enemy1PosRef.current.x === enemyx - 1 : false
-const enemy1DownRight = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx + 1 : false
-const enemy1DownLeft = enemy1 ? enemy1PosRef.current.y === enemyy + 1 && enemy1PosRef.current.x === enemyx - 1 : false
+const enemy1Up = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx : false
+const enemy1Down = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx : false
+const enemy1Left = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy && enemySubsystem.enemy1Pos.ref.current.x === enemyx - 1 : false
+const enemy1Right = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy && enemySubsystem.enemy1Pos.ref.current.x === enemyx + 1 : false
+const enemy1UpRight = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx + 1 : false
+const enemy1UpLeft = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx - 1 : false
+const enemy1DownRight = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx + 1 : false
+const enemy1DownLeft = enemySubsystem.enemy1.state ? enemySubsystem.enemy1Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy1Pos.ref.current.x === enemyx - 1 : false
 //enemy2 cases
-const enemy2Up = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx : false
-const enemy2Down = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx : false
-const enemy2Left = enemy2 ? enemy2PosRef.current.y === enemyy && enemy2PosRef.current.x === enemyx - 1 : false
-const enemy2Right = enemy2 ? enemy2PosRef.current.y === enemyy && enemy2PosRef.current.x === enemyx + 1 : false
-const enemy2UpRight = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx + 1 : false
-const enemy2UpLeft = enemy2 ? enemy2PosRef.current.y === enemyy - 1 && enemy2PosRef.current.x === enemyx - 1 : false
-const enemy2DownRight = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx + 1 : false
-const enemy2DownLeft = enemy2 ? enemy2PosRef.current.y === enemyy + 1 && enemy2PosRef.current.x === enemyx - 1 : false
+const enemy2Up = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx : false
+const enemy2Down = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx : false
+const enemy2Left = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy && enemySubsystem.enemy2Pos.ref.current.x === enemyx - 1 : false
+const enemy2Right = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy && enemySubsystem.enemy2Pos.ref.current.x === enemyx + 1 : false
+const enemy2UpRight = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx + 1 : false
+const enemy2UpLeft = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx - 1 : false
+const enemy2DownRight = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx + 1 : false
+const enemy2DownLeft = enemySubsystem.enemy2.state ? enemySubsystem.enemy2Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy2Pos.ref.current.x === enemyx - 1 : false
 //enemy3 cases
-const enemy3Up = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx : false
-const enemy3Down = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx : false
-const enemy3Left = enemy3 ? enemy3PosRef.current.y === enemyy && enemy3PosRef.current.x === enemyx - 1 : false
-const enemy3Right = enemy3 ? enemy3PosRef.current.y === enemyy && enemy3PosRef.current.x === enemyx + 1 : false
-const enemy3UpRight = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx + 1 : false
-const enemy3UpLeft = enemy3 ? enemy3PosRef.current.y === enemyy - 1 && enemy3PosRef.current.x === enemyx - 1 : false
-const enemy3DownRight = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx + 1 : false
-const enemy3DownLeft = enemy3 ? enemy3PosRef.current.y === enemyy + 1 && enemy3PosRef.current.x === enemyx - 1 : false
+const enemy3Up = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx : false
+const enemy3Down = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx : false
+const enemy3Left = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy && enemySubsystem.enemy3Pos.ref.current.x === enemyx - 1 : false
+const enemy3Right = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy && enemySubsystem.enemy3Pos.ref.current.x === enemyx + 1 : false
+const enemy3UpRight = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx + 1 : false
+const enemy3UpLeft = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx - 1 : false
+const enemy3DownRight = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx + 1 : false
+const enemy3DownLeft = enemySubsystem.enemy3.state ? enemySubsystem.enemy3Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy3Pos.ref.current.x === enemyx - 1 : false
 //enemy4 cases
-const enemy4Up = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx : false
-const enemy4Down = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx : false
-const enemy4Left = enemy4 ? enemy4PosRef.current.y === enemyy && enemy4PosRef.current.x === enemyx - 1 : false
-const enemy4Right = enemy4 ? enemy4PosRef.current.y === enemyy && enemy4PosRef.current.x === enemyx + 1 : false
-const enemy4UpRight = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx + 1 : false
-const enemy4UpLeft = enemy4 ? enemy4PosRef.current.y === enemyy - 1 && enemy4PosRef.current.x === enemyx - 1 : false
-const enemy4DownRight = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx + 1 : false
-const enemy4DownLeft = enemy4 ? enemy4PosRef.current.y === enemyy + 1 && enemy4PosRef.current.x === enemyx - 1 : false
+const enemy4Up = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx : false
+const enemy4Down = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx : false
+const enemy4Left = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy && enemySubsystem.enemy4Pos.ref.current.x === enemyx - 1 : false
+const enemy4Right = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy && enemySubsystem.enemy4Pos.ref.current.x === enemyx + 1 : false
+const enemy4UpRight = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx + 1 : false
+const enemy4UpLeft = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx - 1 : false
+const enemy4DownRight = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx + 1 : false
+const enemy4DownLeft = enemySubsystem.enemy4.state ? enemySubsystem.enemy4Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy4Pos.ref.current.x === enemyx - 1 : false
 //enemy5 cases
-const enemy5Up = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx : false
-const enemy5Down = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx : false
-const enemy5Left = enemy5 ? enemy5PosRef.current.y === enemyy && enemy5PosRef.current.x === enemyx - 1 : false
-const enemy5Right = enemy5 ? enemy5PosRef.current.y === enemyy && enemy5PosRef.current.x === enemyx + 1 : false
-const enemy5UpRight = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx + 1 : false
-const enemy5UpLeft = enemy5 ? enemy5PosRef.current.y === enemyy - 1 && enemy5PosRef.current.x === enemyx - 1 : false
-const enemy5DownRight = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx + 1 : false
-const enemy5DownLeft = enemy5 ? enemy5PosRef.current.y === enemyy + 1 && enemy5PosRef.current.x === enemyx - 1 : false
+const enemy5Up = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx : false
+const enemy5Down = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx : false
+const enemy5Left = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy && enemySubsystem.enemy5Pos.ref.current.x === enemyx - 1 : false
+const enemy5Right = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy && enemySubsystem.enemy5Pos.ref.current.x === enemyx + 1 : false
+const enemy5UpRight = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx + 1 : false
+const enemy5UpLeft = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx - 1 : false
+const enemy5DownRight = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx + 1 : false
+const enemy5DownLeft = enemySubsystem.enemy5.state ? enemySubsystem.enemy5Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy5Pos.ref.current.x === enemyx - 1 : false
 //enemy6 cases
-const enemy6Up = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx : false
-const enemy6Down = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx : false
-const enemy6Left = enemy6 ? enemy6PosRef.current.y === enemyy && enemy6PosRef.current.x === enemyx - 1 : false
-const enemy6Right = enemy6 ? enemy6PosRef.current.y === enemyy && enemy6PosRef.current.x === enemyx + 1 : false
-const enemy6UpRight = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx + 1 : false
-const enemy6UpLeft = enemy6 ? enemy6PosRef.current.y === enemyy - 1 && enemy6PosRef.current.x === enemyx - 1 : false
-const enemy6DownRight = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx + 1 : false
-const enemy6DownLeft = enemy6 ? enemy6PosRef.current.y === enemyy + 1 && enemy6PosRef.current.x === enemyx - 1 : false
+const enemy6Up = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx : false
+const enemy6Down = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx : false
+const enemy6Left = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy && enemySubsystem.enemy6Pos.ref.current.x === enemyx - 1 : false
+const enemy6Right = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy && enemySubsystem.enemy6Pos.ref.current.x === enemyx + 1 : false
+const enemy6UpRight = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx + 1 : false
+const enemy6UpLeft = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx - 1 : false
+const enemy6DownRight = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx + 1 : false
+const enemy6DownLeft = enemySubsystem.enemy6.state ? enemySubsystem.enemy6Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy6Pos.ref.current.x === enemyx - 1 : false
 //enemy7 cases
-const enemy7Up = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx : false
-const enemy7Down = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx : false
-const enemy7Left = enemy7 ? enemy7PosRef.current.y === enemyy && enemy7PosRef.current.x === enemyx - 1 : false
-const enemy7Right = enemy7 ? enemy7PosRef.current.y === enemyy && enemy7PosRef.current.x === enemyx + 1 : false
-const enemy7UpRight = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx + 1 : false
-const enemy7UpLeft = enemy7 ? enemy7PosRef.current.y === enemyy - 1 && enemy7PosRef.current.x === enemyx - 1 : false
-const enemy7DownRight = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx + 1 : false
-const enemy7DownLeft = enemy7 ? enemy7PosRef.current.y === enemyy + 1 && enemy7PosRef.current.x === enemyx - 1 : false
+const enemy7Up = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx : false
+const enemy7Down = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx : false
+const enemy7Left = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy && enemySubsystem.enemy7Pos.ref.current.x === enemyx - 1 : false
+const enemy7Right = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy && enemySubsystem.enemy7Pos.ref.current.x === enemyx + 1 : false
+const enemy7UpRight = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx + 1 : false
+const enemy7UpLeft = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx - 1 : false
+const enemy7DownRight = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx + 1 : false
+const enemy7DownLeft = enemySubsystem.enemy7.state ? enemySubsystem.enemy7Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy7Pos.ref.current.x === enemyx - 1 : false
 //enemy8 cases
-const enemy8Up = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx : false
-const enemy8Down = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx : false
-const enemy8Left = enemy8 ? enemy8PosRef.current.y === enemyy && enemy8PosRef.current.x === enemyx - 1 : false
-const enemy8Right = enemy8 ? enemy8PosRef.current.y === enemyy && enemy8PosRef.current.x === enemyx + 1 : false
-const enemy8UpRight = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx + 1 : false
-const enemy8UpLeft = enemy8 ? enemy8PosRef.current.y === enemyy - 1 && enemy8PosRef.current.x === enemyx - 1 : false
-const enemy8DownRight = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx + 1 : false
-const enemy8DownLeft = enemy8 ? enemy8PosRef.current.y === enemyy + 1 && enemy8PosRef.current.x === enemyx - 1 : false
+const enemy8Up = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx : false
+const enemy8Down = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx : false
+const enemy8Left = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy && enemySubsystem.enemy8Pos.ref.current.x === enemyx - 1 : false
+const enemy8Right = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy && enemySubsystem.enemy8Pos.ref.current.x === enemyx + 1 : false
+const enemy8UpRight = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx + 1 : false
+const enemy8UpLeft = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy - 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx - 1 : false
+const enemy8DownRight = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx + 1 : false
+const enemy8DownLeft = enemySubsystem.enemy8.state ? enemySubsystem.enemy8Pos.ref.current.y === enemyy + 1 && enemySubsystem.enemy8Pos.ref.current.x === enemyx - 1 : false
 
 
 let newPosx = enemyx
@@ -2854,352 +2445,352 @@ if (enemyx < playerPos.x && enemyy < playerPos.y && tileDownRight !== 'W' && !pl
 const newPosx = enemyx + 1
 const newPosy = enemyy + 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('downRight')
+enemySubsystem.enemy1LastDirection.set('downRight')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('downRight')
+enemySubsystem.enemy2LastDirection.set('downRight')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('downRight')
+enemySubsystem.enemy3LastDirection.set('downRight')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('downRight')
+enemySubsystem.enemy4LastDirection.set('downRight')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('downRight')
+enemySubsystem.enemy5LastDirection.set('downRight')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('downRight')
+enemySubsystem.enemy6LastDirection.set('downRight')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('downRight')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('downRight')
+enemySubsystem.enemy8LastDirection.set('downRight')
 }
 }
 else if (enemyx < playerPos.x && enemyy > playerPos.y && tileUpRight !== 'W' && !playerUpRight && !enemy1UpRight && !enemy2UpRight && !enemy3UpRight && !enemy4UpRight && !enemy5UpRight && !enemy6UpRight && !enemy7UpRight && !enemy8UpRight){
 const newPosx = enemyx + 1
 const newPosy = enemyy - 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('upRight')
+enemySubsystem.enemy1LastDirection.set('upRight')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('upRight')
+enemySubsystem.enemy2LastDirection.set('upRight')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('upRight')
+enemySubsystem.enemy3LastDirection.set('upRight')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('upRight')
+enemySubsystem.enemy4LastDirection.set('upRight')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('upRight')
+enemySubsystem.enemy5LastDirection.set('upRight')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('upRight')
+enemySubsystem.enemy6LastDirection.set('upRight')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('upRight')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('upRight')
+enemySubsystem.enemy8LastDirection.set('upRight')
 }
 }
 else if (enemyx > playerPos.x && enemyy < playerPos.y && tileDownLeft !== 'W' && !playerDownLeft && !enemy1DownLeft && !enemy2DownLeft && !enemy3DownLeft && !enemy4DownLeft && !enemy5DownLeft && !enemy6DownLeft && !enemy7DownLeft && !enemy8DownLeft){
 const newPosx = enemyx - 1
 const newPosy = enemyy + 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('downLeft')
+enemySubsystem.enemy1LastDirection.set('downLeft')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('downLeft')
+enemySubsystem.enemy2LastDirection.set('downLeft')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('downLeft')
+enemySubsystem.enemy3LastDirection.set('downLeft')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('downLeft')
+enemySubsystem.enemy4LastDirection.set('downLeft')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('downLeft')
+enemySubsystem.enemy5LastDirection.set('downLeft')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('downLeft')
+enemySubsystem.enemy6LastDirection.set('downLeft')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('downLeft')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('downLeft')
+enemySubsystem.enemy8LastDirection.set('downLeft')
 }
 }
 else if (enemyx > playerPos.x && enemyy > playerPos.y && tileUpLeft !== 'W' && !playerUpLeft && !enemy1UpLeft && !enemy2UpLeft && !enemy3UpLeft && !enemy4UpLeft && !enemy5UpLeft && !enemy6UpLeft && !enemy7UpLeft && !enemy8UpLeft){
 const newPosx = enemyx - 1
 const newPosy = enemyy - 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('upLeft')
+enemySubsystem.enemy1LastDirection.set('upLeft')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('upLeft')
+enemySubsystem.enemy2LastDirection.set('upLeft')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('upLeft')
+enemySubsystem.enemy3LastDirection.set('upLeft')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('upLeft')
+enemySubsystem.enemy4LastDirection.set('upLeft')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('upLeft')
+enemySubsystem.enemy5LastDirection.set('upLeft')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('upLeft')
+enemySubsystem.enemy6LastDirection.set('upLeft')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('upLeft')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('upLeft')
+enemySubsystem.enemy8LastDirection.set('upLeft')
 }
 }
 else if (enemyx < playerPos.x && tileRight !== 'W' && !playerRight && !enemy1Right && !enemy2Right && !enemy3Right && !enemy4Right && !enemy5Right && !enemy6Right && !enemy7Right && !enemy8Right){
 const newPosx = enemyx + 1
 const newPosy = enemyy 
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('right')
+enemySubsystem.enemy1LastDirection.set('right')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('right')
+enemySubsystem.enemy2LastDirection.set('right')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('right')
+enemySubsystem.enemy3LastDirection.set('right')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('right')
+enemySubsystem.enemy4LastDirection.set('right')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('right')
+enemySubsystem.enemy5LastDirection.set('right')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('right')
+enemySubsystem.enemy6LastDirection.set('right')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('right')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('right')
+enemySubsystem.enemy8LastDirection.set('right')
 }
 }
 else if (enemyx > playerPos.x && tileLeft !== 'W' && !playerLeft && !enemy1Left && !enemy2Left && !enemy3Left && !enemy4Left && !enemy5Left && !enemy6Left && !enemy7Left && !enemy8Left ){
 const newPosx = enemyx - 1
 const newPosy = enemyy
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('left')
+enemySubsystem.enemy1LastDirection.set('left')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('left')
+enemySubsystem.enemy2LastDirection.set('left')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('left')
+enemySubsystem.enemy3LastDirection.set('left')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('left')
+enemySubsystem.enemy4LastDirection.set('left')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('left')
+enemySubsystem.enemy5LastDirection.set('left')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('left')
+enemySubsystem.enemy6LastDirection.set('left')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('left')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('left')
+enemySubsystem.enemy8LastDirection.set('left')
 }
 }
 else if (enemyy < playerPos.y && tileDown !== 'W' && !playerDown && !enemy1Down && !enemy2Down && !enemy3Down && !enemy4Down && !enemy5Down && !enemy6Down && !enemy7Down && !enemy8Down){
 const newPosx = enemyx
 const newPosy = enemyy + 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('down')
+enemySubsystem.enemy1LastDirection.set('down')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('down')
+enemySubsystem.enemy2LastDirection.set('down')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('down')
+enemySubsystem.enemy3LastDirection.set('down')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('down')
+enemySubsystem.enemy4LastDirection.set('down')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('down')
+enemySubsystem.enemy5LastDirection.set('down')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('down')
+enemySubsystem.enemy6LastDirection.set('down')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('down')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('down')
+enemySubsystem.enemy8LastDirection.set('down')
 }
 }
 else if (enemyy > playerPos.y && tileUp !== 'W' && !playerUp && !enemy1Up && !enemy2Up && !enemy3Up && !enemy4Up && !enemy5Up && !enemy6Up && !enemy7Up && !enemy8Up){
 const newPosx = enemyx
 const newPosy = enemyy - 1
 if (key === 1){
-setEnemy1Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy1Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy1LastDirection('up')
+enemySubsystem.enemy1LastDirection.set('up')
 }
 if (key === 2){
-setEnemy2Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy2Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy2LastDirection('up')
+enemySubsystem.enemy2LastDirection.set('up')
 }
 if (key === 3){
-setEnemy3Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy3Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy3LastDirection('up')
+enemySubsystem.enemy3LastDirection.set('up')
 }
 if (key === 4){
-setEnemy4Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy4Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy4LastDirection('up')
+enemySubsystem.enemy4LastDirection.set('up')
 }
 if (key === 5){
-setEnemy5Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy5Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy5LastDirection('up')
+enemySubsystem.enemy5LastDirection.set('up')
 }
 if (key === 6){
-setEnemy6Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy6Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy6LastDirection('up')
+enemySubsystem.enemy6LastDirection.set('up')
 }
 if (key === 7){
-setEnemy7Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy7Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
 setEnemy7LastDirection('up')
 }
 if (key === 8){
-setEnemy8Pos( {x: newPosx, y: newPosy} )
+enemySubsystem.enemy8Pos.set( {x: newPosx, y: newPosy} )
 verifyEnemyPosition(newPosx, newPosy, key)
-setEnemy8LastDirection('up')
+enemySubsystem.enemy8LastDirection.set('up')
 }
 }
 return
@@ -3209,14 +2800,14 @@ function waitUntil(ms) {
 }
 function checkAttackPath(key) {
   console.log('checking attack path for enemy', key);
-  const enemy1Move1 = enemy1 ? ENEMY_DEFS[enemyType1].moves[0] : null;
-  const enemy2Move1 = enemy2 ? ENEMY_DEFS[enemyType2].moves[0] : null;
-  const enemy3Move1 = enemy3 ? ENEMY_DEFS[enemyType3].moves[0] : null;
-  const enemy4Move1 = enemy4 ? ENEMY_DEFS[enemyType4].moves[0] : null;
-  const enemy5Move1 = enemy5 ? ENEMY_DEFS[enemyType5].moves[0] : null;
-  const enemy6Move1 = enemy6 ? ENEMY_DEFS[enemyType6].moves[0] : null;
-  const enemy7Move1 = enemy7 ? ENEMY_DEFS[enemyType7].moves[0] : null;
-  const enemy8Move1 = enemy8 ? ENEMY_DEFS[enemyType8].moves[0] : null;
+  const enemy1Move1 = enemySubsystem.enemy1.state ? ENEMY_DEFS[enemySubsystem.enemyType1.state].moves[0] : null;
+  const enemy2Move1 = enemySubsystem.enemy2.state ? ENEMY_DEFS[enemySubsystem.enemyType2.state].moves[0] : null;
+  const enemy3Move1 = enemySubsystem.enemy3.state ? ENEMY_DEFS[enemySubsystem.enemyType3.state].moves[0] : null;
+  const enemy4Move1 = enemySubsystem.enemy4.state ? ENEMY_DEFS[enemySubsystem.enemyType4.state].moves[0] : null;
+  const enemy5Move1 = enemySubsystem.enemy5.state ? ENEMY_DEFS[enemySubsystem.enemyType5.state].moves[0] : null;
+  const enemy6Move1 = enemySubsystem.enemy6.state ? ENEMY_DEFS[enemySubsystem.enemyType6.state].moves[0] : null;
+  const enemy7Move1 = enemySubsystem.enemy7.state ? ENEMY_DEFS[enemySubsystem.enemyType7.state].moves[0] : null;
+  const enemy8Move1 = enemySubsystem.enemy8.state ? ENEMY_DEFS[enemySubsystem.enemyType8.state].moves[0] : null;
   const range1 = enemy1Move1 ? enemy1Move1.range : 0;
   const range2 = enemy2Move1 ? enemy2Move1.range : 0;
   const range3 = enemy3Move1 ? enemy3Move1.range : 0;
@@ -3228,87 +2819,87 @@ function checkAttackPath(key) {
   const attackDirection = 'none';
 if (key === 1){
   if (enemy1Move1.alignment === 'same-direction') {
-    if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
     for (let i = 1; i <= range1; i++){
-    console.log('checking right1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y);
-    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right1 at', enemySubsystem.enemy1Pos.ref.current.x + i, enemySubsystem.enemy1Pos.ref.current.y);
+    if (enemySubsystem.enemy1Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y][enemy1PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y][enemySubsystem.enemy1Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
     for (let i = 1; i <= range1; i++){
-    console.log('checking left1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y);
-    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left1 at', enemySubsystem.enemy1Pos.ref.current.x - i, enemySubsystem.enemy1Pos.ref.current.y);
+    if (enemySubsystem.enemy1Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y][enemy1PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y][enemySubsystem.enemy1Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy1PosRef.current.y < playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x){
     for (let i = 1; i <= range1; i++){
-    console.log('checking down1 at', enemy1PosRef.current.x, enemy1PosRef.current.y + i);
-    if (enemy1PosRef.current.x === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down1 at', enemySubsystem.enemy1Pos.ref.current.x, enemySubsystem.enemy1Pos.ref.current.y + i);
+    if (enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y + i][enemySubsystem.enemy1Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy1PosRef.current.y > playerPosRef.current.y && enemy1PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x){
     for (let i = 1; i <= range1; i++){
-    console.log('checking up1 at', enemy1PosRef.current.x, enemy1PosRef.current.y - i);
-    if (enemy1PosRef.current.x === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up1 at', enemySubsystem.enemy1Pos.ref.current.x, enemySubsystem.enemy1Pos.ref.current.y - i);
+    if (enemySubsystem.enemy1Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
-    for (let i = 1; i <= range1; i++){
-    console.log('checking downright1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y + i);
-    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y - i][enemySubsystem.enemy1Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y){
     for (let i = 1; i <= range1; i++){
-    console.log('checking downleft1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y + i);
-    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright1 at', enemySubsystem.enemy1Pos.ref.current.x + i, enemySubsystem.enemy1Pos.ref.current.y + i);
+    if (enemySubsystem.enemy1Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y + i][enemy1PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y + i][enemySubsystem.enemy1Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy1PosRef.current.x < playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y < playerPosRef.current.y){
     for (let i = 1; i <= range1; i++){
-    console.log('checking upright1 at', enemy1PosRef.current.x + i, enemy1PosRef.current.y - i);
-    if (enemy1PosRef.current.x + i === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft1 at', enemySubsystem.enemy1Pos.ref.current.x - i, enemySubsystem.enemy1Pos.ref.current.y + i);
+    if (enemySubsystem.enemy1Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y + i][enemySubsystem.enemy1Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy1PosRef.current.x > playerPosRef.current.x && enemy1PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy1Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y){
     for (let i = 1; i <= range1; i++){
-    console.log('checking upleft1 at', enemy1PosRef.current.x - i, enemy1PosRef.current.y - i);
-    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright1 at', enemySubsystem.enemy1Pos.ref.current.x + i, enemySubsystem.enemy1Pos.ref.current.y - i);
+    if (enemySubsystem.enemy1Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy1PosRef.current.y - i][enemy1PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y - i][enemySubsystem.enemy1Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy1Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y > playerPosRef.current.y){
+    for (let i = 1; i <= range1; i++){
+    console.log('checking upleft1 at', enemySubsystem.enemy1Pos.ref.current.x - i, enemySubsystem.enemy1Pos.ref.current.y - i);
+    if (enemySubsystem.enemy1Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy1Pos.ref.current.y - i][enemySubsystem.enemy1Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3317,87 +2908,87 @@ if (key === 1){
 }
 if (key === 2){
   if (enemy2Move1.alignment === 'same-direction') {
-    if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
     for (let i = 1; i <= range2; i++){
-    console.log('checking right2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y);
-    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right2 at', enemySubsystem.enemy2Pos.ref.current.x + i, enemySubsystem.enemy2Pos.ref.current.y);
+    if (enemySubsystem.enemy2Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y][enemy2PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y][enemySubsystem.enemy2Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range2; i++){
-    console.log('checking left2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y);
-    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left2 at', enemySubsystem.enemy2Pos.ref.current.x - i, enemySubsystem.enemy2Pos.ref.current.y);
+    if (enemySubsystem.enemy2Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y][enemy2PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y][enemySubsystem.enemy2Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy2PosRef.current.y < playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range2; i++){
-    console.log('checking down2 at', enemy2PosRef.current.x, enemy2PosRef.current.y + i);
-    if (enemy2PosRef.current.x === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down2 at', enemySubsystem.enemy2Pos.ref.current.x, enemySubsystem.enemy2Pos.ref.current.y + i);
+    if (enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y + i][enemySubsystem.enemy2Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy2PosRef.current.y > playerPosRef.current.y && enemy2PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range2; i++){
-    console.log('checking up2 at', enemy2PosRef.current.x, enemy2PosRef.current.y - i);
-    if (enemy2PosRef.current.x === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up2 at', enemySubsystem.enemy2Pos.ref.current.x, enemySubsystem.enemy2Pos.ref.current.y - i);
+    if (enemySubsystem.enemy2Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range2; i++){
-    console.log('checking downright2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y + i);
-    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y - i][enemySubsystem.enemy2Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range2; i++){
-    console.log('checking downleft2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y + i);
-    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright2 at', enemySubsystem.enemy2Pos.ref.current.x + i, enemySubsystem.enemy2Pos.ref.current.y + i);
+    if (enemySubsystem.enemy2Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y + i][enemy2PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y + i][enemySubsystem.enemy2Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy2PosRef.current.x < playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range2; i++){
-    console.log('checking upright2 at', enemy2PosRef.current.x + i, enemy2PosRef.current.y - i);
-    if (enemy2PosRef.current.x + i === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft2 at', enemySubsystem.enemy2Pos.ref.current.x - i, enemySubsystem.enemy2Pos.ref.current.y + i);
+    if (enemySubsystem.enemy2Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y + i][enemySubsystem.enemy2Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy2PosRef.current.x > playerPosRef.current.x && enemy2PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy2Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range2; i++){
-    console.log('checking upleft2 at', enemy2PosRef.current.x - i, enemy2PosRef.current.y - i);
-    if (enemy2PosRef.current.x - i === playerPosRef.current.x && enemy2PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright2 at', enemySubsystem.enemy2Pos.ref.current.x + i, enemySubsystem.enemy2Pos.ref.current.y - i);
+    if (enemySubsystem.enemy2Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy2PosRef.current.y - i][enemy2PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y - i][enemySubsystem.enemy2Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy2Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range2; i++){
+    console.log('checking upleft2 at', enemySubsystem.enemy2Pos.ref.current.x - i, enemySubsystem.enemy2Pos.ref.current.y - i);
+    if (enemySubsystem.enemy2Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy2Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy2Pos.ref.current.y - i][enemySubsystem.enemy2Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3406,87 +2997,87 @@ if (key === 2){
 }
 if (key === 3){
   if (enemy3Move1.alignment === 'same-direction') {
-    if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
     for (let i = 1; i <= range3; i++){
-    console.log('checking right3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y);
-    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right3 at', enemySubsystem.enemy3Pos.ref.current.x + i, enemySubsystem.enemy3Pos.ref.current.y);
+    if (enemySubsystem.enemy3Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y][enemy3PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y][enemySubsystem.enemy3Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range3; i++){
-    console.log('checking left3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y);
-    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left3 at', enemySubsystem.enemy3Pos.ref.current.x - i, enemySubsystem.enemy3Pos.ref.current.y);
+    if (enemySubsystem.enemy3Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y][enemy3PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y][enemySubsystem.enemy3Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy3PosRef.current.y < playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range3; i++){
-    console.log('checking down3 at', enemy3PosRef.current.x, enemy3PosRef.current.y + i);
-    if (enemy3PosRef.current.x === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down3 at', enemySubsystem.enemy3Pos.ref.current.x, enemySubsystem.enemy3Pos.ref.current.y + i);
+    if (enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y + i][enemySubsystem.enemy3Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy3PosRef.current.y > playerPosRef.current.y && enemy3PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range3; i++){
-    console.log('checking up3 at', enemy3PosRef.current.x, enemy3PosRef.current.y - i);
-    if (enemy3PosRef.current.x === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up3 at', enemySubsystem.enemy3Pos.ref.current.x, enemySubsystem.enemy3Pos.ref.current.y - i);
+    if (enemySubsystem.enemy3Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range3; i++){
-    console.log('checking downright3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y + i);
-    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y - i][enemySubsystem.enemy3Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range3; i++){
-    console.log('checking downleft3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y + i);
-    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright3 at', enemySubsystem.enemy3Pos.ref.current.x + i, enemySubsystem.enemy3Pos.ref.current.y + i);
+    if (enemySubsystem.enemy3Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y + i][enemy3PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y + i][enemySubsystem.enemy3Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy3PosRef.current.x < playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range3; i++){
-    console.log('checking upright3 at', enemy3PosRef.current.x + i, enemy3PosRef.current.y - i);
-    if (enemy3PosRef.current.x + i === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft3 at', enemySubsystem.enemy3Pos.ref.current.x - i, enemySubsystem.enemy3Pos.ref.current.y + i);
+    if (enemySubsystem.enemy3Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y + i][enemySubsystem.enemy3Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy3PosRef.current.x > playerPosRef.current.x && enemy3PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy3Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range3; i++){
-    console.log('checking upleft3 at', enemy3PosRef.current.x - i, enemy3PosRef.current.y - i);
-    if (enemy3PosRef.current.x - i === playerPosRef.current.x && enemy3PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright3 at', enemySubsystem.enemy3Pos.ref.current.x + i, enemySubsystem.enemy3Pos.ref.current.y - i);
+    if (enemySubsystem.enemy3Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy3PosRef.current.y - i][enemy3PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y - i][enemySubsystem.enemy3Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy3Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range3; i++){
+    console.log('checking upleft3 at', enemySubsystem.enemy3Pos.ref.current.x - i, enemySubsystem.enemy3Pos.ref.current.y - i);
+    if (enemySubsystem.enemy3Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy3Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy3Pos.ref.current.y - i][enemySubsystem.enemy3Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3495,87 +3086,87 @@ if (key === 3){
 }
 if (key === 4){
   if (enemy4Move1.alignment === 'same-direction') {
-    if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
     for (let i = 1; i <= range4; i++){
-    console.log('checking right4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y);
-    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right4 at', enemySubsystem.enemy4Pos.ref.current.x + i, enemySubsystem.enemy4Pos.ref.current.y);
+    if (enemySubsystem.enemy4Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y][enemy4PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y][enemySubsystem.enemy4Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range4; i++){
-    console.log('checking left4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y);
-    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left4 at', enemySubsystem.enemy4Pos.ref.current.x - i, enemySubsystem.enemy4Pos.ref.current.y);
+    if (enemySubsystem.enemy4Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y][enemy4PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y][enemySubsystem.enemy4Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy4PosRef.current.y < playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range4; i++){
-    console.log('checking down4 at', enemy4PosRef.current.x, enemy4PosRef.current.y + i);
-    if (enemy4PosRef.current.x === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down4 at', enemySubsystem.enemy4Pos.ref.current.x, enemySubsystem.enemy4Pos.ref.current.y + i);
+    if (enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y + i][enemySubsystem.enemy4Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy4PosRef.current.y > playerPosRef.current.y && enemy4PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range4; i++){
-    console.log('checking up4 at', enemy4PosRef.current.x, enemy4PosRef.current.y - i);
-    if (enemy4PosRef.current.x === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up4 at', enemySubsystem.enemy4Pos.ref.current.x, enemySubsystem.enemy4Pos.ref.current.y - i);
+    if (enemySubsystem.enemy4Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range4; i++){
-    console.log('checking downright4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y + i);
-    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y - i][enemySubsystem.enemy4Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range4; i++){
-    console.log('checking downleft4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y + i);
-    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright4 at', enemySubsystem.enemy4Pos.ref.current.x + i, enemySubsystem.enemy4Pos.ref.current.y + i);
+    if (enemySubsystem.enemy4Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y + i][enemy4PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y + i][enemySubsystem.enemy4Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy4PosRef.current.x < playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range4; i++){
-    console.log('checking upright4 at', enemy4PosRef.current.x + i, enemy4PosRef.current.y - i);
-    if (enemy4PosRef.current.x + i === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft4 at', enemySubsystem.enemy4Pos.ref.current.x - i, enemySubsystem.enemy4Pos.ref.current.y + i);
+    if (enemySubsystem.enemy4Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y + i][enemySubsystem.enemy4Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy4PosRef.current.x > playerPosRef.current.x && enemy4PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy4Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range4; i++){
-    console.log('checking upleft4 at', enemy4PosRef.current.x - i, enemy4PosRef.current.y - i);
-    if (enemy4PosRef.current.x - i === playerPosRef.current.x && enemy4PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright4 at', enemySubsystem.enemy4Pos.ref.current.x + i, enemySubsystem.enemy4Pos.ref.current.y - i);
+    if (enemySubsystem.enemy4Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy4PosRef.current.y - i][enemy4PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y - i][enemySubsystem.enemy4Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy4Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range4; i++){
+    console.log('checking upleft4 at', enemySubsystem.enemy4Pos.ref.current.x - i, enemySubsystem.enemy4Pos.ref.current.y - i);
+    if (enemySubsystem.enemy4Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy4Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy4Pos.ref.current.y - i][enemySubsystem.enemy4Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3584,87 +3175,87 @@ if (key === 4){
 }
 if (key === 5){
   if (enemy5Move1.alignment === 'same-direction') {
-    if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range5; i++){
-    console.log('checking right5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y);
-    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right5 at', enemySubsystem.enemy5Pos.ref.current.x + i, enemySubsystem.enemy5Pos.ref.current.y);
+    if (enemySubsystem.enemy5Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y][enemy5PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y][enemySubsystem.enemy5Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range5; i++){
-    console.log('checking left5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y);
-    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left5 at', enemySubsystem.enemy5Pos.ref.current.x - i, enemySubsystem.enemy5Pos.ref.current.y);
+    if (enemySubsystem.enemy5Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y][enemy5PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y][enemySubsystem.enemy5Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy5PosRef.current.y < playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range5; i++){
-    console.log('checking down5 at', enemy5PosRef.current.x, enemy5PosRef.current.y + i);
-    if (enemy5PosRef.current.x === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down5 at', enemySubsystem.enemy5Pos.ref.current.x, enemySubsystem.enemy5Pos.ref.current.y + i);
+    if (enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y + i][enemySubsystem.enemy5Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy5PosRef.current.y > playerPosRef.current.y && enemy5PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range5; i++){
-    console.log('checking up5 at', enemy5PosRef.current.x, enemy5PosRef.current.y - i);
-    if (enemy5PosRef.current.x === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up5 at', enemySubsystem.enemy5Pos.ref.current.x, enemySubsystem.enemy5Pos.ref.current.y - i);
+    if (enemySubsystem.enemy5Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range5; i++){
-    console.log('checking downright5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y + i);
-    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y - i][enemySubsystem.enemy5Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range5; i++){
-    console.log('checking downleft5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y + i);
-    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright5 at', enemySubsystem.enemy5Pos.ref.current.x + i, enemySubsystem.enemy5Pos.ref.current.y + i);
+    if (enemySubsystem.enemy5Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y + i][enemy5PosRef.current.x - i]  === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y + i][enemySubsystem.enemy5Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy5PosRef.current.x < playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range5; i++){
-    console.log('checking upright5 at', enemy5PosRef.current.x + i, enemy5PosRef.current.y - i);
-    if (enemy5PosRef.current.x + i === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft5 at', enemySubsystem.enemy5Pos.ref.current.x - i, enemySubsystem.enemy5Pos.ref.current.y + i);
+    if (enemySubsystem.enemy5Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y + i][enemySubsystem.enemy5Pos.ref.current.x - i]  === 'W'){
       return false;
     }
   }
     }
-      else if (enemy5PosRef.current.x > playerPosRef.current.x && enemy5PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy5Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range5; i++){
-    console.log('checking upleft5 at', enemy5PosRef.current.x - i, enemy5PosRef.current.y - i);
-    if (enemy5PosRef.current.x - i === playerPosRef.current.x && enemy5PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright5 at', enemySubsystem.enemy5Pos.ref.current.x + i, enemySubsystem.enemy5Pos.ref.current.y - i);
+    if (enemySubsystem.enemy5Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy5PosRef.current.y - i][enemy5PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y - i][enemySubsystem.enemy5Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy5Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range5; i++){
+    console.log('checking upleft5 at', enemySubsystem.enemy5Pos.ref.current.x - i, enemySubsystem.enemy5Pos.ref.current.y - i);
+    if (enemySubsystem.enemy5Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy5Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy5Pos.ref.current.y - i][enemySubsystem.enemy5Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3673,87 +3264,87 @@ if (key === 5){
 }
 if (key === 6){
   if (enemy6Move1.alignment === 'same-direction') {
-    if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range6; i++){
-    console.log('checking right6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y);
-    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right6 at', enemySubsystem.enemy6Pos.ref.current.x + i, enemySubsystem.enemy6Pos.ref.current.y);
+    if (enemySubsystem.enemy6Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y][enemy6PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y][enemySubsystem.enemy6Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range6; i++){
-    console.log('checking left6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y);
-    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left6 at', enemySubsystem.enemy6Pos.ref.current.x - i, enemySubsystem.enemy6Pos.ref.current.y);
+    if (enemySubsystem.enemy6Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y][enemy6PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y][enemySubsystem.enemy6Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy6PosRef.current.y < playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range6; i++){
-    console.log('checking down6 at', enemy6PosRef.current.x, enemy6PosRef.current.y + i);
-    if (enemy6PosRef.current.x === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down6 at', enemySubsystem.enemy6Pos.ref.current.x, enemySubsystem.enemy6Pos.ref.current.y + i);
+    if (enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y + i][enemySubsystem.enemy6Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy6PosRef.current.y > playerPosRef.current.y && enemy6PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range6; i++){
-    console.log('checking up6 at', enemy6PosRef.current.x, enemy6PosRef.current.y - i);
-    if (enemy6PosRef.current.x === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up6 at', enemySubsystem.enemy6Pos.ref.current.x, enemySubsystem.enemy6Pos.ref.current.y - i);
+    if (enemySubsystem.enemy6Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range6; i++){
-    console.log('checking downright6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y + i);
-    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y - i][enemySubsystem.enemy6Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range6; i++){
-    console.log('checking downleft6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y + i);
-    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright6 at', enemySubsystem.enemy6Pos.ref.current.x + i, enemySubsystem.enemy6Pos.ref.current.y + i);
+    if (enemySubsystem.enemy6Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y + i][enemy6PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y + i][enemySubsystem.enemy6Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy6PosRef.current.x < playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range6; i++){
-    console.log('checking upright6 at', enemy6PosRef.current.x + i, enemy6PosRef.current.y - i);
-    if (enemy6PosRef.current.x + i === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft6 at', enemySubsystem.enemy6Pos.ref.current.x - i, enemySubsystem.enemy6Pos.ref.current.y + i);
+    if (enemySubsystem.enemy6Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y + i][enemySubsystem.enemy6Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy6PosRef.current.x > playerPosRef.current.x && enemy6PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy6Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range6; i++){
-    console.log('checking upleft6 at', enemy6PosRef.current.x - i, enemy6PosRef.current.y - i);
-    if (enemy6PosRef.current.x - i === playerPosRef.current.x && enemy6PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright6 at', enemySubsystem.enemy6Pos.ref.current.x + i, enemySubsystem.enemy6Pos.ref.current.y - i);
+    if (enemySubsystem.enemy6Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy6PosRef.current.y - i][enemy6PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y - i][enemySubsystem.enemy6Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy6Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range6; i++){
+    console.log('checking upleft6 at', enemySubsystem.enemy6Pos.ref.current.x - i, enemySubsystem.enemy6Pos.ref.current.y - i);
+    if (enemySubsystem.enemy6Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy6Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy6Pos.ref.current.y - i][enemySubsystem.enemy6Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3762,87 +3353,87 @@ if (key === 6){
 }
 if (key === 7){
   if (enemy7Move1.alignment === 'same-direction') {
-    if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range7; i++){
-      console.log('checking right7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y);
-      if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+      console.log('checking right7 at', enemySubsystem.enemy7Pos.ref.current.x + i, enemySubsystem.enemy7Pos.ref.current.y);
+      if (enemySubsystem.enemy7Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-      if (dungeon[enemy7PosRef.current.y][enemy7PosRef.current.x + i] === 'W'){
+      if (dungeon[enemySubsystem.enemy7Pos.ref.current.y][enemySubsystem.enemy7Pos.ref.current.x + i] === 'W'){
         return false;
       }
     }
-    } else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range7; i++){
-    console.log('checking left7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y);
-    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left7 at', enemySubsystem.enemy7Pos.ref.current.x - i, enemySubsystem.enemy7Pos.ref.current.y);
+    if (enemySubsystem.enemy7Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y][enemy7PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y][enemySubsystem.enemy7Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy7PosRef.current.y < playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range7; i++){
-    console.log('checking down7 at', enemy7PosRef.current.x, enemy7PosRef.current.y + i);
-    if (enemy7PosRef.current.x === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down7 at', enemySubsystem.enemy7Pos.ref.current.x, enemySubsystem.enemy7Pos.ref.current.y + i);
+    if (enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y + i][enemySubsystem.enemy7Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy7PosRef.current.y > playerPosRef.current.y && enemy7PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range7; i++){
-    console.log('checking up7 at', enemy7PosRef.current.x, enemy7PosRef.current.y - i);
-    if (enemy7PosRef.current.x === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up7 at', enemySubsystem.enemy7Pos.ref.current.x, enemySubsystem.enemy7Pos.ref.current.y - i);
+    if (enemySubsystem.enemy7Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range7; i++){
-    console.log('checking downright7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y + i);
-    if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y - i][enemySubsystem.enemy7Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range7; i++){
-    console.log('checking downleft7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y + i);
-    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright7 at', enemySubsystem.enemy7Pos.ref.current.x + i, enemySubsystem.enemy7Pos.ref.current.y + i);
+    if (enemySubsystem.enemy7Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y + i][enemy7PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y + i][enemySubsystem.enemy7Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy7PosRef.current.x < playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range7; i++){
-    console.log('checking upright7 at', enemy7PosRef.current.x + i, enemy7PosRef.current.y - i);
-    if (enemy7PosRef.current.x + i === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft7 at', enemySubsystem.enemy7Pos.ref.current.x - i, enemySubsystem.enemy7Pos.ref.current.y + i);
+    if (enemySubsystem.enemy7Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y + i][enemySubsystem.enemy7Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy7PosRef.current.x > playerPosRef.current.x && enemy7PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy7Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range7; i++){
-    console.log('checking upleft7 at', enemy7PosRef.current.x - i, enemy7PosRef.current.y - i);
-    if (enemy7PosRef.current.x - i === playerPosRef.current.x && enemy7PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking upright7 at', enemySubsystem.enemy7Pos.ref.current.x + i, enemySubsystem.enemy7Pos.ref.current.y - i);
+    if (enemySubsystem.enemy7Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy7PosRef.current.y - i][enemy7PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y - i][enemySubsystem.enemy7Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy7Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range7; i++){
+    console.log('checking upleft7 at', enemySubsystem.enemy7Pos.ref.current.x - i, enemySubsystem.enemy7Pos.ref.current.y - i);
+    if (enemySubsystem.enemy7Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy7Pos.ref.current.y - i === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy7Pos.ref.current.y - i][enemySubsystem.enemy7Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3851,87 +3442,87 @@ if (key === 7){
 }
 if (key === 8){
   if (enemy8Move1.alignment === 'same-direction') {
-    if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+    if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range8; i++){
-    console.log('checking right8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y);
-    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+    console.log('checking right8 at', enemySubsystem.enemy8Pos.ref.current.x + i, enemySubsystem.enemy8Pos.ref.current.y);
+    if (enemySubsystem.enemy8Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y][enemy8PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y][enemySubsystem.enemy8Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
-    } else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+    } else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
       for (let i = 1; i <= range8; i++){
-    console.log('checking left8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y);
-    if (enemy8PosRef.current.x - i === playerPosRef.current.x && enemy8PosRef.current.y === playerPosRef.current.y){
+    console.log('checking left8 at', enemySubsystem.enemy8Pos.ref.current.x - i, enemySubsystem.enemy8Pos.ref.current.y);
+    if (enemySubsystem.enemy8Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y][enemy8PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y][enemySubsystem.enemy8Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
-    } else if (enemy8PosRef.current.y < playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y && enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range8; i++){
-    console.log('checking down8 at', enemy8PosRef.current.x, enemy8PosRef.current.y + i);
-    if (enemy8PosRef.current.x === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking down8 at', enemySubsystem.enemy8Pos.ref.current.x, enemySubsystem.enemy8Pos.ref.current.y + i);
+    if (enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y + i][enemySubsystem.enemy8Pos.ref.current.x] === 'W'){
       return false;
     }
   }
-    } else if (enemy8PosRef.current.y > playerPosRef.current.y && enemy8PosRef.current.x === playerPosRef.current.x){
+    } else if (enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y && enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x){
       for (let i = 1; i <= range8; i++){
-    console.log('checking up8 at', enemy8PosRef.current.x, enemy8PosRef.current.y - i);
-    if (enemy8PosRef.current.x === playerPosRef.current.x && enemy8PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking up8 at', enemySubsystem.enemy8Pos.ref.current.x, enemySubsystem.enemy8Pos.ref.current.y - i);
+    if (enemySubsystem.enemy8Pos.ref.current.x === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x] === 'W'){
-      return false;
-    }
-  }
-    }
-      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
-      for (let i = 1; i <= range8; i++){
-    console.log('checking downright8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y + i);
-    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
-      return true;
-    }
-    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y - i][enemySubsystem.enemy8Pos.ref.current.x] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y < playerPosRef.current.y){
+      else if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range8; i++){
-    console.log('checking downleft8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y + i);
-    if (enemy8PosRef.current.x - i === playerPosRef.current.x && enemy8PosRef.current.y + i === playerPosRef.current.y){
+    console.log('checking downright8 at', enemySubsystem.enemy8Pos.ref.current.x + i, enemySubsystem.enemy8Pos.ref.current.y + i);
+    if (enemySubsystem.enemy8Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y + i][enemy8PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y + i][enemySubsystem.enemy8Pos.ref.current.x + i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy8PosRef.current.x < playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y < playerPosRef.current.y){
       for (let i = 1; i <= range8; i++){
-    console.log('checking upright8 at', enemy8PosRef.current.x + i, enemy8PosRef.current.y - i);
-    if (enemy8PosRef.current.x + i === playerPosRef.current.x && enemy8PosRef.current.y - i === playerPosRef.current.y){
+    console.log('checking downleft8 at', enemySubsystem.enemy8Pos.ref.current.x - i, enemySubsystem.enemy8Pos.ref.current.y + i);
+    if (enemySubsystem.enemy8Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y + i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x + i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y + i][enemySubsystem.enemy8Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
     }
-      else if (enemy8PosRef.current.x > playerPosRef.current.x && enemy8PosRef.current.y > playerPosRef.current.y){
+      else if (enemySubsystem.enemy8Pos.ref.current.x < playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y){
       for (let i = 1; i <= range8; i++){
-    console.log('checking upleft8 at', enemy8PosRef.current.x - i, enemy8PosRef.current.y - i);
-    if (enemy1PosRef.current.x - i === playerPosRef.current.x && enemy1PosRef.current.y === playerPosRef.current.y){
+    console.log('checking upright8 at', enemySubsystem.enemy8Pos.ref.current.x + i, enemySubsystem.enemy8Pos.ref.current.y - i);
+    if (enemySubsystem.enemy8Pos.ref.current.x + i === playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y - i === playerPosRef.current.y){
       return true;
     }
-    if (dungeon[enemy8PosRef.current.y - i][enemy8PosRef.current.x - i] === 'W'){
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y - i][enemySubsystem.enemy8Pos.ref.current.x + i] === 'W'){
+      return false;
+    }
+  }
+    }
+      else if (enemySubsystem.enemy8Pos.ref.current.x > playerPosRef.current.x && enemySubsystem.enemy8Pos.ref.current.y > playerPosRef.current.y){
+      for (let i = 1; i <= range8; i++){
+    console.log('checking upleft8 at', enemySubsystem.enemy8Pos.ref.current.x - i, enemySubsystem.enemy8Pos.ref.current.y - i);
+    if (enemySubsystem.enemy1Pos.ref.current.x - i === playerPosRef.current.x && enemySubsystem.enemy1Pos.ref.current.y === playerPosRef.current.y){
+      return true;
+    }
+    if (dungeon[enemySubsystem.enemy8Pos.ref.current.y - i][enemySubsystem.enemy8Pos.ref.current.x - i] === 'W'){
       return false;
     }
   }
@@ -3943,213 +3534,213 @@ return true;
 }
 function confirmEnemyBehavior(key, move) {
   console.log('confirming behavior for enemy', key)
-  if (key === 1 && enemy1 && enemy1SleepingRef.current === false){
+  if (key === 1 && enemySubsystem.enemy1.state && enemySubsystem.enemy1Sleeping.ref.current === false){
     const wallCheck = checkAttackPath(1);
     console.log('wallcheck for enemy 1:', wallCheck)
-    const enemy1Move1 = ENEMY_DEFS[enemyType1].moves[0]
+    const enemy1Move1 = ENEMY_DEFS[enemySubsystem.enemyType1.state].moves[0]
     if (enemy1Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemy1PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy1PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy1Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPosRef.current.y) <= enemy1Move1.range || Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPosRef.current.x) <= enemy1Move1.range && Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPosRef.current.y) <= enemy1Move1.range && Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy1Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy1Move1, 1), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy1PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy1PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy1Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy1Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy1Move1.range)
         console.log('triggered with key', key);
         confirmEnemyBehavior(2, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy1PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) < 15 && enemy1MoveBehaviorRef.current === true){
-      pursue(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
+    if (Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy1MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy1Pos.ref.current.x, enemySubsystem.enemy1Pos.ref.current.y, 1)
     }
-    else if (Math.abs(enemy1PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy1PosRef.current.y - playerPos.y) >= 15 && enemy1MoveBehaviorRef.current === true){
-      patrol(enemy1PosRef.current.x, enemy1PosRef.current.y, 1)
+    else if (Math.abs(enemySubsystem.enemy1Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy1Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy1MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy1Pos.ref.current.x, enemySubsystem.enemy1Pos.ref.current.y, 1)
     }
     confirmEnemyBehavior(2, move);
   }
-  else if (key === 1 && enemy1 && enemy1SleepingRef.current === true){
+  else if (key === 1 && enemySubsystem.enemy1.state && enemySubsystem.enemy1Sleeping.ref.current === true){
     confirmEnemyBehavior(2, move);
     return;
   }
-    if (key === 2 && enemy2 && enemy2SleepingRef.current === false){
-    const enemy2Move1 = ENEMY_DEFS[enemyType2].moves[0]
+    if (key === 2 && enemySubsystem.enemy2.state && enemySubsystem.enemy2Sleeping.ref.current === false){
+    const enemy2Move1 = ENEMY_DEFS[enemySubsystem.enemyType2.state].moves[0]
     const wallCheck = checkAttackPath(2);
     console.log('wallcheck for enemy 2:', wallCheck)
     if (enemy2Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemy2PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy2PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy2Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPosRef.current.y) <= enemy2Move1.range || Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPosRef.current.x) <= enemy2Move1.range && Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPosRef.current.y) <= enemy2Move1.range && Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy2Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy2Move1, 2), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy2PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy2PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy2Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy2Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy2Move1.range)
         confirmEnemyBehavior(3, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy2PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) < 15 && enemy2MoveBehaviorRef.current === true){
-      pursue(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)
+    if (Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy2MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy2Pos.ref.current.x, enemySubsystem.enemy2Pos.ref.current.y, 2)
     }
-    else if (Math.abs(enemy2PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy2PosRef.current.y - playerPos.y) >= 15 && enemy2MoveBehaviorRef.current === true){
-      patrol(enemy2PosRef.current.x, enemy2PosRef.current.y, 2)  
+    else if (Math.abs(enemySubsystem.enemy2Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy2Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy2MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy2Pos.ref.current.x, enemySubsystem.enemy2Pos.ref.current.y, 2)  
     }
   confirmEnemyBehavior(3, move);
   }
-  else if (key === 2 && enemy2 && enemy2SleepingRef.current === true){
+  else if (key === 2 && enemySubsystem.enemy2.state && enemySubsystem.enemy2Sleeping.ref.current === true){
     confirmEnemyBehavior(3, move);
     return;
   }
 
-    if (key === 3 && enemy3 && enemy3SleepingRef.current === false){
-    const enemy3Move1 = ENEMY_DEFS[enemyType3].moves[0]
+    if (key === 3 && enemySubsystem.enemy3.state && enemySubsystem.enemy3Sleeping.ref.current === false){
+    const enemy3Move1 = ENEMY_DEFS[enemySubsystem.enemyType3.state].moves[0]
     const wallCheck = checkAttackPath(3);
     console.log('wallcheck for enemy 3:', wallCheck)
     if (enemy3Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemy3PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy3PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy3Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPosRef.current.y) <= enemy3Move1.range || Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPosRef.current.x) <= enemy3Move1.range && Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPosRef.current.y) <= enemy3Move1.range && Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy3Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy3Move1, 3), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy3PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy3PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy3Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy3Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy3Move1.range)
         confirmEnemyBehavior(4, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy3PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) < 15 && enemy3MoveBehaviorRef.current === true){
-      pursue(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)
+    if (Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy3MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy3Pos.ref.current.x, enemySubsystem.enemy3Pos.ref.current.y, 3)
     }
-    else if (Math.abs(enemy3PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy3PosRef.current.y - playerPos.y) >= 15 && enemy3MoveBehaviorRef.current === true){
-      patrol(enemy3PosRef.current.x, enemy3PosRef.current.y, 3)  
+    else if (Math.abs(enemySubsystem.enemy3Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy3Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy3MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy3Pos.ref.current.x, enemySubsystem.enemy3Pos.ref.current.y, 3)  
     }
     confirmEnemyBehavior(4, move);
   }
-  else if (key === 3 && enemy3 && enemy3SleepingRef.current === true){
+  else if (key === 3 && enemySubsystem.enemy3.state && enemySubsystem.enemy3Sleeping.ref.current === true){
     confirmEnemyBehavior(4, move);
     return;
   }
 
-    if (key === 4 && enemy4 && enemy4SleepingRef.current === false){
-    const enemy4Move1 = ENEMY_DEFS[enemyType4].moves[0]
+    if (key === 4 && enemySubsystem.enemy4.state && enemySubsystem.enemy4Sleeping.ref.current === false){
+    const enemy4Move1 = ENEMY_DEFS[enemySubsystem.enemyType4.state].moves[0]
     const wallCheck = checkAttackPath(4);
     console.log('wallcheck for enemy 4:', wallCheck)
     if (enemy4Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemy4PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy4PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy4Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPosRef.current.y) <= enemy4Move1.range || Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPosRef.current.x) <= enemy4Move1.range && Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPosRef.current.y) <= enemy4Move1.range && Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy4Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy4Move1, 4), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy4PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy4PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy4Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy4Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy4Move1.range)
         confirmEnemyBehavior(5, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy4PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) < 15 && enemy4MoveBehaviorRef.current === true){
-      pursue(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)
+    if (Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy4MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy4Pos.ref.current.x, enemySubsystem.enemy4Pos.ref.current.y, 4)
     }
-    else if (Math.abs(enemy4PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy4PosRef.current.y - playerPos.y) >= 15 && enemy4MoveBehaviorRef.current === true){
-      patrol(enemy4PosRef.current.x, enemy4PosRef.current.y, 4)  
+    else if (Math.abs(enemySubsystem.enemy4Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy4Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy4MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy4Pos.ref.current.x, enemySubsystem.enemy4Pos.ref.current.y, 4)  
     }
     confirmEnemyBehavior(5, move);
   } 
-  else if (key === 4 && enemy4 && enemy4SleepingRef.current === true){
+  else if (key === 4 && enemySubsystem.enemy4.state && enemySubsystem.enemy4Sleeping.ref.current === true){
     confirmEnemyBehavior(5, move);
     return;
   }
 
-    if (key === 5 && enemy5 && enemy5SleepingRef.current === false){
-    const enemy5Move1 = ENEMY_DEFS[enemyType5].moves[0]
+    if (key === 5 && enemySubsystem.enemy5.state && enemySubsystem.enemy5Sleeping.ref.current === false){
+    const enemy5Move1 = ENEMY_DEFS[enemySubsystem.enemyType5.state].moves[0]
     const wallCheck = checkAttackPath(5);
     console.log('wallcheck for enemy 5:', wallCheck)
     if (enemy5Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemy5PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy5PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy5Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPosRef.current.y) <= enemy5Move1.range || Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPosRef.current.x) <= enemy5Move1.range && Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPosRef.current.y) <= enemy5Move1.range && Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy5Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy5Move1, 5), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy5PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy5PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy5Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy5Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy5Move1.range)
         confirmEnemyBehavior(6, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy5PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) < 15 && enemy5MoveBehaviorRef.current === true){
-      pursue(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)
+    if (Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy5MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy5Pos.ref.current.x, enemySubsystem.enemy5Pos.ref.current.y, 5)
     }
-    else if (Math.abs(enemy5PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy5PosRef.current.y - playerPos.y) >= 15 && enemy5MoveBehaviorRef.current === true){
-      patrol(enemy5PosRef.current.x, enemy5PosRef.current.y, 5)  
+    else if (Math.abs(enemySubsystem.enemy5Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy5Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy5MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy5Pos.ref.current.x, enemySubsystem.enemy5Pos.ref.current.y, 5)  
     }
     confirmEnemyBehavior(6, move);
   }
-  else if (key === 5 && enemy5 && enemy5SleepingRef.current === true){
+  else if (key === 5 && enemySubsystem.enemy5.state && enemySubsystem.enemy5Sleeping.ref.current === true){
     confirmEnemyBehavior(6, move);
     return;
   }
 
-  if (key === 6 && enemy6 && enemy6SleepingRef.current === false){
-    const enemy6Move1 = ENEMY_DEFS[enemyType6].moves[0]
+  if (key === 6 && enemySubsystem.enemy6.state && enemySubsystem.enemy6Sleeping.ref.current === false){
+    const enemy6Move1 = ENEMY_DEFS[enemySubsystem.enemyType6.state].moves[0]
     const wallCheck = checkAttackPath(6);
     console.log('wallcheck for enemy 6:', wallCheck)
     if (enemy6Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemy6PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy6PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy6Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPosRef.current.y) <= enemy6Move1.range || Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPosRef.current.x) <= enemy6Move1.range && Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPosRef.current.y) <= enemy6Move1.range && Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy6Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy6Move1, 6), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy6PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy6PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy6Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy6Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy6Move1.range)
         confirmEnemyBehavior(7, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy6PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) < 15 && enemy6MoveBehaviorRef.current === true){
-      pursue(enemy6PosRef.current.x, enemy6PosRef.current.y, 6)
+    if (Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy6MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy6Pos.ref.current.x, enemySubsystem.enemy6Pos.ref.current.y, 6)
     }
-    else if (Math.abs(enemy6PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy6PosRef.current.y - playerPos.y) >= 15 && enemy6MoveBehaviorRef.current === true){
-      patrol(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) 
+    else if (Math.abs(enemySubsystem.enemy6Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy6Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy6MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy6Pos.ref.current.x, enemySubsystem.enemy6Pos.ref.current.y, 6) 
     }
     confirmEnemyBehavior(7, move);
   }
-  else if (key === 6 && enemy6 && enemy6SleepingRef.current === true){
+  else if (key === 6 && enemySubsystem.enemy6.state && enemySubsystem.enemy6Sleeping.ref.current === true){
     confirmEnemyBehavior(7, move);
     return;
   }
 
-    if (key === 7 && enemy7 && enemy7SleepingRef.current === false){
-    const enemy7Move1 = ENEMY_DEFS[enemyType7].moves[0]
+    if (key === 7 && enemySubsystem.enemy7.state && enemySubsystem.enemy7Sleeping.ref.current === false){
+    const enemy7Move1 = ENEMY_DEFS[enemySubsystem.enemyType7.state].moves[0]
     const wallCheck = checkAttackPath(7);
     console.log('wallcheck for enemy 7:', wallCheck)
     if (enemy7Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemy7PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy7PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy7Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPosRef.current.y) <= enemy7Move1.range || Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPosRef.current.x) <= enemy7Move1.range && Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPosRef.current.y) <= enemy7Move1.range && Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy7Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy7Move1, 7), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy7PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy7PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy7Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy7Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy7Move1.range)
         confirmEnemyBehavior(8, move + 1);
         return;
       }
     }
-    if (Math.abs(enemy7PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) < 15 && enemy7MoveBehaviorRef.current === true){
-      pursue(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)
+    if (Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy7MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy7Pos.ref.current.x, enemySubsystem.enemy7Pos.ref.current.y, 7)
     }
-    else if (Math.abs(enemy7PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy7PosRef.current.y - playerPos.y) >= 15 && enemy7MoveBehaviorRef.current === true){
-      patrol(enemy7PosRef.current.x, enemy7PosRef.current.y, 7)  
+    else if (Math.abs(enemySubsystem.enemy7Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy7Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy7MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy7Pos.ref.current.x, enemySubsystem.enemy7Pos.ref.current.y, 7)  
     }
     confirmEnemyBehavior(8, move);
   }
-  else if (key === 7 && enemy7 && enemy7SleepingRef.current === true){
+  else if (key === 7 && enemySubsystem.enemy7.state && enemySubsystem.enemy7Sleeping.ref.current === true){
     confirmEnemyBehavior(8, move);
     return;
   }
 
-   if (key === 8 && enemy8 && enemy8SleepingRef.current === false){
-    const enemy8Move1 = ENEMY_DEFS[enemyType8].moves[0]
+   if (key === 8 && enemySubsystem.enemy8.state && enemySubsystem.enemy8Sleeping.ref.current === false){
+    const enemy8Move1 = ENEMY_DEFS[enemySubsystem.enemyType8.state].moves[0]
     const wallCheck = checkAttackPath(8);
     console.log('wallcheck for enemy 8:', wallCheck)
     if (enemy8Move1.alignment === 'same-direction') {
-      if (wallCheck === true && (Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) === 0 || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === 0 && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemy8PosRef.current.x - playerPosRef.current.x) === Math.abs(enemy8PosRef.current.y - playerPosRef.current.y))) {
-        setEnemy8Attacking(true);
+      if (wallCheck === true && (Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPosRef.current.y) === 0 || Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPosRef.current.x) === 0 && Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPosRef.current.y) <= enemy8Move1.range || Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPosRef.current.x) <= enemy8Move1.range && Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPosRef.current.y) <= enemy8Move1.range && Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPosRef.current.x) === Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPosRef.current.y))) {
+        enemySubsystem.enemy8Attacking.set(true);
         setTimeout(() => enemyUseMove(enemy8Move1, 8), ((4600 + turnIntervalMs) * (move)));
-        console.log('triggered with', 'enemyx',enemy8PosRef.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemy8PosRef.current.y, 'playery', playerPosRef.current.y)
+        console.log('triggered with', 'enemyx',enemySubsystem.enemy8Pos.ref.current.x, 'playerx', playerPosRef.current.x, 'enemyy', enemySubsystem.enemy8Pos.ref.current.y, 'playery', playerPosRef.current.y)
         console.log('range:', enemy8Move1.range)
         return;
       }
     }
-    if (Math.abs(enemy8PosRef.current.x - playerPos.x) < 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) < 15 && enemy8MoveBehaviorRef.current === true){
-      pursue(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)
+    if (Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPos.x) < 15 && Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPos.y) < 15 && enemySubsystem.enemy8MoveBehavior.ref.current === true){
+      pursue(enemySubsystem.enemy8Pos.ref.current.x, enemySubsystem.enemy8Pos.ref.current.y, 8)
     }
-    else if (Math.abs(enemy8PosRef.current.x - playerPos.x) >= 15 && Math.abs(enemy8PosRef.current.y - playerPos.y) >= 15 && enemy8MoveBehaviorRef.current === true){
-      patrol(enemy8PosRef.current.x, enemy8PosRef.current.y, 8)  
+    else if (Math.abs(enemySubsystem.enemy8Pos.ref.current.x - playerPos.x) >= 15 && Math.abs(enemySubsystem.enemy8Pos.ref.current.y - playerPos.y) >= 15 && enemySubsystem.enemy8MoveBehavior.ref.current === true){
+      patrol(enemySubsystem.enemy8Pos.ref.current.x, enemySubsystem.enemy8Pos.ref.current.y, 8)  
     }
   }
 }
@@ -4178,7 +3769,7 @@ function spawnEnemy(dungeonLocal, room, enemy) {
     for (let xx = minX; xx <= maxX; xx++) {
     if (room.center.x === xx && room.center.y === yy) continue; // skip room center to avoid blocking player spawn
       const c = dungeonLocal[yy][xx];
-      if (typeof c !== 'undefined' && c !== 'W' && c !== 'S' && c !== playerPos.x && c !== playerPos.y && !enemyHereTilesRef.current.find(tile => tile.x === xx && tile.y === yy && !itemTilesRef.current.find(tile => tile.x === xx && tile.y === yy))) roomFloorTiles.push({ x: xx, y: yy });
+      if (typeof c !== 'undefined' && c !== 'W' && c !== 'S' && c !== playerPos.x && c !== playerPos.y && !enemySubsystem.enemyHereTiles.ref.current.find(tile => tile.x === xx && tile.y === yy && !itemTilesRef.current.find(tile => tile.x === xx && tile.y === yy))) roomFloorTiles.push({ x: xx, y: yy });
     }
   }
 
@@ -4251,64 +3842,64 @@ function spawnEnemy(dungeonLocal, room, enemy) {
 function verifyEnemyGeneration (enemyCount) {
   if (enemyCount < 1) return;
   else if (enemyCount < 2) {
-    setEnemy1(true);
+    enemySubsystem.enemy1.set(true);
   }
   else if (enemyCount < 3) {
-    setEnemy1(true);
-    setEnemy2(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
 }
 else if (enemyCount < 4) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
 }
 else if (enemyCount < 5) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
-    setEnemy4(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
+    enemySubsystem.enemy4.set(true);
 }
 else if (enemyCount < 6) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
-    setEnemy4(true);
-    setEnemy5(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
+    enemySubsystem.enemy4.set(true);
+    enemySubsystem.enemy5.set(true);
   }
 else if (enemyCount < 7) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
-    setEnemy4(true);
-    setEnemy5(true);
-    setEnemy6(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
+    enemySubsystem.enemy4.set(true);
+    enemySubsystem.enemy5.set(true);
+    enemySubsystem.enemy6.set(true);
   }
 else if (enemyCount < 8) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
-    setEnemy4(true);
-    setEnemy5(true);
-    setEnemy6(true);
-    setEnemy7(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
+    enemySubsystem.enemy4.set(true);
+    enemySubsystem.enemy5.set(true);
+    enemySubsystem.enemy6.set(true);
+    enemySubsystem.enemy7.set(true);
   }
 else if (enemyCount < 9) {
-    setEnemy1(true);
-    setEnemy2(true);
-    setEnemy3(true);
-    setEnemy4(true);
-    setEnemy5(true);
-    setEnemy6(true);
-    setEnemy7(true);
-    setEnemy8(true);
+    enemySubsystem.enemy1.set(true);
+    enemySubsystem.enemy2.set(true);
+    enemySubsystem.enemy3.set(true);
+    enemySubsystem.enemy4.set(true);
+    enemySubsystem.enemy5.set(true);
+    enemySubsystem.enemy6.set(true);
+    enemySubsystem.enemy7.set(true);
+    enemySubsystem.enemy8.set(true);
   }
   return;
 }
 
 React.useEffect(() => {
-  enemiesRef.current = enemies; //marked for removal
-  enemyHereTilesRef.current = enemies.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite })); //marked for removal
-}, [enemies]);
+  enemySubsystem.enemies.ref.current = enemySubsystem.enemies.state; //marked for removal
+  enemySubsystem.enemyHereTiles.ref.current = enemySubsystem.enemies.state.map(enemy => ({ x: enemy.pos.x, y: enemy.pos.y, sprite: enemy.sprite })); //marked for removal
+}, [enemySubsystem.enemies.state]);
 function useSelectedItem(target, item, id) {
   playSound(affirmativesfx);
   if (item === 'Life Seed') {
@@ -4331,67 +3922,67 @@ function useSelectedItem(target, item, id) {
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy1'){
-    setEnemy1Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType1].name + ' fell asleep!');
+    enemySubsystem.enemy1Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType1.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy1Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType1].name + ' woke up!');
+      enemySubsystem.enemy1Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType1.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy2'){
-    setEnemy2Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType2].name + ' fell asleep!');
+    enemySubsystem.enemy2Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType2.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy2Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType2].name + ' woke up!');
+      enemySubsystem.enemy2Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType2.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy3'){
-    setEnemy3Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType3].name + ' fell asleep!');
+    enemySubsystem.enemy3Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType3.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy3Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType3].name + ' woke up!');
+      enemySubsystem.enemy3Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType3.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy4'){
-    setEnemy4Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType4].name + ' fell asleep!');
+    enemySubsystem.enemy4Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType4.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy4Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType4].name + ' woke up!');
+      enemySubsystem.enemy4Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType4.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy5'){
-    setEnemy5Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType5].name + ' fell asleep!');
+    enemySubsystem.enemy5Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType5.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy5Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType5].name + ' woke up!');
+      enemySubsystem.enemy5Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType5.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy6'){
-    setEnemy6Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType6].name + ' fell asleep!');
+    enemySubsystem.enemy6Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType6.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy6Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType6].name + ' woke up!');
+      enemySubsystem.enemy6Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType6.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy7'){
-    setEnemy7Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType7].name + ' fell asleep!');
+    enemySubsystem.enemy7Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType7.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy7Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType7].name + ' woke up!');
+      enemySubsystem.enemy7Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType7.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   else if (target === 'enemy8'){
-    setEnemy8Sleeping(true);
-    addLogMessage(ENEMY_DEFS[enemyType8].name + ' fell asleep!');
+    enemySubsystem.enemy8Sleeping.set(true);
+    addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType8.state].name + ' fell asleep!');
   setTimeout(() => {
-      setEnemy8Sleeping(false);
-      addLogMessage(ENEMY_DEFS[enemyType8].name + ' woke up!');
+      enemySubsystem.enemy8Sleeping.set(false);
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType8.state].name + ' woke up!');
     }, randInt(5000, 10000)); // Sleep for 5 to 10 seconds
   }
   } 
@@ -4423,7 +4014,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy1PosRef.current.x || y !== enemy1PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy1Pos.ref.current.x || y !== enemySubsystem.enemy1Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4431,8 +4022,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy1Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType1].name + ' warped!');
+      enemySubsystem.enemy1Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType1.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4441,7 +4032,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy2PosRef.current.x || y !== enemy2PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy2Pos.ref.current.x || y !== enemySubsystem.enemy2Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4449,8 +4040,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy2Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType2].name + ' warped!');
+      enemySubsystem.enemy2Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType2.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4459,7 +4050,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy3PosRef.current.x || y !== enemy3PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy3Pos.ref.current.x || y !== enemySubsystem.enemy3Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4467,8 +4058,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy3Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType3].name + ' warped!');
+      enemySubsystem.enemy3Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType3.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4477,7 +4068,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy4PosRef.current.x || y !== enemy4PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy4Pos.ref.current.x || y !== enemySubsystem.enemy4Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4485,8 +4076,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy4Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType4].name + ' warped!');
+      enemySubsystem.enemy4Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType4.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4495,7 +4086,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy5PosRef.current.x || y !== enemy5PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy5Pos.ref.current.x || y !== enemySubsystem.enemy5Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4503,8 +4094,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy5Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType5].name + ' warped!');
+      enemySubsystem.enemy5Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType5.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4513,7 +4104,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy6PosRef.current.x || y !== enemy6PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy6Pos.ref.current.x || y !== enemySubsystem.enemy6Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4521,8 +4112,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy6Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType6].name + ' warped!');
+      enemySubsystem.enemy6Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType6.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4531,7 +4122,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy7PosRef.current.x || y !== enemy7PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy7Pos.ref.current.x || y !== enemySubsystem.enemy7Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4539,8 +4130,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy7Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType7].name + ' warped!');
+      enemySubsystem.enemy7Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType7.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4549,7 +4140,7 @@ function useSelectedItem(target, item, id) {
     const floorPositions = [];
     for (let y = 0; y < dungeon.length; y++) {
       for (let x = 0; x < dungeon[0].length; x++) {
-        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemy8PosRef.current.x || y !== enemy8PosRef.current.y)) {
+        if (dungeon[y][x] !== 'W' && dungeon[y][x] !== 'S' && (x !== enemySubsystem.enemy8Pos.ref.current.x || y !== enemySubsystem.enemy8Pos.ref.current.y)) {
           floorPositions.push({ x, y });
         }
       }
@@ -4557,8 +4148,8 @@ function useSelectedItem(target, item, id) {
     if (floorPositions.length > 0) {
       const randIndex = randInt(0, floorPositions.length);
       const newPos = floorPositions[randIndex];
-      setEnemy8Pos({ x: newPos.x, y: newPos.y });
-      addLogMessage(ENEMY_DEFS[enemyType8].name + ' warped!');
+      enemySubsystem.enemy8Pos.set({ x: newPos.x, y: newPos.y });
+      addLogMessage(ENEMY_DEFS[enemySubsystem.enemyType8.state].name + ' warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
     }
@@ -4783,14 +4374,14 @@ else if (item === 'Warp Orb'){
       const newPosEnemy7 = floorPositions[randIndexEnemy7];
       const newPosEnemy8 = floorPositions[randIndexEnemy8];
       setPlayerPos({ x: newPosPlayer.x, y: newPosPlayer.y });
-      enemy1.x !== 2 ? setEnemy1Pos({ x: newPosEnemy1.x, y: newPosEnemy1.y }) : null;
-      enemy2.x !== 2 ? setEnemy2Pos({ x: newPosEnemy2.x, y: newPosEnemy2.y }) : null;
-      enemy3.x !== 2 ? setEnemy3Pos({ x: newPosEnemy3.x, y: newPosEnemy3.y }) : null;
-      enemy4.x !== 2 ? setEnemy4Pos({ x: newPosEnemy4.x, y: newPosEnemy4.y }) : null;
-      enemy5.x !== 2 ? setEnemy5Pos({ x: newPosEnemy5.x, y: newPosEnemy5.y }) : null;
-      enemy6.x !== 2 ? setEnemy6Pos({ x: newPosEnemy6.x, y: newPosEnemy6.y }) : null;
-      enemy7.x !== 2 ? setEnemy7Pos({ x: newPosEnemy7.x, y: newPosEnemy7.y }) : null;
-      enemy8.x !== 2 ? setEnemy8Pos({ x: newPosEnemy8.x, y: newPosEnemy8.y }) : null;
+      enemySubsystem.enemy1.state.x !== 2 ? enemySubsystem.enemy1Pos.set({ x: newPosEnemy1.x, y: newPosEnemy1.y }) : null;
+      enemySubsystem.enemy2.state.x !== 2 ? enemySubsystem.enemy2Pos.set({ x: newPosEnemy2.x, y: newPosEnemy2.y }) : null;
+      enemySubsystem.enemy3.state.x !== 2 ? enemySubsystem.enemy3Pos.set({ x: newPosEnemy3.x, y: newPosEnemy3.y }) : null;
+      enemySubsystem.enemy4.state.x !== 2 ? enemySubsystem.enemy4Pos.set({ x: newPosEnemy4.x, y: newPosEnemy4.y }) : null;
+      enemySubsystem.enemy5.state.x !== 2 ? enemySubsystem.enemy5Pos.set({ x: newPosEnemy5.x, y: newPosEnemy5.y }) : null;
+      enemySubsystem.enemy6.state.x !== 2 ? enemySubsystem.enemy6Pos.set({ x: newPosEnemy6.x, y: newPosEnemy6.y }) : null;
+      enemySubsystem.enemy7.state.x !== 2 ? enemySubsystem.enemy7Pos.set({ x: newPosEnemy7.x, y: newPosEnemy7.y }) : null;
+      enemySubsystem.enemy8.state.x !== 2 ? enemySubsystem.enemy8Pos.set({ x: newPosEnemy8.x, y: newPosEnemy8.y }) : null;
       addLogMessage('All Pokemon on the floor warped!');
     } else {
       addLogMessage('No valid locations to warp to!');
@@ -5116,47 +4707,47 @@ function itemThrown(item, id) {
     const wallCheck5 = { x: wallCheck1.x * 5, y: wallCheck1.y * 5 };
     const wallCheck6 = { x: wallCheck1.x * 6, y: wallCheck1.y * 6 };
     verifyPlayerPosition(playerPosRef.current.x, playerPosRef.current.y)
-    enemy1 ? verifyEnemyPosition(enemy1PosRef.current.x, enemy1PosRef.current.y, 1) : 0
-    enemy2 ? verifyEnemyPosition(enemy2PosRef.current.x, enemy2PosRef.current.y, 2) : 0
-    enemy3 ? verifyEnemyPosition(enemy3PosRef.current.x, enemy3PosRef.current.y, 3) : 0
-    enemy4 ? verifyEnemyPosition(enemy4PosRef.current.x, enemy4PosRef.current.y, 4) : 0
-    enemy5 ? verifyEnemyPosition(enemy5PosRef.current.x, enemy5PosRef.current.y, 5) : 0
-    enemy6 ? verifyEnemyPosition(enemy6PosRef.current.x, enemy6PosRef.current.y, 6) : 0
-    enemy7 ? verifyEnemyPosition(enemy7PosRef.current.x, enemy7PosRef.current.y, 7) : 0
-    enemy8 ? verifyEnemyPosition(enemy8PosRef.current.x, enemy8PosRef.current.y, 8) : 0
+    enemySubsystem.enemy1.state ? verifyEnemyPosition(enemySubsystem.enemy1Pos.ref.current.x, enemySubsystem.enemy1Pos.ref.current.y, 1) : 0
+    enemySubsystem.enemy2.state ? verifyEnemyPosition(enemySubsystem.enemy2Pos.ref.current.x, enemySubsystem.enemy2Pos.ref.current.y, 2) : 0
+    enemySubsystem.enemy3.state ? verifyEnemyPosition(enemySubsystem.enemy3Pos.ref.current.x, enemySubsystem.enemy3Pos.ref.current.y, 3) : 0
+    enemySubsystem.enemy4.state ? verifyEnemyPosition(enemySubsystem.enemy4Pos.ref.current.x, enemySubsystem.enemy4Pos.ref.current.y, 4) : 0
+    enemySubsystem.enemy5.state ? verifyEnemyPosition(enemySubsystem.enemy5Pos.ref.current.x, enemySubsystem.enemy5Pos.ref.current.y, 5) : 0
+    enemySubsystem.enemy6.state ? verifyEnemyPosition(enemySubsystem.enemy6Pos.ref.current.x, enemySubsystem.enemy6Pos.ref.current.y, 6) : 0
+    enemySubsystem.enemy7.state ? verifyEnemyPosition(enemySubsystem.enemy7Pos.ref.current.x, enemySubsystem.enemy7Pos.ref.current.y, 7) : 0
+    enemySubsystem.enemy8.state ? verifyEnemyPosition(enemySubsystem.enemy8Pos.ref.current.x, enemySubsystem.enemy8Pos.ref.current.y, 8) : 0
     // Adjust delta if there's a wall in the way
     if (dungeon[playerPos.y + wallCheck1.y][playerPos.x + wallCheck1.x] === 'W') {
       delta.x = wallCheck1.x - wallCheck1.x;
       delta.y = wallCheck1.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck1.y === enemy1PosRef.current.y && playerPos.x + wallCheck1.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck1.y === enemy2PosRef.current.y && playerPos.x + wallCheck1.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck1.y === enemy3PosRef.current.y && playerPos.x + wallCheck1.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck1.y === enemy4PosRef.current.y && playerPos.x + wallCheck1.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck1.y === enemy5PosRef.current.y && playerPos.x + wallCheck1.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck1.y === enemy6PosRef.current.y && playerPos.x + wallCheck1.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck1.y === enemy7PosRef.current.y && playerPos.x + wallCheck1.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck1.y === enemy8PosRef.current.y && playerPos.x + wallCheck1.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck1.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck1.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck1.x;
       delta.y = wallCheck1.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -5167,33 +4758,33 @@ function itemThrown(item, id) {
       delta.y = wallCheck2.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck2.y === enemy1PosRef.current.y && playerPos.x + wallCheck2.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck2.y === enemy2PosRef.current.y && playerPos.x + wallCheck2.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck2.y === enemy3PosRef.current.y && playerPos.x + wallCheck2.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck2.y === enemy4PosRef.current.y && playerPos.x + wallCheck2.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck2.y === enemy5PosRef.current.y && playerPos.x + wallCheck2.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck2.y === enemy6PosRef.current.y && playerPos.x + wallCheck2.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck2.y === enemy7PosRef.current.y && playerPos.x + wallCheck2.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck2.y === enemy8PosRef.current.y && playerPos.x + wallCheck2.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck2.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck2.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck2.x;
       delta.y = wallCheck2.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -5204,33 +4795,33 @@ function itemThrown(item, id) {
       delta.y = wallCheck3.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck3.y === enemy1PosRef.current.y && playerPos.x + wallCheck3.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck3.y === enemy2PosRef.current.y && playerPos.x + wallCheck3.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck3.y === enemy3PosRef.current.y && playerPos.x + wallCheck3.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck3.y === enemy4PosRef.current.y && playerPos.x + wallCheck3.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck3.y === enemy5PosRef.current.y && playerPos.x + wallCheck3.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck3.y === enemy6PosRef.current.y && playerPos.x + wallCheck3.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck3.y === enemy7PosRef.current.y && playerPos.x + wallCheck3.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck3.y === enemy8PosRef.current.y && playerPos.x + wallCheck3.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck3.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck3.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck3.x;
       delta.y = wallCheck3.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -5241,33 +4832,33 @@ function itemThrown(item, id) {
       delta.y = wallCheck4.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck4.y === enemy1PosRef.current.y && playerPos.x + wallCheck4.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck4.y === enemy2PosRef.current.y && playerPos.x + wallCheck4.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck4.y === enemy3PosRef.current.y && playerPos.x + wallCheck4.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck4.y === enemy4PosRef.current.y && playerPos.x + wallCheck4.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck4.y === enemy5PosRef.current.y && playerPos.x + wallCheck4.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck4.y === enemy6PosRef.current.y && playerPos.x + wallCheck4.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck4.y === enemy7PosRef.current.y && playerPos.x + wallCheck4.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck4.y === enemy8PosRef.current.y && playerPos.x + wallCheck4.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck4.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck4.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck4.x;
       delta.y = wallCheck4.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -5278,33 +4869,33 @@ function itemThrown(item, id) {
       delta.y = wallCheck5.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck5.y === enemy1PosRef.current.y && playerPos.x + wallCheck5.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck5.y === enemy2PosRef.current.y && playerPos.x + wallCheck5.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck5.y === enemy3PosRef.current.y && playerPos.x + wallCheck5.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck5.y === enemy4PosRef.current.y && playerPos.x + wallCheck5.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck5.y === enemy5PosRef.current.y && playerPos.x + wallCheck5.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck5.y === enemy6PosRef.current.y && playerPos.x + wallCheck5.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck5.y === enemy7PosRef.current.y && playerPos.x + wallCheck5.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck5.y === enemy8PosRef.current.y && playerPos.x + wallCheck5.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck5.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck5.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck5.x;
       delta.y = wallCheck5.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -5315,33 +4906,33 @@ function itemThrown(item, id) {
       delta.y = wallCheck6.y - wallCheck1.y;
     }
 
-    else if (enemy1 && playerPos.y + wallCheck6.y === enemy1PosRef.current.y && playerPos.x + wallCheck6.x === enemy1PosRef.current.x || enemy2 && playerPos.y + wallCheck6.y === enemy2PosRef.current.y && playerPos.x + wallCheck6.x === enemy2PosRef.current.x || enemy3 && playerPos.y + wallCheck6.y === enemy3PosRef.current.y && playerPos.x + wallCheck6.x === enemy3PosRef.current.x || enemy4 && playerPos.y + wallCheck6.y === enemy4PosRef.current.y && playerPos.x + wallCheck6.x === enemy4PosRef.current.x || enemy5 && playerPos.y + wallCheck6.y === enemy5PosRef.current.y && playerPos.x + wallCheck6.x === enemy5PosRef.current.x || enemy6 && playerPos.y + wallCheck6.y === enemy6PosRef.current.y && playerPos.x + wallCheck6.x === enemy6PosRef.current.x || enemy7 && playerPos.y + wallCheck6.y === enemy7PosRef.current.y && playerPos.x + wallCheck6.x === enemy7PosRef.current.x || enemy8 && playerPos.y + wallCheck6.y === enemy8PosRef.current.y && playerPos.x + wallCheck6.x === enemy8PosRef.current.x){
+    else if (enemySubsystem.enemy1.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy1Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy1Pos.ref.current.x || enemySubsystem.enemy2.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy2Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy2Pos.ref.current.x || enemySubsystem.enemy3.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy3Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy3Pos.ref.current.x || enemySubsystem.enemy4.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy4Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy4Pos.ref.current.x || enemySubsystem.enemy5.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy5Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy5Pos.ref.current.x || enemySubsystem.enemy6.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy6Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy6Pos.ref.current.x || enemySubsystem.enemy7.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy7Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy7Pos.ref.current.x || enemySubsystem.enemy8.state && playerPos.y + wallCheck6.y === enemySubsystem.enemy8Pos.ref.current.y && playerPos.x + wallCheck6.x === enemySubsystem.enemy8Pos.ref.current.x){
       delta.x = wallCheck6.x;
       delta.y = wallCheck6.y;
       setWillConsumeItem(true);
 
-      if (playerPos.x + delta.x === enemy1PosRef.current.x && playerPos.y + delta.y === enemy1PosRef.current.y){
+      if (playerPos.x + delta.x === enemySubsystem.enemy1Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy1Pos.ref.current.y){
         setTargeted('enemy1')
       }
-      else if (playerPos.x + delta.x === enemy2PosRef.current.x && playerPos.y + delta.y === enemy2PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy2Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy2Pos.ref.current.y){
         setTargeted('enemy2')
       }
-      else if (playerPos.x + delta.x === enemy3PosRef.current.x && playerPos.y + delta.y === enemy3PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy3Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy3Pos.ref.current.y){
         setTargeted('enemy3')
       }
-      else if (playerPos.x + delta.x === enemy4PosRef.current.x && playerPos.y + delta.y === enemy4PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy4Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy4Pos.ref.current.y){
         setTargeted('enemy4')
       }
-      else if (playerPos.x + delta.x === enemy5PosRef.current.x && playerPos.y + delta.y === enemy5PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy5Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy5Pos.ref.current.y){
         setTargeted('enemy5')
       }
-      else if (playerPos.x + delta.x === enemy6PosRef.current.x && playerPos.y + delta.y === enemy6PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy6Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy6Pos.ref.current.y){
         setTargeted('enemy6')
       }
-      else if (playerPos.x + delta.x === enemy7PosRef.current.x && playerPos.y + delta.y === enemy7PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy7Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy7Pos.ref.current.y){
         setTargeted('enemy7')
       }
-      else if (playerPos.x + delta.x === enemy8PosRef.current.x && playerPos.y + delta.y === enemy8PosRef.current.y){
+      else if (playerPos.x + delta.x === enemySubsystem.enemy8Pos.ref.current.x && playerPos.y + delta.y === enemySubsystem.enemy8Pos.ref.current.y){
         setTargeted('enemy8')
       }
 
@@ -6209,6 +5800,8 @@ addItemToInventory('Sleep Seed');
 addItemToInventory('Warp Seed');
 addItemToInventory('Warp Orb');
 setItemSelected('Warp Orb');
+console.log('Enemy Subsystem', enemySubsystem)
+console.log('Enemy Subsystem', enemySubsystem.enemies)
 //console.log('sprite test:', Reviverseed, Apple)
 return;
   break;
@@ -6218,7 +5811,7 @@ return;
 const moveCheck = (() => {
   if (isAiming) return { ok: false, reason: 'isAiming' };
   if (isPaused) return { ok: false, reason: 'isPaused' };
-  if (enemy1AttackingRef.current === true || enemy2AttackingRef.current === true || enemy3AttackingRef.current === true || enemy4AttackingRef.current === true || enemy5AttackingRef.current === true || enemy6AttackingRef.current === true || enemy7AttackingRef.current === true || enemy8AttackingRef.current === true) return { ok: false, reason: 'enemy attacking' };
+  if (enemySubsystem.enemy1Attacking.ref.current === true || enemySubsystem.enemy2Attacking.ref.current === true || enemySubsystem.enemy3Attacking.ref.current === true || enemySubsystem.enemy4Attacking.ref.current === true || enemySubsystem.enemy5Attacking.ref.current === true || enemySubsystem.enemy6Attacking.ref.current === true || enemySubsystem.enemy7Attacking.ref.current === true || enemySubsystem.enemy8Attacking.ref.current === true) return { ok: false, reason: 'enemy attacking' };
   if (ks.current.sheld || ks.current.aheld || ks.current.dheld || ks.current.wheld || ks.current.qheld || ks.current.eheld || ks.current.zheld || ks.current.cheld) return {ok: false, reason: 'key held'}
   if (keyState.shift) return { ok: false, reason: 'shift held' };
   if (isSpinning) return { ok: false, reason: 'isSpinning' };
@@ -6229,14 +5822,14 @@ const moveCheck = (() => {
   if (!dungeon[newY]) return { ok: false, reason: 'dungeon row undefined', rowLen: dungeon.length };
   const tile = dungeon[newY][newX];
   if (tile === 'W') return { ok: false, reason: 'wall', tile };
-  if (enemy1 && enemy1Pos.x === newX && enemy1Pos.y === newY) return { ok: false, reason: 'enemy1', tile };
-  if (enemy2 && enemy2Pos.x === newX && enemy2Pos.y === newY) return { ok: false, reason: 'enemy2', tile };
-  if (enemy3 && enemy3Pos.x === newX && enemy3Pos.y === newY) return { ok: false, reason: 'enemy3', tile };
-  if (enemy4 && enemy4Pos.x === newX && enemy4Pos.y === newY) return { ok: false, reason: 'enemy4', tile };
-  if (enemy5 && enemy5Pos.x === newX && enemy5Pos.y === newY) return { ok: false, reason: 'enemy5', tile };
-  if (enemy6 && enemy6Pos.x === newX && enemy6Pos.y === newY) return { ok: false, reason: 'enemy6', tile };
-  if (enemy7 && enemy7Pos.x === newX && enemy7Pos.y === newY) return { ok: false, reason: 'enemy7', tile };
-  if (enemy8 && enemy8Pos.x === newX && enemy8Pos.y === newY) return { ok: false, reason: 'enemy8', tile };
+  if (enemySubsystem.enemy1.state && enemySubsystem.enemy1Pos.state.x === newX && enemySubsystem.enemy1Pos.state.y === newY) return { ok: false, reason: 'enemy1', tile };
+  if (enemySubsystem.enemy2.state && enemySubsystem.enemy2Pos.state.x === newX && enemySubsystem.enemy2Pos.state.y === newY) return { ok: false, reason: 'enemy2', tile };
+  if (enemySubsystem.enemy3.state && enemySubsystem.enemy3Pos.state.x === newX && enemySubsystem.enemy3Pos.state.y === newY) return { ok: false, reason: 'enemy3', tile };
+  if (enemySubsystem.enemy4.state && enemySubsystem.enemy4Pos.state.x === newX && enemySubsystem.enemy4Pos.state.y === newY) return { ok: false, reason: 'enemy4', tile };
+  if (enemySubsystem.enemy5.state && enemySubsystem.enemy5Pos.state.x === newX && enemySubsystem.enemy5Pos.state.y === newY) return { ok: false, reason: 'enemy5', tile };
+  if (enemySubsystem.enemy6.state && enemySubsystem.enemy6Pos.state.x === newX && enemySubsystem.enemy6Pos.state.y === newY) return { ok: false, reason: 'enemy6', tile };
+  if (enemySubsystem.enemy7.state && enemySubsystem.enemy7Pos.state.x === newX && enemySubsystem.enemy7Pos.state.y === newY) return { ok: false, reason: 'enemy7', tile };
+  if (enemySubsystem.enemy8.state && enemySubsystem.enemy8Pos.state.x === newX && enemySubsystem.enemy8Pos.state.y === newY) return { ok: false, reason: 'enemy8', tile };
   if (typeof tile === 'undefined' || tile === null) return { ok: false, reason: 'tile undefined', tile };
   return { ok: true, reason: 'ok', tile };
 })();
@@ -6619,30 +6212,30 @@ React.useEffect(() => {
     const elapsedIdleEnemy = ts - (lastAnimTsRef.current.idle.enemy || 0);
     if (elapsedIdleEnemy >= ANIM_TIMINGS.idle) {
         lastAnimTsRef.current.idle.enemy = ts;
-        indicesRef.current.idle.enemy = (indicesRef.current.idle.enemy + 1) % (enemyType1 === 'Lunatone' ? lunatoneSprites.length : vaporeonSprites.length);
-        if (enemy1Sleeping === false){
-        setEnemy1IdleAnimIndex(indicesRef.current.idle.enemy);
+        indicesRef.current.idle.enemy = (indicesRef.current.idle.enemy + 1) % (enemySubsystem.enemyType1.state === 'Lunatone' ? lunatoneSprites.length : vaporeonSprites.length);
+        if (enemySubsystem.enemy1Sleeping.state === false){
+        enemySubsystem.enemy1IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy2Sleeping === false){
-        setEnemy2IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy2Sleeping.state === false){
+        enemySubsystem.enemy2IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy3Sleeping === false){
-        setEnemy3IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy3Sleeping.state === false){
+        enemySubsystem.enemy3IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy4Sleeping === false){
-        setEnemy4IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy4Sleeping.state === false){
+        enemySubsystem.enemy4IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy5Sleeping === false){
-        setEnemy5IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy5Sleeping.state === false){
+        enemySubsystem.enemy5IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy6Sleeping === false){
-        setEnemy6IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy6Sleeping.state === false){
+        enemySubsystem.enemy6IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy7Sleeping === false){
-        setEnemy7IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy7Sleeping.state === false){
+        enemySubsystem.enemy7IdleAnimIndex.set(indicesRef.current.idle.enemy);
         }
-        if (enemy8Sleeping === false){
-        setEnemy8IdleAnimIndex(indicesRef.current.idle.enemy);
+        if (enemySubsystem.enemy8Sleeping.state === false){
+        enemySubsystem.enemy8IdleAnimIndex.set(indicesRef.current.idle.enemy);
       }
     }
     if (!isWalkingRef.current && !isSpinning && !isSleeping && !isPausedRef.current) {
@@ -6729,7 +6322,7 @@ React.useEffect(() => {
         setSleepSpriteIndex(indicesRef.current.sleep.player);
       }
     }
-    if (enemy1Sleeping || enemy2Sleeping || enemy3Sleeping || enemy4Sleeping || enemy5Sleeping || enemy6Sleeping || enemy7Sleeping || enemy8Sleeping) {
+    if (enemySubsystem.enemy1Sleeping.state || enemySubsystem.enemy2Sleeping.state || enemySubsystem.enemy3Sleeping.state || enemySubsystem.enemy4Sleeping.state || enemySubsystem.enemy5Sleeping.state || enemySubsystem.enemy6Sleeping.state || enemySubsystem.enemy7Sleeping.state || enemySubsystem.enemy8Sleeping.state) {
       if (elapsedSleepEnemy >= ANIM_TIMINGS.sleep.enemy) {
         lastAnimTsRef.current.sleep.enemy = ts;
         indicesRef.current.sleep.enemy = (indicesRef.current.sleep.enemy + 1) % vaporeonSleepSprites.length;
@@ -6961,7 +6554,7 @@ const generateDungeon = () => {
   rooms.forEach(room => {
     // spawn up to enemyCount for this room and capture returned enemies (avoid relying on room.id)
     const spawned = [];
-    for (let i = 0; i < enemyCount; i++) {
+    for (let i = 0; i < enemySubsystem.enemyCount.state; i++) {
       // choose an enemy type safely
       const types = Object.keys(ENEMY_DEFS);
       const chosen = types[randInt(0, types.length)] || types[0];
@@ -6971,32 +6564,32 @@ const generateDungeon = () => {
         spawned.push(e);
       }
     }
-  setEnemies(spawnedAll);
-  setEnemiesState(spawnedAll);
-  setEnemyHereTiles(spawnedAll.map(en => ({ x: en.pos.x, y: en.pos.y, sprite: en.sprites && en.sprites.downIdle ? en.sprites.downIdle.frame1 : null })));
+  enemySubsystem.enemies.set(spawnedAll);
+  enemySubsystem.enemiesState.set(spawnedAll);
+  enemySubsystem.enemyHereTiles.set(spawnedAll.map(en => ({ x: en.pos.x, y: en.pos.y, sprite: en.sprites && en.sprites.downIdle ? en.sprites.downIdle.frame1 : null })));
 
       // populate per-slot enemy flags/positions (up to 8)
       const first8 = spawnedAll.slice(0, 8);
       const e1 = first8[0] || null, e2 = first8[1] || null, e3 = first8[2] || null, e4 = first8[3] || null;
   const e5 = first8[4] || null, e6 = first8[5] || null, e7 = first8[6] || null, e8 = first8[7] || null;
-      setEnemyType1(e1 ? e1.key : null);
-      setEnemyType2(e2 ? e2.key : null);
-      setEnemyType3(e3 ? e3.key : null);
-      setEnemyType4(e4 ? e4.key : null);
-      setEnemyType5(e5 ? e5.key : null);
-      setEnemyType6(e6 ? e6.key : null);
-      setEnemyType7(e7 ? e7.key : null);
-      setEnemyType8(e8 ? e8.key : null);
+      enemySubsystem.enemyType1.set(e1 ? e1.key : null);
+      enemySubsystem.enemyType2.set(e2 ? e2.key : null);
+      enemySubsystem.enemyType3.set(e3 ? e3.key : null);
+      enemySubsystem.enemyType4.set(e4 ? e4.key : null);
+      enemySubsystem.enemyType5.set(e5 ? e5.key : null);
+      enemySubsystem.enemyType6.set(e6 ? e6.key : null);
+      enemySubsystem.enemyType7.set(e7 ? e7.key : null);
+      enemySubsystem.enemyType8.set(e8 ? e8.key : null);
 
-      setEnemy1(!!e1); setEnemy2(!!e2); setEnemy3(!!e3); setEnemy4(!!e4); setEnemy5(!!e5); setEnemy6(!!e6); setEnemy7(!!e7); setEnemy8(!!e8);
-      setEnemy1Pos(e1 ? { x: e1.pos.x, y: e1.pos.y } : null);
-      setEnemy2Pos(e2 ? { x: e2.pos.x, y: e2.pos.y } : null);
-      setEnemy3Pos(e3 ? { x: e3.pos.x, y: e3.pos.y } : null);
-      setEnemy4Pos(e4 ? { x: e4.pos.x, y: e4.pos.y } : null);
-      setEnemy5Pos(e5 ? { x: e5.pos.x, y: e5.pos.y } : null);
-      setEnemy6Pos(e6 ? { x: e6.pos.x, y: e6.pos.y } : null);
-      setEnemy7Pos(e7 ? { x: e7.pos.x, y: e7.pos.y } : null);
-      setEnemy8Pos(e8 ? { x: e8.pos.x, y: e8.pos.y } : null);
+      enemySubsystem.enemy1.set(!!e1); enemySubsystem.enemy2.set(!!e2); enemySubsystem.enemy3.set(!!e3); enemySubsystem.enemy4.set(!!e4); enemySubsystem.enemy5.set(!!e5); enemySubsystem.enemy6.set(!!e6); enemySubsystem.enemy7.set(!!e7); enemySubsystem.enemy8.set(!!e8);
+      enemySubsystem.enemy1Pos.set(e1 ? { x: e1.pos.x, y: e1.pos.y } : null);
+      enemySubsystem.enemy2Pos.set(e2 ? { x: e2.pos.x, y: e2.pos.y } : null);
+      enemySubsystem.enemy3Pos.set(e3 ? { x: e3.pos.x, y: e3.pos.y } : null);
+      enemySubsystem.enemy4Pos.set(e4 ? { x: e4.pos.x, y: e4.pos.y } : null);
+      enemySubsystem.enemy5Pos.set(e5 ? { x: e5.pos.x, y: e5.pos.y } : null);
+      enemySubsystem.enemy6Pos.set(e6 ? { x: e6.pos.x, y: e6.pos.y } : null);
+      enemySubsystem.enemy7Pos.set(e7 ? { x: e7.pos.x, y: e7.pos.y } : null);
+      enemySubsystem.enemy8Pos.set(e8 ? { x: e8.pos.x, y: e8.pos.y } : null);
 
       verifyEnemyGeneration(spawnedAll.length);
   
@@ -7302,130 +6895,130 @@ return (
                         }}
                       />
                     )}
-                    {enemy1 === true && colIndex === enemy1Pos.x && rowIndex === enemy1Pos.y ? (
+                    {enemySubsystem.enemy1.state === true && colIndex === enemySubsystem.enemy1Pos.state.x && rowIndex === enemySubsystem.enemy1Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType1}
-                          animation={enemy1Sleeping ? "sleep" : "idle"}
-                          direction={enemy1Sleeping ? "none" : enemy1LastDirection}
-                          frame={enemy1Sleeping ? sleepSpriteIndex + 1 : enemy1IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType1.state}
+                          animation={enemySubsystem.enemy1Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy1Sleeping.state ? "none" : enemySubsystem.enemy1LastDirection.state}
+                          frame={enemySubsystem.enemy1Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy1IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy1"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType1 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType1 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType1.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType1.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy2 === true && colIndex === enemy2Pos.x && rowIndex === enemy2Pos.y ? (
+                    {enemySubsystem.enemy2.state === true && colIndex === enemySubsystem.enemy2Pos.state.x && rowIndex === enemySubsystem.enemy2Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType2}
-                          animation={enemy2Sleeping ? "sleep" : "idle"}
-                          direction={enemy2Sleeping ? "none" : enemy2LastDirection}
-                          frame={enemy2Sleeping ? sleepSpriteIndex + 1 : enemy2IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType2.state}
+                          animation={enemySubsystem.enemy2Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy2Sleeping.state ? "none" : enemySubsystem.enemy2LastDirection.state}
+                          frame={enemySubsystem.enemy2Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy2IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy2"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType2 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType2 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType2.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType2.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy3 === true && colIndex === enemy3Pos.x && rowIndex === enemy3Pos.y ? (
+                    {enemySubsystem.enemy3.state === true && colIndex === enemySubsystem.enemy3Pos.state.x && rowIndex === enemySubsystem.enemy3Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType3}
-                          animation={enemy3Sleeping ? "sleep" : "idle"}
-                          direction={enemy3Sleeping ? "none" : enemy3LastDirection}
-                          frame={enemy3Sleeping ? sleepSpriteIndex + 1 : enemy3IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType3.state}
+                          animation={enemySubsystem.enemy3Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy3Sleeping.state ? "none" : enemySubsystem.enemy3LastDirection.state}
+                          frame={enemySubsystem.enemy3Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy3IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy3"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType3 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType3 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType3.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType3.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy4 === true && colIndex === enemy4Pos.x && rowIndex === enemy4Pos.y ? (
+                    {enemySubsystem.enemy4.state === true && colIndex === enemySubsystem.enemy4Pos.state.x && rowIndex === enemySubsystem.enemy4Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType4}
-                          animation={enemy4Sleeping ? "sleep" : "idle"}
-                          direction={enemy4Sleeping ? "none" : enemy4LastDirection}
-                          frame={enemy4Sleeping ? sleepSpriteIndex + 1 : enemy4IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType4.state}
+                          animation={enemySubsystem.enemy4Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy4Sleeping.state ? "none" : enemySubsystem.enemy4LastDirection.state}
+                          frame={enemySubsystem.enemy4Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy4IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy4"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType4 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType4 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType4.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType4.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy5 === true && colIndex === enemy5Pos.x && rowIndex === enemy5Pos.y ? (
+                    {enemySubsystem.enemy5.state === true && colIndex === enemySubsystem.enemy5Pos.state.x && rowIndex === enemySubsystem.enemy5Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType5}
-                          animation={enemy5Sleeping ? "sleep" : "idle"}
-                          direction={enemy5Sleeping ? "none" : enemy5LastDirection}
-                          frame={enemy5Sleeping ? sleepSpriteIndex + 1 : enemy5IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType5.state}
+                          animation={enemySubsystem.enemy5Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy5Sleeping.state ? "none" : enemySubsystem.enemy5LastDirection.state}
+                          frame={enemySubsystem.enemy5Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy5IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
-                          alt="Enemy5"
+                          alt="enemySubsystem.enemy5.state"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType5 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType5 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType5.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType5.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy6 === true && colIndex === enemy6Pos.x && rowIndex === enemy6Pos.y ? (
+                    {enemySubsystem.enemy6.state === true && colIndex === enemySubsystem.enemy6Pos.state.x && rowIndex === enemySubsystem.enemy6Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType6}
-                          animation={enemy6Sleeping ? "sleep" : "idle"}
-                          direction={enemy6Sleeping ? "none" : enemy6LastDirection}
-                          frame={enemy6Sleeping ? sleepSpriteIndex + 1 : enemy6IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType6.state}
+                          animation={enemySubsystem.enemy6Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy6Sleeping.state ? "none" : enemySubsystem.enemy6LastDirection.state}
+                          frame={enemySubsystem.enemy6Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy6IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
-                          alt="Enemy6"
+                          alt="enemySubsystem.enemy6.state"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType6 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType6 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType6.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType6.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy7 === true && colIndex === enemy7Pos.x && rowIndex === enemy7Pos.y ? (
+                    {enemySubsystem.enemy7.state === true && colIndex === enemySubsystem.enemy7Pos.state.x && rowIndex === enemySubsystem.enemy7Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType7}
-                          animation={enemy7Sleeping ? "sleep" : "idle"}
-                          direction={enemy7Sleeping ? "none" : enemy7LastDirection}
-                          frame={enemy7Sleeping ? sleepSpriteIndex + 1 : enemy7IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType7.state}
+                          animation={enemySubsystem.enemy7Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy7Sleeping.state ? "none" : enemySubsystem.enemy7LastDirection.state}
+                          frame={enemySubsystem.enemy7Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy7IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy7"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType7 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType7 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType7.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType7.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
 
-                    {enemy8 === true && colIndex === enemy8Pos.x && rowIndex === enemy8Pos.y ? (
+                    {enemySubsystem.enemy8.state === true && colIndex === enemySubsystem.enemy8Pos.state.x && rowIndex === enemySubsystem.enemy8Pos.state.y ? (
                       <SpriteCanvas
-                          pokemon={enemyType8}
-                          animation={enemy8Sleeping ? "sleep" : "idle"}
-                          direction={enemy8Sleeping ? "none" : enemy8LastDirection}
-                          frame={enemy8Sleeping ? sleepSpriteIndex + 1 : enemy8IdleAnimIndex + 1}
+                          pokemon={enemySubsystem.enemyType8.state}
+                          animation={enemySubsystem.enemy8Sleeping.state ? "sleep" : "idle"}
+                          direction={enemySubsystem.enemy8Sleeping.state ? "none" : enemySubsystem.enemy8LastDirection.state}
+                          frame={enemySubsystem.enemy8Sleeping.state ? sleepSpriteIndex + 1 : enemySubsystem.enemy8IdleAnimIndex.state + 1}
                           width={24}
                           height={48}
                           alt="Enemy8"
                           className="player-sprite absolute"
                           style={{
-                            transform: enemyType8 === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemyType8 === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
+                            transform: enemySubsystem.enemyType8.state === 'Vaporeon' ? 'scale(0.87) translateY(-10px)' : enemySubsystem.enemyType8.state === 'Lunatone' ? 'scale(1.2) translateY(4px)' : 'none',
                           }}
                         />
                     ) : null}
@@ -7570,7 +7163,7 @@ return (
               }}
             />
           )}
-          {DMGVfx1.Active === true && DMGVfx1.X === enemy1PosRef.current.x && DMGVfx1.Y === enemy1PosRef.current.y - 1 && (
+          {DMGVfx1.Active === true && DMGVfx1.X === enemySubsystem.enemy1Pos.ref.current.x && DMGVfx1.Y === enemySubsystem.enemy1Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx1Index + 1}
@@ -7588,7 +7181,7 @@ return (
               }}
             />
           )}
-          {DMGVfx2.Active === true && DMGVfx2.X === enemy2PosRef.current.x && DMGVfx2.Y === enemy2PosRef.current.y - 1 && (
+          {DMGVfx2.Active === true && DMGVfx2.X === enemySubsystem.enemy2Pos.ref.current.x && DMGVfx2.Y === enemySubsystem.enemy2Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx2Index + 1}
@@ -7606,7 +7199,7 @@ return (
               }}
             />
           )}
-          {DMGVfx3.Active === true && DMGVfx3.X === enemy3PosRef.current.x && DMGVfx3.Y === enemy3PosRef.current.y - 1 && (
+          {DMGVfx3.Active === true && DMGVfx3.X === enemySubsystem.enemy3Pos.ref.current.x && DMGVfx3.Y === enemySubsystem.enemy3Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx3Index + 1}
@@ -7624,7 +7217,7 @@ return (
               }}
             />
           )}
-          {DMGVfx4.Active === true && DMGVfx4.X === enemy4PosRef.current.x && DMGVfx4.Y === enemy4PosRef.current.y - 1 && (
+          {DMGVfx4.Active === true && DMGVfx4.X === enemySubsystem.enemy4Pos.ref.current.x && DMGVfx4.Y === enemySubsystem.enemy4Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx4Index + 1}
@@ -7642,7 +7235,7 @@ return (
               }}
             />
           )}
-          {DMGVfx5.Active === true && DMGVfx5.X === enemy5PosRef.current.x && DMGVfx5.Y === enemy5PosRef.current.y - 1 && (
+          {DMGVfx5.Active === true && DMGVfx5.X === enemySubsystem.enemy5Pos.ref.current.x && DMGVfx5.Y === enemySubsystem.enemy5Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx5Index + 1}
@@ -7660,7 +7253,7 @@ return (
               }}
             />
           )}
-          {DMGVfx6.Active === true && DMGVfx6.X === enemy6PosRef.current.x && DMGVfx6.Y === enemy6PosRef.current.y - 1 && (
+          {DMGVfx6.Active === true && DMGVfx6.X === enemySubsystem.enemy6Pos.ref.current.x && DMGVfx6.Y === enemySubsystem.enemy6Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx6Index + 1}
@@ -7678,7 +7271,7 @@ return (
               }}
             />
           )}
-          {DMGVfx7.Active === true && DMGVfx7.X === enemy7PosRef.current.x && DMGVfx7.Y === enemy7PosRef.current.y - 1 && (
+          {DMGVfx7.Active === true && DMGVfx7.X === enemySubsystem.enemy7Pos.ref.current.x && DMGVfx7.Y === enemySubsystem.enemy7Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx7Index + 1}
@@ -7696,7 +7289,7 @@ return (
               }}
             />
           )}
-          {DMGVfx8.Active === true && DMGVfx8.X === enemy8PosRef.current.x && DMGVfx8.Y === enemy8PosRef.current.y - 1 && (
+          {DMGVfx8.Active === true && DMGVfx8.X === enemySubsystem.enemy8Pos.ref.current.x && DMGVfx8.Y === enemySubsystem.enemy8Pos.ref.current.y - 1 && (
             <SpriteCanvas
               sprite="DMG1"
               frame={DMGVfx8Index + 1}
@@ -7755,8 +7348,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy1AttackBehaviorRef.current === true ? (enemy1PosRef.current.x - projectilePosRef.current[1].x) - minCol : 0) * 40}px` : `${(enemy1AttackBehaviorRef.current === true ? enemy1PosRef.current.x - projectilePosRef.current[1].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy1AttackBehaviorRef.current === true ? (enemy1PosRef.current.y - projectilePosRef.current[1].y) - minRow : 0) * 40}px` : `${(enemy1AttackBehaviorRef.current === true ? enemy1PosRef.current.y - projectilePosRef.current[1].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy1AttackBehavior.ref.current === true ? (enemySubsystem.enemy1Pos.ref.current.x - projectilePosRef.current[1].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy1AttackBehavior.ref.current === true ? enemySubsystem.enemy1Pos.ref.current.x - projectilePosRef.current[1].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy1AttackBehavior.ref.current === true ? (enemySubsystem.enemy1Pos.ref.current.y - projectilePosRef.current[1].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy1AttackBehavior.ref.current === true ? enemySubsystem.enemy1Pos.ref.current.y - projectilePosRef.current[1].y : 0) * 40}px`,
             }}
           />
         )};
@@ -7776,8 +7369,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy2AttackBehaviorRef.current === true ? (enemy2PosRef.current.x - projectilePosRef.current[2].x) - minCol : 0) * 40}px` : `${(enemy2AttackBehaviorRef.current === true ? enemy2PosRef.current.x - projectilePosRef.current[2].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy2AttackBehaviorRef.current === true ? (enemy2PosRef.current.y - projectilePosRef.current[2].y) - minRow : 0) * 40}px` : `${(enemy2AttackBehaviorRef.current === true ? enemy2PosRef.current.y - projectilePosRef.current[2].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy2AttackBehavior.ref.current === true ? (enemySubsystem.enemy2Pos.ref.current.x - projectilePosRef.current[2].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy2AttackBehavior.ref.current === true ? enemySubsystem.enemy2Pos.ref.current.x - projectilePosRef.current[2].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy2AttackBehavior.ref.current === true ? (enemySubsystem.enemy2Pos.ref.current.y - projectilePosRef.current[2].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy2AttackBehavior.ref.current === true ? enemySubsystem.enemy2Pos.ref.current.y - projectilePosRef.current[2].y : 0) * 40}px`,
             }}
           />
         )} 
@@ -7797,8 +7390,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy3AttackBehaviorRef.current === true ? (enemy3PosRef.current.x - projectilePosRef.current[3].x) - minCol : 0) * 40}px` : `${(enemy3AttackBehaviorRef.current === true ? enemy3PosRef.current.x - projectilePosRef.current[3].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy3AttackBehaviorRef.current === true ? (enemy3PosRef.current.y - projectilePosRef.current[3].y) - minRow : 0) * 40}px` : `${(enemy3AttackBehaviorRef.current === true ? enemy3PosRef.current.y - projectilePosRef.current[3].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy3AttackBehavior.ref.current === true ? (enemySubsystem.enemy3Pos.ref.current.x - projectilePosRef.current[3].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy3AttackBehavior.ref.current === true ? enemySubsystem.enemy3Pos.ref.current.x - projectilePosRef.current[3].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy3AttackBehavior.ref.current === true ? (enemySubsystem.enemy3Pos.ref.current.y - projectilePosRef.current[3].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy3AttackBehavior.ref.current === true ? enemySubsystem.enemy3Pos.ref.current.y - projectilePosRef.current[3].y : 0) * 40}px`,
             }}
           />
         )} 
@@ -7818,8 +7411,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy4AttackBehaviorRef.current === true ? (enemy4PosRef.current.x - projectilePosRef.current[4].x) - minCol : 0) * 40}px` : `${(enemy4AttackBehaviorRef.current === true ? enemy4PosRef.current.x - projectilePosRef.current[4].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy4AttackBehaviorRef.current === true ? (enemy4PosRef.current.y - projectilePosRef.current[4].y) - minRow : 0) * 40}px` : `${(enemy4AttackBehaviorRef.current === true ? enemy4PosRef.current.y - projectilePosRef.current[4].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy4AttackBehavior.ref.current === true ? (enemySubsystem.enemy4Pos.ref.current.x - projectilePosRef.current[4].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy4AttackBehavior.ref.current === true ? enemySubsystem.enemy4Pos.ref.current.x - projectilePosRef.current[4].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy4AttackBehavior.ref.current === true ? (enemySubsystem.enemy4Pos.ref.current.y - projectilePosRef.current[4].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy4AttackBehavior.ref.current === true ? enemySubsystem.enemy4Pos.ref.current.y - projectilePosRef.current[4].y : 0) * 40}px`,
             }}
           />
         )} 
@@ -7839,8 +7432,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy5AttackBehaviorRef.current === true ? (enemy5PosRef.current.x - projectilePosRef.current[5].x) - minCol : 0) * 40}px` : `${(enemy5AttackBehaviorRef.current === true ? enemy5PosRef.current.x - projectilePosRef.current[5].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy5AttackBehaviorRef.current === true ? (enemy5PosRef.current.y - projectilePosRef.current[5].y) - minRow : 0) * 40}px` : `${(enemy5AttackBehaviorRef.current === true ? enemy5PosRef.current.y - projectilePosRef.current[5].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy5AttackBehavior.ref.current === true ? (enemySubsystem.enemy5Pos.ref.current.x - projectilePosRef.current[5].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy5AttackBehavior.ref.current === true ? enemySubsystem.enemy5Pos.ref.current.x - projectilePosRef.current[5].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy5AttackBehavior.ref.current === true ? (enemySubsystem.enemy5Pos.ref.current.y - projectilePosRef.current[5].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy5AttackBehavior.ref.current === true ? enemySubsystem.enemy5Pos.ref.current.y - projectilePosRef.current[5].y : 0) * 40}px`,
             }}
           />
         )}
@@ -7860,8 +7453,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy6AttackBehaviorRef.current === true ? (enemy6PosRef.current.x - projectilePosRef.current[6].x) - minCol : 0) * 40}px` : `${(enemy6AttackBehaviorRef.current === true ? enemy6PosRef.current.x - projectilePosRef.current[6].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy6AttackBehaviorRef.current === true ? (enemy6PosRef.current.y - projectilePosRef.current[6].y) - minRow : 0) * 40}px` : `${(enemy6AttackBehaviorRef.current === true ? enemy6PosRef.current.y - projectilePosRef.current[6].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy6AttackBehavior.ref.current === true ? (enemySubsystem.enemy6Pos.ref.current.x - projectilePosRef.current[6].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy6AttackBehavior.ref.current === true ? enemySubsystem.enemy6Pos.ref.current.x - projectilePosRef.current[6].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy6AttackBehavior.ref.current === true ? (enemySubsystem.enemy6Pos.ref.current.y - projectilePosRef.current[6].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy6AttackBehavior.ref.current === true ? enemySubsystem.enemy6Pos.ref.current.y - projectilePosRef.current[6].y : 0) * 40}px`,
             }}
           />
         )} 
@@ -7881,8 +7474,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy7AttackBehaviorRef.current === true ? (enemy7PosRef.current.x - projectilePosRef.current[7].x) - minCol : 0) * 40}px` : `${(enemy7AttackBehaviorRef.current === true ? enemy7PosRef.current.x - projectilePosRef.current[7].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy7AttackBehaviorRef.current === true ? (enemy7PosRef.current.y - projectilePosRef.current[7].y) - minRow : 0) * 40}px` : `${(enemy7AttackBehaviorRef.current === true ? enemy7PosRef.current.y - projectilePosRef.current[7].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy7AttackBehavior.ref.current === true ? (enemySubsystem.enemy7Pos.ref.current.x - projectilePosRef.current[7].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy7AttackBehavior.ref.current === true ? enemySubsystem.enemy7Pos.ref.current.x - projectilePosRef.current[7].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy7AttackBehavior.ref.current === true ? (enemySubsystem.enemy7Pos.ref.current.y - projectilePosRef.current[7].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy7AttackBehavior.ref.current === true ? enemySubsystem.enemy7Pos.ref.current.y - projectilePosRef.current[7].y : 0) * 40}px`,
             }}
           />
         )} 
@@ -7902,8 +7495,8 @@ return (
               pointerEvents: 'none',
               objectFit: 'contain',
               //willChange: 'transform',
-              left: minCol > 0 ? `${(enemy8AttackBehaviorRef.current === true ? (enemy8PosRef.current.x - projectilePosRef.current[8].x) - minCol : 0) * 40}px` : `${(enemy8AttackBehaviorRef.current === true ? enemy8PosRef.current.x - projectilePosRef.current[8].x : 0) * 40}px`,
-              top: minRow > 0 ? `${(enemy8AttackBehaviorRef.current === true ? (enemy8PosRef.current.y - projectilePosRef.current[8].y) - minRow : 0) * 40}px` : `${(enemy8AttackBehaviorRef.current === true ? enemy8PosRef.current.y - projectilePosRef.current[8].y : 0) * 40}px`,
+              left: minCol > 0 ? `${(enemySubsystem.enemy8AttackBehavior.ref.current === true ? (enemySubsystem.enemy8Pos.ref.current.x - projectilePosRef.current[8].x) - minCol : 0) * 40}px` : `${(enemySubsystem.enemy8AttackBehavior.ref.current === true ? enemySubsystem.enemy8Pos.ref.current.x - projectilePosRef.current[8].x : 0) * 40}px`,
+              top: minRow > 0 ? `${(enemySubsystem.enemy8AttackBehavior.ref.current === true ? (enemySubsystem.enemy8Pos.ref.current.y - projectilePosRef.current[8].y) - minRow : 0) * 40}px` : `${(enemySubsystem.enemy8AttackBehavior.ref.current === true ? enemySubsystem.enemy8Pos.ref.current.y - projectilePosRef.current[8].y : 0) * 40}px`,
             }}
           />
         )}
